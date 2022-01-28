@@ -1,0 +1,28 @@
+query GetAllChatsByUserId {
+  getAllChatsByUserId {
+    ... on EntityResult {
+      messages
+    }
+    ... on ChatArray {
+      chats {
+        id
+        owner {
+          id
+          username
+          profileImage
+        }
+        recipient {
+          id
+          username
+          profileImage
+        }
+        chatMsgs {
+          id
+          isRead
+          body
+          createdOn
+        }
+      }
+    }
+  }
+}

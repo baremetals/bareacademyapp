@@ -1,0 +1,10 @@
+mutation EditPost(
+  $id: ID!
+  $title: String!
+  $body: String!
+  $categoryName: String!
+) {
+  editPost(id: $id, title: $title, body: $body, categoryName: $categoryName) {
+    messages
+  }
+}

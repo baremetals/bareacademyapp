@@ -1,0 +1,17 @@
+subscription NewMessage {
+  newMessage {
+    id
+    from
+    image
+    isRead
+    title
+    body
+    type
+    createdOn
+    user {
+      id
+      username
+      profileImage
+    }
+  }
+}

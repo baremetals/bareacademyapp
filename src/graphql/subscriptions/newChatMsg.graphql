@@ -1,0 +1,21 @@
+subscription NewChatMessage {
+  newChatMessage {
+    id
+    body
+    createdOn
+    sender {
+      id
+      userIdSlug
+      username
+      isOnline
+      profileImage
+    }
+    receiver {
+      id
+      userIdSlug
+      username
+      isOnline
+      profileImage
+    }
+  }
+}

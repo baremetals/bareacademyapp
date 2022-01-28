@@ -1,0 +1,39 @@
+query GetUserBySlugId($userIdSlug: String!) {
+  getUserBySlugId(userIdSlug: $userIdSlug) {
+    ... on EntityResult {
+      messages
+    }
+    ... on User {
+      id
+      userIdSlug
+      username
+      fullName
+      description
+      location
+      isOnline
+      profileImage
+      backgroundImg
+      createdOn
+      posts {
+        id
+        slug
+        views
+        points
+        title
+        body
+        comments {
+          id
+          body
+          createdOn
+          createdBy
+          user {
+            id
+            userIdSlug
+            username
+            profileImage
+          }
+        }
+      }
+    }
+  }
+}

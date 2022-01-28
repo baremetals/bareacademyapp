@@ -1,0 +1,12 @@
+query GetUnReadMessagesByUserId {
+  getUnReadMessagesByUserId {
+    ... on EntityResult {
+      messages
+    }
+    ... on MessageArray {
+      msgs {
+        id
+      }
+    }
+  }
+}

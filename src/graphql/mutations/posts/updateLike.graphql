@@ -1,0 +1,3 @@
+mutation UpdatePostPoint($slug: String!, $increment: Boolean!) {
+  updatePostPoint(slug: $slug, increment: $increment)
+}

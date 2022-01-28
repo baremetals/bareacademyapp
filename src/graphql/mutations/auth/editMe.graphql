@@ -1,0 +1,15 @@
+mutation EditMe(
+  $email: String!
+  $username: String!
+  $fullName: String!
+  $description: String!
+  $location: String!
+) {
+  editMe(
+    email: $email
+    username: $username
+    fullName: $fullName
+    description: $description
+    location: $location
+  )
+}

@@ -1,0 +1,28 @@
+query SearchBySearchTerm($searchItem: String!) {
+  searchBySearchTerm(searchItem: $searchItem) {
+    ... on EntityResult {
+      messages
+    }
+    ... on SearchArray {
+      users {
+        id
+        username
+        fullName
+        userIdSlug
+        profileImage
+      }
+      posts {
+        id
+        slug
+        title
+        body
+      }
+      courses {
+        id
+        title
+        description
+        image
+      }
+    }
+  }
+}

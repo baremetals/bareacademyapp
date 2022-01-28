@@ -1,0 +1,3 @@
+mutation Logout($username: String!) {
+  logout(username: $username)
+}

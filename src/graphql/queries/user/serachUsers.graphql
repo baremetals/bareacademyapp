@@ -1,0 +1,16 @@
+query SearchUsers($searchItem: String!) {
+  searchUsers(searchItem: $searchItem) {
+    ... on EntityResult {
+      messages
+    }
+    ... on UserArray {
+      users {
+        id
+        userIdSlug
+        username
+        profileImage
+        isOnline
+      }
+    }
+  }
+}

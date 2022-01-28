@@ -1,0 +1,22 @@
+query GetCommentsByPostSlug($slug: String!) {
+  getCommentsByPostSlug(slug: $slug) {
+    ... on CommentArray {
+      comments {
+        id
+        body
+        isDisabled
+        createdOn
+        createdBy
+        user {
+          id
+          userIdSlug
+          username
+          profileImage
+        }
+      }
+    }
+    ... on EntityResult {
+      messages
+    }
+  }
+}

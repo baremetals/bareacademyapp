@@ -1,0 +1,41 @@
+query GetCourseBySlug($slug: String!) {
+  getCourseBySlug(slug: $slug) {
+    ... on EntityResult {
+      messages
+    }
+    ... on Course {
+      id
+      title
+      slug
+      duration
+      description
+      notes
+      lessons
+      githubLink
+      image
+      startDate
+      endDate
+      totalStudents
+      createdOn
+      teacher {
+        id
+        fullName
+        profileImage
+      }
+      videos {
+        id
+        title
+        url
+        description
+        createdOn
+      }
+      students {
+        id
+        user {
+          id
+          username
+        }
+      }
+    }
+  }
+}

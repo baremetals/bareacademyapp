@@ -1,0 +1,33 @@
+query GetPostBySlug($slug: String!) {
+  getPostBySlug(slug: $slug) {
+    ... on Post {
+      id
+      slug
+      views
+      points
+      title
+      body
+      createdOn
+      createdBy
+      creator {
+        id
+        userIdSlug
+        username
+        profileImage
+      }
+      comments {
+        id
+      }
+      postPoints {
+        id
+        user {
+          id
+        }
+      }
+      category {
+        id
+        name
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+mutation RespondToChatMessage(
+  $senderUserId: String!
+  $chatId: String!
+  $body: String!
+) {
+  respondToChatMessage(
+    senderUserId: $senderUserId
+    chatId: $chatId
+    body: $body
+  ) {
+    ... on EntityResult {
+      messages
+    }
+  }
+}

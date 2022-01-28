@@ -1,0 +1,15 @@
+mutation CreateChatMessage(
+  $ownerUserId: String!
+  $username: String!
+  $body: String!
+) {
+  createChatMessage(
+    ownerUserId: $ownerUserId
+    username: $username
+    body: $body
+  ) {
+    ... on EntityResult {
+      messages
+    }
+  }
+}

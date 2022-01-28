@@ -1,0 +1,20 @@
+query GetBooks {
+  getBooks {
+    ... on EntityResult {
+      messages
+    }
+    ... on BookArray {
+      books {
+        id
+        title
+        description
+        image
+        author
+        link
+        category {
+          name
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+query GetLatestPosts {
+  getLatestPosts {
+    ... on EntityResult {
+      messages
+    }
+    ... on PostArray {
+      posts {
+        id
+        slug
+        views
+        points
+        title
+        body
+        createdBy
+        createdOn
+        creator {
+          id
+          userIdSlug
+          username
+          profileImage
+        }
+        comments {
+          id
+          body
+          createdBy
+          createdOn
+        }
+        category {
+          id
+          name
+        }
+      }
+    }
+  }
+}

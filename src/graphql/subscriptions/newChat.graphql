@@ -1,0 +1,22 @@
+subscription NewChat {
+  newChat {
+    id
+    owner {
+      id
+      userIdSlug
+      username
+      isOnline
+      profileImage
+    }
+    recipient {
+      id
+      userIdSlug
+      username
+      isOnline
+      profileImage
+    }
+    chatMsgs {
+      id
+    }
+  }
+}

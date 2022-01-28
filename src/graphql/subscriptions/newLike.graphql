@@ -1,0 +1,13 @@
+# subscription NewLike {
+#   newLike {
+#     isDecrement
+#     createdBy
+#     createdOn
+#     user {
+#       id
+#     }
+#     post {
+#      id
+#     }
+#   }
+# }

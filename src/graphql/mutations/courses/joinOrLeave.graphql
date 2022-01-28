@@ -1,0 +1,3 @@
+mutation JoinOrLeaveCourse($courseId: ID!, $join: Boolean!) {
+  joinOrLeaveCourse(courseId: $courseId, join: $join)
+}

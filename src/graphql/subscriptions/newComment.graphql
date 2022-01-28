@@ -1,0 +1,14 @@
+subscription NewComment {
+  newComment {
+    id
+    body
+    createdBy
+    isDisabled
+    user {
+      id
+      username
+      profileImage
+    }
+    createdOn
+  }
+}

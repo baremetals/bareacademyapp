@@ -1,0 +1,19 @@
+query GetMessagesByUserId {
+  getMessagesByUserId {
+    ... on EntityResult {
+      messages
+    }
+    ... on MessageArray {
+      msgs {
+        id
+        from
+        image
+        isRead
+        title
+        body
+        type
+        createdOn
+      }
+    }
+  }
+}

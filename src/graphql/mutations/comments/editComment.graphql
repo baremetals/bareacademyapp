@@ -1,0 +1,5 @@
+mutation EditComment($id: ID!, $body: String!) {
+  editComment(id: $id, body: $body) {
+    messages
+  }
+}
