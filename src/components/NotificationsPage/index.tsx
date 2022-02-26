@@ -25,21 +25,22 @@ import ErrorPage from "components/ErrorPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type NotificationsPageType = {
-  id: string;
-  attributes: {
-    image: string;
-    body: string;
-    updatedAt: string;
-    from: string;
-    isRead: boolean;
-  };
-};
+// type NotificationsPageType = {
+//   id: string;
+//   attributes: {
+//     image: string;
+//     body: string;
+//     updatedAt: string;
+//     from: string;
+//     isRead: boolean;
+//   };
+// };
 function NotificationsPage(props: { props: { data: any; loading: boolean; error: any; }; }) {
   // const { ...result } = useQuery(NotificationsDocument);
   // const notices = result.data?.getMessagesByUserId.msgs;
   // const [deleteNotice] = useDeleteNotificationMutation();
   // const newNotice = data?.newMessage;
+  // eslint-disable-next-line no-unused-vars
   const [noticeArray, setNoticeArray] = useState([]);
   // const [deleteNotice] = useDeleteMessageMutation();
 

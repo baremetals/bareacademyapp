@@ -2,7 +2,7 @@ import React from "react";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import { useIsAuth } from 'lib/isAuth';
-import ChatSideBar from 'components/Chat/ChatSideBar';
+// import ChatSideBar from 'components/Chat/ChatSideBar';
 // import { initializeApollo } from "lib/apolloClient";
 // import { ChatsDocument, ChatsQueryResult } from 'generated/graphql';
 import { queryProps } from "models/Shared";
@@ -13,7 +13,7 @@ function Messages(props: queryProps) {
   useIsAuth();
   return (
     <>
-      <ChatSideBar props={props} />
+      {/* <ChatSideBar props={props} /> */}
     </>
   );
 }

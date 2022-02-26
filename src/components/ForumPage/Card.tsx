@@ -11,8 +11,8 @@ import Dropdown, {
   ItemText,
   ItemWrapper,
 } from "../Dropdown";
-import { useDeletePostMutation } from "generated/graphql";
-import { ToastContainer, toast } from "react-toastify";
+// import { useDeletePostMutation } from "generated/graphql";
+import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -73,12 +73,12 @@ const ImagePostCard = ({
 }: ForumPost) => {
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [deletePost] = useDeletePostMutation();
+  // const [deletePost] = useDeletePostMutation();
   
   const handleDelete = async (postId: string) => {
-    const res = await deletePost({
-      variables: { deletePostId: postId },
-    });
+    // const res = await deletePost({
+    //   variables: { deletePostId: postId },
+    // });
     // if (res.data?.deletePost.includes("deleted")) {
     //   // console.log(res);
     //   // result.refetch(DeletePostDocument);

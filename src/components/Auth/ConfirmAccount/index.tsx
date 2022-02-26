@@ -1,14 +1,14 @@
 import React from 'react'
-import Link from "next/link";
-import { useRouter } from "next/router";
+// import Link from "next/link";
+// import { useRouter } from "next/router";
 import styled from "styled-components";
 import NextImage from "next/image";
-import Button from "../Button";
+// import Button from "../Button";
 
 import {
   MainContainer,
   WelcomeText,
-  ButtonContainer,
+  // ButtonContainer,
   PageContainer,
   FormWrapRow,
   FormWrapThumb,
@@ -20,7 +20,7 @@ type activePage = {
 };
 
 const ConfirmAccount = ({ ...props }: activePage) => {
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <PageContainer>
       <FormWrapRow>

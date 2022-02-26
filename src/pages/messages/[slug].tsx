@@ -3,7 +3,7 @@ import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import axios from "axios";
 import { useIsAuth } from 'lib/isAuth';
-import ChatContainer from 'components/Chat/ChatContainer';
+// import ChatContainer from 'components/Chat/ChatContainer';
 import { initializeApollo } from "lib/apolloClient";
 import {
   // ChatsDocument,
@@ -17,7 +17,7 @@ function Chat(props: queryProps) {
   useIsAuth();
   return (
     <>
-      <ChatContainer props={props} />
+      {/* <ChatContainer props={props} /> */}
     </>
   );
 }

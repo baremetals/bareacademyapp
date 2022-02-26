@@ -4,15 +4,15 @@ import { GetServerSideProps } from "next";
 import CourseDetails from "../../components/Courses/CourseDetails";
 import { useIsAuth } from "lib/isAuth";
 import { initializeApollo } from "lib/apolloClient";
-import { CourseDocument, CourseEntity, CourseQueryResult } from "generated/graphql";
+import { CourseDocument, CourseEntityResponseCollection, CourseQueryResult } from "generated/graphql";
 
-type pageProps = {
-  data: { data: { data: { courses: CourseEntity[] } } };
-  loading: boolean;
-  error: any;
-};
+// type pageProps = {
+//   data: { data: { data: { courses: CourseEntity[] } } };
+//   loading: boolean;
+//   error: any;
+// };
 
-function CourseDetailsPage(props: pageProps) {
+function CourseDetailsPage(props: { data: { data: { courses: CourseEntityResponseCollection; }; }; loading: any; error: any; }) {
   useIsAuth();
   // console.log(props);
   return (

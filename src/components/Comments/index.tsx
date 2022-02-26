@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect,  useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -58,30 +59,32 @@ type FormInput = {
   body: string;
 };
 
-type commentProps = {
-  comment: {
-    data: {
-      id: string;
-      attributes: {
-        body: string;
-        createdAt: Date;
-        user: {
-          data: {
-            id: string;
-            attributes: {
-              img: string;
-              slug: string;
-              username: string;
-            };
-          };
-        };
-      };
-    };
-  };
-};
+// type commentProps = {
+//   comment: {
+//     data: {
+//       id: string;
+//       attributes: {
+//         body: string;
+//         createdAt: Date;
+//         user: {
+//           data: {
+//             id: string;
+//             attributes: {
+//               img: string;
+//               slug: string;
+//               username: string;
+//             };
+//           };
+//         };
+//       };
+//     };
+//   };
+// };
 
 
-const Comment = ({id }: {id: string}) => {
+
+
+const Comment = ({id: ID }: {id: string}) => {
   const router = useRouter();
   const { slug } = router.query;
   const [newComment] = useCreateCommentMutation();
@@ -137,12 +140,12 @@ const Comment = ({id }: {id: string}) => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const { refetch, subscribeToMore, ...result } = useQuery(CommentsDocument, {
+  const { refetch, ...result } = useQuery(CommentsDocument, {
     variables: {
       filters: {
         post: {
           id: {
-            eq: id,
+            eq: ID,
           },
         },
       },
@@ -155,7 +158,7 @@ const Comment = ({id }: {id: string}) => {
   });
 
   // console.log(result);
-  const comments = result.data?.comments.data;
+  const comments: any = result.data?.comments.data;
 
   // console.log(comments);
   // console.log(result.data);
@@ -170,7 +173,7 @@ const Comment = ({id }: {id: string}) => {
       const response = await newComment({
         variables: {
           data: {
-            post: id,
+            post: ID,
             user: me,
             body,
             publishedAt: new Date(),
@@ -195,7 +198,7 @@ const Comment = ({id }: {id: string}) => {
         variables: {
           updateCommentId: comId,
           data: {
-            post: id,
+            post: ID,
             user: me,
             body: content,
           },
@@ -255,23 +258,23 @@ const Comment = ({id }: {id: string}) => {
             comArray
               .concat(comments)
               .map(
-                ({ id, attributes: { body, updatedAt, createdAt, user } }) => (
+                ({ id, attributes: { body, updatedAt, createdAt, user: { data: {attributes: {img, username,}}} } }) => (
                   <div key={id}>
                     <CommentWrapper key={id}>
                       <CommentLeftWrap>
                         <Link href={`user-profile/${slug}`}>
                           <UserProfileImge
                             alt="user image"
-                            src={user?.data?.attributes.img}
+                            src={img}
                           />
                         </Link>
 
                         <CommentText>
                           <Link
-                            href={`user-profile/${user?.data?.attributes.username}`}
+                            href={`user-profile/${username}`}
                           >
                             <UserName>
-                              {user?.data?.attributes.username}
+                              {username}
                             </UserName>
                           </Link>
                           <CommentDate>

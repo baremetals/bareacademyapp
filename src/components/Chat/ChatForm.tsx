@@ -23,7 +23,9 @@ function ChatForm(props: any) {
   const { socket } = useSockets();
   const { slug } = router.query;
   
-  const username: string = slug?.split("-")[1];
+  // const username: string = slug?.split("-")[1];
+  const test = slug as string;
+  const username = test?.split('-')[1];
   // console.log(typeof recipient);
   // const [newChat] = useCreateChatMessageMutation();
   // const [newChatMsg] = useRespondToChatMessageMutation();

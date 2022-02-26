@@ -9,7 +9,7 @@ import {
   GetUnReadNotificationsDocument,
   // useMarkAllMessagesReadByUserIdMutation,
 } from "generated/graphql";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -45,11 +45,12 @@ const AlarmBell = (userId: { id: string; }) => {
   const notices = result?.data?.notifications?.data;
   // const { data } = useNewMessageSubscription();
   // const newNotice = data?.newMessage;
+  // eslint-disable-next-line no-unused-vars
   const [noticeArray, setNoticeArray] = useState([]);
 
   // const [markAllNoticeRead] = useMarkAllMessagesReadByUserIdMutation();
 
-  console.log(result?.data?.notifications?.data);
+  // console.log(result?.data?.notifications?.data);
   // Notifications Call
   // useEffect(() => {
   //   if (newNotice) {
