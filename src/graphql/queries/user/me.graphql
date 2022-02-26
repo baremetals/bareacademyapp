@@ -1,36 +1,10 @@
 query Me {
   me {
-    ... on EntityResult {
-      messages
-    }
-    ... on User {
-      id
-      userIdSlug
-      role
-      fullName
-      username
-      email
-      description
-      isOnline
-      location
-      profileImage
-      backgroundImg
-      createdOn
-      posts {
-        id
-        slug
-        views
-        points
-        title
-        body
-        createdOn
-        comments {
-          id
-          body
-          createdOn
-          createdBy
-        }
-      }
-    }
+    id
+    username
+    email
+    confirmed
+    img
+    slug
   }
 }

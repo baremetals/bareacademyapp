@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 import {
   NoticesWrapper,
@@ -13,109 +14,108 @@ import {
 import {
   PageHeading,
 } from "../../styles/common.styles";
-import {
-  GetMessagesByUserIdDocument,
-  useNewMessageSubscription,
-  useDeleteMessageMutation,
-} from "../../generated/graphql";
+
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useQuery } from "@apollo/client";
-import Dashboard from 'components/Dashboard';
-import ErrorPage from 'components/ErrorPage';
 dayjs.extend(relativeTime);
+import Dashboard from "components/Dashboard";
+import ErrorPage from "components/ErrorPage";
+// import { useQuery } from "@apollo/client";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type NotificationsPageType = {
-  image: string;
-  body: string;
-  createdOn: string;
   id: string;
-  from: string;
-  isRead: boolean;
+  attributes: {
+    image: string;
+    body: string;
+    updatedAt: string;
+    from: string;
+    isRead: boolean;
+  };
 };
-function NotificationsPage({...props}:any) {
-  const { ...result } = useQuery(GetMessagesByUserIdDocument);
-  const notices = result.data?.getMessagesByUserId.msgs;
-  const { data } = useNewMessageSubscription();
-  const newNotice = data?.newMessage;
+function NotificationsPage(props: { props: { data: any; loading: boolean; error: any; }; }) {
+  // const { ...result } = useQuery(NotificationsDocument);
+  // const notices = result.data?.getMessagesByUserId.msgs;
+  // const [deleteNotice] = useDeleteNotificationMutation();
+  // const newNotice = data?.newMessage;
   const [noticeArray, setNoticeArray] = useState([]);
-  const [deleteNotice] = useDeleteMessageMutation();
+  // const [deleteNotice] = useDeleteMessageMutation();
 
-  const errorMessage = result.data?.getMessagesByUserId.messages || ""
+  // const errorMessage = result.data?.getMessagesByUserId.messages || ""
   // console.log(result)
-  useEffect(() => {
-    if (newNotice) {
-      const newMessageItem: NotificationsPageType = newNotice;
-      const newArrayItem: any = (prevArray: NotificationsPageType[]) => {
-        return [newMessageItem, ...prevArray];
-      };
-      setNoticeArray(newArrayItem);
-    }
-  }, [newNotice]);
+  // useEffect(() => {
+  //   if (newNotice) {
+  //     const newMessageItem: NotificationsPageType = newNotice;
+  //     const newArrayItem: any = (prevArray: NotificationsPageType[]) => {
+  //       return [newMessageItem, ...prevArray];
+  //     };
+  //     setNoticeArray(newArrayItem);
+  //   }
+  // }, [newNotice]);
 
-  const handleDelete = async (id: string) => {
-    const res = await deleteNotice({
-      variables: {id}
-    })
-    if (res.data?.deleteMessage.includes("deleted")) {
-      // console.log(res);
-      result.refetch(GetMessagesByUserIdDocument);
-    } else {
-      toast.error(res.data?.deleteMessage);
-    }
-  }
-
-  if (!result.data || result.loading) {
+  const { data, loading, error } = props.props;
+  if (!data || loading) {
     return <div>loading...</div>;
   }
 
-  if (result.error) {
+  if (error) {
     return <ErrorPage statusCode={500} />;
   }
+  const notices = data?.data?.notifications?.data;
+  // console.log(notices);
 
-  // console.log(noticeArray);
+  const handleDelete = async (id: string) => {
+
+    await axios.post(`/api/notice`, {
+      data: {
+        id,
+        flag: "DELETEONE",
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      // result.refetch(GetMessagesByUserIdDocument);
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error("Something went wrong please try again later.");
+    }) 
+  };
+
 
   return (
     <Dashboard>
       <PageHeading>Notifications</PageHeading>
-      {errorMessage ? (
+      {!notices ? (
         <div> You do not have any notifications</div>
       ) : (
         <>
           {noticeArray
             .concat(notices)
-            .map(
-              ({
-                body,
-                image,
-                createdOn,
-                from,
-                isRead,
-                id,
-              }: NotificationsPageType) => (
-                <NoticesWrapper key={id}>
-                  <NoticeLeftWrap>
-                    <Link href={`user-profile/${from}`}>
-                      <SenderProfileImge
-                        alt="sender profile image"
-                        src={image == "BM" ? "/colorlogo.svg" : image}
-                      />
-                    </Link>
+            .map(({ id, attributes: { body, updatedAt, image, isRead, from } }) => (
+              <NoticesWrapper key={id}>
+                <NoticeLeftWrap>
+                  <Link href={`user-profile/${from}`}>
+                    <SenderProfileImge
+                      alt="sender profile image"
+                      src={image == "BM" ? "/colorlogo.svg" : image}
+                    />
+                  </Link>
 
-                    <NoticeMessage isRead={isRead} {...props}>
-                      <NoticeDate>{dayjs(createdOn).fromNow()}</NoticeDate>
-                      {body}
-                    </NoticeMessage>
-                  </NoticeLeftWrap>
-                  <NoticeTopRightWrap>
-                    <DeleteIcon {...props} onClick={() => handleDelete(id)} />
-                  </NoticeTopRightWrap>
-                </NoticesWrapper>
-              )
-            )}
+                  <NoticeMessage
+                  isRead={isRead}
+                  >
+                    <NoticeDate>{dayjs(updatedAt).fromNow()}</NoticeDate>
+                    {body}
+                  </NoticeMessage>
+                </NoticeLeftWrap>
+                <NoticeTopRightWrap>
+                  <DeleteIcon {...props} onClick={() => handleDelete(id)} />
+                </NoticeTopRightWrap>
+              </NoticesWrapper>
+            ))}
         </>
       )}
       <ToastContainer />

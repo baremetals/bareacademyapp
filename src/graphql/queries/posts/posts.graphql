@@ -1,33 +1,32 @@
-query GetLatestPosts {
-  getLatestPosts {
-    ... on EntityResult {
-      messages
-    }
-    ... on PostArray {
-      posts {
-        id
-        slug
-        views
-        points
+query Posts {
+  posts {
+    data {
+      id
+      attributes {
         title
+        slug
+        total_comments
+        points
         body
-        createdBy
-        createdOn
-        creator {
-          id
-          userIdSlug
-          username
-          profileImage
-        }
-        comments {
-          id
-          body
-          createdBy
-          createdOn
-        }
+        createdAt
         category {
-          id
-          name
+          data {
+            attributes {
+              name
+              slug
+            }
+            id
+          }
+        }
+        creator {
+          data {
+            id
+            attributes {
+              username
+              slug
+              img
+            }
+          }
         }
       }
     }

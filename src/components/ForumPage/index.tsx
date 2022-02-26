@@ -1,7 +1,12 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import Share from "../Dashboard/Share";
 import styled from "styled-components";
-import { CategoryQuery, Exact, PostArray, Query, useCategoryQuery } from "generated/graphql";
+import {
+  CategoriesQuery,
+  Exact,
+  Query,
+  useCategoriesQuery,
+} from "generated/graphql";
 // import { useAppSelector } from "app/hooks";
 // import { isUser } from "features/auth/selectors";
 
@@ -20,28 +25,67 @@ import Dashboard from 'components/Dashboard';
 import { ErrorMsg } from 'components/Input';
 import { QueryResult } from '@apollo/client';
 
-
+type postProps = {
+  id: string;
+  attributes: {
+    body: string;
+    category: {
+      data: {
+        id: string;
+        attributes: {
+          name: string;
+          slug: string;
+        };
+      };
+    };
+    createdAt: Date;
+    points: number;
+    slug: string;
+    title: string;
+    // eslint-disable-next-line camelcase
+    total_comments: number;
+    // eslint-disable-next-line camelcase
+    creator: {
+      data: {
+        id: string;
+        attributes: {
+          username: string;
+          slug: string;
+          img: string;
+        };
+      };
+    };
+  };
+};
 
 const ForumPage = (props: {
   props: { data: Query; loading: boolean; error: any };
 }) => {
-  const cats: QueryResult<CategoryQuery, Exact<{
-    [key: string]: never;
-}>> = useCategoryQuery();
+  const cats: QueryResult<
+    CategoriesQuery,
+    Exact<{
+      [key: string]: never;
+    }>
+  > = useCategoriesQuery();
+
 
   const { data, loading, error } = props.props;
   if (!data || loading) {
     return <div>loading...</div>;
   }
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
-  const { posts } = data.getLatestPosts as PostArray; 
+  const posts = data?.posts?.data 
 
-  const categories = cats?.data?.getAllCategories;
+  // console.log(posts);
+
+  const categories = cats?.data?.categories?.data;
   const [filteredcategories, setFilteredcategories] = useState([]);
   const [values, setValues] = useState({
     category: "",
     search: "",
   });
+
+  // console.log(categories);
   
 
   useEffect(() => {
@@ -55,9 +99,10 @@ const ForumPage = (props: {
       const categoryName = event.target.value;
       if (categoryName !== "" || null || undefined) {
         const filteredData = posts?.filter((post: any) => {
-          return post.category.name == categoryName;
+          // console.log(post.attributes.category.data.attributes.name);
+          return post.attributes.category.data.attributes.name == categoryName;
           // return cat.vote_average == ratings;
-        });
+        })
         setFilteredcategories(filteredData as SetStateAction<never[]>);
       } else setFilteredcategories(posts as SetStateAction<never[]>);
     };
@@ -68,7 +113,7 @@ const ForumPage = (props: {
       // console.log(event.target.value);
       const searchValue = event.target.value;
       if (searchValue !== "") {
-        const filteredData = posts?.filter((post) => {
+        const filteredData = posts?.filter((post: { [s: string]: unknown; } | ArrayLike<unknown>) => {
           return Object.values(post)
             .join(" ")
             .toLowerCase()
@@ -88,9 +133,9 @@ const ForumPage = (props: {
               <CategoryOption value={values.category}>
                 Category Search
               </CategoryOption>
-              {categories?.map((c: { name: string; id: string }) => (
-                <CategoryOption key={c.id} value={c.name}>
-                  {c.name}
+              {categories?.map((c) => (
+                <CategoryOption key={c.id} value={c?.attributes?.name as string}>
+                  {c?.attributes?.name}
                 </CategoryOption>
               ))}
             </SelectCategory>
@@ -105,20 +150,26 @@ const ForumPage = (props: {
         {!filteredcategories ? (
           <div>loading...</div>
         ) : (
-          filteredcategories.map((post: any, id) =>
+          filteredcategories.map((post: postProps, id) =>
             !post ? null : (
               <ForumContainer key={id}>
                 <Card
-                  username={post.creator.username}
-                  userIdSlug={post.creator.userIdSlug}
-                  image={post.creator.profileImage}
-                  date={post.createdOn}
-                  title={post.title}
-                  body={post.category.name}
-                  likeCount={post.points}
-                  commentCount={12}
-                  slug={post.slug}
-                  id={post.id}
+                  username={
+                    post?.attributes?.creator?.data?.attributes?.username
+                  }
+                  userIdSlug={
+                    post?.attributes?.creator?.data?.attributes?.slug
+                  }
+                  image={
+                    post?.attributes?.creator?.data?.attributes?.img
+                  }
+                  date={post?.attributes?.createdAt}
+                  title={post?.attributes?.title}
+                  body={post?.attributes?.category?.data?.attributes?.name}
+                  likeCount={post?.attributes?.points}
+                  commentCount={post?.attributes?.total_comments}
+                  slug={post?.attributes?.slug}
+                  id={post?.id}
                 >
                   {/* {user?.userIdSlug === post.creator.userIdSlug && (
                     <DropDownIcon />

@@ -7,8 +7,10 @@ import store from "../app/store";
 import Head from "next/head";
 import nprogress from "nprogress";
 import Router from "next/router";
+import SocketsProvider from "../context/socket.context";
 import { darkTheme } from "../styles/theme";
 import { useApollo } from "../lib/apolloClient";
+
 
 
 import "../styles/globals.css";
@@ -27,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       nprogress.done();
     }
   };
- 
+
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Baremetals Tutorial</title>
+        <title>Bare Academy</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -58,11 +60,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={darkTheme}>
-            <Component {...pageProps} />
+            <SocketsProvider>
+              <Component {...pageProps} />
+            </SocketsProvider>
           </ThemeProvider>
         </ApolloProvider>
       </Provider>
     </>
   );
 }
+
 export default MyApp;

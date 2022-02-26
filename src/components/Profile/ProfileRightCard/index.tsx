@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
 import CoursesTaken from '../CoursesTaken';
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 
 export const MainContainer = styled.aside`
@@ -53,9 +56,12 @@ const RightBarInfoValue = styled.span`
 type courseCard = {
   city: string;
   coursesTaken: number;
+  joined: string
+  courses: any
 };
 
-function ProfileRightCard({ city, coursesTaken }: courseCard) {
+function ProfileRightCard({ city, coursesTaken, joined, courses}: courseCard) {
+  // console.log(typeof courses);
   return (
     <>
       <MainContainer>
@@ -70,18 +76,20 @@ function ProfileRightCard({ city, coursesTaken }: courseCard) {
               <RightBarInfoKey>Courses Taken</RightBarInfoKey>
               <RightBarInfoValue>{coursesTaken}</RightBarInfoValue>
             </RightBarInfoItem>
-            <RightBarInfoItem>
+            {/* <RightBarInfoItem>
               <RightBarInfoKey>Complete</RightBarInfoKey>
               <RightBarInfoValue>12</RightBarInfoValue>
-            </RightBarInfoItem>
+            </RightBarInfoItem> */}
             <RightBarInfoItem>
-              <RightBarInfoKey>Ratings</RightBarInfoKey>
-              <RightBarInfoValue>Superb</RightBarInfoValue>
+              <RightBarInfoKey>Joined</RightBarInfoKey>
+              <RightBarInfoValue>{dayjs(joined).fromNow()}</RightBarInfoValue>
             </RightBarInfoItem>
           </RightBarInfo>
-          <CoursesTakenGroup>
-            <CoursesTaken />
-          </CoursesTakenGroup>
+          {courses !== undefined && (
+            <CoursesTakenGroup>
+              <CoursesTaken course={courses} />
+            </CoursesTakenGroup>
+          )}
         </MainWrapper>
       </MainContainer>
     </>

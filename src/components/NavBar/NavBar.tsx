@@ -98,10 +98,10 @@ export default function NavBar({ toggle, ...props }: any) {
             </NavLink>
           </NavItem>
           <NavItem>
-            <Link href="/signin">
+            <Link href="/auth/signin">
               <NavLink
                 {...props}
-                to="/signin"
+                to="/auth/signin"
                 smooth={true}
                 duration={500}
                 spy={true}
@@ -114,7 +114,7 @@ export default function NavBar({ toggle, ...props }: any) {
           </NavItem>
         </NavMenu>
         <NavBtn>
-          <Link href="/signup">
+          <Link href="/auth/signup">
             <NavBtnLink>Register</NavBtnLink>
           </Link>
         </NavBtn>

@@ -37,7 +37,7 @@ function Home() {
         <NavBar toggle={toggle} />
         <HeroSection />
         <MainSection {...homeObjOne} />
-        <ServicesCard id="featured"/>
+        <ServicesCard linkIid="featured" />
         <MainSection {...homeObjTwo} />
         <MainSection {...homeObjThree} />
         <Footer />
@@ -46,3 +46,4 @@ function Home() {
   );
 }
 export default withApollo({ ssr: false })(Home);
+

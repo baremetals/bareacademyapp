@@ -11,12 +11,14 @@ import {
 } from "./chat.styles";
 
 function OnlineChat({
-  profileImage,
+  img,
   username,
-  online,
+  slug,
+  online
 }: {
-  profileImage: string ;
+  img: string;
   username: string;
+  slug: string;
   online: boolean;
 }) {
   return (
@@ -24,13 +26,13 @@ function OnlineChat({
       <ChatContainer>
         <OnlineUsersWrap>
           <OnlineUsersImageWrap>
-            <Link href={`/messages/${username}`}>
-              <OnlineUsersImage alt="Online user image" src={profileImage} />
+            <Link href={`/messages/${slug}`}>
+              <OnlineUsersImage alt="Online user image" src={img} />
             </Link>
 
             {online && <OnlineUsersImageBadge></OnlineUsersImageBadge>}
           </OnlineUsersImageWrap>
-          <Link href={`/messages/${username}`}>
+          <Link href={`/messages/${slug}`}>
             <OnlineUsersName>{username}</OnlineUsersName>
           </Link>
         </OnlineUsersWrap>

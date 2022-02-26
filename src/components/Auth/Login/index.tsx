@@ -3,13 +3,14 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import { Formik } from "formik";
 import { getLoginValidationSchema } from "utils/formValidation";
-import { useLoginMutation } from "generated/graphql";
+import axios from "axios";
 import NextImage from "next/image";
 
 
 // Redux imports
 import { useAppDispatch } from "app/hooks";
 import { setSuccess, setError } from "features/ui/reducers";
+import { setUser } from "features/auth";
 
 
 // Design imports
@@ -44,37 +45,45 @@ const initialValues = {
 const Login = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [login] = useLoginMutation();
   const [errorMsg, setErrorMsg] = useState(false);
   let err: any;
   
 
   const handleSubmit = async ({ ...values }: any) => {
-
-    try {
-      const response = await login({
-        variables: {
-          ...values,
-        },
+    
+    await axios
+      .post("/api/auth/login", {
+        ...values,
+      })
+      .then((res) => {
+        // console.log(res.data.data);
+        if (res.data.data !== null) {
+          dispatch(setSuccess("login successful"));
+          dispatch(setUser(res.data));
+          toast.success("login successful");
+          setTimeout(() => {
+            // router.push(`/user-profile/${res.data.username}`);
+            router.push("/home");
+          }, 3000);
+        } else {
+          const errMsgData = res.data.error;
+          console.log(errMsgData);
+          if (errMsgData.name === "ValidationError") {
+            err = "incorrect details provided";
+            initialValues.error = err;
+            setErrorMsg(true);
+            dispatch(setError(err));
+          } else {
+            err = "something went wrong please try again later";
+            initialValues.error = err;
+            setErrorMsg(true);
+            dispatch(setError(err));
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      // console.log(response);
-      if (!response.data?.login.includes("success-")) {
-        err = response.data?.login;
-        initialValues.error = err;
-        setErrorMsg(true);
-        dispatch(setError(response.data?.login));
-      } else {
-        dispatch(setSuccess(response.data?.login));
-        const me = response.data?.login.slice(8);
-        toast.success("login successful");
-        setTimeout(() => {
-          router.push(`/user-profile/${me}`);
-        }, 500);
-      }
-    } catch (ex) {
-      console.log(ex);
-      throw ex;
-    }
   };
   return (
     <>
@@ -92,7 +101,12 @@ const Login = () => {
               <FormWrap>
                 <MainContainer>
                   <WelcomeText>login</WelcomeText>
-                  {errorMsg && <><ErrorMsg>{initialValues.error}</ErrorMsg><br/></>}
+                  {errorMsg && (
+                    <>
+                      <ErrorMsg>{initialValues.error}</ErrorMsg>
+                      <br />
+                    </>
+                  )}
                   <InputContainer>
                     <div className="form-group">
                       <Input
@@ -121,13 +135,13 @@ const Login = () => {
                       content="Sign in"
                       disabled={isSubmitting}
                     />
-                    <Link href="/signup">
+                    <Link href="/auth/signup">
                       <LoginWith>Register </LoginWith>
                     </Link>
                   </ButtonContainer>
                   <HorizontalRule />
                   <FooterLinkContainer className="d-flex">
-                    <Link href="/forgot-password">
+                    <Link href="/auth/forgot-password">
                       <ForgotPassword>Forgot Password?</ForgotPassword>
                     </Link>
                   </FooterLinkContainer>
@@ -140,6 +154,7 @@ const Login = () => {
                   width={450}
                   height={300}
                   layout="responsive"
+                  priority={true}
                 />
               </FormWrapThumb>
             </FormWrapRow>

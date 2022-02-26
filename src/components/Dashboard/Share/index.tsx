@@ -27,7 +27,7 @@ const Share = () => {
       <ShareContainer>
         <ShareWrapper>
           <ShareTop>
-            <ProfileImage src={user?.profileImage} />
+            <ProfileImage src={user?.img} />
             <Title onClick={() => setShowModal(true)} placeholder={`what's on your mind ${user?.username}?`} />
           </ShareTop>
           <ShareHr />

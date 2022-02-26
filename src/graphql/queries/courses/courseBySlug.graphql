@@ -1,0 +1,78 @@
+query Course($filters: CourseFiltersInput) {
+  courses(filters: $filters) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        duration
+        description
+        notes
+        githubLink
+        image {
+          data {
+            id
+            attributes {
+              url
+            }
+          }
+        }
+        startDate
+        endDate
+        totalStudents
+        totalLessons
+        teacher {
+          data {
+            id
+            attributes {
+              tutor {
+                data {
+                  id
+                  attributes {
+                    fullName
+                    username
+                    slug
+                    img
+                  }
+                }
+              }
+            }
+          }
+        }
+        course_videos {
+          data {
+            id
+            attributes {
+              title
+              description
+              createdAt
+              updatedAt
+              publishedAt
+              video_url
+            }
+          }
+        }
+        students {
+          data {
+            id
+            attributes {
+              joined
+              user {
+                data {
+                  id
+                  attributes {
+                    username
+                    fullName
+                  }
+                }
+              }
+            }
+          }
+        }
+        createdAt
+        updatedAt
+        publishedAt
+      }
+    }
+  }
+}

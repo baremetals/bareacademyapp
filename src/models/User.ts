@@ -1,5 +1,5 @@
-import Post from "./Post";
-import Comment from "./Comment";
+// import Post from "./Post";
+// import Comment from "./Comment";
 
 export default class User {
   [x: string]: any;
@@ -7,9 +7,12 @@ export default class User {
     public id: string,
     public email: string,
     public username: string,
-    public fullName: string,
-    public posts?: Array<Post>,
-    public comments?: Array<Comment>
+    public img: string,
+    public backgroundImg: string,
+    public slug: string,
+    public fullName?: string,
+    // public posts?: Array<Post>,
+    // public comments?: Array<Comment>
   ) {}
 }
 

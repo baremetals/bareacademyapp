@@ -1,17 +1,21 @@
-query GetLatestCourses {
-  getLatestCourses {
-    ... on EntityResult {
-      messages
-    }
-    ... on CourseArray {
-      courses {
-        id
+query Courses {
+  courses {
+    data {
+      id
+      attributes {
         slug
         title
         duration
         description
-        image
         startDate
+        image {
+          data {
+            id
+            attributes {
+              url
+            }
+          }
+        }
       }
     }
   }

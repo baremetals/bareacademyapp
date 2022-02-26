@@ -1,39 +1,44 @@
-import { useMeQuery, User } from "../generated/graphql";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAppDispatch } from "app/hooks";
 import { setUser } from "features/auth";
-
-// type msgType = Maybe<string[]> | undefined;
+import axios from "axios";
 
 export const useNoAuth = () => {
-  const { data, loading } = useMeQuery();
   const router = useRouter();
-  const messages : any = data?.me;  
-
+  const getUser = async () => {
+    await axios
+      .post("/api/user")
+      .then((res) => {
+        if (res?.data?.id) {
+          router.back();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
-    if (!loading && (!messages)) {
-      const me = data?.me as User;
-      router.push(`/user-profile/${me.userIdSlug}`);
-    } 
-  }, [loading, data, router]);
+    getUser();
+  }, []);
 };
 
 export const useNoAuthPages = () => {
-  const { data, loading } = useMeQuery();
-  const router = useRouter();
   const dispatch = useAppDispatch();
-  const messages: any = data?.me;
-  
+  const getUser = async () => {
+    await axios
+      .post("/api/user")
+      .then((res) => {
+        if (res?.data?.id) {
+          const me = res?.data;
+          dispatch(setUser(me));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
-    if (loading && !messages) {
-      router.push(router.pathname);
-    }
-
-    if (!loading && !messages ) {
-      const me = data?.me as User;
-      dispatch(setUser(me));
-    }
-    
-  }, [loading, data]);
+    getUser();
+  }, []);
 };

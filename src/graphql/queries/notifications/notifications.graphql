@@ -1,0 +1,20 @@
+query Notifications(
+  $filters: NotificationFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  notifications(filters: $filters, pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        from
+        title
+        body
+        type
+        image
+        isRead
+        updatedAt
+      }
+    }
+  }
+}

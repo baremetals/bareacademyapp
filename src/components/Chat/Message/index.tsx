@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useQuery } from "@apollo/client";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 import dayjs from "dayjs";
@@ -17,57 +16,44 @@ import {
   ScrollChat,
 } from "./message.styles";
 
-import {
-  SearchAllChatsByUserIdDocument,
-  User,
-  useNewChatMessageSubscription,
-} from "generated/graphql";
-
 import { ChatBoxTop, MessageGroup } from '../msg.styles';
 import Chatform from "../ChatForm";
+import { useSockets } from "context/socket.context";
+import User from 'models/User';
 
 type MessagePageType = {
   body: string;
-  createdBy: string;
+  updatedAt: Date;
   id: string;
-  createdOn: string;
+  createdAt: Date;
   isRead: boolean;
   receiver: User;
   sender: User;
 };
 
-function Message(props: any) {
+function Message(props: any, recipient: string) {
   const router = useRouter();
-  const { username } = router.query;
+  // const { username } = router.query;
+  const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
   // const [filteredId, setFilteredId] = useState("");
   const pathname = router.pathname;
+  const { data, loading } = props?.props;
 
-  const { ...result } = useQuery(SearchAllChatsByUserIdDocument, {
-    variables: {
-      username,
-    },
-  });
+  // console.log(data);
 
-
-  // console.log(chatData);
-
-  const { data } = useNewChatMessageSubscription();
-  const newChatMessage = data?.newChatMessage;
-  const messages = result.data?.searchAllChatsByUserId.chatMsgs || [];
+  const [newChatMessage, setNewChatMessage] = useState();
+  const messages = data?.chatMsgs.data;
   // const errorMessages = result.data?.searchAllChatsByUserId.messages;
   const [msgArray, setMsgArray] = useState([]);
   const [chatId, setChatId] = useState("" || undefined);
-
-  // console.log(result.data?.searchAllChatsByUserId);
-  // console.log(messages);
 
   const me: string | undefined | any = user?.id;
   const scrollUpdate: any = useRef(null || undefined);
 
   useEffect(() => {
     if (messages && messages.length > 0) {
-      scrollUpdate.current.scrollIntoView({
+      scrollUpdate.current?.scrollIntoView({
         behavior: "instant",
         block: "end",
       });
@@ -75,6 +61,7 @@ function Message(props: any) {
   }, [messages, msgArray]);
 
   useEffect(() => {
+    // console.log('Iam am here')
     if (newChatMessage) {
       const newChatMessageItem = newChatMessage;
       const newArrayItem: any = (prevArray: MessagePageType[]) => {
@@ -83,16 +70,20 @@ function Message(props: any) {
       setMsgArray(newArrayItem);
     }
   }, [newChatMessage]);
-  
+
   useEffect(() => {
     if (messages && messages.length > 0) {
-      const id = messages[0].chat.id
-      // console.log(id)
-      setChatId(id)
+      const id = messages[0]!.id;
+      // console.log(messages);
+      setChatId(id);
     }
-  })
+  });
 
-  if (!result.data || result.loading) {
+  socket.on("message", (dta) => {
+    setNewChatMessage(dta);
+  });
+
+  if (loading) {
     return <div>loading...</div>;
   }
 
@@ -102,34 +93,61 @@ function Message(props: any) {
         <MessageGroup>
           {pathname !== "/messages" && (
             <ScrollChat ref={scrollUpdate}>
-              {result.error || !messages || (msgArray.length === 0 && null)}
+              {/* {result.error || !messages || (msgArray.length === 0 && null)} */}
 
-              {!result.loading &&
+              {!loading &&
                 [...messages, ...msgArray].map((msg: any, id: any) =>
-                  me === msg.sender.id ? (
+                  me == msg?.attributes?.sender?.data?.id ||
+                  me == msg?.sender?.id ? (
+                    // This part shows on the right, the right is for the logged in user
                     <OwnerMessageWrap key={id}>
                       <MessageTop>
                         <MessageImg
                           alt="Message image"
-                          src={msg.sender.profileImage}
+                          src={
+                            msg?.attributes?.sender?.data?.attributes?.img
+                              ? msg?.attributes?.sender?.data?.attributes?.img
+                              : msg?.sender?.img
+                          }
                         />
-                        <OwnerMessageText>{msg.body}</OwnerMessageText>
+                        <OwnerMessageText>
+                          {msg?.attributes?.body
+                            ? msg?.attributes?.body
+                            : msg?.body}
+                        </OwnerMessageText>
                       </MessageTop>
                       <MessageDateTime>
-                        {dayjs(msg.createdOn).fromNow()}
+                        {dayjs(
+                          msg?.attributes?.updatedAt
+                            ? msg?.attributes?.updatedAt
+                            : msg?.updatedAt
+                        ).fromNow()}
                       </MessageDateTime>
                     </OwnerMessageWrap>
                   ) : (
+                    // This part shows on the left
                     <MessageWrap key={id}>
                       <MessageTop>
                         <MessageImg
                           alt="Message image"
-                          src={msg.sender.profileImage}
+                          src={
+                            msg?.attributes?.sender?.data?.attributes?.img
+                              ? msg?.attributes?.sender?.data?.attributes?.img
+                              : msg?.sender?.img
+                          }
                         />
-                        <MessageText>{msg.body}</MessageText>
+                        <MessageText>
+                          {msg?.attributes?.body
+                            ? msg?.attributes?.body
+                            : msg?.body}
+                        </MessageText>
                       </MessageTop>
                       <MessageDateTime>
-                        {dayjs(msg.createdOn).fromNow()}
+                        {dayjs(
+                          msg?.attributes?.updatedAt
+                            ? msg?.attributes?.updatedAt
+                            : msg?.updatedAt
+                        ).fromNow()}
                       </MessageDateTime>
                     </MessageWrap>
                   )

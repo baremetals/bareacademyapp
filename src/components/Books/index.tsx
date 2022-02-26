@@ -1,5 +1,5 @@
 import React from 'react'
-import { BookArray, Query } from "generated/graphql";
+import { BookEntity, Query } from "generated/graphql";
 import styled from "styled-components";
 import Dashboard from "components/Dashboard";
 import {
@@ -20,12 +20,15 @@ function BooksPage(props: {
   props: { data: Query; loading: boolean; error: any };
 }) {
   const { data, loading, error } = props.props;
+
+  // console.log(data);
   if (!data || loading) {
     return <div>loading...</div>;
   }
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
-  const {books} = data.getBooks as BookArray; 
-  // console.log(data);
+  const bookData = data?.books;
+  const books = bookData?.data as Array<BookEntity>;
+  // console.log(bookData);
 
   return (
     <>
@@ -35,18 +38,25 @@ function BooksPage(props: {
           {!books ? (
             <div>loading...</div>
           ) : (
-            books.map((book, id) =>
+            books?.map((book, id: React.Key | null | undefined) =>
               !book ? null : (
                 <PostCard key={id}>
-                  <a href={book.link}>
-                    <CardImage alt="course image" src={book.image} />
+                  <a href={book?.attributes?.link as string}>
+                    <CardImage
+                      alt="course image"
+                      src={book?.attributes?.image as string}
+                    />
                   </a>
                   <CardBody>
-                    <CardTitle>{book.title}</CardTitle>
-                    <CardDescription>{book.description}</CardDescription>
+                    <CardTitle>{book?.attributes?.title}</CardTitle>
+                    <CardDescription>
+                      {book?.attributes?.description}
+                    </CardDescription>
                     <CardBottom>
-                      <BookAuthor>{book.author}</BookAuthor>
-                      <ApplyButton>Buy</ApplyButton>
+                      <BookAuthor>{book?.attributes?.author}</BookAuthor>
+                      <a href={book?.attributes?.link as string}>
+                        <ApplyButton>Buy</ApplyButton>
+                      </a>
                     </CardBottom>
                   </CardBody>
                 </PostCard>

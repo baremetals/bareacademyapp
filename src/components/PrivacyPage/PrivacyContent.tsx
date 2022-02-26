@@ -8,10 +8,10 @@ const PrivacyContent = () => {
         <Link href="/">
           <BackToHomeButton>Home</BackToHomeButton>
         </Link>
-        <h2>LAST UPDATED: [APRIL 21, 2021]</h2>
+        <h2>LAST UPDATED: [MARCH 04, 2022]</h2>
         <h3>Background:</h3>
         <p>
-          <b>Justappli Ltd</b>
+          <b>Baremetals Ltd </b>
           understands that your privacy is important to you and that you care
           about how your information is used and shared online. We respect and
           value the privacy of everyone who visits Our Platform and will only
@@ -48,7 +48,7 @@ const PrivacyContent = () => {
               means a small text file placed on your computer or device by Our
               Platform when you visit certain parts of Our Platform and/or when
               you use certain features of Our Platform. Details of the Cookies
-              used by Our Platform are set out in section 12, below;]
+              used by Our Platform are set out in section 12, below;
             </td>
           </tr>
           <tr>
@@ -66,16 +66,16 @@ const PrivacyContent = () => {
               <b>“We/Us/Our”</b>
             </td>
             <td>
-              means Justappli Ltd, a limited company registered in England under
-              [10379454], whose registered address is 71-75 Shelton Street,
-              London WC2H 9JQ, England.
+              means Baremetals Ltd, a limited company registered in England
+              under [12807101], whose registered address is 1 Kilmorie road,
+              London SE23 2SS, England.
             </td>
           </tr>
         </table>
         <h3>2. Data Protection Officer</h3>
         <p>
           Our data protection officer is [Daniel Asante] who can be contacted at
-          info@justappli.co.uk.
+          contact@baremetals.io..
         </p>
         <h3>3. Scope – What Does This Policy Cover?</h3>
         <p>
@@ -145,12 +145,12 @@ const PrivacyContent = () => {
           <li>
             With your permission and/or where permitted by law, we may also use
             your data for marketing purposes which may include contacting you by
-            info@justappli.co.uk with information, news and offers on Our
+            contact@baremetals.io with information, news and offers on Our
             services. We will not, however, send you any unsolicited marketing
             or spam and will take all reasonable steps to ensure that We fully
             protect your rights and comply with Our obligations under the GDPR
             and the Privacy and Electronic Communications (EC Directive)
-            Regulations 2003, as amended in 2004, 2011 and 2015.
+            Regulations 2003, as amended in 2004, 2011 2015,ad 2021.
           </li>
           <li>
             Under GDPR we will ensure that your personal data is processed
@@ -293,7 +293,7 @@ const PrivacyContent = () => {
         <p>
           You have the legal right to ask for a copy of any of your personal
           data held by Us (where such data is held). Please contact Us for more
-          details at info@justappli.co.uk or using the contact details below in
+          details at contact@baremetals.io or using the contact details below in
           section 14.
         </p>
         <h3>12. What Cookies Do We Use and What For?</h3>
@@ -380,7 +380,7 @@ const PrivacyContent = () => {
           questions about Our Platform or this Privacy Policy, please contact Us
           using the details set out in section 15 below.
         </p>
-        <h3>14 Automated Decision-Making and Profiling</h3>
+        <h3>14. Automated Decision-Making and Profiling</h3>
 
         <ul>
           <li>
@@ -432,7 +432,7 @@ const PrivacyContent = () => {
         <h3>15. Contacting Us</h3>
         <p>
           If you have any questions about Our Platform or this Privacy Policy,
-          please contact Us by email at info@justappli.co.uk, or by post at the
+          please contact Us by email at contact@baremetals.io, or by post at the
           above stated address. Please ensure that your query is clear,
           particularly if it is a request for information about the data We hold
           about you.

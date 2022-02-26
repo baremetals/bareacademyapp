@@ -1,18 +1,21 @@
-mutation CreateComment($userId: ID!, $slug: String!, $body: String) {
-  createComment(userId: $userId, slug: $slug, body: $body) {
-    ... on Comment {
+mutation CreateComment($data: CommentInput!) {
+  createComment(data: $data) {
+    data {
       id
-      body
-      createdBy
-      createdOn
-      user {
-        id
-        username
-        userIdSlug
+      attributes {
+        body
+        createdAt
+        user {
+          data {
+            id
+            attributes {
+              username
+              slug
+              img
+            }
+          }
+        }
       }
-    }
-    ... on EntityResult {
-      messages
     }
   }
 }

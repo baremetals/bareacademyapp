@@ -1,3 +1,13 @@
-mutation EditBackGroundImage($imageUrl: String!) {
-  editBackGroundImage(imageUrl: $imageUrl)
+mutation EditBackGroundImage(
+  $updateUsersPermissionsUserId: ID!
+  $data: UsersPermissionsUserInput!
+) {
+  updateUsersPermissionsUser(id: $updateUsersPermissionsUserId, data: $data) {
+    data {
+      id
+      attributes {
+        backgroundImg
+      }
+    }
+  }
 }

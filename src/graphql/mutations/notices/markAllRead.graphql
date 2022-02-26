@@ -1,3 +1,0 @@
-mutation MarkAllMessagesReadByUserId($id: ID!) {
-  markAllMessagesReadByUserId(id: $id)
-}

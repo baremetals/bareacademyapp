@@ -1,6 +1,9 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 // import { useRouter } from 'next/router';
+import Link from 'next/link';
+import dayjs from 'dayjs';
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 import {
   PageHeading,
@@ -27,28 +30,33 @@ import {
   Strong,
 } from "../../styles/common.styles";
 import Dashboard from "../Dashboard";
-import { Query } from 'generated/graphql';
-import { ErrorMsg } from 'components/Input';
+// import { ErrorMsg } from "components/Input";
 
-function SearchResult(props: {
-  props: { data: Query; loading: boolean; error: any };
-}) {
-  // const router = useRouter();
-  // eslint-disable-next-line react/prop-types
-  const { data, loading, error }: any= props;
-
-  // if (data.searchBySearchTerm.messages) {
-  //   return <div>nothing found</div>;
-  // }
-// eslint-disable-next-line react/prop-types
-const { courses, users, posts } = data.searchBySearchTerm;
-
-  // eslint-disable-next-line react/prop-types
-  const noData = data.searchBySearchTerm?.messages;
-  if (!data || loading) {
-    return <div>loading...</div>;
+type propTypes = {
+  data: {
+    data: [],
+    meta: {}
   }
-  if (error) return <ErrorMsg>{error}</ErrorMsg>;
+}
+
+function SearchResult(props: propTypes) {
+  // const router = useRouter();
+
+  const { data }: any = props;
+
+  const { sanitizedUsers } = data?.data[0]?.attributes;
+  const { sanitizedPosts } = data?.data[1]?.attributes;
+  const { sanitizedCourses } = data?.data[2]?.attributes;
+
+  const posts = sanitizedPosts.results;
+  const courses = sanitizedCourses.results;
+  const users = sanitizedUsers;
+
+  // const noData = data.searchBySearchTerm?.messages;
+  // if (!data || loading) {
+  //   return <div>loading...</div>;
+  // }
+  // if (error) return <ErrorMsg>{error}</ErrorMsg>;
 
   // const  search  = router.asPath;
 
@@ -58,65 +66,86 @@ const { courses, users, posts } = data.searchBySearchTerm;
     <Dashboard>
       <PageHeading>Search Results Here </PageHeading>
 
-      {noData && <div>{noData[0]}</div>}
-
-      {courses !== null &&
-         (
-          <>
-            <PageSubHeading>Courses</PageSubHeading>
-            <PageWrapper>
-              {
-                // eslint-disable-next-line react/prop-types
-                courses?.map(
-                  (
-                    post: React.Key | null | undefined,
-                    id: string | undefined
-                  ) => (
-                    <PostCard key={id}>
-                      <CardBody>
-                        <CardDuration>3 Months</CardDuration>
-                        <CardTitle>Fullstack Javascript web Dev</CardTitle>
-                        <CardDescription>
-                          The course includes: HTML, CSS and JavaScript and
-                          React Framework.
-                        </CardDescription>
-                        <CardBottom>
-                          <CardStartDate>12/11/2021</CardStartDate>
-                          <ApplyButton>Apply</ApplyButton>
-                        </CardBottom>
-                      </CardBody>
-                    </PostCard>
-                  )
-                )}
-            </PageWrapper>
-          </>
-        )}
+      {courses !== null && (
+        <>
+          <PageSubHeading>Courses</PageSubHeading>
+          <PageWrapper>
+            {courses?.map(
+              (
+                c: {
+                  duration: string;
+                  title: string;
+                  description: string;
+                  startDate: string;
+                  slug: string;
+                },
+                id: string | undefined
+              ) => (
+                <PostCard key={id}>
+                  <CardBody>
+                    <CardDuration>{c?.duration}</CardDuration>
+                    <CardTitle>{c.title}</CardTitle>
+                    <CardDescription>
+                      {`${c.description.slice(0, 90)}....`}
+                    </CardDescription>
+                    <CardBottom>
+                      <CardStartDate>
+                        {dayjs(c.startDate).fromNow()}
+                      </CardStartDate>
+                      <Link href={`/courses/${c?.slug}`}>
+                        <ApplyButton>Apply</ApplyButton>
+                      </Link>
+                    </CardBottom>
+                  </CardBody>
+                </PostCard>
+              )
+            )}
+          </PageWrapper>
+        </>
+      )}
 
       {posts !== null && (
         <>
           <PageSubHeading>Posts</PageSubHeading>
           <PageWrapper>
-            {posts !==
-              null && posts?.map(
+            {posts !== null &&
+              posts?.map(
                 (
-                  post: React.Key | null | undefined,
+                  post: {
+                    title: string;
+                    body: string;
+                    creator: {
+                      img: string | undefined;
+                      username: string | undefined;
+                    };
+                    updatedAt: string | undefined;
+                    slug: string;
+                  },
                   id: string | undefined
                 ) => (
                   <PostCard key={id}>
                     <CardBody>
-                      <CardTitle>tweet tweet tweet</CardTitle>
+                      <CardTitle>{post?.title}</CardTitle>
                       <CardDescription>
-                        Develop Future Proof responsive websites
+                        {`${post?.body.slice(0, 90)}....`}
                       </CardDescription>
                       <CardBottom>
                         <UserGroup>
-                          <UserImg width={40} height={40} src="/D.jpg" />
+                          <UserImg
+                            width={40}
+                            height={40}
+                            src={post?.creator?.img}
+                          />
                           <UserNameWrapper>
-                            <UserName>maguyva</UserName>
-                            <PostDate>5 days ago</PostDate>
+                            <UserName>{post?.creator?.username}</UserName>
+                            <PostDate>
+                              {dayjs(post?.updatedAt).fromNow()}
+                            </PostDate>
                           </UserNameWrapper>
                         </UserGroup>
-                        <ApplyButton>View</ApplyButton>
+                        <Link href={`/forum/${post?.slug}`}>
+                          <ApplyButton>View</ApplyButton>
+                        </Link>
                       </CardBottom>
                     </CardBody>
                   </PostCard>
@@ -127,52 +156,60 @@ const { courses, users, posts } = data.searchBySearchTerm;
       )}
 
       {users !== null && (
-          <>
-            <PageSubHeading>Users</PageSubHeading>
-            <PageWrapper>
-              {users?.map(
-                (
-                  user: {
-                    profileImage: string;
-                    fullName: string;
-                    description: string;
-                  },
-                  id: string
-                ) => (
-                  <PostCard key={id}>
-                    <CardBody>
-                      <UserGroup>
-                        <UserImg
-                          width={80}
-                          height={80}
-                          src={user.profileImage}
-                        />
-                        <UserNameWrapper>
-                          <H4>{user.fullName}</H4>
-                          <UserText>{user.description}</UserText>
-                          <UserInfo>
-                            <FlexRow>
-                              <FlexCol>
-                                <Strong>Ratings:</Strong>
-                              </FlexCol>
-                              <FlexCol>Superb</FlexCol>
-                            </FlexRow>
-                            <FlexRow>
-                              <FlexCol>
-                                <Strong>City:</Strong>
-                              </FlexCol>
-                              <FlexCol>Accra</FlexCol>
-                            </FlexRow>
-                          </UserInfo>
-                        </UserNameWrapper>
-                      </UserGroup>
-                    </CardBody>
-                  </PostCard>
-                )
-              )}
-            </PageWrapper>
-          </>
-        )}
+        <>
+          <PageSubHeading>Users</PageSubHeading>
+          <PageWrapper>
+            {users?.map(
+              (
+                user: {
+                  img: string;
+                  fullName: string;
+                  username: string;
+                  description: string;
+                  location: string;
+                  slug: string;
+                  createdAt: string;
+                },
+                id: string
+              ) => (
+                <PostCard key={id}>
+                  <CardBody>
+                    <UserGroup>
+                      <Link href={`/user-profile/${user?.slug}`}>
+                        <UserImg width={80} height={80} src={user?.img} />
+                      </Link>
+                      <UserNameWrapper>
+                        <Link href={`/user-profile/${user?.slug}`}>
+                          <H4>
+                            {user?.fullName ? user?.fullName : user?.username}
+                          </H4>
+                        </Link>
+                        <UserText>{user?.description}</UserText>
+                        <UserInfo>
+                          <FlexRow>
+                            <FlexCol>
+                              <Strong>Joined:</Strong>
+                            </FlexCol>
+                            <FlexCol>
+                              {dayjs(user?.createdAt).fromNow()}
+                            </FlexCol>
+                          </FlexRow>
+                          <FlexRow>
+                            <FlexCol>
+                              <Strong>City:</Strong>
+                            </FlexCol>
+                            <FlexCol>{user?.location}</FlexCol>
+                          </FlexRow>
+                        </UserInfo>
+                      </UserNameWrapper>
+                    </UserGroup>
+                  </CardBody>
+                </PostCard>
+              )
+            )}
+          </PageWrapper>
+        </>
+      )}
 
       {/* <PageSubHeading>Books</PageSubHeading>
 

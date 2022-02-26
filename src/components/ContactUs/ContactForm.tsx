@@ -4,7 +4,8 @@ import { ContactUsForm, ContactUsGroup, ContactUsInput, ContactUsLabel, ContactU
 
 import { ErrorMsg, SuccessMsg, Error } from "../Input";
 import Button from "../Auth/Button";
-import { supportMessage } from 'helpers/support';
+import axios from "axios";
+import slugify from 'slugify';
 
 type formInput = {
   fullName: string;
@@ -32,21 +33,34 @@ const ContactForm = () => {
 
   const submit: SubmitHandler<formInput> = async (data) => {
     console.log(data);
-    const res = await supportMessage({
-      fullName: data.fullName,
-      email: data.email,
-      body: data.body,
-      subject: data.subject,
-    });
-    const { ...messages } = res?.createSupportMessage;
-    // console.log(messages.messages);
-    const msg: string[] | null | undefined = messages?.messages;
-    setMsg(msg![0]);
-    if (msg![0].includes("48 hours.")) {
-      setSuccess(true);
-    } else {
-      setError(true);
-    }
+    await axios
+      .post("/api/support", {
+        data: {
+          fullName: data.fullName,
+          email: data.email,
+          body: data.body,
+          subject: data.subject,
+          slug: slugify(data.fullName),
+          username: "unknown",
+        },
+      })
+      .then(() => {
+        // console.log(resp);
+        setMsg("Message sent, you will hear back from us with 48 hours.");
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 5000)
+      })
+      .catch(() => {
+        // console.log(err);
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 5000);
+      });
+
   };
 
   return (

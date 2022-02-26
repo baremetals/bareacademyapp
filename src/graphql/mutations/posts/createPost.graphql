@@ -1,15 +1,11 @@
-mutation CreatePost(
-  $userId: ID!
-  $categoryName: String!
-  $title: String!
-  $body: String!
-) {
-  createPost(
-    userId: $userId
-    categoryName: $categoryName
-    title: $title
-    body: $body
-  ) {
-    messages
+mutation CreatePost($data: PostInput!) {
+  createPost(data: $data) {
+    data {
+      id
+      attributes {
+        title
+        slug
+      }
+    }
   }
 }

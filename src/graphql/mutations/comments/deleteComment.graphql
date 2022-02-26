@@ -1,3 +1,7 @@
-mutation DeleteComment($id: ID!) {
-  deleteComment(id: $id)
+mutation DeleteComment($deleteCommentId: ID!) {
+  deleteComment(id: $deleteCommentId) {
+    data {
+      id
+    }
+  }
 }

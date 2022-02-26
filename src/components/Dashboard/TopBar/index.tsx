@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Link from "next/link";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 // styled components
 import {
@@ -24,17 +25,13 @@ import { TopSearchIcon } from "../../../../public/assets/icons/TopSearchIcon";
 
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
-import {
-  useLogoutMutation,
-} from "generated/graphql";
 
 import { BackOverlay } from '../LeftSideBar/leftside.styles';
 import AlarmBell from './AlarmBell';
-import ChatIcon from './ChatIcon';
+// import ChatIcon from './ChatIcon';
 
 const Topbar = () => {
   const router = useRouter();
-  const [logout] = useLogoutMutation();
   const [dropdown, setDropdown] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [search, setSearch] = useState(false);
@@ -42,16 +39,14 @@ const Topbar = () => {
 
 
   const me = user;
+  // console.log(me);
 
   const handleLogOut = async () => {
     try {
-      const res = await logout({
-        variables: {
-          username: me?.username as string,
-        },
-      });
-      if (res.data?.logout.includes("User logged off.")) {
-        router.push("/signin");
+      const res = await axios.post("/api/auth/logout");
+      console.log(res);
+      if (res.status === 200 || res?.data?.message) {
+        router.push("/auth/signin");
       }
     } catch (error) {
       console.log(error);
@@ -108,39 +103,37 @@ const Topbar = () => {
       </TopCenterWrap>
       <TopRightWrap>
         <Icons>
-          <ChatIcon />
+          {/* <ChatIcon /> */}
           <AlarmBell id={me?.id as string} />
         </Icons>
         <ProfileSetting>
           <ProfileImg
             onClick={() => setDropdown(!dropdown)}
             alt="user profile image"
-            src={me?.profileImage}
+            src={me?.img}
           />
           <ProfileDropdown
             className={`${dropdown ? "opened" : ""}`}
             onClick={() => setDropdown(!dropdown)}
           >
             {/* <ProfileItem>
-              <Link href={`/user-profile/${me?.userIdSlug}`}>Setting</Link>
+              <Link href={`/user-profile/${me?.slug}`}>Setting</Link>
             </ProfileItem> */}
             <ProfileItem>
-              <Link href={`/user-profile/${me?.userIdSlug}`}>Profile</Link>
+              <Link href={`/user-profile/${me?.slug}`}>Profile</Link>
             </ProfileItem>
             <ProfileItem>
-              <Link href={`/user-profile/${me?.userIdSlug}/edit-profile`}>
+              <Link href={`/user-profile/${me?.slug}/edit-profile`}>
                 Edit Profile
               </Link>
             </ProfileItem>
             <ProfileItem>
-              <Link href={`/user-profile/${me?.userIdSlug}/edit-profile`}>
+              <Link href={`/user-profile/${me?.slug}/edit-profile`}>
                 Privacy settings
               </Link>
             </ProfileItem>
             <ProfileItem>
-              <Link href={`/user-profile/${me?.userIdSlug}/edit-profile`}>
-                Terms
-              </Link>
+              <Link href={`/user-profile/${me?.slug}/edit-profile`}>Terms</Link>
             </ProfileItem>
             <ProfileItem>
               <a onClick={handleLogOut}>Logout</a>

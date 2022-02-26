@@ -1,0 +1,19 @@
+export const EVENTS = {
+  connection: "connection",
+  CLIENT: {
+    CREATE_CHAT: "CREATE_CHAT",
+    RESPOND_TO_CHAT: "RESPOND_TO_CHAT",
+    EDIT_CHAT_MSG_BODY: "EDIT_CHAT_MSG_BODY",
+    EDIT_CHAT_MSG_READ: "EDIT_CHAT_MSG_READ",
+    DELETE_CHAT_MSG: "DELETE_CHAT_MSG",
+    DELETE_CHAT: "DELETE_CHAT",
+  },
+  SERVER: {
+    ROOMS: "ROOMS",
+    JOINED_ROOM: "JOINED_ROOM",
+    ROOM_MESSAGE: "ROOM_MESSAGE",
+  },
+};
+
+export const SOCKET_URL =
+  process.env.REACT_APP_STRAPI_API || "http://localhost:1339/";

@@ -1,3 +1,7 @@
-mutation DeletePost($id: ID!) {
-  deletePost(id: $id)
+mutation DeletePost($deletePostId: ID!) {
+  deletePost(id: $deletePostId) {
+    data {
+      id
+    }
+  }
 }

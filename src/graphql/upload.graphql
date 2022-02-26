@@ -1,0 +1,10 @@
+mutation Upload($file: Upload!) {
+  upload(file: $file) {
+    data {
+      id
+      attributes {
+        url
+      }
+    }
+  }
+}

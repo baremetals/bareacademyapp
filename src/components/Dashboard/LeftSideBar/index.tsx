@@ -18,7 +18,7 @@ import {
 import { LogoShape } from "../../../../public/assets/icons/LogoShape"
 import { BooksIcon } from "../../../../public/assets/icons/BooksIcon";
 import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
-import { AdminIcon } from "../../../../public/assets/icons/AdminIcon";
+
 
 
 const LeftSideBar = () => {
@@ -147,21 +147,6 @@ const LeftSideBar = () => {
             </LeftSideBarIcon>
             <Link href="/support">
               <LeftSideBarListItemText>Support</LeftSideBarListItemText>
-            </Link>
-          </LeftSideBarListItem>
-
-          <LeftSideBarListItem
-            className={router.pathname == "/admin" ? "active" : ""}
-          >
-            <LeftSideBarIcon>
-              <Link href="/admin">
-                <div>
-                  <AdminIcon />
-                </div>
-              </Link>
-            </LeftSideBarIcon>
-            <Link href="/admin">
-              <LeftSideBarListItemText>Admin</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
         </LeftSideBarWrapper>

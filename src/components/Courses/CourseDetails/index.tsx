@@ -1,8 +1,14 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react'
+import axios from "axios";
 import { useRouter } from "next/router";
-import { CourseResult, Maybe, useJoinOrLeaveCourseMutation, User } from "generated/graphql";
+import { CourseEntityResponseCollection, CourseVideoRelationResponseCollection, StudentRelationResponseCollection} from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
+
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 import {
   CardTitle,
@@ -11,7 +17,7 @@ import {
   CardLeftWrap,
   StartDate,
   CardCenterWrap,
-  CardText,
+  // CardText,
   StartDateTitle,
   MediaContainer,
   CoursesH2,
@@ -53,54 +59,65 @@ import VideoCard from './VideoCard';
 
 interface Details {
   id: string;
-  description: string;
-  duration: string;
-  endDate: string;
-  startDate: string;
-  title: string;
-  students: Array<Student>;
-  teacher: User;
-  notes: string;
-  videos: Array<{
-    id: string;
-    title: string;
-    url: string;
+  attributes: {
+    duration: string;
     description: string;
-    createdOn: string;
-  }>;
-}
-
-interface Student {
-  id: string;
-  username: string;
-  user: User
-  
-}
-
-type dataProp = {
-  data: {
-    getCourseBySlug: Maybe<CourseResult> | undefined;
+    endDate: Date;
+    startDate: Date;
+    title: string;
+    notes: string;
+    slug: string;
+    teacher: {
+      data: {
+        id: string;
+        attributes: {
+          tutor: {
+            data: {
+              id: string;
+              attributes: {
+                fullName: string;
+                img: string;
+              };
+            };
+          };
+        };
+      };
+    };
+    course_videos: CourseVideoRelationResponseCollection;
+    students: StudentRelationResponseCollection;
   };
-};
+}
+
+// type dataProp = {
+//   props: {
+//     data: {
+//       data: CourseEntityResponseCollection;
+//     };
+//   };
+// };
+
 
 function CourseDetails(props: {
-  props: { data: dataProp; loading: boolean; error: any };
+  props: { data: { data: { courses: CourseEntityResponseCollection }}; loading: any; error: any };
 }) {
   const router = useRouter();
   // const { slug } = router.query;
-  
+
   const { data, loading, error } = props.props;
-  // console.log(data);
 
   if (!data || loading) {
     return <div>loading...</div>;
   }
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
 
-  const course = data.data.getCourseBySlug;
+  const allCourse = data.data;
+  const course = allCourse.courses.data[0] as Details;
+  const videos = course?.attributes?.course_videos?.data;
+  const students = course?.attributes?.students?.data;
+  // console.log(course);
 
   const [socialDropdown, setSocialDropdown] = useState(false);
-  const [join] = useJoinOrLeaveCourseMutation();
+
   const [errorMsg, setErrorMsg] = useState(false);
   const [message, setMessage] = useState<string | undefined>("");
   const [isStudent, setIsStudent] = useState(false);
@@ -109,60 +126,84 @@ function CourseDetails(props: {
   const me = user;
 
   const {
-    id,
-    description,
-    endDate,
-    startDate,
-    title,
-    notes,
-    students,
-    teacher,
-    videos,
-  } = course as Details;
+    id: CourseId,
+    attributes: {
+      description,
+      duration,
+      endDate,
+      startDate,
+      title,
+      notes,
+      slug,
+      teacher: {
+        data: {
+          // id: teacherId,
+          attributes: {
+            tutor: {
+              data: {
+                id: userId,
+                attributes: { fullName, img },
+              },
+            },
+          },
+        },
+      },
+    },
+  } = course;
 
-  // console.log(videos)
+  // console.log(course);
 
   useEffect(() => {
-    if (students.length !== 0) {
-      students.forEach((student) => {
-        if (student.user?.id === me?.id) {
-          setIsStudent(true);
+    if (students?.length !== 0) {
+      students?.forEach(
+        (student) => {
+          const usrId = student?.attributes?.user?.data?.id;
+          // console.log(student)
+          if (usrId === me?.id) {
+            setIsStudent(true);
+          }
         }
-      });
+      );
     }
   }, [students, me?.id]);
 
   useEffect(() => {
-    if (teacher.id === me?.id) {
+    if (userId === me?.id) {
       setIsTeacher(true);
     }
   }, [me?.id]);
 
-  if (!data || loading) {
-    return <div>loading...</div>;
-  }
-
   const joinCourse = async () => {
-    console.log("testing", isStudent);
+    // console.log("testing", isStudent);
+    // console.log(id, me?.slug, me?.id);
 
-    try {
-      const response = await join({
-        variables: {
-          courseId: id as string,
-          join: isStudent ? false : true,
+    await axios
+      .post("/api/join", {
+        data: {
+          joined: true,
+          slug: me?.slug,
+          course: CourseId,
+          users_permissions_user: me?.id,
+          publishedAt: Date.now(),
         },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.msg) {
+          setMessage(res.data.msg);
+          setErrorMsg(true);
+        } else {
+          setMessage("You have been successfully added to the course");
+          setErrorMsg(true);
+        }
+      })
+      .catch((err) => {
+        setMessage("sorry Something went wrong please try again later.");
+        setErrorMsg(true);
       });
-      console.log("re-testing", isStudent);
-      const msg = response.data?.joinOrLeaveCourse;
-      setMessage(msg);
-      setErrorMsg(true);
-      console.log(response.data?.joinOrLeaveCourse);
-    } catch (err) {
-      console.log("error:", err);
-    }
   };
 
-  const url: string = `http://localhost:3000${router.asPath}`;
+  const shareUrl: string = `http://localhost:3000${router.asPath}`;
   return (
     <Dashboard>
       <PageHeading>
@@ -176,31 +217,31 @@ function CourseDetails(props: {
             onClick={() => setSocialDropdown(!socialDropdown)}
           >
             <SocialDropDownItem>
-              <FacebookShareButton url={url}>
+              <FacebookShareButton url={shareUrl}>
                 <FaceBook />
                 Facebook
               </FacebookShareButton>
             </SocialDropDownItem>
             <SocialDropDownItem>
-              <TwitterShareButton url={url}>
+              <TwitterShareButton url={shareUrl}>
                 <Twitter />
                 Twitter
               </TwitterShareButton>
             </SocialDropDownItem>
             <SocialDropDownItem>
-              <LinkedinShareButton url={url}>
+              <LinkedinShareButton url={shareUrl}>
                 <LinkedIn />
                 LinkedIn
               </LinkedinShareButton>
             </SocialDropDownItem>
             <SocialDropDownItem>
-              <WhatsappShareButton url={url}>
+              <WhatsappShareButton url={shareUrl}>
                 <WhatsApp />
                 Whatsapp
               </WhatsappShareButton>
             </SocialDropDownItem>
             <SocialDropDownItem>
-              <EmailShareButton url={url}>
+              <EmailShareButton url={shareUrl}>
                 <Email />
                 Email
               </EmailShareButton>
@@ -209,6 +250,16 @@ function CourseDetails(props: {
         </SocialDropDown>
         {title}
       </PageHeading>
+      <br />
+      <div>{errorMsg && <ErrorMsg>{message}</ErrorMsg>}</div>
+      <CoursesTeacherWrap>
+        <CardTitle>Teacher</CardTitle>
+        <CoursesTeacherNameAndImageWrap>
+          <CoursesTeacherImage src={img} />
+          <CoursesTeacherName>{fullName}</CoursesTeacherName>
+        </CoursesTeacherNameAndImageWrap>
+      </CoursesTeacherWrap>
+      <br />
       <DetailsCardWrapper>
         <CardTop>
           <CardLeftWrap>
@@ -216,14 +267,17 @@ function CourseDetails(props: {
               Start Date{" "}
               <StartDate>
                 {" "}
-                - {startDate} to {endDate}
+                - {dayjs(startDate).format("DD.MM.YY")} to{" "}
+                {dayjs(endDate).format("DD.MM.YY")} - {duration}
+                {/* dayjs(startDate).fromNow() */}
               </StartDate>
             </StartDateTitle>
             <CardTitle>Course Description</CardTitle>
           </CardLeftWrap>
         </CardTop>
         <CardCenterWrap>
-          <CardText>{description}</CardText>
+          <div dangerouslySetInnerHTML={{ __html: description }}></div>
+          {/* <CardText>{description}</CardText> */}
         </CardCenterWrap>
         <CardBottom>
           {!isTeacher && (
@@ -233,7 +287,7 @@ function CourseDetails(props: {
                   onClick={joinCourse}
                   style={{ backgroundColor: "red" }}
                   type="button"
-                  // disabled={true}
+                  disabled={true}
                 >
                   applied
                 </ApplyButton>
@@ -242,32 +296,29 @@ function CourseDetails(props: {
                   apply
                 </ApplyButton>
               )}
-              {errorMsg && <ErrorMsg>{message}</ErrorMsg>}
+              {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
             </>
           )}
         </CardBottom>
-        <CoursesTeacherWrap>
-          <CardTitle>Teacher</CardTitle>
-          <CoursesTeacherNameAndImageWrap>
-            <CoursesTeacherImage src={teacher.profileImage} />
-            <CoursesTeacherName>{teacher.fullName}</CoursesTeacherName>
-          </CoursesTeacherNameAndImageWrap>
-        </CoursesTeacherWrap>
+        <br />
         <CoursesH2>Additional Notes</CoursesH2>
-        <div>{notes}</div>
+        <div dangerouslySetInnerHTML={{ __html: notes }}></div>
+        {/* <div>{notes}</div> */}
+        <br />
         <MediaRow>
-          {videos.map((vid, id) => {
+          {videos?.map((vid, id: React.Key | null | undefined) => (
             <MediaContainer key={id}>
               <VideoCard
-                fullName={teacher.fullName}
-                date={vid.createdOn}
-                title={vid.title}
-                url={vid.url}
-                userIdSlug={teacher.userIdSlug as string}
-                description={vid.description}
+                fullName={fullName}
+                date={vid?.attributes?.createdAt}
+                title={vid?.attributes?.title as string}
+                url={vid?.attributes?.video_url}
+                slug={slug}
+                description={vid?.attributes?.description as string}
               />
-            </MediaContainer>;
-          })}
+              {/* {vid?.attributes?.description as string} */}
+            </MediaContainer>
+          ))}
         </MediaRow>
       </DetailsCardWrapper>
     </Dashboard>

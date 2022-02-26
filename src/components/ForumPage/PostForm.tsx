@@ -2,16 +2,19 @@ import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-
+import slugify from "slugify"
 
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { isUser } from "features/auth";
 import { setCategory } from "features/ui/reducers";
 
 import {
-  useCategoryQuery,
   useCreatePostMutation,
+  useCategoriesQuery,
+  Exact,
+  CategoriesQuery,
 } from "generated/graphql";
+import { QueryResult } from "@apollo/client";
 
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
@@ -66,16 +69,23 @@ const PostForm = ({
 }: any) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { data } = useCategoryQuery();
+
+  const cats: QueryResult<
+    CategoriesQuery,
+    Exact<{
+      [key: string]: never;
+    }>
+  > = useCategoriesQuery();
   
 
   const [post] = useCreatePostMutation();
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
   const { user: user } = useAppSelector(isUser);
-  const categories = data?.getAllCategories as any;
-  dispatch(setCategory(data?.getAllCategories));
+  const categories = cats?.data?.categories?.data;
+  dispatch(setCategory(categories));
 
+//  console.log(categories);
   const {
     register,
     handleSubmit,
@@ -89,27 +99,29 @@ const PostForm = ({
   const [content, setContent] = useState<string>("");
 
   const onSubmit = async (info: FormInput) => {
-    console.log(info)
-    //   setShowModal(false);
+    console.log(slugify(info.title))
+      // setShowModal(false);
     const res = await post({
       variables: {
-        userId: user?.id as string,
-        categoryName: info.category,
-        title: info.title,
-        body: info.body,
+        data: {
+          title: info.title,
+          body: info.body,
+          category: info.category,
+          creator: user?.id as string,
+          publishedAt: new Date(),
+          slug: slugify(info.title),
+        },
       },
     });
     
-    if (res?.data?.createPost?.messages![0].includes("success-")) {
-        const detailpage = res?.data?.createPost?.messages![0].slice(
-          8
-        );
+    if (res?.data) {
+        const slug = res?.data?.createPost?.data?.attributes?.slug;
         // console.log(response?.data?.createPost?.messages);
-        router.push(`/forum/${detailpage}`);
+        router.push(`/forum/${slug}`);
         setShowModal(false);
     } else {
-        const message = res?.data?.createPost?.messages![0] as string;
-        setMsg(message);
+        
+      setMsg("Sorry something went wrong please try again later.");
       setError(true);
       setTimeout(() => {
         setError(false);
@@ -145,9 +157,9 @@ const PostForm = ({
                 <Select {...register("category", { required: true })}>
                   <CategoryOptions>Please select a category</CategoryOptions>
                   {categories?.map(
-                    (c: { value: string; name: string; id: string }) => (
-                      <CategoryOptions key={c.id} value={c.value}>
-                        {c.name}
+                    (c) => (
+                      <CategoryOptions key={c?.id} value={c?.id as string}>
+                        {c?.attributes?.name}
                       </CategoryOptions>
                     )
                   )}

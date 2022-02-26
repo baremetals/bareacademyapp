@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Formik } from "formik";
 import { getForgotPasswordValidationSchema } from "utils/formValidation";
-import { useForgotPasswordMutation } from "generated/graphql";
 import { ErrorMsg, Input, Error, SuccessMsg } from "../../Input";
 import NextImage from "next/image";
 import Button from "../Button";
@@ -21,6 +21,7 @@ import {
 } from "../auth-styles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 
 const initialValues = {
@@ -29,36 +30,41 @@ const initialValues = {
   success: "",
 };
 const ChangePassword = () => {
-  const [forgotPassword] = useForgotPasswordMutation();
+  const router = useRouter();
   const [errorMsg, setErrorMsg] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
 
   const handleSend = async ({ ...values }: any) => {
-    console.log(values);
-    
-    try{
-      const response = await forgotPassword({
-        variables: {
-          ...values,
+    await axios
+      .post("/api/auth/password", {
+        data: {
+          email: values.usernameOrEmail,
+          flag: "FORGOTPASSWORD",
         },
       })
-      // console.log(response.data)
-      if (response.data?.forgotPassword.includes("reset link")) {
-        const msg: any = response.data?.forgotPassword;
-        setSuccessMsg(true);
-        initialValues.success = msg;
-        toast.success("Please check your email");
-      } else {
-        const msg: any = response.data?.forgotPassword;
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          const msg: any = "successful";
+          setSuccessMsg(true);
+          initialValues.success = msg;
+          toast.success("Please check your email inbox");
+          setTimeout(() => {
+            router.push("/auth/signin");
+          }, 3000);
+        }
+        
+      })
+      .catch((err) => {
+        console.log(err);
+        const msg: any = "Please check the email address provided.";
         setErrorMsg(true);
-        initialValues.error = msg
+        initialValues.error = msg;
         toast.error(msg);
-      }
-
-    } catch (ex) {
-      console.log(ex);
-      throw ex
-    }
+        setTimeout(() => {
+          setErrorMsg(false);
+        }, 7000);
+      });
   }
 
     return (
@@ -81,8 +87,8 @@ const ChangePassword = () => {
                     <InputContainer>
                       <div className="form-group">
                         <Input
-                          type="text"
-                          placeholder="Email or Username"
+                          type="email"
+                          placeholder="Email"
                           name="usernameOrEmail"
                           values="usernameOrEmail"
                         />
@@ -97,7 +103,7 @@ const ChangePassword = () => {
                         content="send"
                         disabled={isSubmitting}
                       />
-                      <Link href="/signin">
+                      <Link href="/auth/signin">
                         <BackToLogin>back to login?</BackToLogin>
                       </Link>
                     </ButtonContainer>

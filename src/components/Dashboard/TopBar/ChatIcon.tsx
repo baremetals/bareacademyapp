@@ -6,7 +6,7 @@ import { CommentIcon } from "../../../../public/assets/icons/CommentIcon";
 
 // import { toast, ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import { GetAllUnReadChatMsgsByUserIdDocument, useNewChatMessageSubscription, User } from 'generated/graphql';
+// import { GetAllUnReadChatMsgsByUserIdDocument, useNewChatMessageSubscription, User } from 'generated/graphql';
 
 type MessagePageType = {
   body: string;

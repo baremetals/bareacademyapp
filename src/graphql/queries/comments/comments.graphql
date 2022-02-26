@@ -1,0 +1,26 @@
+query Comments(
+  $filters: CommentFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  comments(filters: $filters, pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        body
+        createdAt
+        updatedAt
+        user {
+          data {
+            id
+            attributes {
+              slug
+              username
+              img
+            }
+          }
+        }
+      }
+    }
+  }
+}

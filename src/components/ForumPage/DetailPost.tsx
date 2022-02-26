@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import Link from "next/link";
-import { useUpdatePostPointMutation, User, PostPoint, Category, useNewCommentSubscription, Maybe, PostResult } from "generated/graphql";
+// import { CommentEntity } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
+import axios from "axios";
 
 
 import {
@@ -43,38 +44,44 @@ import styled from 'styled-components';
 import EditPostForm from './EditPostForm';
 
 
-interface ForumPost {
-  id: string;
-  createdOn: any;
-  title: string;
-  body?: string;
-  category: Category;
-  points: number;
-  creator: User;
-  postPoints: Array<PostPoint>;
-  comments: ConcatArray<never>;
-}
+// interface ForumPost {
+//   id: string;
+//   createdOn: any;
+//   title: string;
+//   body?: string;
+//   category: Category;
+//   points: number;
+//   creator: User;
+//   postPoints: Array<PostPoint>;
+//   comments: ConcatArray<never>;
+// }
 
-type userComment = {
-  body: string;
-  id: string;
-  createdOn: string;
-  createdBy: string;
-  user: User;
-};
+// type userComment = {
+//   body: string;
+//   id: string;
+//   createdOn: string;
+//   createdBy: string;
+//   user: User;
+// };
 
-type dataProp = {
-    data: {
-      getPostBySlug: Maybe<PostResult> | undefined;
-    };
-};
+// type dataProp = {
+//     data: {
+//       getPostBySlug: Maybe<PostResult> | undefined;
+//     };
+// };
+
+// type dataProp = {
+//   data: {
+//     data: {
+//       comments: Array<CommentEntity>;
+//     };
+//   };
+// };
 
 
-const DetailPost = (props: {
-  props: { data: dataProp; loading: boolean; error: any };
-}) => {
-  const router = useRouter();
-  const { slug } = router.query;
+const DetailPost = (props: { props: { data: any; loading: any; error: any; }; }) => {
+  // const router = useRouter();
+  // const { slug } = router.query;
   // data fro props
   const { data, loading, error } = props.props;
 
@@ -83,18 +90,23 @@ const DetailPost = (props: {
   }
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
 
-  const post = data.data.getPostBySlug;
-  
+  const allPosts = data.data;
+  const post = allPosts.posts.data[0];
+  // console.log(post.id)
+
+  // const comments = post.attributes.comments;
+  // const students = course.attributes.students.data;
+
+  // console.log(comments);
 
   const [showModal, setShowModal] = useState(false);
 
-  const [likePost] = useUpdatePostPointMutation(); // like and unlike post function call
+  // like and unlike post function call
 
   const [hasLikedPost, setHasLikedPost] = useState(false);
-  const [isCreator, setIsCreator] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
-  const [commentsArray, setCommentsArray] = useState([]);
+  // const [commentsArray, setCommentsArray] = useState([]);
   const [message, setMessage] = useState<string | undefined>("");
 
   const { user: user } = useAppSelector(isUser);
@@ -102,23 +114,39 @@ const DetailPost = (props: {
 
   const {
     id,
-    title,
-    body,
-    category,
-    points,
-    createdOn,
-    creator,
-    postPoints,
-    comments,
-  } = post as ForumPost;
+    attributes: {
+      body,
+      category: {
+        data: {
+          id: catId,
+          // attributes: { name },
+        },
+      },
+      createdAt,
+      creator: {
+        data: {
+          // id: userId,
+          attributes: { username, slug: creatorSlug, img },
+        },
+      },
+      points,
+      post_points: {},
+      // slug,
+      title,
+      // eslint-disable-next-line camelcase
+      total_comments,
+    },
+  } = post;
 
-  const [postPointNumber, setPostPointsNumber] = useState(0);
-
+  const [postPointNumber, setPostPointsNumber] = useState(points);
+  const [pointsId, setPointsId] = useState<string>("");
+  const postPoints = post?.attributes?.post_points?.data;
+  // console.log(postPoints.length);
 
   // Comments Subscription data
-  const newComms = useNewCommentSubscription();
-  const newCommsData = newComms?.data?.newComment;
-  let commentsLength: number = 0;
+  // const newComms = useNewCommentSubscription();
+  // const newCommsData = newComms?.data?.newComment;
+  // let commentsLength: number = 0;
 
   // console.log(comments);
 
@@ -146,31 +174,35 @@ const DetailPost = (props: {
   }, [body]);
 
   // This useEffect is subscribing to new comments to update the comments count
-  useEffect(() => {
-    // let mounted = true;
-    if (newCommsData) {
-      const newMessageItem = newCommsData;
-      const newArrayItem: any = (prevArray: userComment[]) => {
-        return [newMessageItem, ...prevArray];
-      };
-      setCommentsArray(newArrayItem);
-    }
-    // if (mounted) {
+  // useEffect(() => {
+  //   // let mounted = true;
+  //   if (newCommsData) {
+  //     const newMessageItem = newCommsData;
+  //     const newArrayItem: any = (prevArray: userComment[]) => {
+  //       return [newMessageItem, ...prevArray];
+  //     };
+  //     setCommentsArray(newArrayItem);
+  //   }
+  //   // if (mounted) {
 
-    // }
-    // return () => {
-    //   mounted = false;
-    // };
-  }, [newCommsData]);
+  //   // }
+  //   // return () => {
+  //   //   mounted = false;
+  //   // };
+  // }, [newCommsData]);
 
   // This useEffect checks if the logged in user has liked the post already
   useEffect(() => {
     let mounted = true;
     if (postPoints.length !== 0) {
-      postPoints.forEach((point: { user: { id: string | undefined } }) => {
-        if (point.user?.id === me?.id) {
+      postPoints.forEach((point: { attributes: { user: { data: { id: string | undefined; }; }; }; id: React.SetStateAction<string>; }) => {
+        if (point?.attributes?.user?.data?.id === me?.id) {
           if (mounted) {
+            console.log(point?.id)
             setHasLikedPost(true);
+            setPointsId(
+              point?.id
+            );
           }
         }
       });
@@ -181,20 +213,7 @@ const DetailPost = (props: {
     };
   }, [postPoints, me?.id]);
 
-  // This useEffect checks if the logged in user is the creator of the post
-  useEffect(() => {
-    let mounted = true;
-    if (creator.id === me?.id) {
-      if (mounted) {
-        setIsCreator(true);
-      }
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [me?.id]);
-
-  commentsLength = commentsArray.concat(comments).length;
+  // commentsLength = commentsArray.concat(comments).length;
   // console.log(commentsLength);
 
   if (!data || loading) {
@@ -203,59 +222,54 @@ const DetailPost = (props: {
 
   const handleLike = async () => {
     // console.log(isCreator);
-
-    if (!isCreator) {
       const newPoint: number = points + 1;
-      try {
-        const response = await likePost({
-          variables: {
-            slug: slug as string,
-            increment: true,
+      await axios
+        .post("/api/points", {
+          data: {
+            isDecrement: true,
+            post: id,
+            user: me?.id,
+            publishedAt: Date.now(),
           },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.msg) {
+            setMessage(res.data.msg);
+            setErrorMsg(true);
+          } else {
+            setPostPointsNumber(newPoint);
+            setHasLikedPost(true);
+          }
+        })
+        .catch((err) => {
+          setMessage("sorry Something went wrong please try again later.");
+          setErrorMsg(true);
         });
-        console.log(response);
-        if (
-          response.data?.updatePostPoint.includes(
-            "Successfully incremented total."
-          )
-        ) {
-          setPostPointsNumber(newPoint);
-          setHasLikedPost(true);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      setMessage("users cannot like their own post");
-      setErrorMsg(true);
-      setTimeout(() => {
-        setErrorMsg(false);
-      }, 3000);
-    }
   };
 
-  const handleUnLike = async () => {
-    // console.log("new wave money");
+  const handleUnLike = async (pointsId:string) => {
+    console.log(pointsId);
     const newPoint: number = points - 1;
-    try {
-      const response = await likePost({
-        variables: {
-          slug: slug as string,
-          increment: false,
-        },
+
+    await axios
+      .post("/api/points", {
+        pointsId,
+      })
+      .then((res) => {
+        // console.log(res);
+        if (res.data.msg) {
+          setMessage(res.data.msg);
+          setErrorMsg(true);
+        } else {
+          setPostPointsNumber(newPoint);
+          setHasLikedPost(false);
+        }
+      })
+      .catch((err) => {
+        setMessage("sorry Something went wrong please try again later.");
+        setErrorMsg(true);
       });
-      console.log(response);
-      if (
-        response.data?.updatePostPoint.includes(
-          "Successfully decremented total."
-        )
-      ) {
-        setPostPointsNumber(newPoint);
-        setHasLikedPost(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -272,19 +286,14 @@ const DetailPost = (props: {
 
       <PostTop>
         <PostLeftWrap>
-          <Link href={`/user-profile/${creator.userIdSlug}`}>
-            <PostProfileImge
-              src={creator.profileImage}
-              alt="user profile image"
-            />
+          <Link href={`/user-profile/${creatorSlug}`}>
+            <PostProfileImge src={img} alt="user profile image" />
           </Link>
 
           <UserName>
-            <Link href={`/user-profile/${creator.userIdSlug}`}>
-              {creator.username}
-            </Link>
+            <Link href={`/user-profile/${creatorSlug}`}>{username}</Link>
 
-            <PostDate>{dayjs(createdOn).fromNow()}</PostDate>
+            <PostDate>{dayjs(createdAt).fromNow()}</PostDate>
           </UserName>
         </PostLeftWrap>
         {/* <PostTopRightWrap>
@@ -308,14 +317,14 @@ const DetailPost = (props: {
           />
         )}
         {<PostMediaImage alt="Post image" src={body} />}
-        <div dangerouslySetInnerHTML={{ __html: body as string }}></div>
+        <div dangerouslySetInnerHTML={{ __html: body }}></div>
       </PostCenterWrap>
 
       <PostBottomWrapper>
         <BottomLeftWrap>
           <LikeGroup>
             {hasLikedPost ? (
-              <FilledLikeIcon onClick={() => handleUnLike()} />
+              <FilledLikeIcon onClick={() => handleUnLike(pointsId)} />
             ) : (
               <UnFilledLikeIcon onClick={() => handleLike()} />
             )}
@@ -325,16 +334,18 @@ const DetailPost = (props: {
         </BottomLeftWrap>
         <BottomRightWrap>
           <CommentIcon />
-          <CommentText>{commentsLength}</CommentText>
+          {/* eslint-disable-next-line camelcase */}
+          <CommentText>{total_comments}</CommentText>
         </BottomRightWrap>
       </PostBottomWrapper>
-      <Comment />
+      <Comment id={id} />
       <EditPostForm
         showModal={showModal}
         closeM={() => setShowModal(false)}
         setShowModal={setShowModal}
         title={title}
-        category={category.name}
+        categoryName={catId}
+        categoryId={catId}
         body={body as string}
         id={id}
       />

@@ -60,7 +60,7 @@ interface ForumPost {
 
 const ImagePostCard = ({
   username,
-  userIdSlug,
+  slug: userIdSlug,
   image,
   date,
   title,
@@ -75,16 +75,16 @@ const ImagePostCard = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const [deletePost] = useDeletePostMutation();
   
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (postId: string) => {
     const res = await deletePost({
-      variables: { id },
+      variables: { deletePostId: postId },
     });
-    if (res.data?.deletePost.includes("deleted")) {
-      // console.log(res);
-      // result.refetch(DeletePostDocument);
-    } else {
-      toast.error(res.data?.deletePost);
-    }
+    // if (res.data?.deletePost.includes("deleted")) {
+    //   // console.log(res);
+    //   // result.refetch(DeletePostDocument);
+    // } else {
+    //   toast.error(res.data?.deletePost);
+    // }
   };
   
 
@@ -141,7 +141,7 @@ const ImagePostCard = ({
           <BottomLeftWrap>
             <LikeGroup>
               <ViewIcon />
-              <ViewCounter>2</ViewCounter>
+              <ViewCounter>{commentCount}</ViewCounter>
             </LikeGroup>
           </BottomLeftWrap>
           <BottomRightWrap>

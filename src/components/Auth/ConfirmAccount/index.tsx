@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import NextImage from "next/image";
 import Button from "../Button";
@@ -19,6 +20,7 @@ type activePage = {
 };
 
 const ConfirmAccount = ({ ...props }: activePage) => {
+  const router = useRouter();
   return (
     <PageContainer>
       <FormWrapRow>
@@ -26,11 +28,7 @@ const ConfirmAccount = ({ ...props }: activePage) => {
           <MainContainer>
             <WelcomeText>Account Activation</WelcomeText>
             {props.children}
-            <ButtonContainer>
-              <Link href="/signin">
-                <Button type="button" content="login" />
-              </Link>
-            </ButtonContainer>
+            
           </MainContainer>
         </PageWrap>
         <FormWrapThumb>

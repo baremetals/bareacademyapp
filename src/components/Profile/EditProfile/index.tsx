@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAppSelector } from "app/hooks";
-import { isUser } from "features/auth/selectors";
+import axios from "axios";
+// import { useAppSelector } from "app/hooks";
+// import { isUser } from "features/auth/selectors";
 
 import { storage } from "lib/admin";
 import {
@@ -38,7 +39,12 @@ import {
   getChangePasswordValidationSchema,
   getProfileDetailsValidationSchema,
 } from "utils/formValidation";
-import { useChangePasswordMutation, useEditBackGroundImageMutation, useEditMeMutation, useEditProfileImageMutation } from 'generated/graphql';
+// import {
+//   useChangePasswordMutation,
+//   useEditBackGroundImageMutation,
+//   useUpdateMeMutation,
+//   useEditProfileImageMutation,
+// } from "generated/graphql";
 
 
 import Dashboard from 'components/Dashboard';
@@ -80,8 +86,19 @@ type FileType = {
 };
 
 
-const EditProfile = () => {
-  const { user: user } = useAppSelector(isUser);
+const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
+  // const { user: usr } = useAppSelector(isUser);
+
+  const { data: dta, loading } = props.props;
+
+  const userData = dta.usersPermissionsUser.data
+  const user = userData.attributes;
+  // console.log(userData.img)
+
+  if (!dta || loading) {
+    return <div>loading...</div>;
+  }
+  // if (error) return <ErrorMsg>{error}</ErrorMsg>;
   const [error, setError] = useState({
     isError: false,
     isProfError: false,
@@ -102,7 +119,9 @@ const EditProfile = () => {
   const schema = getChangePasswordValidationSchema();
   const profSchema = getProfileDetailsValidationSchema();
 
-  console.log(user)
+
+
+  // console.log(props)
   const removeErrorMsg = (): void => {
     setTimeout(() => {
       setError({
@@ -134,10 +153,10 @@ const EditProfile = () => {
     resolver: yupResolver(schema),
   });
 
-  const [changeDetails] = useEditMeMutation();
-  const [changePassword] = useChangePasswordMutation();
-  const [editProfileImage] = useEditProfileImageMutation();
-  const [editBackGroundImage] = useEditBackGroundImageMutation();
+  // const [changeDetails] = useUpdateMeMutation();
+  // const [changePassword] = useChangePasswordMutation();
+  // const [editProfileImage] = useEditProfileImageMutation();
+  // const [editBackGroundImage] = useEditBackGroundImageMutation();
 
   // For submitting profile details
   const {
@@ -179,24 +198,26 @@ const EditProfile = () => {
     data: PasswordInput
   ) => {
     // console.log(data);
-    const res = await changePassword({
-      variables: {
-        currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
+
+    await axios.post("/api/update", {
+      data: {
+        id: userData.id,
+        password: data.newPassword,
+        flag: "PASSWORD",
       },
-    });
-    // console.log(res);
-    if (!res.data?.changePassword.includes("successfully")) {
-      const errMsg = res?.data?.changePassword as string;
-      setMsg(errMsg);
+    })
+    .then((res) => {
+      console.log(res)
+      setMsg("Password successfully changed.");
       error.isError = true;
       removeErrorMsg();
-    } else {
-      // console.log(res.data);
-      setMsg(res.data?.changePassword);
+    })
+    .catch((err) => {
+      console.log(err);
+      setMsg("Something went wrong please try again later.");
       success.isSuccess = true;
       removeSuccessMsg();
-    }
+    })
   };
 
   // Submit button function for changingin user details,
@@ -210,42 +231,52 @@ const EditProfile = () => {
       data.description == "" ? user?.description : data.description;
     const location = data.location == "" ? user?.location : data.location;
 
-    // console.log(email, fullName, username, description, location, data);
+    console.log(userData.id);
 
-    const res = await changeDetails({
-      variables: {
-        email: email as string,
-        username: username as string,
-        fullName: fullName as string,
-        description: description as string,
-        location: location as string,
-      },
-    });
+    await axios
+      .post("/api/update", {
+        data: {
+          id: userData.id,
+          email,
+          username,
+          fullName,
+          description,
+          location,
+          flag: "ME"
+        },
+      })
+      .then((res) => {
+        // console.log(res);
+         if (res?.status == 200) {
+           setMsg(res.data.message);
+           success.isProfSuccess = true;
+           removeSuccessMsg();
+           // setTimeout(() => {
+           //   setSuccess({
+           //     isSuccess: false,
+           //     isProfSuccess: false,
+           //     isImgSuccess: false,
+           //   });
+           // }, 3000);
+         } else {
+           const errMsg = res.data.message;
+           setMsg(errMsg);
+           error.isProfError = true;
+           removeErrorMsg();
+           // setTimeout(() => {
+           //   setError({
+           //     isError: false,
+           //     isProfError: false,
+           //     isImgError: false,
+           //   });
+           // }, 3000);
+         }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-    if (res?.data?.editMe.includes("successfully")) {
-      setMsg(res.data.editMe);
-      success.isProfSuccess = true;
-      removeSuccessMsg();
-      // setTimeout(() => {
-      //   setSuccess({
-      //     isSuccess: false,
-      //     isProfSuccess: false,
-      //     isImgSuccess: false,
-      //   });
-      // }, 3000);
-    } else {
-      const errMsg = res?.data?.editMe as string;
-      setMsg(errMsg);
-      error.isProfError = true;
-      removeErrorMsg();
-      // setTimeout(() => {
-      //   setError({
-      //     isError: false,
-      //     isProfError: false,
-      //     isImgError: false,
-      //   });
-      // }, 3000);
-    }
+   
   };
 
   const handleImageChange =
@@ -265,77 +296,76 @@ const EditProfile = () => {
 
 
   // Submit button function for changingin user profile image,
-  const handleImageSubmit: SubmitHandler<any> = async (dta) => {
-    const { name } = dta.profileImage
+  const handleImageSubmit: SubmitHandler<any> = async (info) => {
+    const { name } = info.profileImage
     // console.log(name);
     const testingRef = ref(storage, `testing folder/${name}`)
-    const file = dta.profileImage;
- try {
+    const file = info.profileImage;
 
     const res = await uploadBytes(testingRef, file).then(async () => {
-        const url = await getDownloadURL(testingRef);
-        return url
-      });
+      return getDownloadURL(testingRef);
+    });
       console.log(res)
-      const { data } = await editProfileImage({
-        variables: {
-          imageUrl: res,
+
+      await axios.post(`/api/image`, {
+        data: {
+          id: userData.id,
+          image: res,
+          flag: "PROFILEIMAGE",
         },
-      });
-      if (data?.editProfileImage.includes("successfully")) {
+      })
+      .then((resp) => {
+        console.log(resp)
         setProfImage(res);
         setMsg("Profile image changed successfully.");
         success.isImgSuccess = true;
         removeSuccessMsg();
         setValue("success", "Profile image changed successfully.");
-      } else {
-        const errMsg = data?.editProfileImage as string;
-        setMsg(errMsg);
+      })
+      .catch((err) => {
+        setMsg("Something went wrong please try again later.");
         error.isImgError = true;
         removeErrorMsg();
-      }
-    } catch (err) {
-      console.log("");
-    }
-  };
+      })
+
+};
 
   // Submit button function for changing user background image,
-  const handleBkgImageSubmit: SubmitHandler<any> = async (dta) => {
-    const file = dta.profileImage;
-    const { name } = dta.profileImage;
+  const handleBkgImageSubmit: SubmitHandler<any> = async (info) => {
+    const file = info.profileImage;
+    const { name } = info.profileImage;
     const testingRef = ref(storage, `testing folder/${name}`);
 
     const res = await uploadBytes(testingRef, file).then(async () => {
-      const url = await getDownloadURL(testingRef);
-      return url;
+      // const url = await getDownloadURL(testingRef);
+      return getDownloadURL(testingRef);
     });
-    console.log(res);
-    const { data } = await editBackGroundImage({
-      variables: {
-        imageUrl: res,
-      },
-    });
-    // console.log(data);
+    
+    console.log(res)
+    await axios
+      .post(`/api/image`, {
+        data: {
+          id: userData.id,
+          image: res,
+          flag: "COVERIMAGE",
+        },
+      })
+      .then((resp) => {
+        console.log(resp);
+        setBkgImage(res);
+        setMsg("Background image changed successfully.");
+        success.isBkgImgSuccess = true;
+        removeSuccessMsg();
+        setValue("success", "Background image changed successfully.");
+      })
+      .catch((err) => {
+        console.log(err);
+        setMsg("Something went wrong please try again later.");
+        error.isBkgImgError = true;
+        removeErrorMsg();
+      });
 
-    if (data?.editBackGroundImage.includes("successfully")) {
-      setBkgImage(res);
-      setMsg("Background image changed successfully.");
-      success.isBkgImgSuccess = true;
-      removeSuccessMsg();
-      setValue("success", "Background image changed successfully.");
-    } else {
-      const errMsg = data?.editBackGroundImage as string;
-      setMsg(errMsg);
-      error.isBkgImgError = true;
-      removeErrorMsg();
-      // setTimeout(() => {
-      //   setError({
-      //     isError: false,
-      //     isProfError: false,
-      //     isImgError: false,
-      //   });
-      // }, 3000);
-    }
+    // console.log(data);
   };
 
   return (
@@ -399,7 +429,7 @@ const EditProfile = () => {
                 {success.isImgSuccess && <SuccessMsg>{msg}</SuccessMsg>}
                 {error.isImgError && <ErrorMsg>{msg}</ErrorMsg>}
                 <form onSubmit={handleImgSubmit(handleImageSubmit)}>
-                  <ProfileImage src={profImage ? profImage : user?.profileImage} alt="Profile Image" />
+                  <ProfileImage src={profImage ? profImage : user?.img} alt="Profile Image" />
                   <InputSubmitGroup>
                     <input
                       type="file"

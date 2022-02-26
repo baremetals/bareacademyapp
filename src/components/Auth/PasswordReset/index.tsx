@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Formik } from "formik";
 import { getResetPasswordValidationSchema } from "utils/formValidation";
-import { useResetPasswordMutation } from "generated/graphql";
 import { ErrorMsg, Input, Error, SuccessMsg } from "../../Input";
 import Button from "../Button";
 import NextImage from "next/image";
@@ -23,6 +22,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
+import axios from 'axios';
 
 
 const initialValues = {
@@ -33,39 +33,50 @@ const initialValues = {
 };
 const ResetPassword = () => {
   const router = useRouter();
-  const [resetPassword] = useResetPasswordMutation();
   const [errorMsg, setErrorMsg] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
 
   const handleSubmit = async ({ ...values }: typeof initialValues) => {
-    console.log(values);
-
-    try {
-      const response = await resetPassword({
-        variables: {
-          newPassword: values.newPassword,
-          token:
-            typeof router.query.token === "string" ? router.query.token : "",
+    const { code } = router.query;
+    await axios
+      .post("/api/auth/password", {
+        data: {
+          password: values.newPassword,
+          passwordConfirmation: values.confirmPassword,
+          code,
+          flag: "RESETPASSWORD",
         },
-      });
-      if (!response.data?.resetPassword.includes("successfully")) {
-        const msg: any = response.data?.resetPassword;
+      })
+      .then((res) => {
+        // console.log(res.data);
+        if (res.data.resp === true) {
+          const msg: string = "Password reset successfull, please login.";
+          initialValues.success = msg;
+          setSuccessMsg(true);
+          toast.success(msg);
+          setTimeout(() => {
+            router.push("/auth/signin");
+          }, 4000);
+        } else {
+          const msg: string = "You need to confirm your email address.";
+          initialValues.success = msg;
+          setSuccessMsg(true);
+          toast.success(msg);
+          setTimeout(() => {
+            router.push("/auth/reset-password/reset-email");
+          }, 4000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        const msg: string = "Sorry something went wrong please try again later.";
         initialValues.error = msg;
         setErrorMsg(true);
         toast.error(msg);
-      } else {
-        const msg: any = response.data?.resetPassword;
-        initialValues.success = msg;
-        setSuccessMsg(true);
-        toast.success(msg);
         setTimeout(() => {
-          router.push("/signin");
-        }, 3000);
-      }
-    } catch (ex) {
-      console.log(ex);
-      throw ex;
-    }
+          setErrorMsg(false);
+        }, 7000);
+      });
   };
   return (
     <>
@@ -111,7 +122,7 @@ const ResetPassword = () => {
                       content="submit"
                       disabled={isSubmitting}
                     />
-                    <Link href="/signin">
+                    <Link href="/auth/signin">
                       <BackToLogin>back to login?</BackToLogin>
                     </Link>
                   </ButtonContainer>

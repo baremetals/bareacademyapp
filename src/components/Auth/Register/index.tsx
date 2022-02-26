@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import NextImage from "next/image";
 
-import {
-  useRegisterMutation,
-} from "../../../generated/graphql";
+
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Formik} from "formik";
@@ -11,9 +9,12 @@ import Button from "../Button";
 import { Input, Error, ErrorMsg, SuccessMsg} from "../../Input";
 import { getRegisterValidationSchema } from "../../../utils/formValidation";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+type registerUserProps = {
+  email: string;
+  username: string;
+  fullName: string;
+  password: string;
+};
 const initialValues = {
   email: "",
   username: "",
@@ -36,40 +37,35 @@ import {
   FormWrapThumb,
   BackToHome,
 } from "../auth-styles";
+import axios from 'axios';
 
 
 const Register = () => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
-  let err: any;
+  let err: string;
   const router = useRouter();
 
-  const [register] = useRegisterMutation();
-  
-  const handleSubmit = async ({ ...values }: any) => {
-    try {
-      const response = await register({
-        variables: {
-          ...values,
-        },
-      });
-      console.log(response);
-      if (response.data?.register !== "Registration successful.") { 
-        err = response.data?.register;
+  const handleSubmit = async ({ ...values }: registerUserProps) => {
+    await axios
+      .post("/api/auth/register", {
+        ...values,
+      })
+      .then((res) => {
+        // console.log(res.data)
+        if (res.data.resp === false) {
+          setSuccessMsg(true);
+          router.push("/auth/signup/activate-email");
+        }
+      })
+      .catch((error) => {
+        err = error.response.data.message;
         initialValues.error = err;
         setErrorMsg(true);
-      } else {
-        console.log('I came here')
-        setSuccessMsg(true);
-        toast.success(response.data?.register);
         setTimeout(() => {
-          console.log('I am working')
-          router.push("/signin");
-        }, 500);
-      }
-    } catch (ex) {
-      console.log(ex);
-    }
+          setErrorMsg(false);
+        }, 7000);
+      });
   };
 
   return (
@@ -87,7 +83,11 @@ const Register = () => {
               </Link>
               <FormWrap>
                 <MainContainer>
-                  {successMsg && <SuccessMsg>Please check your email to activate your account</SuccessMsg>}
+                  {successMsg && (
+                    <SuccessMsg>
+                      Please check your email to activate your account
+                    </SuccessMsg>
+                  )}
                   <br />
                   <WelcomeText>Register</WelcomeText>
                   {errorMsg && <ErrorMsg>{initialValues.error}</ErrorMsg>}
@@ -136,7 +136,7 @@ const Register = () => {
                       type="submit"
                       disabled={isSubmitting}
                     />
-                    <Link href="/signin">
+                    <Link href="/auth/signin">
                       <LoginWith>Or Login </LoginWith>
                     </Link>
                   </ButtonContainer>
@@ -162,7 +162,6 @@ const Register = () => {
           )}
         </Formik>
       </PageContainer>
-      <ToastContainer />
     </>
   );
 };

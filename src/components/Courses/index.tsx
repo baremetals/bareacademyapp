@@ -17,6 +17,10 @@ import {
 } from "../../styles/common.styles";
 import { theCourses } from "features/courses/selectors";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
 
 function CoursesPage() {
   const courses: any = useAppSelector(theCourses);
@@ -29,23 +33,30 @@ function CoursesPage() {
           {!courses ? (
             <div>loading...</div>
           ) : (
-            courses.map((course: any, id: string) =>
+            courses.data.map((course: any, id: string) =>
               !course ? null : (
                 <PostCard key={id}>
-                  <Link href={`/courses/${course.slug}`}>
-                    <CardImage alt="course image" src={course.image} />
+                  <Link href={`/courses/${course.attributes.slug}`}>
+                    <CardImage
+                      alt="course image"
+                      src={course.attributes.image.data.attributes.url}
+                    />
                   </Link>
                   <CardBody>
-                    <CardDuration> - {course.duration}</CardDuration>
+                    <CardDuration> {course.attributes.duration}</CardDuration>
                     <CardTitle>
-                      <Link href={`/courses/${course.slug}`}>
-                        {course.title}
+                      <Link href={`/courses/${course.attributes.slug}`}>
+                        {course.attributes.title}
                       </Link>
                     </CardTitle>
-                    <CardDescription>{course.description}</CardDescription>
+                    <CardDescription>
+                      {course.attributes.description.slice(0, 150)}
+                    </CardDescription>
                     <CardBottom>
-                      <CardStartDate>{course.startDate}</CardStartDate>
-                      <Link href={`/courses/${course.slug}`}>
+                      <CardStartDate>
+                        {dayjs(course.attributes.startDate).fromNow()}
+                      </CardStartDate>
+                      <Link href={`/courses/${course.attributes.slug}`}>
                         <ApplyButton>apply</ApplyButton>
                       </Link>
                     </CardBottom>

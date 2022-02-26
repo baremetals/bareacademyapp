@@ -1,45 +1,40 @@
+import { useCoursesQuery } from 'generated/graphql';
+import Link from 'next/link';
 import React from 'react'
 import styled from 'styled-components';
 
 const AdCardThree = () => {
-
+  const { data, loading, error } = useCoursesQuery();
     
+
+    const courses = data?.courses?.data;
+    // console.log(courses);
+
+    if (!data || loading || error) {
+      return <div>loading...</div>;
+    }
     return (
       <AdCardWrapper>
-        <Title>New Courses Javascript</Title>
+        <Title>Latest Courses </Title>
         <br />
         <br />
-        <Container>
-          <ImageWrap>
-            <Img alt="Course Image" src="/assets/images/forum.svg" />
-            <Status />
-          </ImageWrap>
-          <Title>Javascript</Title>
-        </Container>
-
-        <Container>
-          <ImageWrap>
-            <Img alt="Course Image" src="/assets/images/forum.svg" />
-            <Status />
-          </ImageWrap>
-          <Title>Django Web Dev</Title>
-        </Container>
-
-        <Container>
-          <ImageWrap>
-            <Img alt="Course Image" src="/assets/images/forum.svg" />
-            <Status />
-          </ImageWrap>
-          <Title>HTML & CSS</Title>
-        </Container>
-
-        <Container>
-          <ImageWrap>
-            <Img alt="Course Image" src="/assets/images/forum.svg" />
-            <Status />
-          </ImageWrap>
-          <Title>Flutter</Title>
-        </Container>
+        {courses &&
+          courses.map((c, id) => (
+            <Container key={id}>
+              <ImageWrap>
+                <Link href={`/courses/${c?.attributes?.slug}`}>
+                  <Img
+                    alt="Course Image"
+                    src={c?.attributes?.image?.data?.attributes?.url}
+                  />
+                </Link>
+                <Status />
+              </ImageWrap>
+              <Link href={`/courses/${c?.attributes?.slug}`}>
+                <Title>{c?.attributes?.title}</Title>
+              </Link>
+            </Container>
+          ))}
       </AdCardWrapper>
     );
 }

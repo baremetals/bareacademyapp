@@ -22,7 +22,7 @@ import { ErrorMsg, Error, SuccessMsg } from "../Input";
 import Dashboard from 'components/Dashboard';
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
-import { supportMessage } from 'helpers/support';
+import axios from 'axios';
 
 
 type formInput = {
@@ -49,24 +49,38 @@ function SupportPage() {
     }
   }, [isSubmitSuccessful, reset]);
 
+  // console.log(user)
+
   const submit: SubmitHandler<formInput> = async(data) => {
     // console.log(data);
-    const res = await supportMessage({
-      fullName: user?.fullName,
-      email: user?.email,
-      body: data.body,
-      subject: data.subject,
-      username: user?.username
-    });
-    const  {...messages}  = res?.createSupportMessage;
-    // console.log(messages.messages);
-    const msg: string[] | null | undefined = messages?.messages;
-    setMsg(msg![0]);
-    if (msg![0].includes("48 hours.")) {
-      setSuccess(true);
-    } else {
-      setError(true);
-    }
+
+    await axios
+      .post("/api/support", {
+        data: {
+          slug: user?.slug,
+          body: data.body,
+          subject: data.subject,
+          username: user?.username,
+          fullName: user?.slug,
+          email: "user@baremetals.io"
+        },
+      })
+      .then(() => {
+        // console.log(resp);
+        setMsg("Message sent, you will hear back from us with 48 hours.");
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 5000);
+      })
+      .catch(() => {
+        // console.log(err);
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 5000);
+      });
   };
 
   return (

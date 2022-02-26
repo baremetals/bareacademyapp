@@ -1,0 +1,7 @@
+mutation CreateSupportMessage($data: SupportMessageInput!) {
+  createSupportMessage(data: $data) {
+    data {
+      id
+    }
+  }
+}

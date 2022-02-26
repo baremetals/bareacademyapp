@@ -1,18 +1,19 @@
-query GetBooks {
-  getBooks {
-    ... on EntityResult {
-      messages
-    }
-    ... on BookArray {
-      books {
-        id
+query GetBooks($filters: BookFiltersInput) {
+  books(filters: $filters) {
+    data {
+      id
+      attributes {
         title
         description
         image
-        author
         link
+        author
         category {
-          name
+          data {
+            attributes {
+              name
+            }
+          }
         }
       }
     }

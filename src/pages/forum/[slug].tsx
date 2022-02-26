@@ -1,21 +1,22 @@
 import DetailPost from "components/ForumPage/DetailPost";
 import {
-  GetPostBySlugDocument,
-  GetPostBySlugQueryResult,
+  PostDocument,
+  PostQueryResult,
   Maybe,
-  PostResult,
+  CommentEntity,
 } from "generated/graphql";
-import { client } from 'lib/initApollo';
+import { initializeApollo } from "lib/apolloClient";
 import { useIsAuth } from 'lib/isAuth';
 import { requireAuthentication } from 'lib/requireAuthentication';
 import { GetServerSideProps } from 'next';
 import React from "react";
 
 type detailProps = {
-  data: { data: { getPostBySlug: Maybe<PostResult> | undefined } };
+  data: { data: { comments: Maybe<CommentEntity> | undefined } };
   loading: boolean;
   error: any;
 };
+
 
 const PostDetails = (props: detailProps) => {
   useIsAuth();
@@ -29,10 +30,21 @@ const PostDetails = (props: detailProps) => {
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
     const { slug } = ctx.query;
-    const data = await client.query<GetPostBySlugQueryResult>({
-      query: GetPostBySlugDocument,
+    const cookies = JSON.parse(ctx.req.cookies.bareacademy).jwt;
+    const token = `Bearer ${cookies}`;
+    const apolloClient = initializeApollo(null, token);
+    const data = await apolloClient.query<PostQueryResult>({
+      query: PostDocument,
       variables: {
-        slug: slug,
+        filters: {
+          slug: {
+            eq: slug,
+          },
+        },
+        pagination: {
+          start: 0,
+          limit: 5,
+        },
       },
     });
     // console.log(data);

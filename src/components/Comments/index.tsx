@@ -5,12 +5,14 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 
 import {
-  NewCommentDocument,
-  GetCommentsByPostSlugDocument,
+  // NewCommentDocument,
+  // GetCommentsByPostSlugDocument,
   useCreateCommentMutation,
-  User,
+  // User,
   useDeleteCommentMutation,
-  useEditCommentMutation,
+  useUpdateCommentMutation,
+  // comments,
+  CommentsDocument,
 } from "generated/graphql";
 
 
@@ -56,20 +58,35 @@ type FormInput = {
   body: string;
 };
 
-type userComment = {
-  body: string;
-  id: string;
-  createdOn: string;
-  createdBy: string;
-  user: User
+type commentProps = {
+  comment: {
+    data: {
+      id: string;
+      attributes: {
+        body: string;
+        createdAt: Date;
+        user: {
+          data: {
+            id: string;
+            attributes: {
+              img: string;
+              slug: string;
+              username: string;
+            };
+          };
+        };
+      };
+    };
+  };
 };
 
-const Comment = () => {
+
+const Comment = ({id }: {id: string}) => {
   const router = useRouter();
   const { slug } = router.query;
   const [newComment] = useCreateCommentMutation();
   const [deleteComment] = useDeleteCommentMutation();
-  const [editComment] = useEditCommentMutation();
+  const [updateComment] = useUpdateCommentMutation();
   const { user: user } = useAppSelector(isUser);
   const [showDropdown, setShowDropdown] = useState(0);
   const [comArray, setComArray] = useState([]);
@@ -80,6 +97,7 @@ const Comment = () => {
     EditorState.createEmpty()
   );
 
+  // console.log(id)
   // for the edit editor
 
   const [editContent] = useState<string>("");
@@ -94,24 +112,24 @@ const Comment = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm<FormInput>();
 
-  useEffect(() => {
-    // let mounted = true;
-    subscribeToMore({
-      document: NewCommentDocument,
-      // variables: { slug: slug },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const newCommentItem: userComment = subscriptionData.data.newComment;
-        const newArrayItem: any = (prevArray: userComment[]) => {
-          return [newCommentItem, ...prevArray];
-        };
-        setComArray(newArrayItem);
-      },
-    });
-    // return () => {
-    //   mounted = false;
-    // };
-  }, [newComment]);
+  // useEffect(() => {
+  //   // let mounted = true;
+  //   subscribeToMore({
+  //     document: NewCommentDocument,
+  //     // variables: { slug: slug },
+  //     updateQuery: (prev, { subscriptionData }) => {
+  //       if (!subscriptionData.data) return prev;
+  //       const newCommentItem: userComment = subscriptionData.data.newComment;
+  //       const newArrayItem: any = (prevArray: userComment[]) => {
+  //         return [newCommentItem, ...prevArray];
+  //       };
+  //       setComArray(newArrayItem);
+  //     },
+  //   });
+  //   // return () => {
+  //   //   mounted = false;
+  //   // };
+  // }, []);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -119,37 +137,49 @@ const Comment = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const { refetch, subscribeToMore, ...result } = useQuery(
-    GetCommentsByPostSlugDocument,
-    {
-      variables: {
-        slug,
+  const { refetch, subscribeToMore, ...result } = useQuery(CommentsDocument, {
+    variables: {
+      filters: {
+        post: {
+          id: {
+            eq: id,
+          },
+        },
       },
-    }
-  );
+      pagination: {
+        start: 0,
+        limit: 4,
+      },
+      sort: "updatedAt:desc",
+    },
+  });
 
-  const comments = result.data?.getCommentsByPostSlug.comments;
+  // console.log(result);
+  const comments = result.data?.comments.data;
 
-  // console.log(comArray);
+  // console.log(comments);
   // console.log(result.data);
   const me: string | undefined | any = user?.id;
 
-  if (!result.data || result.loading) {
-    return <div>loading...</div>;
-  }
+  // if (!result.data || result.loading) {
+  //   return <div>loading...</div>;
+  // }
 
   const onSubmit = async ({ body }: any) => {
     try {
       const response = await newComment({
         variables: {
-          userId: me,
-          slug: slug as string,
-          body,
+          data: {
+            post: id,
+            user: me,
+            body,
+            publishedAt: new Date(),
+          },
         },
       });
-
-      if (response.data?.createComment) {
-        console.log(response.data?.createComment);
+      if (response.data) {
+        // console.log("we came here man",response.data)
+        refetch();
       }
     } catch (ex) {
       console.log(ex);
@@ -159,24 +189,25 @@ const Comment = () => {
   };
 
   const onEditSubmit = async () => {
+    // console.log(comId)
     try {
-      const response = await editComment({
+      const response = await updateComment({
         variables: {
-          id: comId,
-          body: content,
+          updateCommentId: comId,
+          data: {
+            post: id,
+            user: me,
+            body: content,
+          },
         },
       });
-
-      const msg = response.data?.editComment.messages![0] as string;
-      if (msg.includes("successfully")) {
-        refetch(GetCommentsByPostSlugDocument as any);
-        console.log(msg);
-      } else {
-        toast.error(msg);
-      }
+      if (response.data) {
+        // console.log("we came here man", response.data);
+        refetch();
+      } 
     } catch (ex) {
       console.log(ex);
-      // throw ex;
+      toast.error("something went wrong your message was not sent.");
     }
   };
 
@@ -193,20 +224,19 @@ const Comment = () => {
     setShowEditEditor(true);
     // setEditContent(body);
     setContent(body);
-    setComId(id)
+    setComId(id);
     console.log(editContent);
   };
 
-
   const handleDelete = async (id: string) => {
     const res = await deleteComment({
-      variables: { id },
+      variables: { deleteCommentId: id },
     });
-    if (res.data?.deleteComment.includes("deleted")) {
-      // console.log(res);
-      refetch(GetCommentsByPostSlugDocument as any);
+    if (res.data) {
+      console.log(res);
+      refetch();
     } else {
-      toast.error(res.data?.deleteComment);
+      toast.error("something went wrong your message was not deleted.");
     }
   };
 
@@ -221,30 +251,38 @@ const Comment = () => {
               <div> no comments </div>
             ))}
 
-          {!result.loading &&
+          {comments &&
             comArray
               .concat(comments)
               .map(
-                ({ id, body, createdOn, user: { username, profileImage } }) => (
+                ({ id, attributes: { body, updatedAt, createdAt, user } }) => (
                   <div key={id}>
                     <CommentWrapper key={id}>
                       <CommentLeftWrap>
-                        <Link href={`user-profile/${username}`}>
+                        <Link href={`user-profile/${slug}`}>
                           <UserProfileImge
-                            alt="sender profile image"
-                            src={profileImage}
+                            alt="user image"
+                            src={user?.data?.attributes.img}
                           />
                         </Link>
 
                         <CommentText>
-                          <Link href={`user-profile/${username}`}>
-                            <UserName>{username}</UserName>
+                          <Link
+                            href={`user-profile/${user?.data?.attributes.username}`}
+                          >
+                            <UserName>
+                              {user?.data?.attributes.username}
+                            </UserName>
                           </Link>
                           <CommentDate>
-                            {dayjs(createdOn).fromNow()}
+                            {dayjs(
+                              updatedAt !== null ? updatedAt : createdAt
+                            ).fromNow()}
                           </CommentDate>
                           <div
-                            dangerouslySetInnerHTML={{ __html: body as string }}
+                            dangerouslySetInnerHTML={{
+                              __html: body,
+                            }}
                           ></div>
                         </CommentText>
                       </CommentLeftWrap>
@@ -258,7 +296,9 @@ const Comment = () => {
                             <ItemWrapper>
                               <div onClick={() => toggleEditor(body, id)}>
                                 <EditIcon />
-                                <ItemText onClick={() => toggleEditor(body, id)}>
+                                <ItemText
+                                  onClick={() => toggleEditor(body, id)}
+                                >
                                   Edit
                                 </ItemText>
                               </div>

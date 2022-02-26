@@ -1,0 +1,64 @@
+query Post($filters: PostFiltersInput, $pagination: PaginationArg) {
+  posts(filters: $filters) {
+    data {
+      id
+      attributes {
+        title
+        slug
+        total_comments
+        points
+        body
+        createdAt
+        creator {
+          data {
+            id
+            attributes {
+              username
+              slug
+              img
+            }
+          }
+        }
+        comments(pagination: $pagination) {
+          data {
+            id
+            attributes {
+              body
+              createdAt
+              user {
+                data {
+                  id
+                  attributes {
+                    slug
+                    username
+                    img
+                  }
+                }
+              }
+            }
+          }
+        }
+        post_points {
+          data {
+            id
+            attributes {
+              user {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
+        category {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

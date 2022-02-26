@@ -1,4 +1,8 @@
-import React from 'react'
+import React from "react";
+import { useCoursesQuery } from "generated/graphql";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 import {
   ServiceSection,
   ServiceContainer,
@@ -10,40 +14,80 @@ import {
   ServiceH2,
   ServiceP,
 } from "./styles";
+import Link from 'next/link';
+// type courseProps = {
+//   id: string;
+//   attributes: {
+//     title: string;
+//     startDate: Date;
+//     image: { data: { attributes: { url: string } } };
+//   };
+// };
 
-const ServiceCard = ({id, ...props}:any) => {
+const ServiceCard = ({ linkIid, ...props }: any) => {
+  const { data, loading, error } = useCoursesQuery();
+  // console.log(data);
+
+  if (!data || loading || error) {
+    return <div>loading...</div>;
+  }
+
+  const courses = data?.courses?.data;
   return (
-    <ServiceSection id={id} {...props}>
+    <ServiceSection id={linkIid} {...props}>
       <ServiceContainer>
         <ServiceH1>Explore featured Courses</ServiceH1>
         <ServiceWrapper>
-          <ServicesColumn>
-            <ServicesCard>
-              <ServiceIcon src="/assets/images/learning3.svg" />
-              <ServiceH2>Getting started with JavaScript</ServiceH2>
-              <ServiceP>ES6 and Beyond</ServiceP>
-            </ServicesCard>
-          </ServicesColumn>
+          {courses &&
+            courses?.map((c, id) => (
+              <ServicesColumn key={id}>
+                <ServicesCard>
+                  <Link href={`/courses/${c?.attributes?.slug}`}>
+                    <ServiceIcon
+                      src={c?.attributes?.image?.data?.attributes?.url}
+                    />
+                  </Link>
 
-          <ServicesColumn>
-            <ServicesCard>
-              <ServiceIcon src="/assets/images/learning3.svg" />
-              <ServiceH2>Django & Python for beginners</ServiceH2>
-              <ServiceP>Django Rest Framework</ServiceP>
-            </ServicesCard>
-          </ServicesColumn>
+                  <ServiceH2>{c?.attributes?.title}</ServiceH2>
+                  <ServiceP>
+                    {dayjs(c?.attributes?.startDate).fromNow()}
+                  </ServiceP>
+                </ServicesCard>
+              </ServicesColumn>
+            ))}
+          {!data ||
+            loading ||
+            (error && (
+              <>
+                <ServicesColumn>
+                  <ServicesCard>
+                    <ServiceIcon src="/assets/images/learning3.svg" />
+                    <ServiceH2>Getting started with JavaScript</ServiceH2>
+                    <ServiceP>ES6 and Beyond</ServiceP>
+                  </ServicesCard>
+                </ServicesColumn>
 
-          <ServicesColumn>
-            <ServicesCard>
-              <ServiceIcon src="/assets/images/learning3.svg" />
-              <ServiceH2>Deep dive to understanding HTML & CSS</ServiceH2>
-              <ServiceP>HTML & CSS Fundamentals</ServiceP>
-            </ServicesCard>
-          </ServicesColumn>
+                <ServicesColumn>
+                  <ServicesCard>
+                    <ServiceIcon src="/assets/images/learning3.svg" />
+                    <ServiceH2>Django & Python for beginners</ServiceH2>
+                    <ServiceP>Django Rest Framework</ServiceP>
+                  </ServicesCard>
+                </ServicesColumn>
+
+                <ServicesColumn>
+                  <ServicesCard>
+                    <ServiceIcon src="/assets/images/learning3.svg" />
+                    <ServiceH2>Deep dive to understanding HTML & CSS</ServiceH2>
+                    <ServiceP>HTML & CSS Fundamentals</ServiceP>
+                  </ServicesCard>
+                </ServicesColumn>
+              </>
+            ))}
         </ServiceWrapper>
       </ServiceContainer>
     </ServiceSection>
   );
 };
 
-export default ServiceCard
+export default ServiceCard;

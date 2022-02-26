@@ -1,0 +1,34 @@
+query ChatMsgs(
+  $filters: ChatMsgFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  chatMsgs(filters: $filters, pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        isRead
+        body
+        updatedAt
+        sender {
+          data {
+            id
+            attributes {
+              username
+              slug
+              img
+            }
+          }
+        }
+        chat {
+          data {
+            id
+            attributes {
+              slug
+            }
+          }
+        }
+      }
+    }
+  }
+}

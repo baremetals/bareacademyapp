@@ -1,5 +1,5 @@
 import { QueryLazyOptions, useLazyQuery } from "@apollo/client";
-import { MeDocument } from "generated/graphql";
+// import { MeDocument } from "generated/graphql";
 import { useDispatch } from "react-redux";
 import { setUser } from "./reducers";
 
@@ -13,19 +13,19 @@ interface UseRefreshReduxMeResult {
 
 
 
-const useRefreshReduxMe = (): UseRefreshReduxMeResult => {
-  const [execMe, { data }] = useLazyQuery(MeDocument);
-  const reduxDispatcher = useDispatch();
+// const useRefreshReduxMe = (): UseRefreshReduxMeResult => {
+//   // const [execMe, { data }] = useLazyQuery();
+//   const reduxDispatcher = useDispatch();
 
-  const deleteMe = () => {
-    reduxDispatcher(setUser("done"));
-  };
-  const updateMe = () => {
-    if (data && data.me && data.me.userName) {
-      reduxDispatcher(setUser(data.me));
-    }
-  };
+//   // const deleteMe = () => {
+//   //   reduxDispatcher(setUser("done"));
+//   // };
+//   // const updateMe = () => {
+//   //   if (data && data.me && data.me.userName) {
+//   //     reduxDispatcher(setUser(data.me));
+//   //   }
+//   // };
 
-  return { execMe, deleteMe, updateMe };
-};
-export default useRefreshReduxMe;
+//   // return { execMe, deleteMe, updateMe };
+// };
+// export default useRefreshReduxMe;

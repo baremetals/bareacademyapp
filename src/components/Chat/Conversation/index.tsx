@@ -8,19 +8,20 @@ import {
 
 interface PageProps {
   username: string;
+  slug: string;
   image: string;
   id: string | undefined;
   // chatId: string | undefined;
 }
 
-function Conversation({ username, image, id }: PageProps) {
+function Conversation({ username, slug, image, id }: PageProps) {
   return (
     <>
       <ConversationWrap>
-        <Link href={`http://localhost:3000/messages/${username}`}>
+        <Link href={`/messages/${slug}`}>
           <ConversationImg alt="image of the recipient" src={image} />
         </Link>
-        <Link href={`http://localhost:3000/messages/${username}`}>
+        <Link href={`/messages/${slug}`}>
           <ConversationUserName>{username}</ConversationUserName>
         </Link>
       </ConversationWrap>

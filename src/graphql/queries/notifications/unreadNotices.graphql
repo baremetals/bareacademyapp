@@ -1,0 +1,7 @@
+query GetUnReadNotifications($filters: NotificationFiltersInput) {
+  notifications(filters: $filters) {
+    data {
+      id
+    }
+  }
+}

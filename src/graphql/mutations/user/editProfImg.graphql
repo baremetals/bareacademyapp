@@ -1,3 +1,13 @@
-mutation EditProfileImage($imageUrl: String!) {
-  editProfileImage(imageUrl: $imageUrl)
+mutation EditProfileImage(
+  $updateUsersPermissionsUserId: ID!
+  $data: UsersPermissionsUserInput!
+) {
+  updateUsersPermissionsUser(id: $updateUsersPermissionsUserId, data: $data) {
+    data {
+      id
+      attributes {
+        img
+      }
+    }
+  }
 }

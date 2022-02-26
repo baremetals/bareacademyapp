@@ -34,7 +34,7 @@ export const NoticeMessage = styled.span`
   font-size: 0.875rem;
   font-weight: 500;
   /* color: #747070; */
-  color: ${({ isRead }: any) => (isRead ? "#747070" : "#0f1111")};
+  color: ${({ isRead }: { isRead : boolean}) => (isRead ? "#747070" : "#0f1111")};
   align-self: center;
   @media (max-width: 991px) {
     font-size: 0.75rem;

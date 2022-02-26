@@ -24,103 +24,53 @@ const FeedWrapper = styled.div`
 
 export default function UserFeed(props: any) {
   const router = useRouter();
-  const { userIdSlug } = router.query;
+  const { slug } = router.query;
   
   // logged in user info
   const { user: user } = useAppSelector(isUser); // logged in user
   const [loggedInUser, setLoggedInUser] = useState(false);
-  const mappedUsers = user?.posts?.slice(); // logged in user
-  const sortedUsers = mappedUsers?.sort((a, b) => {
-    if (a.createdOn < b.createdOn) {
-      return 1;
-    }
-    if (b.createdOn < a.createdOn) {
-      return -1;
-    }
-    return 0;
-  });
-  // console.log(props)
-  // !loggedin user info
-  const { posts, profileImage, username,  } = props.props || []; 
-  const mappedPosts = posts?.slice();
 
-  // sortByDate(mappedPosts);
-  const sortedPosts = mappedPosts?.sort(
-    (a: { createdOn: number }, b: { createdOn: number }) => {
-      if (a.createdOn < b.createdOn) {
-        return 1;
-      }
-      if (b.createdOn < a.createdOn) {
-        return -1;
-      }
-      return 0;
-    }
-  );
-
+  const { posts } = props 
+  const mappedPosts = posts?.data?.slice();
   // console.log(posts);
 
+
   useEffect(() => {
-    if (user?.userIdSlug === userIdSlug) {
+    if (user?.slug === slug) {
       setLoggedInUser(true);
     }
-  }, [user, userIdSlug]);
+  }, [user, slug]);
   return (
     <FeedContainer>
       <FeedWrapper>
         {loggedInUser && <Share />}
         <ForumRow>
-          {user?.posts?.length === 0 ? (
+          {posts?.data?.length === 0 ? (
             <div>No Posts</div>
           ) : (
-            sortedUsers?.map((post) =>
-              !post ? null : (
-                <ForumColumn key={post.id}>
-                  <Card
-                    username={user?.username as string}
-                    image={user?.profileImage}
-                    date={post.createdOn}
-                    title={post.title}
-                    body={post.title}
-                    likeCount={post.points}
-                    commentCount={8}
-                    slug={post.slug}
-                    id={post.id}
-                    {...props}
-                  >
-                    <DropDownIcon />
-                  </Card>
-                </ForumColumn>
-              )
+            mappedPosts?.map(
+              // eslint-disable-next-line camelcase
+              (post: { id: React.Key | null | undefined; attributes: { updatedAt: any; title: string; body: string | undefined; points: number; total_comments: number; slug: string; }; }, id: string) =>
+                post && (
+                  <ForumColumn key={id}>
+                    <Card
+                      username={user?.username as string}
+                      image={user?.img}
+                      date={post?.attributes?.updatedAt}
+                      title={post?.attributes?.title}
+                      body={post?.attributes?.body}
+                      likeCount={post?.attributes?.points}
+                      commentCount={post?.attributes?.total_comments}
+                      slug={post?.attributes?.slug}
+                      id={id}
+                      {...props}
+                    >
+                      <DropDownIcon />
+                    </Card>
+                  </ForumColumn>
+                )
             )
           )}
-          {posts?.length === 0 &&
-            undefined &&
-            sortedPosts?.map(
-              (
-                post: {
-                  createdOn: any;
-                  title: string;
-                  points: number;
-                  id: string;
-                  slug: string;
-                },
-                id: React.Key | null | undefined
-              ) => (
-                <ForumColumn key={id}>
-                  <Card
-                    username={username}
-                    image={profileImage}
-                    date={post.createdOn}
-                    title={post.title}
-                    body={post.title}
-                    likeCount={post.points}
-                    commentCount={8}
-                    slug={post.slug}
-                    {...props}
-                  />
-                </ForumColumn>
-              )
-            )}
         </ForumRow>
       </FeedWrapper>
     </FeedContainer>
