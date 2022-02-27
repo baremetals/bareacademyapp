@@ -16,4 +16,4 @@ export const EVENTS = {
 };
 
 export const SOCKET_URL =
-  process.env.REACT_APP_STRAPI_API || "http://localhost:1339/";
+  process.env.REACT_APP_STRAPI_API;
