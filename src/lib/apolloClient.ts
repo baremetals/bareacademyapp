@@ -7,7 +7,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject>;
 // const GRAPHQL_URL = "http://localhost:1339/graphql";
 const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL;
 
-console.log(GRAPHQL_URL);
+// console.log(GRAPHQL_URL);
 
 // const httpLink = createUploadLink({
 //   uri: GRAPHQL_URL,

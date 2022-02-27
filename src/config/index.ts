@@ -15,5 +15,4 @@ export const EVENTS = {
   },
 };
 
-export const SOCKET_URL =
-  process.env.REACT_APP_STRAPI_API;
+export const SOCKET_URL = process.env.NEXT_PUBLIC_STRAPI_API as string;

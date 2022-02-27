@@ -16,7 +16,7 @@ export default async function handler(
   
   if (req.body.data.flag === "FORGOTPASSWORD") {
     try {
-      console.log("I forgot my password", req.body.data.email);
+      // console.log("I forgot my password", req.body.data.email);
       const resp = await axios({
         method: "POST",
         url: `${baseUrl}/auth/forgot-password`,

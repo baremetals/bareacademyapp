@@ -14,6 +14,7 @@ interface Context {
 }
 
 const socket = io(SOCKET_URL);
+// console.log(socket)
 
 const SocketContext = createContext<Context>({
   socket,
