@@ -3,7 +3,6 @@ export const homeObjOne = {
   id: "courses",
   lightBg: false,
   lightText: true,
-  lightTextDesc: false,
   topLine: "Courses",
   headline: "Transform your life through education",
   description:
@@ -21,7 +20,6 @@ export const homeObjTwo = {
   id: "books",
   lightBg: true,
   lightText: false,
-  lightTextDesc: true,
   topLine: "Recommended Books",
   headline: "An array of recommended books.",
   description:
@@ -39,7 +37,6 @@ export const homeObjThree = {
   id: "forum",
   lightBg: false,
   lightText: true,
-  lightTextDesc: false,
   topLine: "Forum",
   headline: "Stuck? Post a question to the forum ",
   description:
