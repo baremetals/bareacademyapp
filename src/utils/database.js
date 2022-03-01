@@ -1,5 +1,5 @@
 const database = {
-  apiKey: process.env.APIKEY,
+  apiKey: process.env.NEXT_PUBLIC_APIKEY,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_PROJECTID,
   storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
