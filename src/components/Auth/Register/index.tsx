@@ -156,6 +156,7 @@ const Register = () => {
                   width={600}
                   height={620}
                   layout="responsive"
+                  priority
                 />
               </FormWrapThumb>
             </FormWrapRow>

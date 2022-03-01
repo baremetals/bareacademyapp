@@ -140,6 +140,7 @@ const ResetPassword = () => {
                   width={450}
                   height={300}
                   layout="responsive"
+                  priority
                 />
               </FormWrapThumb>
             </FormWrapRow>

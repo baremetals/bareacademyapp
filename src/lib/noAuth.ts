@@ -14,8 +14,8 @@ export const useNoAuth = () => {
           router.back();
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((_err) => {
+        return
       });
   };
   useEffect(() => {

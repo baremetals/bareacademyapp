@@ -57,7 +57,7 @@ const VideoCard = ({
             height="315"
             src={url}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-            allowFullScreen
+            // allowFullScreen
           />
         </PostCenterWrap>
         {/* <PostBottomWrapper> */}
