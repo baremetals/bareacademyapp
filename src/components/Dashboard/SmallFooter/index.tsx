@@ -35,7 +35,11 @@ const SmallFooter
               Baremetals Limited {new Date().getFullYear()}
             </WebsiteRights>
             <SocialIcons>
-              <SocialIconLink href="" target="_blank" aria-label="Twitter">
+              <SocialIconLink
+                href="https://twitter.com/bare_academy"
+                target="_blank"
+                aria-label="Twitter"
+              >
                 <FaTwitter />
               </SocialIconLink>
               <SocialIconLink href="" target="_blank" aria-label="FaceBook">
@@ -47,7 +51,11 @@ const SmallFooter
               <SocialIconLink href="" target="_blank" aria-label="Youtube">
                 <FaYoutube />
               </SocialIconLink>
-              <SocialIconLink href="" target="_blank" aria-label="Linkedin">
+              <SocialIconLink
+                href="https://www.linkedin.com/in/daniel-asante-205504127/"
+                target="_blank"
+                aria-label="Linkedin"
+              >
                 <FaLinkedin />
               </SocialIconLink>
             </SocialIcons>

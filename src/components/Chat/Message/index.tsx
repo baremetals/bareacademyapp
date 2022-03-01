@@ -18,7 +18,7 @@ import {
 
 import { ChatBoxTop, MessageGroup } from '../msg.styles';
 import Chatform from "../ChatForm";
-import { useSockets } from "context/socket.context";
+// import { useSockets } from "context/socket.context";
 import User from 'models/User';
 
 type MessagePageType = {
@@ -34,7 +34,7 @@ type MessagePageType = {
 function Message(props: any, recipient: string) {
   const router = useRouter();
   // const { username } = router.query;
-  const { socket } = useSockets();
+  // const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
   // const [filteredId, setFilteredId] = useState("");
   const pathname = router.pathname;
@@ -42,6 +42,7 @@ function Message(props: any, recipient: string) {
 
   // console.log(data);
 
+  // eslint-disable-next-line no-unused-vars
   const [newChatMessage, setNewChatMessage] = useState();
   const messages = data?.chatMsgs.data;
   // const errorMessages = result.data?.searchAllChatsByUserId.messages;
@@ -79,9 +80,9 @@ function Message(props: any, recipient: string) {
     }
   });
 
-  socket.on("message", (dta) => {
-    setNewChatMessage(dta);
-  });
+  // socket.on("message", (dta) => {
+  //   setNewChatMessage(dta);
+  // });
 
   if (loading) {
     return <div>loading...</div>;

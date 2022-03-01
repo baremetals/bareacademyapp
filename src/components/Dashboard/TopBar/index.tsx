@@ -128,12 +128,12 @@ const Topbar = () => {
               </Link>
             </ProfileItem>
             <ProfileItem>
-              <Link href={`/user-profile/${me?.slug}/edit-profile`}>
+              <Link href="/privacy">
                 Privacy settings
               </Link>
             </ProfileItem>
             <ProfileItem>
-              <Link href={`/user-profile/${me?.slug}/edit-profile`}>Terms</Link>
+              <Link href="/terms">Terms</Link>
             </ProfileItem>
             <ProfileItem>
               <a onClick={handleLogOut}>Logout</a>

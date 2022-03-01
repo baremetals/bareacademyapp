@@ -14,9 +14,9 @@ dayjs.extend(relativeTime);
 import {
   PostCard,
   CardTitle,
+  CardDescription,
   CardImage,
   CardDuration,
-  CardBottom,
   CardStartDate,
   CardBody,
   PageHeading,
@@ -49,21 +49,24 @@ const Home = (props: {
                     />
                   </Link>
                   <CardBody>
-                    <CardDuration>Duration - {course?.attributes?.duration}</CardDuration>
+                    <CardDuration>
+                      Duration - {course?.attributes?.duration}
+                    </CardDuration>
                     <CardTitle>
                       <Link href={`/courses/${course?.attributes?.slug}`}>
                         {course?.attributes?.title}
                       </Link>
                     </CardTitle>
-                    <CardBottom>
+                    <CardDescription>
                       <CardStartDate>
                         Date - {dayjs(course?.attributes?.startDate).fromNow()}
                       </CardStartDate>
-                    </CardBottom>
+                    </CardDescription>
                   </CardBody>
                 </PostCard>
               ))}
           </PageWrapGroup>
+
           <RightSideBar>
             <AdCardThree />
           </RightSideBar>

@@ -17,7 +17,7 @@ import {
 
 import { LogoShape } from "../../../../public/assets/icons/LogoShape"
 import { BooksIcon } from "../../../../public/assets/icons/BooksIcon";
-import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
+// import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
 
 
 
@@ -91,11 +91,10 @@ const LeftSideBar = () => {
             </Link>
           </LeftSideBarListItem>
 
-          <LeftSideBarListItem
+          {/* <LeftSideBarListItem
             className={router.pathname == "/messages" ? "active" : ""}
           >
             <LeftSideBarIcon>
-              {/* <IconBadge></IconBadge> */}
               <Link href="/messages">
                 <div>
                   <ChatIcon />
@@ -105,7 +104,7 @@ const LeftSideBar = () => {
             <Link href="/messages">
               <LeftSideBarListItemText>Chat</LeftSideBarListItemText>
             </Link>
-          </LeftSideBarListItem>
+          </LeftSideBarListItem> */}
           <LeftSideBarListItem
             className={router.pathname == "/forum" ? "active" : ""}
           >

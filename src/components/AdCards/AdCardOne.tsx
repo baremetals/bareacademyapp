@@ -1,13 +1,13 @@
-import OnlineUsers from 'components/Dashboard/Forum/OnlineUsers';
 import React from 'react'
 import {
   ImageWrapper,
-  Image,
+  // Image,
   ImageText,
   RightSideTitle,
-  UsersLists,
+  // UsersLists,
   AdCardWrapper,
 } from "./rightside.styles";
+// import OnlineUsers from 'components/Dashboard/Forum/OnlineUsers';
 
 
 
@@ -15,15 +15,15 @@ const AdCardOne = () => {
     return (
       <AdCardWrapper>
         <ImageWrapper>
-          <Image alt="" src="/assets/images/react.svg" />
+          {/* <Image alt="" src="/assets/images/react.svg" /> */}
           <ImageText>
-            something happened to me the other day, madness bro!
+            {/* something happened to me the other day, madness bro! */}
           </ImageText>
         </ImageWrapper>
-        <RightSideTitle>Online Users</RightSideTitle>
-        <UsersLists>
+        <RightSideTitle></RightSideTitle>
+        {/* <UsersLists>
             <OnlineUsers />
-          </UsersLists>
+        </UsersLists> */}
         
       </AdCardWrapper>
     );
