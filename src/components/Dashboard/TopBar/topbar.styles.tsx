@@ -268,6 +268,7 @@ export const ProfileItem = styled.li`
     color: #000;
     font-weight: 500;
     display: block;
+    cursor: pointer;
     padding: 0.625rem 1.5rem;
     &:hover {
       background-color: rgb(237 237 237 / 50%);

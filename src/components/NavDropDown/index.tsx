@@ -72,10 +72,10 @@ const NavDropDown = ({ toggle, isOpen, ...props }: any) => {
           >
             Forum
           </DropDownLinks>
-          <Link href="/signin">
+          <Link href="/auth/signin">
             <DropDownLinks
               {...props}
-              to="/signin"
+              to="/auth/signin"
               onClick={toggle}
               smooth={true}
               duration={500}
@@ -88,7 +88,7 @@ const NavDropDown = ({ toggle, isOpen, ...props }: any) => {
           </Link>
         </DropDownMenu>
         <DropDownBtnWrapper>
-          <Link href="/signup">
+          <Link href="/auth/signup">
             <DropDownBtn>Register</DropDownBtn>
           </Link>
         </DropDownBtnWrapper>

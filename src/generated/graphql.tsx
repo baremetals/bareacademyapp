@@ -2031,14 +2031,11 @@ export type UsersPermissionsLoginPayload = {
 
 export type UsersPermissionsMe = {
   __typename?: 'UsersPermissionsMe';
-  backgroundImg?: Maybe<Scalars['String']>;
   blocked?: Maybe<Scalars['Boolean']>;
   confirmed?: Maybe<Scalars['Boolean']>;
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  img?: Maybe<Scalars['String']>;
   role?: Maybe<UsersPermissionsMeRole>;
-  slug?: Maybe<Scalars['String']>;
   username: Scalars['String'];
 };
 
@@ -2396,6 +2393,14 @@ export type UpdateMeMutationVariables = Exact<{
 
 export type UpdateMeMutation = { __typename?: 'Mutation', updateUsersPermissionsUser: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', email: string, username: string, fullName?: string | null | undefined, description?: string | null | undefined, location?: string | null | undefined } | null | undefined } | null | undefined } };
 
+export type UpdateUserStatusMutationVariables = Exact<{
+  id: Scalars['ID'];
+  data: UsersPermissionsUserInput;
+}>;
+
+
+export type UpdateUserStatusMutation = { __typename?: 'Mutation', updateUsersPermissionsUser: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined } | null | undefined } };
+
 export type GetBooksQueryVariables = Exact<{
   filters?: InputMaybe<BookFiltersInput>;
 }>;
@@ -2508,7 +2513,7 @@ export type GetUserQuery = { __typename?: 'Query', usersPermissionsUsers?: { __t
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'UsersPermissionsMe', id: string, username: string, email?: string | null | undefined, confirmed?: boolean | null | undefined, img?: string | null | undefined, slug?: string | null | undefined } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'UsersPermissionsMe', id: string, username: string, email?: string | null | undefined, confirmed?: boolean | null | undefined } | null | undefined };
 
 export type GetUserByIdQueryVariables = Exact<{
   usersPermissionsUserId?: InputMaybe<Scalars['ID']>;
@@ -2993,6 +2998,42 @@ export function useUpdateMeMutation(baseOptions?: Apollo.MutationHookOptions<Upd
 export type UpdateMeMutationHookResult = ReturnType<typeof useUpdateMeMutation>;
 export type UpdateMeMutationResult = Apollo.MutationResult<UpdateMeMutation>;
 export type UpdateMeMutationOptions = Apollo.BaseMutationOptions<UpdateMeMutation, UpdateMeMutationVariables>;
+export const UpdateUserStatusDocument = gql`
+    mutation UpdateUserStatus($id: ID!, $data: UsersPermissionsUserInput!) {
+  updateUsersPermissionsUser(id: $id, data: $data) {
+    data {
+      id
+    }
+  }
+}
+    `;
+export type UpdateUserStatusMutationFn = Apollo.MutationFunction<UpdateUserStatusMutation, UpdateUserStatusMutationVariables>;
+
+/**
+ * __useUpdateUserStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserStatusMutation, { data, loading, error }] = useUpdateUserStatusMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateUserStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserStatusMutation, UpdateUserStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserStatusMutation, UpdateUserStatusMutationVariables>(UpdateUserStatusDocument, options);
+      }
+export type UpdateUserStatusMutationHookResult = ReturnType<typeof useUpdateUserStatusMutation>;
+export type UpdateUserStatusMutationResult = Apollo.MutationResult<UpdateUserStatusMutation>;
+export type UpdateUserStatusMutationOptions = Apollo.BaseMutationOptions<UpdateUserStatusMutation, UpdateUserStatusMutationVariables>;
 export const GetBooksDocument = gql`
     query GetBooks($filters: BookFiltersInput) {
   books(filters: $filters) {
@@ -3866,8 +3907,6 @@ export const MeDocument = gql`
     username
     email
     confirmed
-    img
-    slug
   }
 }
     `;

@@ -198,12 +198,12 @@ function CourseDetails(props: {
         }
       })
       .catch((err) => {
-        setMessage("sorry Something went wrong please try again later.");
+        setMessage("Sorry something went wrong please try again later.");
         setErrorMsg(true);
       });
   };
-
-  const shareUrl: string = `http://localhost:3000${router.asPath}`;
+  const url: string | undefined = process.env.NEXT_PUBLIC_SITE_URL;
+  const shareUrl: string = `${url}${router.asPath}`;
   return (
     <Dashboard>
       <PageHeading>

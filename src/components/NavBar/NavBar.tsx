@@ -42,7 +42,7 @@ export default function NavBar({ toggle, ...props }: any) {
           </NavLogo>
         </Link>
         <MobileIcon onClick={toggle}>
-          <FaBars />
+          <FaBars style={{color: 'black'}}/>
         </MobileIcon>
         <NavMenu>
           <NavItem>

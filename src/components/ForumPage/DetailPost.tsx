@@ -224,7 +224,7 @@ const DetailPost = (props: { props: { data: any; loading: any; error: any; }; })
     // console.log(isCreator);
       const newPoint: number = points + 1;
       await axios
-        .post("/api/points", {
+        .post("/api/posts/points", {
           data: {
             isDecrement: true,
             post: id,
@@ -248,13 +248,13 @@ const DetailPost = (props: { props: { data: any; loading: any; error: any; }; })
         });
   };
 
-  const handleUnLike = async (pointsId:string) => {
-    console.log(pointsId);
+  const handleUnLike = async (pointId:string) => {
+    console.log(pointId);
     const newPoint: number = points - 1;
 
     await axios
       .post("/api/points", {
-        pointsId,
+        pointId,
       })
       .then((res) => {
         // console.log(res);

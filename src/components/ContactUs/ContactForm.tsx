@@ -46,7 +46,7 @@ const ContactForm = () => {
       })
       .then(() => {
         // console.log(resp);
-        setMsg("Message sent, you will hear back from us with 48 hours.");
+        setMsg("Message sent, you will hear back from us within 48 hours.");
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);

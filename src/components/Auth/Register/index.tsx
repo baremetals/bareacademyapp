@@ -64,7 +64,7 @@ const Register = () => {
         setErrorMsg(true);
         setTimeout(() => {
           setErrorMsg(false);
-        }, 7000);
+        }, 10000);
       });
   };
 

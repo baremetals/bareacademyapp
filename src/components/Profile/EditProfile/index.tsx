@@ -130,7 +130,7 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
         isImgError: false,
         isBkgImgError: false,
       });
-    }, 3000);
+    }, 10000);
   };
   const removeSuccessMsg = (): void => {
     setTimeout(() => {
@@ -140,7 +140,7 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
         isImgSuccess: false,
         isBkgImgSuccess: false,
       });
-    }, 3000);
+    }, 10000);
   };
 
   // For changing password.
@@ -193,13 +193,16 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
     }
   }, [isSubmitSuccessful, reset]);
 
+  const folder: string | undefined = process.env.NEXT_PUBLIC_USER_UPLOAD_FOLDER;
+
+
   // Submit button function for changingin user password,
   const handlePasswordSubmit: SubmitHandler<PasswordInput> = async (
     data: PasswordInput
   ) => {
     // console.log(data);
 
-    await axios.post("/api/update", {
+    await axios.post("/api/user/update", {
       data: {
         id: userData.id,
         password: data.newPassword,
@@ -231,10 +234,10 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
       data.description == "" ? user?.description : data.description;
     const location = data.location == "" ? user?.location : data.location;
 
-    console.log(userData.id);
+    // console.log(userData.id);
 
     await axios
-      .post("/api/update", {
+      .post("/api/user/update", {
         data: {
           id: userData.id,
           email,
@@ -242,38 +245,28 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
           fullName,
           description,
           location,
-          flag: "ME"
+          flag: "ME",
         },
       })
       .then((res) => {
         // console.log(res);
-         if (res?.status == 200) {
-           setMsg(res.data.message);
-           success.isProfSuccess = true;
-           removeSuccessMsg();
-           // setTimeout(() => {
-           //   setSuccess({
-           //     isSuccess: false,
-           //     isProfSuccess: false,
-           //     isImgSuccess: false,
-           //   });
-           // }, 3000);
-         } else {
-           const errMsg = res.data.message;
-           setMsg(errMsg);
-           error.isProfError = true;
-           removeErrorMsg();
-           // setTimeout(() => {
-           //   setError({
-           //     isError: false,
-           //     isProfError: false,
-           //     isImgError: false,
-           //   });
-           // }, 3000);
-         }
+        if (res?.status == 200) {
+          setMsg(res.data.message);
+          success.isProfSuccess = true;
+          removeSuccessMsg();
+        } else {
+          const errMsg = res.data.message;
+          setMsg(errMsg);
+          error.isProfError = true;
+          removeErrorMsg();
+        }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err.response.data.message);
+        const errMsg = err.response.data.message;
+        setMsg(errMsg);
+        error.isProfError = true;
+        removeErrorMsg();
       });
 
    
@@ -299,7 +292,7 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
   const handleImageSubmit: SubmitHandler<any> = async (info) => {
     const { name } = info.profileImage
     // console.log(name);
-    const testingRef = ref(storage, `testing folder/${name}`)
+    const testingRef = ref(storage, `${folder}/${name}`)
     const file = info.profileImage;
 
     const res = await uploadBytes(testingRef, file).then(async () => {
@@ -307,26 +300,27 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
     });
       console.log(res)
 
-      await axios.post(`/api/image`, {
-        data: {
-          id: userData.id,
-          image: res,
-          flag: "PROFILEIMAGE",
-        },
-      })
-      .then((resp) => {
-        console.log(resp)
-        setProfImage(res);
-        setMsg("Profile image changed successfully.");
-        success.isImgSuccess = true;
-        removeSuccessMsg();
-        setValue("success", "Profile image changed successfully.");
-      })
-      .catch((err) => {
-        setMsg("Something went wrong please try again later.");
-        error.isImgError = true;
-        removeErrorMsg();
-      })
+      await axios
+        .post(`/api/user/image`, {
+          data: {
+            id: userData.id,
+            profileImage: res,
+            flag: "PROFILEIMAGE",
+          },
+        })
+        .then((resp) => {
+          console.log(resp);
+          setProfImage(res);
+          setMsg("Profile image changed successfully.");
+          success.isImgSuccess = true;
+          removeSuccessMsg();
+          setValue("success", "Profile image changed successfully.");
+        })
+        .catch((err) => {
+          setMsg("Something went wrong please try again later.");
+          error.isImgError = true;
+          removeErrorMsg();
+        });
 
 };
 
@@ -334,7 +328,7 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
   const handleBkgImageSubmit: SubmitHandler<any> = async (info) => {
     const file = info.profileImage;
     const { name } = info.profileImage;
-    const testingRef = ref(storage, `testing folder/${name}`);
+    const testingRef = ref(storage, `${folder}/${name}`);
 
     const res = await uploadBytes(testingRef, file).then(async () => {
       // const url = await getDownloadURL(testingRef);
@@ -343,7 +337,7 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
     
     console.log(res)
     await axios
-      .post(`/api/image`, {
+      .post(`/api/user/image`, {
         data: {
           id: userData.id,
           image: res,

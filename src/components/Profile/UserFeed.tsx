@@ -50,7 +50,21 @@ export default function UserFeed(props: any) {
           ) : (
             mappedPosts?.map(
               // eslint-disable-next-line camelcase
-              (post: { id: React.Key | null | undefined; attributes: { updatedAt: any; title: string; body: string | undefined; points: number; total_comments: number; slug: string; }; }, id: string) =>
+              (
+                post: {
+                  id: React.Key | null | undefined;
+                  attributes: {
+                    updatedAt: any;
+                    title: string;
+                    body: string | undefined;
+                    points: number;
+                    // eslint-disable-next-line camelcase
+                    total_comments: number;
+                    slug: string;
+                  };
+                },
+                id: string
+              ) =>
                 post && (
                   <ForumColumn key={id}>
                     <Card
@@ -62,10 +76,11 @@ export default function UserFeed(props: any) {
                       likeCount={post?.attributes?.points}
                       commentCount={post?.attributes?.total_comments}
                       slug={post?.attributes?.slug}
-                      id={id}
+                      userIdSlug={user?.slug}
+                      id={post?.id}
                       {...props}
                     >
-                      <DropDownIcon />
+                      {loggedInUser && <DropDownIcon />}
                     </Card>
                   </ForumColumn>
                 )

@@ -1,5 +1,9 @@
 import { useMemo } from "react";
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from "@apollo/client";
 // import { setContext } from "@apollo/client/link/context";
 // import { createUploadLink } from "apollo-upload-client";
 
@@ -14,17 +18,19 @@ const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL;
 //   credentials: "include",
 // });
 
+// const httpLink = new HttpLink({ uri: GRAPHQL_URL });
+
 function createApolloClient(token?: string) {
-  // console.log(token);
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     uri: GRAPHQL_URL,
     cache: new InMemoryCache(),
     headers: {
-      authorization: token as string,
+      authorization: token ? token : ("" as string),
     },
   });
 }
+
 
 export function initializeApollo(initialState: null | undefined, token: string) {
   const _apolloClient = apolloClient ?? createApolloClient(token);

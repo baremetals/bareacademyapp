@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import slugify from "slugify"
+import axios from "axios";
 
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { isUser } from "features/auth";
 import { setCategory } from "features/ui/reducers";
 
 import {
-  useCreatePostMutation,
   useCategoriesQuery,
   Exact,
   CategoriesQuery,
@@ -49,7 +49,7 @@ import {
   CloseButtonWrap,
   CardText,
 } from "../ShareForm/modal.styles";
-import { ErrorMsg } from "components/Input";
+import { ErrorMsg, SuccessMsg } from "components/Input";
 
 import Modal from 'components/ShareForm/Modal';
 
@@ -76,10 +76,9 @@ const PostForm = ({
       [key: string]: never;
     }>
   > = useCategoriesQuery();
-  
 
-  const [post] = useCreatePostMutation();
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [msg, setMsg] = useState("");
   const { user: user } = useAppSelector(isUser);
   const categories = cats?.data?.categories?.data;
@@ -99,35 +98,35 @@ const PostForm = ({
   const [content, setContent] = useState<string>("");
 
   const onSubmit = async (info: FormInput) => {
-    console.log(slugify(info.title))
+    // console.log(slugify(info.title))
       // setShowModal(false);
-    const res = await post({
-      variables: {
+    const slug: string = slugify(info.title)
+      await axios.post("/api/posts", {
         data: {
           title: info.title,
           body: info.body,
           category: info.category,
           creator: user?.id as string,
-          publishedAt: new Date(),
-          slug: slugify(info.title),
+          slug
         },
-      },
-    });
-    
-    if (res?.data) {
-        const slug = res?.data?.createPost?.data?.attributes?.slug;
-        // console.log(response?.data?.createPost?.messages);
-        router.push(`/forum/${slug}`);
+      })
+      .then(() => {
         setShowModal(false);
-    } else {
+        setMsg("Post created successfully");
+        setSuccess(true);
+        router.push(`/forum/${slug}`);
         
-      setMsg("Sorry something went wrong please try again later.");
-      setError(true);
-      setTimeout(() => {
-        setError(false);
-      }, 5000);
-    }
+      })
+      .catch((err) => {
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 10000);
+      })
+
   };
+
   return (
     <Modal
       showModal={showModal}
@@ -141,6 +140,7 @@ const PostForm = ({
           </CloseButtonWrap>
           <CardText>Create Post</CardText>
           {error && <ErrorMsg>{msg}</ErrorMsg>}
+          {success && <SuccessMsg>{msg}</SuccessMsg>}
           <InputContainer>
             <InputFormGroupRow>
               <InputFormGroup>
@@ -156,13 +156,11 @@ const PostForm = ({
               <InputFormGroup>
                 <Select {...register("category", { required: true })}>
                   <CategoryOptions>Please select a category</CategoryOptions>
-                  {categories?.map(
-                    (c) => (
-                      <CategoryOptions key={c?.id} value={c?.id as string}>
-                        {c?.attributes?.name}
-                      </CategoryOptions>
-                    )
-                  )}
+                  {categories?.map((c) => (
+                    <CategoryOptions key={c?.id} value={c?.id as string}>
+                      {c?.attributes?.name}
+                    </CategoryOptions>
+                  ))}
                 </Select>
                 {errors.category && <span>Category is required</span>}
               </InputFormGroup>

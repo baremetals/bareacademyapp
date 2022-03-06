@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { Link } from "react-scroll"
+// import { Link } from "react-scroll"
 
 
-export const Button = styled(Link)`
+export const Button = styled.button`
   background-color: #7755e2;
   color: #fff;
   font-size: 1rem;

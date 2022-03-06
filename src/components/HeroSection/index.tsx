@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from "next/router";
 import {
   HeroContainer,
   HeroBg,
@@ -15,7 +16,7 @@ import { Button } from "../Button/styles"
 
 const HeroSection = ({ ...props }: any ) => {
     const [hover, setHover] = useState(false)
-
+  const router = useRouter();
     const onHover = () => {
         setHover(!hover)
     }
@@ -37,16 +38,10 @@ const HeroSection = ({ ...props }: any ) => {
           <HeroP>online training courses</HeroP>
           <HeroBtnWrapper>
             <Button
-              {...props}
-              to="home"
+              type="button"
+              onClick={() => router.push("/auth/signup")}
               onMouseEnter={onHover}
               onMouseLeave={onHover}
-              primary="true"
-              dark="true"
-              smooth={true}
-              duration={500}
-              spy={true}
-              offset={-80}
             >
               get started {hover ? <ArrowForward /> : <ArrowRight />}
             </Button>
