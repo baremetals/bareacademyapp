@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { MdHome, MdForum, MdSchool } from "react-icons/md";
 import { FaRegQuestionCircle } from "react-icons/fa";
-import { RiNotification2Fill } from "react-icons/ri";
+import { RiNotification2Fill, RiNewspaperFill } from "react-icons/ri";
 import { TopBarLogo } from "../TopBar/topbar.styles";
 import {
   LeftSideContainer,
@@ -132,6 +132,20 @@ const LeftSideBar = () => {
             </LeftSideBarIcon>
             <Link href="/notifications">
               <LeftSideBarListItemText>Notifications</LeftSideBarListItemText>
+            </Link>
+          </LeftSideBarListItem>
+          <LeftSideBarListItem
+            className={router.pathname == "/notifications" ? "active" : ""}
+          >
+            <LeftSideBarIcon>
+              <Link href="/articles">
+                <div>
+                  <RiNewspaperFill />
+                </div>
+              </Link>
+            </LeftSideBarIcon>
+            <Link href="/articles">
+              <LeftSideBarListItemText>Articles</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
           <LeftSideBarListItem
