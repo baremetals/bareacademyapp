@@ -99,6 +99,7 @@ export const LeftSideBarListItem = styled.a`
     width: 1.5rem;
     height: 1.5rem;
     fill: #a2a2c2;
+    display: block;
     &.stroke {
       fill: none;
       stroke: #a2a2c2;

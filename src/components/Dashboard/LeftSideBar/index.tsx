@@ -19,9 +19,8 @@ import { LogoShape } from "../../../../public/assets/icons/LogoShape"
 import { BooksIcon } from "../../../../public/assets/icons/BooksIcon";
 // import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
 
-
-
 const LeftSideBar = () => {
+
   const router = useRouter();
   const [menuState, setMenuState] = useState(false);
   {
@@ -39,6 +38,8 @@ const LeftSideBar = () => {
       {menuState && (
         <BackOverlay onClick={() => setMenuState(false)} className="" />
       )}
+
+      
       <LeftSideContainer>
         <LeftSideBarWrapper>
           <TopBarLogo>
@@ -46,7 +47,7 @@ const LeftSideBar = () => {
               <LogoShape color="#5634bf" width="100" height="100" />
             </a>
           </TopBarLogo>
-
+          
           <LeftSideBarListItem
             className={router.pathname == "/home" ? "active" : ""}
           >
@@ -61,7 +62,6 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Dashboard</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
-
           <LeftSideBarListItem
             className={router.pathname == "/courses" ? "active" : ""}
           >
@@ -90,21 +90,6 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Books</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
-
-          {/* <LeftSideBarListItem
-            className={router.pathname == "/messages" ? "active" : ""}
-          >
-            <LeftSideBarIcon>
-              <Link href="/messages">
-                <div>
-                  <ChatIcon />
-                </div>
-              </Link>
-            </LeftSideBarIcon>
-            <Link href="/messages">
-              <LeftSideBarListItemText>Chat</LeftSideBarListItemText>
-            </Link>
-          </LeftSideBarListItem> */}
           <LeftSideBarListItem
             className={router.pathname == "/forum" ? "active" : ""}
           >
@@ -148,6 +133,7 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Support</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
+
         </LeftSideBarWrapper>
       </LeftSideContainer>
     </>

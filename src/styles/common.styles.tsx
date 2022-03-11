@@ -187,6 +187,19 @@ export const PageWrapper = styled.div`
   @media (max-width: 767px) {
     margin: -0.5rem;
   }
+  &.blog-wrapper {
+    > div {
+      margin: 0.75rem;
+      width: calc(25% - 1.5rem);
+      @media (max-width: 1366px) {
+        width: calc(50% - 1.5rem);
+      }
+      @media (max-width: 767px) {
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
+      }
+    }
+  }
 `;
 
 export const PostCard = styled.div`
@@ -253,6 +266,85 @@ export const CardStartDate = styled.span`
     font-size: 0.75rem;
   }
 `;
+
+// Blog Card
+
+export const BlogCard = styled.div`
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 2px 80px rgba(66, 66, 66, 0.08);
+  border-radius: 1rem;
+  padding: 0;
+  overflow: hidden;
+  &.horizontal {
+    flex-direction: row;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const BlogCardBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  padding: 2.25rem;
+  @media (max-width: 991px) {
+    padding: 1.25rem;
+  }
+  &.horizontal-body {
+    padding: 1.25rem;
+    @media (max-width: 991px) {
+      padding: 1rem;
+    }
+  }
+`;
+
+export const BlogCardTitle = styled.h2`
+  font-size: 1.25rem;
+  line-height: 1;
+  font-weight: 600;
+  margin-bottom: 0.625rem;
+  @media (max-width: 991px) {
+    font-size: 1.125rem;
+  }
+`;
+
+export const BlogCardImage = styled.img`
+  height: auto;
+  width: 100%;
+  border-radius: 0;
+  &.horizontal-img {
+    width: 6rem;
+    object-fit: cover;
+  }
+`;
+
+export const BlogCardDescription = styled.p`
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  color: #a2a2c2;
+  @media (max-width: 991px) {
+    font-size: 0.75rem;
+  }
+`;
+
+export const BlogCardCategory = styled.span`
+  font-size: 0.875rem;
+  color: #5bb3aa;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+`;
+
+export const BlogCardBottom = styled.div`
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+
+// Blog Card
 
 export const ApplyButton = styled.button`
   background-color: #7755e2;
