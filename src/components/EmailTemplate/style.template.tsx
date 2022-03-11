@@ -18,7 +18,7 @@ export const PageContainer = styled.div`
 `;
 
 export const InnerContainer = styled.div`
-  max-width: 1220px;
+  max-width: 1232px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;

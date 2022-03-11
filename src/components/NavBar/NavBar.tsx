@@ -61,6 +61,15 @@ export default function NavBar({ toggle, ...props }: any) {
           <NavItem>
             <NavLink
               {...props}
+              to="/blog"
+              exact="true"
+            >
+              Blog
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              {...props}
               to="featured"
               smooth={true}
               duration={500}
@@ -98,7 +107,11 @@ export default function NavBar({ toggle, ...props }: any) {
             </NavLink>
           </NavItem>
           <NavItem>
-            <Link href="/auth/signin">
+            
+          </NavItem>
+        </NavMenu>
+        <NavBtn>
+        <Link href="/auth/signin">
               <NavLink
                 {...props}
                 to="/auth/signin"
@@ -111,9 +124,6 @@ export default function NavBar({ toggle, ...props }: any) {
                 Login
               </NavLink>
             </Link>
-          </NavItem>
-        </NavMenu>
-        <NavBtn>
           <Link href="/auth/signup">
             <NavBtnLink>Register</NavBtnLink>
           </Link>
