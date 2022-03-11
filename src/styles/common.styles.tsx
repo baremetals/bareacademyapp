@@ -190,7 +190,7 @@ export const PageWrapper = styled.div`
   &.blog-wrapper {
     > div {
       margin: 0.75rem;
-      width: calc(25% - 1.5rem);
+      width: calc(33.33% - 1.5rem);
       @media (max-width: 1366px) {
         width: calc(50% - 1.5rem);
       }

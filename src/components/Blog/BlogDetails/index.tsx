@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 import Dashboard from 'components/Dashboard';
 import {
-    PageContainer,
-    InnerContainer,
-    PageRightSide,
     PageHeading,
-    PageWrapper,
     BlogCard,
     BlogCardTitle,
     BlogCardBody,
     BlogCardImage,
-    BlogCardDescription,
     BlogCardCategory,
-    BlogCardBottom,
-    ApplyButton,
     ProfileWrapGroup,
     PageWrapGroup,
     SocialDropDown,
@@ -22,17 +15,18 @@ import {
 } from "../../../styles/common.styles";
 import RightSideBar from "components/Dashboard/RightSideBar";
 import { RightBarInfo, RightBarTitle } from "components/AdCards/rightside.styles";
-import { CardText, CardTitle } from "./details.styles";
+import { CardTitle } from "./details.styles";
 
 import { SocialDropDownIcon }  from "../../../../public/assets/icons/SocialDropDownIcon"
 import { FaceBook }  from "../../../../public/assets/icons/FaceBook"
 import { Twitter }  from "../../../../public/assets/icons/Twitter"
 import { LinkedIn }  from "../../../../public/assets/icons/LinkedIn"
 import { WhatsApp }  from "../../../../public/assets/icons/WhatsApp"
-import { TikTok }  from "../../../../public/assets/icons/TikTok"
 import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
 import { Email } from "../../../../public/assets/icons/Email";
 import { useRouter } from "next/router";
+import NavBar from "components/NavBar/NavBar";
+import Footer from "components/Footer/Footer";
 
 function BlogDetails() {
 
@@ -42,8 +36,11 @@ function BlogDetails() {
     const shareUrl: string = `${url}${router.asPath}`;
     return (
         <>
-        <Dashboard>
-            <ProfileWrapGroup>
+        <NavBar style={{backgroundColor: '#fff'}} />
+        
+        <Dashboard style={{}}>
+            
+            <ProfileWrapGroup style={{maxWidth: '1232px', margin: 'auto', paddingTop: '6rem'}}>
                 <PageWrapGroup style={{backgroundColor: 'transparent', boxShadow: 'none', borderRadius: '0' }}>
                    
                     <PageHeading>
@@ -88,16 +85,19 @@ function BlogDetails() {
                             </SocialDropDownItem>
                         </SocialDropDownList>
                         </SocialDropDown>
-                        Blog Detail
+                        Fullstack Javascript web Dev
                     </PageHeading>
-                    <CardTitle style={{marginBottom: '1rem'}}>Blog Description</CardTitle>
+
+                    <BlogCardImage style={{borderRadius: '1rem'}} alt="course image" src="/assets/images/blog-post.jpg" />
+
+                    <CardTitle style={{margin: '1rem 0'}}>Blog Description</CardTitle>
                     
                     <p style={{marginBottom: '1.5rem'}}>What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                     <p style={{marginBottom: '1.5rem'}}>What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                     
                 </PageWrapGroup>
                 <RightSideBar>
-                    <RightBarInfo style={{backgroundColor: 'transparent', boxShadow: 'none', borderRadius: '0', padding: '0' }}>
+                    <RightBarInfo style={{backgroundColor: 'transparent', boxShadow: 'none', borderRadius: '0', padding: '0 0 0 1rem' }}>
                         <RightBarTitle style={{marginBottom: '1.5rem'}}>Recent posts</RightBarTitle>
                         <BlogCard className="horizontal">
                             <BlogCardImage className="horizontal-img" alt="course image" src="/assets/images/blog-post.jpg" />
@@ -117,6 +117,7 @@ function BlogDetails() {
                 </RightSideBar>
             </ProfileWrapGroup>
         </Dashboard>
+        <Footer />
     </>
   );
 }

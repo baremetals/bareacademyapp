@@ -19,6 +19,10 @@ import { theCourses } from "features/courses/selectors";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import NavBar from "components/NavBar/NavBar";
+import { PageContainer } from "components/ErrorPage";
+import { InnerContainer } from "components/EmailTemplate/style.template";
+import Footer from "components/Footer/Footer";
 dayjs.extend(relativeTime);
 
 
@@ -27,7 +31,10 @@ function CoursesPage() {
   // console.log(courses);
   return (
     <>
-      <Dashboard>
+
+    <NavBar style={{backgroundColor: '#fff'}} />
+      <PageContainer>
+        <InnerContainer style={{paddingTop: '7rem'}}>
         <PageHeading>Courses</PageHeading>
         <PageWrapper>
           {!courses ? (
@@ -39,7 +46,7 @@ function CoursesPage() {
                   <Link href={`/courses/${course.attributes.slug}`}>
                     <CardImage
                       alt="course image"
-                      src={course.attributes.image.data.attributes.url}
+                      // src={course.attributes.image.data.attributes.url}
                     />
                   </Link>
                   <CardBody>
@@ -50,7 +57,7 @@ function CoursesPage() {
                       </Link>
                     </CardTitle>
                     <CardDescription>
-                      {course.attributes.description.slice(0, 150)}
+                      {/* {course.attributes.description.slice(0, 150)} */}
                     </CardDescription>
                     <CardBottom>
                       <CardStartDate>
@@ -66,7 +73,9 @@ function CoursesPage() {
             )
           )}
         </PageWrapper>
-      </Dashboard>
+        </InnerContainer>
+      </PageContainer>
+      <Footer />
     </>
   );
 }

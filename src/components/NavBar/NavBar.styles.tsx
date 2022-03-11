@@ -25,7 +25,7 @@ export const NavBarContainer = styled.div`
   z-index: 1;
   width: 100%;
   padding: 0 24px;
-  max-width: 1100px
+  max-width: 1280px;
 `;
 
 export const NavMenu = styled.ul`
@@ -82,13 +82,13 @@ export const NavLogo = styled.div`
   align-items: center;
   cursor: pointer;
   justify-self: flex-start;
-  margin-left: 24px;
+  margin-left: 0;
 `;
 
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
-  margin-right: 24px;
+  margin-right: 0;
 
   @media screen and (max-width: 768px) {
     display: none;
