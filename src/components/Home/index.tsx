@@ -12,7 +12,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 import {
-  PostCard,
+  // PostCard,
+  BlogCard,
   CardTitle,
   CardDescription,
   CardImage,
@@ -22,8 +23,10 @@ import {
   PageHeading,
   PageWrapGroup,
   ProfileWrapGroup,
+  // PageWrapper,
 } from "../../styles/common.styles";
 import Link from 'next/link';
+import Footer from 'components/Footer/Footer';
 
 const Home = (props: {
   props: { data: { courses: CourseEntityResponseCollection } };
@@ -37,34 +40,45 @@ const Home = (props: {
     <>
       <Dashboard>
         <PageHeading>@{user?.username} Dashboard</PageHeading>
-        <ProfileWrapGroup>
-          <PageWrapGroup>
-            {courses &&
-              courses.map((course, id) => (
-                <PostCard key={id}>
-                  <Link href={`/courses/${course?.attributes?.slug}`}>
-                    <CardImage
-                      alt="course image"
-                      src={course?.attributes?.image?.data?.attributes?.url}
-                    />
-                  </Link>
-                  <CardBody>
-                    <CardDuration>
-                      Duration - {course?.attributes?.duration}
-                    </CardDuration>
-                    <CardTitle>
-                      <Link href={`/courses/${course?.attributes?.slug}`}>
-                        {course?.attributes?.title}
-                      </Link>
-                    </CardTitle>
-                    <CardDescription>
-                      <CardStartDate>
-                        Date - {dayjs(course?.attributes?.startDate).fromNow()}
-                      </CardStartDate>
-                    </CardDescription>
-                  </CardBody>
-                </PostCard>
-              ))}
+        <ProfileWrapGroup
+          style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
+        >
+          <PageWrapGroup
+            style={{
+              backgroundColor: "transparent",
+              boxShadow: "none",
+              borderRadius: "0",
+            }}
+          >
+            {/* <PageWrapper className="blog-wrapper"> */}
+              {courses &&
+                courses.map((course, id) => (
+                  <BlogCard key={id}>
+                    <Link href={`/courses/${course?.attributes?.slug}`}>
+                      <CardImage
+                        alt="course image"
+                        src={course?.attributes?.image?.data?.attributes?.url}
+                      />
+                    </Link>
+                    <CardBody>
+                      <CardDuration>
+                        Duration - {course?.attributes?.duration}
+                      </CardDuration>
+                      <CardTitle>
+                        <Link href={`/courses/${course?.attributes?.slug}`}>
+                          {course?.attributes?.title}
+                        </Link>
+                      </CardTitle>
+                      <CardDescription>
+                        <CardStartDate>
+                          Date -{" "}
+                          {dayjs(course?.attributes?.startDate).fromNow()}
+                        </CardStartDate>
+                      </CardDescription>
+                    </CardBody>
+                  </BlogCard>
+                ))}
+            {/* </PageWrapper> */}
           </PageWrapGroup>
 
           <RightSideBar>
@@ -72,6 +86,7 @@ const Home = (props: {
           </RightSideBar>
         </ProfileWrapGroup>
       </Dashboard>
+      {!user && <Footer />}
     </>
   );
 };

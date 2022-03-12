@@ -23,6 +23,12 @@ export const getForgotPasswordValidationSchema = () => {
   });
 };
 
+export const getConfirmEmailValidationSchema = () => {
+  return Yup.object().shape({
+    email: Yup.string().required("Email is Required!"),
+  });
+};
+
 export const getResetPasswordValidationSchema = () => {
   return Yup.object().shape({
     newPassword: Yup.string().required("Password is Required!"),

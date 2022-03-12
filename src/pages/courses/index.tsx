@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     const { data } = await apolloClient.query<CoursesQueryResult>({
       query: CoursesDocument,
     });
-    console.log(data);
+    // console.log(data);
     return {
       props: { data },
     };

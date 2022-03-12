@@ -5,7 +5,7 @@ import { useNoAuth } from "lib/noAuth";
 
 function ForgotPassword() {
   useNoAuth();
-  return <ChangePassword></ChangePassword>;
+  return <ChangePassword />;
 }
 
 export default withApollo({ ssr: false })(ForgotPassword);

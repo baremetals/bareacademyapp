@@ -29,6 +29,13 @@ import {
 } from "./details.styles";
 
 import {
+  ProfileWrapGroup,
+  PageWrapGroup,
+  BlogCardBody,
+  BlogCard,
+  BlogCardImage,
+  BlogCardCategory,
+  BlogCardTitle,
   PageHeading,
   CardBottom,
   ApplyButton,
@@ -36,6 +43,13 @@ import {
   SocialDropDownList,
   SocialDropDownItem,
 } from "../../../styles/common.styles";
+
+import RightSideBar from "components/Dashboard/RightSideBar";
+import {
+  RightBarInfo,
+  RightBarTitle,
+} from "components/AdCards/rightside.styles";
+// import { CardTitle } from "../../ArticlesPage/ArticleDetailPage/details.styles";
 
 import { SocialDropDownIcon } from "../../../../public/assets/icons/SocialDropDownIcon";
 import { FaceBook } from "../../../../public/assets/icons/FaceBook";
@@ -56,6 +70,8 @@ import {
   EmailShareButton,
 } from "react-share";
 import VideoCard from './VideoCard';
+import NavBar from 'components/NavBar/NavBar';
+import Footer from 'components/Footer/Footer';
 
 interface Details {
   id: string;
@@ -205,123 +221,180 @@ function CourseDetails(props: {
   const url: string | undefined = process.env.NEXT_PUBLIC_SITE_URL;
   const shareUrl: string = `${url}${router.asPath}`;
   return (
-    <Dashboard>
-      <PageHeading>
-        <SocialDropDown>
-          <span onClick={() => setSocialDropdown(!socialDropdown)}>
-            <SocialDropDownIcon />
-            Share
-          </span>
-          <SocialDropDownList
-            className={`${socialDropdown ? "opened" : ""}`}
-            onClick={() => setSocialDropdown(!socialDropdown)}
+    <>
+      {!user && <NavBar style={{ backgroundColor: "#fff" }} />}
+
+      <Dashboard>
+        <ProfileWrapGroup
+          style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
+        >
+          <PageWrapGroup
+            style={{
+              backgroundColor: "transparent",
+              boxShadow: "none",
+              borderRadius: "0",
+            }}
           >
-            <SocialDropDownItem>
-              <FacebookShareButton url={shareUrl}>
-                <FaceBook />
-                Facebook
-              </FacebookShareButton>
-            </SocialDropDownItem>
-            <SocialDropDownItem>
-              <TwitterShareButton url={shareUrl}>
-                <Twitter />
-                Twitter
-              </TwitterShareButton>
-            </SocialDropDownItem>
-            <SocialDropDownItem>
-              <LinkedinShareButton url={shareUrl}>
-                <LinkedIn />
-                LinkedIn
-              </LinkedinShareButton>
-            </SocialDropDownItem>
-            <SocialDropDownItem>
-              <WhatsappShareButton url={shareUrl}>
-                <WhatsApp />
-                Whatsapp
-              </WhatsappShareButton>
-            </SocialDropDownItem>
-            <SocialDropDownItem>
-              <EmailShareButton url={shareUrl}>
-                <Email />
-                Email
-              </EmailShareButton>
-            </SocialDropDownItem>
-          </SocialDropDownList>
-        </SocialDropDown>
-        {title}
-      </PageHeading>
-      <br />
-      <div>{errorMsg && <ErrorMsg>{message}</ErrorMsg>}</div>
-      <CoursesTeacherWrap>
-        <CardTitle>Teacher</CardTitle>
-        <CoursesTeacherNameAndImageWrap>
-          <CoursesTeacherImage src={img} />
-          <CoursesTeacherName>{fullName}</CoursesTeacherName>
-        </CoursesTeacherNameAndImageWrap>
-      </CoursesTeacherWrap>
-      <br />
-      <DetailsCardWrapper>
-        <CardTop>
-          <CardLeftWrap>
-            <StartDateTitle>
-              Start Date{" "}
-              <StartDate>
-                {" "}
-                - {dayjs(startDate).format("DD.MM.YY")} to{" "}
-                {dayjs(endDate).format("DD.MM.YY")} - {duration}
-                {/* dayjs(startDate).fromNow() */}
-              </StartDate>
-            </StartDateTitle>
-            <CardTitle>Course Description</CardTitle>
-          </CardLeftWrap>
-        </CardTop>
-        <CardCenterWrap>
-          <div dangerouslySetInnerHTML={{ __html: description }}></div>
-          {/* <CardText>{description}</CardText> */}
-        </CardCenterWrap>
-        <CardBottom>
-          {!isTeacher && (
-            <>
-              {isStudent ? (
-                <ApplyButton
-                  onClick={joinCourse}
-                  style={{ backgroundColor: "red" }}
-                  type="button"
-                  disabled={true}
+            <PageHeading>
+              <SocialDropDown>
+                <span onClick={() => setSocialDropdown(!socialDropdown)}>
+                  <SocialDropDownIcon />
+                  Share
+                </span>
+                <SocialDropDownList
+                  className={`${socialDropdown ? "opened" : ""}`}
+                  onClick={() => setSocialDropdown(!socialDropdown)}
                 >
-                  applied
-                </ApplyButton>
-              ) : (
-                <ApplyButton onClick={joinCourse} type="button">
-                  apply
-                </ApplyButton>
-              )}
-              {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
-            </>
-          )}
-        </CardBottom>
-        <br />
-        <CoursesH2>Additional Notes</CoursesH2>
-        <div dangerouslySetInnerHTML={{ __html: notes }}></div>
-        {/* <div>{notes}</div> */}
-        <br />
-        <MediaRow>
-          {videos?.map((vid, id: React.Key | null | undefined) => (
-            <MediaContainer key={id}>
-              <VideoCard
-                fullName={fullName}
-                date={vid?.attributes?.createdAt}
-                title={vid?.attributes?.title as string}
-                url={vid?.attributes?.video_url}
-                slug={slug}
-                description={vid?.attributes?.description as string}
-              />
-              {/* {vid?.attributes?.description as string} */}
-            </MediaContainer>
-          ))}
-        </MediaRow>
-      </DetailsCardWrapper>
-    </Dashboard>
+                  <SocialDropDownItem>
+                    <FacebookShareButton url={shareUrl}>
+                      <FaceBook />
+                      Facebook
+                    </FacebookShareButton>
+                  </SocialDropDownItem>
+                  <SocialDropDownItem>
+                    <TwitterShareButton url={shareUrl}>
+                      <Twitter />
+                      Twitter
+                    </TwitterShareButton>
+                  </SocialDropDownItem>
+                  <SocialDropDownItem>
+                    <LinkedinShareButton url={shareUrl}>
+                      <LinkedIn />
+                      LinkedIn
+                    </LinkedinShareButton>
+                  </SocialDropDownItem>
+                  <SocialDropDownItem>
+                    <WhatsappShareButton url={shareUrl}>
+                      <WhatsApp />
+                      Whatsapp
+                    </WhatsappShareButton>
+                  </SocialDropDownItem>
+                  <SocialDropDownItem>
+                    <EmailShareButton url={shareUrl}>
+                      <Email />
+                      Email
+                    </EmailShareButton>
+                  </SocialDropDownItem>
+                </SocialDropDownList>
+              </SocialDropDown>
+              {title}
+            </PageHeading>
+            <br />
+            <div>{errorMsg && <ErrorMsg>{message}</ErrorMsg>}</div>
+            <CoursesTeacherWrap>
+              <CardTitle>Teacher</CardTitle>
+              <CoursesTeacherNameAndImageWrap>
+                <CoursesTeacherImage src={img} />
+                <CoursesTeacherName>{fullName}</CoursesTeacherName>
+              </CoursesTeacherNameAndImageWrap>
+            </CoursesTeacherWrap>
+            <br />
+            <DetailsCardWrapper>
+              <CardTop>
+                <CardLeftWrap>
+                  <StartDateTitle>
+                    Start Date{" "}
+                    <StartDate>
+                      {" "}
+                      - {dayjs(startDate).format("DD.MM.YY")} to{" "}
+                      {dayjs(endDate).format("DD.MM.YY")} - {duration}
+                      {/* dayjs(startDate).fromNow() */}
+                    </StartDate>
+                  </StartDateTitle>
+                  <CardTitle>Course Description</CardTitle>
+                </CardLeftWrap>
+              </CardTop>
+              <CardCenterWrap>
+                <div dangerouslySetInnerHTML={{ __html: description }}></div>
+                {/* <CardText>{description}</CardText> */}
+              </CardCenterWrap>
+              <CardBottom>
+                {!isTeacher && (
+                  <>
+                    {isStudent ? (
+                      <ApplyButton
+                        onClick={joinCourse}
+                        style={{ backgroundColor: "red" }}
+                        type="button"
+                        disabled={true}
+                      >
+                        applied
+                      </ApplyButton>
+                    ) : (
+                      <ApplyButton onClick={joinCourse} type="button">
+                        apply
+                      </ApplyButton>
+                    )}
+                    {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
+                  </>
+                )}
+              </CardBottom>
+              <br />
+              <CoursesH2>Additional Notes</CoursesH2>
+              <div dangerouslySetInnerHTML={{ __html: notes }}></div>
+              {/* <div>{notes}</div> */}
+              <br />
+              <MediaRow>
+                {videos?.map((vid, id: React.Key | null | undefined) => (
+                  <MediaContainer key={id}>
+                    <VideoCard
+                      fullName={fullName}
+                      date={vid?.attributes?.createdAt}
+                      title={vid?.attributes?.title as string}
+                      url={vid?.attributes?.video_url}
+                      slug={slug}
+                      description={vid?.attributes?.description as string}
+                    />
+                    {/* {vid?.attributes?.description as string} */}
+                  </MediaContainer>
+                ))}
+              </MediaRow>
+            </DetailsCardWrapper>
+          </PageWrapGroup>
+          <RightSideBar>
+            <RightBarInfo
+              style={{
+                backgroundColor: "transparent",
+                boxShadow: "none",
+                borderRadius: "0",
+                padding: "0 0 0 1rem",
+              }}
+            >
+              <RightBarTitle style={{ marginBottom: "1.5rem" }}>
+                Recent posts
+              </RightBarTitle>
+              <BlogCard className="horizontal">
+                <BlogCardImage
+                  className="horizontal-img"
+                  alt="course image"
+                  src="/assets/images/blog-post.jpg"
+                />
+                <BlogCardBody className="horizontal-body">
+                  <BlogCardCategory>3 Months</BlogCardCategory>
+                  <BlogCardTitle style={{ fontSize: "1rem" }}>
+                    Fullstack Javascript web Dev
+                  </BlogCardTitle>
+                </BlogCardBody>
+              </BlogCard>
+              <BlogCard className="horizontal">
+                <BlogCardImage
+                  className="horizontal-img"
+                  alt="course image"
+                  src="/assets/images/blog-post.jpg"
+                />
+                <BlogCardBody className="horizontal-body">
+                  <BlogCardCategory>3 Months</BlogCardCategory>
+                  <BlogCardTitle style={{ fontSize: "1rem" }}>
+                    Fullstack Javascript web Dev
+                  </BlogCardTitle>
+                </BlogCardBody>
+              </BlogCard>
+            </RightBarInfo>
+          </RightSideBar>
+        </ProfileWrapGroup>
+      </Dashboard>
+      {!user && <Footer />}
+    </>
   );
 }
 
