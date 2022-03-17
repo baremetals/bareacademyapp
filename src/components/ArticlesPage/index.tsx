@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+// import React, {useEffect} from "react";
 import Link from "next/link";
 import { useAppSelector } from "app/hooks";
-import { analytics, logEve } from "lib/admin";
+// import { analytics, logEve } from "lib/admin";
 import { isUser } from "features/auth/selectors";
 import Dashboard from "components/Dashboard";
 import {
@@ -45,11 +45,11 @@ function ArticlesPage(props: {
   //   logEve(analytics, "articlespage_visited");
   // });
 
-  if (typeof window != undefined) {
-    useEffect(() => {
-      logEve(analytics, "articlespage_visited");
-    });
-  }
+  // if (typeof window != undefined) {
+  //   useEffect(() => {
+  //     logEve(analytics, "articlespage_visited");
+  //   });
+  // }
 
   return (
     <>

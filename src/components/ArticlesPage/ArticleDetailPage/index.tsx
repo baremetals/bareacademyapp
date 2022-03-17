@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { useAppSelector } from "app/hooks";
-import { analytics, logEve } from "lib/admin";
+// import { analytics, logEve } from "lib/admin";
 import { isUser } from "features/auth/selectors";
 import Dashboard from "components/Dashboard";
 import {
@@ -58,11 +58,11 @@ function ArticleDetailPage(props: {
   //   }
   // });
 
-  if (typeof window != undefined) {
-    useEffect(() => {
-      logEve(analytics, `${article?.attributes?.title}_visited`);
-    });
-  }
+  // if (typeof window != undefined) {
+  //   useEffect(() => {
+  //     logEve(analytics, `${article?.attributes?.title}_visited`);
+  //   });
+  // }
 
   return (
     <>
