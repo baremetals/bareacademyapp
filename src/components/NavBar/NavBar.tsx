@@ -63,11 +63,11 @@ export default function NavBar({ toggle, ...props }: any) {
                   Courses
                 </NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink {...props} to="/blog" exact="true">
                   Blog
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
               <NavItem>
                 <NavLink
                   {...props}
