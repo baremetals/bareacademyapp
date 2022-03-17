@@ -10,6 +10,7 @@ import Router from "next/router";
 // import SocketsProvider from "../context/socket.context";
 import { darkTheme } from "../styles/theme";
 import { useApollo } from "../lib/apolloClient";
+// import { analytics } from "lib/admin";
 
 
 
@@ -22,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const startLoading = () => {
     if (typeof window !== "undefined") {
       nprogress.start();
+      // analytics;
     }
   };
   const stopLoading = () => {

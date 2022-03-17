@@ -41,9 +41,15 @@ function ArticlesPage(props: {
   const articleData = data?.articles;
   const articles = articleData?.data as Array<ArticleEntity>;
 
-  useEffect(() => {
-    logEve(analytics, "articlespage_visited");
-  });
+  // useEffect(() => {
+  //   logEve(analytics, "articlespage_visited");
+  // });
+
+  if (typeof window != undefined) {
+    useEffect(() => {
+      logEve(analytics, "articlespage_visited");
+    });
+  }
 
   return (
     <>

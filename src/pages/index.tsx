@@ -20,7 +20,13 @@ function Home() {
   useNoAuth();
   const [isOpen, setIsOpen] = useState(false);
 
+  // if (typeof window != undefined) {
+  //   useEffect(() => {
+  //     logEve(analytics, "homepage_visited");
+  //   });
+  // }
   useEffect(() => {
+    
     logEve(analytics, "homepage_visited");
   })
 
