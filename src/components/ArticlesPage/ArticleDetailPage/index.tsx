@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { useAppSelector } from "app/hooks";
-// import { analytics, logEve } from "lib/admin";
+import { analytics, logEve } from "lib/admin";
 import { isUser } from "features/auth/selectors";
 import Dashboard from "components/Dashboard";
 import {
@@ -50,7 +50,11 @@ function ArticleDetailPage(props: {
 
   // console.log(article);
 
-  const imageurl = article?.attributes?.heroImage?.data?.attributes?.url
+  const imageurl = article?.attributes?.heroImage?.data?.attributes?.url;
+
+  if (typeof window != undefined) {
+    logEve(analytics, `${article?.attributes?.title}_visited`);
+  }
 
   // useEffect(() => {
   //   if (typeof window != undefined) {
@@ -97,9 +101,7 @@ function ArticleDetailPage(props: {
             <CardTitle style={{ margin: "1rem 0" }}>
               {article?.attributes?.title}
             </CardTitle>
-            <div
-            style={{ marginBottom: "1.5rem" }}
-            >
+            <div style={{ marginBottom: "1.5rem" }}>
               <Markdown>{article?.attributes?.body as string}</Markdown>
             </div>
           </PageWrapGroup>
