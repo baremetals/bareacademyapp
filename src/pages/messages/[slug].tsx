@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import axios from "axios";
@@ -16,9 +17,17 @@ import { queryProps } from "models/Shared";
 function Chat(props: queryProps) {
   useIsAuth();
   return (
-    <>
-      {/* <ChatContainer props={props} /> */}
-    </>
+      <>
+        <Head>
+          <title>Baretutorials</title>
+          <meta
+            name="description"
+            content="Tutorial site for learning web and software development"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        {/* <ChatContainer props={props} /> */}
+      </>
   );
 }
 export const getServerSideProps: GetServerSideProps = requireAuthentication(

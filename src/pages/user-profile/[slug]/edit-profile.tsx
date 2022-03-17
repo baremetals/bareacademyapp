@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { requireAuthentication } from 'lib/requireAuthentication';
 import { initializeApollo } from "lib/apolloClient";
@@ -13,9 +14,17 @@ import {
 const EditProfilePage = (props: { data: any; loading: any; }) => {
     useIsAuth();
     return (
-        <>
-            <EditProfile props={props}/>
-        </>
+      <>
+        <Head>
+          <title>Baretutorials</title>
+          <meta
+            name="description"
+            content="Tutorial site for learning web and software development"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <EditProfile props={props}/>
+      </>
     )
 }
 

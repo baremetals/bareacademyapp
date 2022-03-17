@@ -1,4 +1,4 @@
-query Courses($pagination: PaginationArg, $sort: [String]) {
+query RecentCourses($pagination: PaginationArg, $sort: [String]) {
   courses(pagination: $pagination, sort: $sort) {
     data {
       id
@@ -6,9 +6,6 @@ query Courses($pagination: PaginationArg, $sort: [String]) {
         slug
         title
         duration
-        introduction
-        description
-        startDate
         image {
           data {
             id
@@ -17,6 +14,7 @@ query Courses($pagination: PaginationArg, $sort: [String]) {
             }
           }
         }
+        updatedAt
       }
     }
   }

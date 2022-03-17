@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import Home from "components/Home";
@@ -15,6 +16,14 @@ function HomePage(props: { data: { courses: CourseEntityResponseCollection; }; }
   useIsAuth();
   return (
     <>
+      <Head>
+        <title>Baretutorials</title>
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Home props={props}/>
     </>
   );

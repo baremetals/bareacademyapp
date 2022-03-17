@@ -1,0 +1,29 @@
+query Articles($sort: [String], $pagination: PaginationArg) {
+  articles(sort: $sort, pagination: $pagination) {
+    data {
+      id
+      attributes {
+        title
+        description
+        category {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        heroImage {
+          data {
+            id
+            attributes {
+              url
+            }
+          }
+        }
+        slug
+        updatedAt
+      }
+    }
+  }
+}

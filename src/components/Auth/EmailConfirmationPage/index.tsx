@@ -35,7 +35,7 @@ const ResendEmailConfirmation = () => {
     const [successMsg, setSuccessMsg] = useState(false);
     
   const handleSend = async ({ ...values }: any) => {
-    console.log('its submitting', values)
+    // console.log('its submitting', values)
     await axios
       .post("/api/auth/password", {
         data: {
@@ -44,7 +44,7 @@ const ResendEmailConfirmation = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           const msg: any = "successful";
           setSuccessMsg(true);
@@ -56,7 +56,7 @@ const ResendEmailConfirmation = () => {
         }
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        // console.log(err.response.data.message);
         const msg: string = err.response.data.message;
         setErrorMsg(true);
         initialValues.error = msg;

@@ -26,6 +26,7 @@ function BooksPage(props: {
     return <div>loading...</div>;
   }
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
+  
   const bookData = data?.books;
   const books = bookData?.data as Array<BookEntity>;
   // console.log(bookData);

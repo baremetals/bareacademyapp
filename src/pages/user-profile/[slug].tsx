@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import Profile from "components/Profile";
@@ -15,11 +16,18 @@ import {
 
 const UserProfile = (props: { data: any; loading: any; error: any; }) => {
   useIsAuth();
-  
   return (
     <>
-      <Profile props={props}/>
-    </>
+        <Head>
+          <title>Baretutorials</title>
+          <meta
+            name="description"
+            content="Tutorial site for learning web and software development"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Profile props={props}/>
+      </>
   );
 };
 

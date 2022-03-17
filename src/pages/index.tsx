@@ -10,13 +10,19 @@ import {
 import { withApollo } from "utils/withApollo";
 import { useNoAuth } from "lib/noAuth";
 import NavBar from 'components/NavBar/NavBar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Footer from 'components/Footer/Footer';
 import NavDropDown from 'components/NavDropDown';
+import { analytics, logEve } from "lib/admin";
 
 function Home() {
+  
   useNoAuth();
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    logEve(analytics, "homepage_visited");
+  })
 
   const toggle: any = () => {
     setIsOpen(!isOpen);

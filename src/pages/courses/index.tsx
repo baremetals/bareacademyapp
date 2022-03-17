@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Head from "next/head";
 import {
   CoursesDocument,
   CoursesQueryResult,
 } from "generated/graphql";
-import { requireAuthentication } from "lib/requireAuthentication";
-import { GetServerSideProps } from "next";
+
 import CoursesPage from "components/Courses";
 
 import { useAppDispatch } from "app/hooks";
 import { setCourse } from "features/courses/reducers";
-import { initializeApollo } from "lib/apolloClient";
+import { client } from "lib/initApollo";
 import { useIsAuth } from "lib/isAuth";
+import { analytics, logEve } from "lib/admin";
 
 function courses(props: any) {
   useIsAuth();
@@ -18,27 +19,41 @@ function courses(props: any) {
   const dispatch = useAppDispatch();
   const courseData = props.data?.courses;
   dispatch(setCourse(courseData));
+
+  useEffect(() => {
+    logEve(analytics, `coursespage_visited`);
+  });
   
   return (
     <>
+      <Head>
+        <title>Baretutorials</title>
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <CoursesPage />
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = requireAuthentication(
-  async (ctx) => {
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy).jwt;
-    const token = `Bearer ${cookies}`;
-    const apolloClient = initializeApollo(null, token);
-    const { data } = await apolloClient.query<CoursesQueryResult>({
-      query: CoursesDocument,
-    });
-    // console.log(data);
-    return {
-      props: { data },
-    };
-  }
-);
+export async function getServerSideProps() {
+  const { data } = await client.query<CoursesQueryResult>({
+    query: CoursesDocument,
+    variables: {
+      pagination: {
+        start: 0,
+        limit: 9,
+      },
+      sort: "updatedAt:desc",
+    },
+  });
+  // console.log(data);
+  return {
+    props: { data },
+  };
+};
 
 export default courses;

@@ -60,3 +60,5 @@ yarn-error.log
 private.ts
 storagedb.json
 .vscode
+/public/robots.txt
+/public/sitemap.xml

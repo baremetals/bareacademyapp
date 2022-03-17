@@ -39,7 +39,7 @@ query Course($filters: CourseFiltersInput) {
             }
           }
         }
-        course_videos {
+        videos {
           data {
             id
             attributes {
@@ -48,7 +48,7 @@ query Course($filters: CourseFiltersInput) {
               createdAt
               updatedAt
               publishedAt
-              video_url
+              url
             }
           }
         }
@@ -72,6 +72,15 @@ query Course($filters: CourseFiltersInput) {
         createdAt
         updatedAt
         publishedAt
+        SEO {
+          id
+          title
+          description
+          url
+          image
+          locale
+          type
+        }
       }
     }
   }

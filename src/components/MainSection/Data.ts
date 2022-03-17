@@ -40,10 +40,10 @@ export const homeObjThree = {
   topLine: "Forum",
   headline: "Stuck? Post a question to the forum ",
   description:
-    'The forum has been created for students to ask any challenging questions. All students and teachers have access and are all willing to help. We want to build a helpful and thriving community.',
+    "The forum has been created for students to ask any challenging questions. All students and teachers have access and are all willing to help. We want to build a helpful and thriving community.",
   buttonLabel: "Get Started",
   imgStart: false,
-  img: "/assets/images/community.svg",
+  img: "/assets/images/communicate.svg",
   alt: "community image",
   dark: true,
   primary: true,

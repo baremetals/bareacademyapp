@@ -1,0 +1,28 @@
+query RecentArticles($pagination: PaginationArg, $sort: [String]) {
+  articles(pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        title
+        category {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+        heroImage {
+          data {
+            id
+            attributes {
+              url
+            }
+          }
+        }
+        slug
+        updatedAt
+      }
+    }
+  }
+}

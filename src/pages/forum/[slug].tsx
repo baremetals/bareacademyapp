@@ -1,3 +1,5 @@
+import React from "react";
+import Head from "next/head";
 import DetailPost from "components/ForumPage/DetailPost";
 import {
   PostDocument,
@@ -6,10 +8,9 @@ import {
   CommentEntity,
 } from "generated/graphql";
 import { initializeApollo } from "lib/apolloClient";
-import { useIsAuth } from 'lib/isAuth';
-import { requireAuthentication } from 'lib/requireAuthentication';
-import { GetServerSideProps } from 'next';
-import React from "react";
+import { useIsAuth } from "lib/isAuth";
+import { requireAuthentication } from "lib/requireAuthentication";
+import { GetServerSideProps } from "next";
 
 type detailProps = {
   data: { data: { comments: Maybe<CommentEntity> | undefined } };
@@ -17,11 +18,18 @@ type detailProps = {
   error: any;
 };
 
-
 const PostDetails = (props: detailProps) => {
   useIsAuth();
   return (
     <>
+      <Head>
+        <title>Baretutorials</title>
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <DetailPost props={props} />
     </>
   );
@@ -49,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     });
     // console.log(data);
     return {
-      props: {data},
+      props: { data },
     };
   }
 );

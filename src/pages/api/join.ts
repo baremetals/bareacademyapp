@@ -1,31 +1,15 @@
-// import cookie from "cookie";
+import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
 const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
 
-// eslint-disable-next-line camelcase
 export default async function (
-  req: {
-    body: {
-      data: {
-        joined: any;
-        slug: any;
-        course: any;
-        // eslint-disable-next-line camelcase
-        users_permissions_user: any;
-        publishedAt: any;
-      };
-    };
-    headers: { cookie: string | any[] };
-  },
-  res: { send: (arg0: unknown) => void }
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-  // eslint-disable-next-line camelcase
-  const { joined, slug, course, users_permissions_user, publishedAt } =
+  const { joined, slug, course, user, publishedAt } =
     req.body.data;
-
-  // console.log("it's me printing", cookie.parse(req.headers.cookie || ''));
-  const token = req.headers.cookie.slice(12);
+  const token = JSON.parse(req.cookies.bareacademy).jwt;
 
   // console.log("we got here");
 
@@ -43,7 +27,7 @@ export default async function (
           joined,
           slug,
           course,
-          users_permissions_user,
+          user,
           publishedAt,
         },
       },

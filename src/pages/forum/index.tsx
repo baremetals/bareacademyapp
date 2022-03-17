@@ -1,5 +1,5 @@
 import React from "react";
-
+import Head from "next/head";
 // import ImagePostCard from "../components/Dashboard/Forum/ImagePostCard";
 // import TextPostCard from "../components/Dashboard/Forum/TextPostCard";
 // import VideoPostCard from "../components/Dashboard/Forum/VideoPostCard";
@@ -25,6 +25,14 @@ function Forum(props: queryProps) {
   useIsAuth();
   return (
     <>
+      <Head>
+        <title>Baretutorials</title>
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <ForumPage props={props}></ForumPage>
     </>
   );

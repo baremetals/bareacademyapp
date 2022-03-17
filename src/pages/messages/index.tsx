@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import { useIsAuth } from 'lib/isAuth';
@@ -13,8 +14,16 @@ function Messages(props: queryProps) {
   useIsAuth();
   return (
     <>
-      {/* <ChatSideBar props={props} /> */}
-    </>
+        <Head>
+          <title>Baretutorials</title>
+          <meta
+            name="description"
+            content="Tutorial site for learning web and software development"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        {/* <ChatSideBar props={props} /> */}
+      </>
   );
 }
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
