@@ -20,7 +20,9 @@ export const storage = getStorage(firebaseApp);
 //   }
 // };
 
+
 export const analytics = getAnalytics(firebaseApp);
+
 export const logEve = logEvent
 
 export default firebaseApp;

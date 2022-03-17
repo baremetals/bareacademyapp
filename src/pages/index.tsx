@@ -20,15 +20,15 @@ function Home() {
   useNoAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  // if (typeof window != undefined) {
-  //   useEffect(() => {
-  //     logEve(analytics, "homepage_visited");
-  //   });
-  // }
-  useEffect(() => {
+  if (typeof window != undefined) {
+    useEffect(() => {
+      logEve(analytics, "homepage_visited");
+    });
+  }
+  // useEffect(() => {
     
-    logEve(analytics, "homepage_visited");
-  })
+  //   logEve(analytics, "homepage_visited");
+  // })
 
   const toggle: any = () => {
     setIsOpen(!isOpen);
