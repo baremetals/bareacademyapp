@@ -10,7 +10,7 @@ import Router from "next/router";
 // import SocketsProvider from "../context/socket.context";
 import { darkTheme } from "../styles/theme";
 import { useApollo } from "../lib/apolloClient";
-import { analytics, logEvent } from "lib/admin";
+// import { analytics, logEvent } from "lib/admin";
 
 
 
@@ -44,17 +44,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       jssStyles?.parentElement?.removeChild(jssStyles);
     }
 
-    if (process.env.NODE_ENV === "production") {
+    // if (process.env.NODE_ENV === "production") {
 
-      const log = (url: string) => {
-        logEvent(analytics, `${url}_visited`);
-      };
-      Router.events.on("routeChangeComplete", log);
-      log(window.location.pathname);
-      return () => {
-        Router.events.off("routeChangeComplete", log);
-      };
-    }
+    //   const log = (url: string) => {
+    //     logEvent(analytics, `${url}_visited`);
+    //   };
+    //   Router.events.on("routeChangeComplete", log);
+    //   log(window.location.pathname);
+    //   return () => {
+    //     Router.events.off("routeChangeComplete", log);
+    //   };
+    // }
 
     return () => {
       Router.events.on("routeChangeStart", startLoading);
