@@ -8,11 +8,13 @@ const firebaseApp = initializeApp(config);
 
 export const storage = getStorage(firebaseApp);
 
-let analytics: Analytics;
+// let analytics: Analytics;
 
-if (firebaseApp.name && typeof window !== "undefined") {
-  analytics = getAnalytics(firebaseApp);
-}
+// if (firebaseApp.name && typeof window !== "undefined") {
+//   analytics = getAnalytics(firebaseApp);
+// }
+
+const analytics: Analytics = getAnalytics(firebaseApp);
 
 export { analytics, logEvent };
 export default firebaseApp;
