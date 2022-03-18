@@ -11,7 +11,7 @@ import { useAppDispatch } from "app/hooks";
 import { setCourse } from "features/courses/reducers";
 import { client } from "lib/initApollo";
 import { useIsAuth } from "lib/isAuth";
-import { analytics, logEve } from "lib/admin";
+import { analytics, logEvent } from "lib/admin";
 
 function courses(props: any) {
   useIsAuth();
@@ -21,7 +21,7 @@ function courses(props: any) {
   dispatch(setCourse(courseData));
 
   useEffect(() => {
-    logEve(analytics, `coursespage_visited`);
+    logEvent(analytics, `coursespage_visited`);
   });
   
   return (

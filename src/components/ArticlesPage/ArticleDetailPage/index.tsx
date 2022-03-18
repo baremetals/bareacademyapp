@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { useAppSelector } from "app/hooks";
-import { analytics, logEve } from "lib/admin";
+import { analytics, logEvent } from "lib/admin";
 import { isUser } from "features/auth/selectors";
 import Dashboard from "components/Dashboard";
 import {
@@ -53,7 +53,7 @@ function ArticleDetailPage(props: {
   const imageurl = article?.attributes?.heroImage?.data?.attributes?.url;
 
   if (typeof window != undefined) {
-    logEve(analytics, `${article?.attributes?.title}_visited`);
+    logEvent(analytics, `${article?.attributes?.title}_visited`);
   }
 
   // useEffect(() => {
