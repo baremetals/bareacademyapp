@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useAppSelector } from "app/hooks";
 import { analytics, logEvent } from "lib/admin";
@@ -52,15 +52,11 @@ function ArticleDetailPage(props: {
 
   const imageurl = article?.attributes?.heroImage?.data?.attributes?.url;
 
-  if (typeof window != undefined) {
-    logEvent(analytics, `${article?.attributes?.title}_visited`);
-  }
-
-  // useEffect(() => {
-  //   if (typeof window != undefined) {
-  //     logEve(analytics, `${article?.attributes?.title}_visited`);
-  //   }
-  // });
+  useEffect(() => {
+    if (typeof window != undefined) {
+      logEvent(analytics, `${article?.attributes?.title}_visited`);
+    }
+  });
 
   // if (typeof window != undefined) {
   //   useEffect(() => {

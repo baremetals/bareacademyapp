@@ -90,23 +90,6 @@ function ArticlesPage(props: {
                   </BlogCardBody>
                 </BlogCard>
               ))}
-              <BlogCard>
-                <BlogCardImage
-                  alt="course image"
-                  src="/assets/images/blog-post.jpg"
-                />
-                <BlogCardBody>
-                  <BlogCardCategory>3 Months</BlogCardCategory>
-                  <BlogCardTitle>Fullstack Javascript web Dev</BlogCardTitle>
-                  <BlogCardDescription>
-                    The course includes: HTML, CSS and JavaScript and React
-                    Framework.
-                  </BlogCardDescription>
-                  <BlogCardBottom>
-                    <ApplyButton>Apply</ApplyButton>
-                  </BlogCardBottom>
-                </BlogCardBody>
-              </BlogCard>
             </PageWrapper>
           </PageWrapGroup>
         </ProfileWrapGroup>
