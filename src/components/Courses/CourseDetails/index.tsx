@@ -141,7 +141,7 @@ function CourseDetails(props: {
   };
   return (
     <>
-      {!user && <NavBar style={{ backgroundColor: "#fff" }} />}
+      {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
 
       <Dashboard>
         <ProfileWrapGroup
@@ -249,7 +249,7 @@ function CourseDetails(props: {
           </RightSideBar>
         </ProfileWrapGroup>
       </Dashboard>
-      {!user && <Footer />}
+      {!user?.id && <Footer />}
     </>
   );
 }

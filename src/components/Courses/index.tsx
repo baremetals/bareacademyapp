@@ -21,6 +21,7 @@ import {
 } from "../../styles/common.styles";
 
 
+
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import NavBar from "components/NavBar/NavBar";
@@ -36,7 +37,7 @@ function CoursesPage() {
   // console.log(courses);
   return (
     <>
-      {!user && <NavBar style={{ backgroundColor: "#fff" }} />}
+      {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
       <Dashboard>
         <ProfileWrapGroup
           style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
@@ -92,7 +93,7 @@ function CoursesPage() {
           </PageWrapGroup>
         </ProfileWrapGroup>
       </Dashboard>
-      {!user && <Footer />}
+      {!user?.id && <Footer />}
     </>
   );
 }

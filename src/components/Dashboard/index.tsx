@@ -16,11 +16,11 @@ const Dashboard = ({ children}: any) => {
   return (
     <>
       <PageContainer>
-        {user && <LeftSideBar />}
+        {user?.id && <LeftSideBar />}
         <InnerContainer>
-          {user && <TopBar />}
+          {user?.id && <TopBar />}
           {children}
-          {user && <SmallFooter />}
+          {user?.id && <SmallFooter />}
         </InnerContainer>
       </PageContainer>
     </>

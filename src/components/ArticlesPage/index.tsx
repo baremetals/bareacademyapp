@@ -53,7 +53,7 @@ function ArticlesPage(props: {
 
   return (
     <>
-      {!user && <NavBar style={{ backgroundColor: "#fff" }} />}
+      {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
 
       <Dashboard style={{}}>
         <ProfileWrapGroup
@@ -94,7 +94,7 @@ function ArticlesPage(props: {
           </PageWrapGroup>
         </ProfileWrapGroup>
       </Dashboard>
-      {!user && <Footer />}
+      {!user?.id && <Footer />}
     </>
   );
 }
