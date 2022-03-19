@@ -53,33 +53,33 @@ function CoursesPage() {
               {!courses ? (
                 <div>loading...</div>
               ) : (
-                courses.data.map((course: any, id: string) =>
+                courses?.data?.map((course: any, id: string) =>
                   !course ? null : (
                     <BlogCard key={id}>
-                      <Link href={`/courses/${course.attributes.slug}`}>
+                      <Link href={`/courses/${course?.attributes?.slug}`}>
                         <BlogCardImage
                           alt="course image"
-                          src={course.attributes.image.data.attributes.url}
+                          src={course?.attributes?.image?.data?.attributes?.url}
                         />
                       </Link>
                       <BlogCardBody>
                         <CardDuration>
                           {" "}
-                          {course.attributes.duration}
+                          {course?.attributes?.duration}
                         </CardDuration>
                         <BlogCardTitle>
-                          <Link href={`/courses/${course.attributes.slug}`}>
-                            {course.attributes.title}
+                          <Link href={`/courses/${course?.attributes?.slug}`}>
+                            {course?.attributes?.title}
                           </Link>
                         </BlogCardTitle>
                         <CardDescription>
-                          {course.attributes.description.slice(0, 80)}
+                          {course?.attributes?.description?.slice(0, 80)}
                         </CardDescription>
                         <CardBottom>
                           <CardStartDate>
-                            {dayjs(course.attributes.startDate).fromNow()}
+                            {dayjs(course?.attributes?.startDate).fromNow()}
                           </CardStartDate>
-                          <Link href={`/courses/${course.attributes.slug}`}>
+                          <Link href={`/courses/${course?.attributes?.slug}`}>
                             <ApplyButton>apply</ApplyButton>
                           </Link>
                         </CardBottom>

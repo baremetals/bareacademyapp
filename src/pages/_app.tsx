@@ -10,7 +10,6 @@ import Router from "next/router";
 // import SocketsProvider from "../context/socket.context";
 import { darkTheme } from "../styles/theme";
 import { useApollo } from "../lib/apolloClient";
-import { analytics, logEvent } from "lib/admin";
 
 import "../styles/globals.css";
 import "nprogress/nprogress.css";
@@ -27,12 +26,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-  const log = () => {
-    if (typeof window !== "undefined") {
-      logEvent(analytics, `${window.location.pathname}_visited`);
-    }
-  };
-
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   useEffect(() => {
@@ -46,14 +39,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       jssStyles?.parentElement?.removeChild(jssStyles);
     }
 
-    if (process.env.NODE_ENV === "production") {
-      Router.events.on("routeChangeComplete", log);
-    }
-
     return () => {
       Router.events.on("routeChangeStart", startLoading);
       Router.events.on("routeChangeComplete", stopLoading);
-      Router.events.off("routeChangeComplete", log);
     };
   }, []);
 

@@ -29,7 +29,7 @@ function CourseDetailsPage(props: { data: { courses: CourseEntityResponseCollect
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { slug } = ctx.query;
-  console.log(slug);
+  // console.log(slug);
   const { data } = await client.query<CourseQueryResult>({
     query: CourseDocument,
     variables: {

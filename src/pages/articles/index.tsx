@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useNoAuthPages } from "lib/noAuth";
 import ArticlesPage from "components/ArticlesPage";
 import { GetServerSidePropsContext } from "next";
 import { client } from 'lib/initApollo';
+import { analytics, logEvent } from "lib/admin";
 import { ArticlesDocument, ArticlesQueryResult, Query } from "generated/graphql";
 
 const Articles = (props: { data: Query; loading: boolean; error: any; }) => {
   useNoAuthPages();
+  useEffect(() => {
+    logEvent(analytics, `coursespage_visited`);
+  });
   return (
     <>
       <Head>

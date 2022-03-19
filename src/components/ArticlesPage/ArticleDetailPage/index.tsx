@@ -52,17 +52,17 @@ function ArticleDetailPage(props: {
 
   const imageurl = article?.attributes?.heroImage?.data?.attributes?.url;
 
-  // useEffect(() => {
-  //   if (typeof window != undefined) {
-  //     logEvent(analytics, `${article?.attributes?.title}_visited`);
-  //   }
-  // });
-
-  if (typeof window != undefined) {
-    useEffect(() => {
+  useEffect(() => {
+    if (typeof window != undefined) {
       logEvent(analytics, `${article?.attributes?.title}_visited`);
-    });
-  }
+    }
+  });
+
+  // if (typeof window != undefined) {
+  //   useEffect(() => {
+  //     logEvent(analytics, `${article?.attributes?.title}_visited`);
+  //   });
+  // }
 
   return (
     <>
