@@ -75,7 +75,7 @@ function CourseDetails(props: {
   const videos = course?.attributes?.videos?.data;
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
-  // console.log(course?.attributes);
+  // console.log(course);
 
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
