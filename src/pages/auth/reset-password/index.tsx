@@ -8,15 +8,28 @@ const ResetPassword = () => {
   useNoAuth();
   return (
     <>
-        <Head>
-          <title>Baretutorials</title>
-          <meta
-            name="description"
-            content="Tutorial site for learning web and software development"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <PasswordReset />
+      <Head>
+        <title>Bare Metals Aacademy | Reset Pasword</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Reset Password"
+          key="title"
+        />
+        <meta name="description" content="Reset your baremetals.io password" />
+        <meta property="og:type" content="reset-password" />
+        <link
+          rel="canonical"
+          href="https://baremetals.io/auth/reset-password"
+        />
+        <meta
+          property="og:url"
+          content="https://baremetals.io/auth/reset-password"
+        />
+        <meta property="og:image" content="/assets/images/forgot.svg" />
+        <meta property="og:image:width" content="450" />
+        <meta property="og:image:height" content="300" />
+      </Head>
+      <PasswordReset />
     </>
   );
 };

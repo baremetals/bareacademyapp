@@ -7,18 +7,25 @@ import { withApollo } from 'utils/withApollo';
 const TermsOfService = () => {
     useNoAuthPages();
     return (
-        <>
+      <>
         <Head>
-          <title>Baretutorials</title>
+          <title>Bare Metals Aacademy | Terms Of Service</title>
+          <meta
+            property="og:title"
+            content="Bare Metals Aacademy | Terms Of Service"
+            key="title"
+          />
           <meta
             name="description"
             content="Tutorial site for learning web and software development"
           />
-          <link rel="icon" href="/favicon.ico" />
+          <meta property="og:type" content="terms" />
+          <meta property="og:url" content="https://baremetals.io/terms" />
+          <link rel="canonical" href="https://baremetals.io/terms" />
         </Head>
         <TermsAndConditionsPage />
       </>
-    )
+    );
 }
 
 export default withApollo({ ssr: false })(TermsOfService);

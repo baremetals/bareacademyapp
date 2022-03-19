@@ -10,16 +10,23 @@ function Support() {
     return (
       <>
         <Head>
-          <title>Baretutorials</title>
+          <title>Bare Metals Aacademy | Support</title>
+          <meta
+            property="og:title"
+            content="Bare Metals Aacademy | Support"
+            key="title"
+          />
           <meta
             name="description"
             content="Tutorial site for learning web and software development"
           />
-          <link rel="icon" href="/favicon.ico" />
+          <meta property="og:type" content="support" />
+          <meta property="og:url" content="https://baremetals.io/support" />
+          <link rel="canonical" href="https://baremetals.io/support" />
         </Head>
         <SupportPage />
       </>
-    )
+    );
 }
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (_ctx) => {

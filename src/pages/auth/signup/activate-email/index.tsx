@@ -11,12 +11,25 @@ const ActivateEmail = () => {
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Activate Account</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Activate Account"
+          key="title"
+        />
         <meta
           name="description"
-          content="Tutorial site for learning web and software development"
+          content="check your email to verify the email address."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:type" content="activate-account" />
+        <link
+          rel="canonical"
+          href="https://baremetals.io/auth/signup/activate-email"
+        />
+        <meta
+          property="og:url"
+          content="https://baremetals.io/auth/signup/activate-email"
+        />
       </Head>
       <EmailTemplate message={message}></EmailTemplate>
     </>

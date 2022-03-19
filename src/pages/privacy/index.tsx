@@ -6,18 +6,25 @@ import { withApollo } from 'utils/withApollo';
 export const Privacy = () => {
     useNoAuthPages();
     return (
-        <>
+      <>
         <Head>
-          <title>Baretutorials</title>
+          <title>Bare Metals Aacademy | Privacy Settings</title>
+          <meta
+            property="og:title"
+            content="Bare Metals Aacademy | Privacy Settings"
+            key="title"
+          />
           <meta
             name="description"
             content="Tutorial site for learning web and software development"
           />
-          <link rel="icon" href="/favicon.ico" />
+          <meta property="og:type" content="privacy" />
+          <meta property="og:url" content="https://baremetals.io/privacy" />
+          <link rel="canonical" href="https://baremetals.io/privacy" />
         </Head>
         <PrivacyPage />
       </>
-    )
+    );
 }
 
 export default withApollo({ ssr: false })(Privacy);

@@ -25,12 +25,14 @@ function Home() {
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy</title>
         <meta
           name="description"
           content="Tutorial site for learning web and software development"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:type" content="home" />
+        <link rel="canonical" href="https://baremetals.io" />
+        <meta property="og:url" content="https://baremetals.io" />
       </Head>
 
       <main>

@@ -17,16 +17,21 @@ const SeachResultsPage = (props: propTypes) => {
   useIsAuth();
   return (
     <>
-        <Head>
-          <title>Baretutorials</title>
-          <meta
-            name="description"
-            content="Tutorial site for learning web and software development"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <SearchResult {...props} />
-      </>
+      <Head>
+        <title>Bare Metals Aacademy | Online Courses</title>
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Online Courses"
+          key="title"
+        />
+        <meta property="og:type" content="search" />
+      </Head>
+      <SearchResult {...props} />
+    </>
   );
 };
 

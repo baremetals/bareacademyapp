@@ -10,12 +10,25 @@ const ResetEmail = () => {
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Check your email</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Check your email"
+          key="title"
+        />
         <meta
           name="description"
-          content="Tutorial site for learning web and software development"
+          content="check your email to rest the password"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:type" content="reset-email" />
+        <link
+          rel="canonical"
+          href="https://baremetals.io/auth/reset-password/reset-email"
+        />
+        <meta
+          property="og:url"
+          content="https://baremetals.io/auth/reset-password/reset-email"
+        />
       </Head>
       <EmailTemplate message={message}></EmailTemplate>
     </>

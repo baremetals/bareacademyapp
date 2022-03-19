@@ -9,15 +9,22 @@ function Contact() {
   useNoAuthPages();
   return (
     <>
-        <Head>
-          <title>Baretutorials</title>
-          <meta
-            name="description"
-            content="Tutorial site for learning web and software development"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <ContactUsPage />
+      <Head>
+        <title>Bare Metals Aacademy | Contact Us</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Contact Us"
+          key="title"
+        />
+        <meta
+          name="description"
+          content="Reach out to baremetals academy if you have any questions."
+        />
+        <meta property="og:type" content="contact-us" />
+        <meta property="og:url" content="https://baremetals.io/contact-us" />
+        <link rel="canonical" href="https://baremetals.io/contact-us" />
+      </Head>
+      <ContactUsPage />
     </>
   );
 }

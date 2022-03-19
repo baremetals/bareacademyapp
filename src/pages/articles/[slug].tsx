@@ -20,13 +20,18 @@ const ArticlesDetailsPage = (props: { data: { articles: ArticleEntityResponseCol
   return (
     <>
       <Head>
-        <title>BareAcademy | {meta?.title} </title>
+        <title>Bare Metals Aacademy | {meta?.title} </title>
         <meta property="og:title" content={meta?.title as string} key="title" />
-        <meta
-          name="description"
-          content="Tutorial site for learning web and software development"
+        <meta name="description" content={meta?.description as string} />
+        <meta property="og:type" content={meta?.type as string} />
+        <meta property="og:url" content={meta?.url as string} />
+        <meta property="og:image" content={meta?.image as string} />
+        <meta property="og:image:width" content="100%" />
+        <meta property="og:image:height" content="auto" />
+        <link
+          rel="canonical"
+          href={`https://baremetals.io/articles/${meta?.title}`}
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <ArticleDetail props={props} />
     </>

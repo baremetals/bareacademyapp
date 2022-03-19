@@ -26,12 +26,19 @@ function Forum(props: queryProps) {
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Forum</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Forum"
+          key="title"
+        />
         <meta
           name="description"
           content="Tutorial site for learning web and software development"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:type" content="forum" />
+        <meta property="og:url" content="https://baremetals.io/forum" />
+        <link rel="canonical" href="https://baremetals.io/forum" />
       </Head>
       <ForumPage props={props}></ForumPage>
     </>

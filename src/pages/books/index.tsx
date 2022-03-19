@@ -16,15 +16,22 @@ function Books(props: queryProps) {
   // console.log(props);
   return (
     <>
-        <Head>
-          <title>Baretutorials</title>
-          <meta
-            name="description"
-            content="Tutorial site for learning web and software development"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <BooksPage props={props} />
+      <Head>
+        <title>Bare Metals Aacademy | Books</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Books"
+          key="title"
+        />
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <meta property="og:type" content="books" />
+        <meta property="og:url" content="https://baremetals.io/books" />
+        <link rel="canonical" href="https://baremetals.io/books" />
+      </Head>
+      <BooksPage props={props} />
     </>
   );
 }

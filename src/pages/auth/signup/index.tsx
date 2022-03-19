@@ -10,16 +10,26 @@ function SignUp() {
   useNoAuth();
   return (
     <>
-        <Head>
-          <title>Baretutorials</title>
-          <meta
-            name="description"
-            content="Tutorial site for learning web and software development"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Register />
-        <Footer />
+      <Head>
+        <title>Bare Metals Aacademy | Signup</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Signup"
+          key="title"
+        />
+        <meta
+          name="description"
+          content="Register and checkout all the latest courses."
+        />
+        <meta property="og:type" content="login" />
+        <link rel="canonical" href="https://baremetals.io/auth/signup" />
+        <meta property="og:url" content="https://baremetals.io/auth/signup" />
+        <meta property="og:image" content="/assets/images/reg.svg" />
+        <meta property="og:image:width" content="450" />
+        <meta property="og:image:height" content="300" />
+      </Head>
+      <Register />
+      <Footer />
     </>
   );
 }

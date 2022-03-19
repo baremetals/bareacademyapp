@@ -17,14 +17,21 @@ function HomePage(props: { data: { courses: CourseEntityResponseCollection; }; }
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Dashboard</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Dashboard"
+          key="title"
+        />
         <meta
           name="description"
           content="Tutorial site for learning web and software development"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:type" content="user-dashboard" />
+        <meta property="og:url" content="https://baremetals.io/home" />
+        <link rel="canonical" href="https://baremetals.io/home" />
       </Head>
-      <Home props={props}/>
+      <Home props={props} />
     </>
   );
 }

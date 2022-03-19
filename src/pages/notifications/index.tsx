@@ -15,14 +15,24 @@ function Notifications(props: { data: any; loading: boolean; error: any; }) {
     return (
       <>
         <Head>
-          <title>Baretutorials</title>
+          <title>Bare Metals Aacademy | Notifications</title>
+          <meta
+            property="og:title"
+            content="Bare Metals Aacademy | Notifications"
+            key="title"
+          />
           <meta
             name="description"
             content="Tutorial site for learning web and software development"
           />
-          <link rel="icon" href="/favicon.ico" />
+          <meta property="og:type" content="user-dashboard" />
+          <meta
+            property="og:url"
+            content="https://baremetals.io/notifications"
+          />
+          <link rel="canonical" href="https://baremetals.io/notifications" />
         </Head>
-        <NotificationsPage props={props}/>
+        <NotificationsPage props={props} />
       </>
     );
 }

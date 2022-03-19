@@ -10,17 +10,24 @@ import { ArticlesDocument, ArticlesQueryResult, Query } from "generated/graphql"
 const Articles = (props: { data: Query; loading: boolean; error: any; }) => {
   useNoAuthPages();
   useEffect(() => {
-    logEvent(analytics, `coursespage_visited`);
+    logEvent(analytics, `articlesPage_visited`);
   });
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Articles</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Articles"
+          key="title"
+        />
         <meta
           name="description"
-          content="Tutorial site for learning web and software development"
+          content="Check out the latest articles about software development, IT, DevOps and more..."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:url" content="https://baremetals.io/articles" />
+        <meta property="og:type" content="articles" />
+        <link rel="canonical" href="https://baremetals.io/articles" />
       </Head>
       <ArticlesPage props={props} />
     </>

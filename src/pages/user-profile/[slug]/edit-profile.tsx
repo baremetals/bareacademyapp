@@ -13,19 +13,33 @@ import {
 
 const EditProfilePage = (props: { data: any; loading: any; }) => {
     useIsAuth();
+    const user = props?.data?.usersPermissionsUser?.data?.attributes;
     return (
       <>
         <Head>
-          <title>Baretutorials</title>
+          <title>Bare Metals Aacademy | Online Courses</title>
+          <meta
+            property="og:title"
+            content="Bare Metals Aacademy | Online Courses"
+            key="title"
+          />
           <meta
             name="description"
             content="Tutorial site for learning web and software development"
           />
-          <link rel="icon" href="/favicon.ico" />
+          <meta property="og:type" content="edit-profile" />
+          <meta
+            property="og:url"
+            content={`https://baremetals.io/user-profile/${user.slug}/edit-profile`}
+          />
+          <link
+            rel="canonical"
+            href={`https://baremetals.io/user-profile/${user.slug}/edit-profile`}
+          />
         </Head>
-        <EditProfile props={props}/>
+        <EditProfile props={props} />
       </>
-    )
+    );
 }
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(

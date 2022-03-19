@@ -9,12 +9,25 @@ function ForgotPassword() {
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Forgot Pasword</title>
         <meta
-          name="description"
-          content="Tutorial site for learning web and software development"
+          property="og:title"
+          content="Bare Metals Aacademy | Forgot Password"
+          key="title"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Reset your baremetals.io password" />
+        <meta property="og:type" content="forgot-password" />
+        <link
+          rel="canonical"
+          href="https://baremetals.io/auth/forgot-password"
+        />
+        <meta
+          property="og:url"
+          content="https://baremetals.io/auth/forgot-password"
+        />
+        <meta property="og:image" content="/assets/images/forgotpassword.svg" />
+        <meta property="og:image:width" content="450" />
+        <meta property="og:image:height" content="300" />
       </Head>
       <ChangePassword />
     </>

@@ -12,12 +12,22 @@ function SignIn() {
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Signin</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Signin"
+          key="title"
+        />
         <meta
           name="description"
-          content="Tutorial site for learning web and software development"
+          content="Sign in to continue with your learning experience"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:type" content="login" />
+        <link rel="canonical" href="https://baremetals.io/auth/signin" />
+        <meta property="og:url" content="https://baremetals.io/auth/signin" />
+        <meta property="og:image" content="/assets/images/login.svg" />
+        <meta property="og:image:width" content="450" />
+        <meta property="og:image:height" content="300" />
       </Head>
       <Login />
       <Footer />

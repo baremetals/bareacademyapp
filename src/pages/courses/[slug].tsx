@@ -10,17 +10,25 @@ import { CourseDocument, CourseEntityResponseCollection, CourseQueryResult } fro
 
 function CourseDetailsPage(props: { data: { courses: CourseEntityResponseCollection; }; loading: boolean; error: any; }) {
   useNoAuthPages();
+  const course = props?.data?.courses?.data[0];
+  const meta = course?.attributes?.SEO;
   // console.log(props);
   
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
-        <meta
-          name="description"
-          content="Tutorial site for learning web and software development"
+        <title>Bare Metals Aacademy | {meta?.title} </title>
+        <meta property="og:title" content={meta?.title as string} key="title" />
+        <meta name="description" content={meta?.description as string} />
+        <meta property="og:type" content={meta?.type as string} />
+        <meta property="og:url" content={meta?.url as string} />
+        <meta property="og:image" content={meta?.image as string} />
+        <meta property="og:image:width" content="100%" />
+        <meta property="og:image:height" content="auto" />
+        <link
+          rel="canonical"
+          href={`https://baremetals.io/courses/${meta?.title}`}
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <CourseDetails props={props} />
     </>

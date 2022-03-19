@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import {
   CoursesDocument,
@@ -11,28 +11,30 @@ import { useAppDispatch } from "app/hooks";
 import { setCourse } from "features/courses/reducers";
 import { client } from "lib/initApollo";
 import { useIsAuth } from "lib/isAuth";
-import { analytics, logEvent } from "lib/admin";
 
 function courses(props: any) {
   useIsAuth();
-  // console.log(props.data);
+
   const dispatch = useAppDispatch();
   const courseData = props.data?.courses;
   dispatch(setCourse(courseData));
-
-  useEffect(() => {
-    logEvent(analytics, `coursespage_visited`);
-  });
   
   return (
     <>
       <Head>
-        <title>Baretutorials</title>
+        <title>Bare Metals Aacademy | Courses</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Courses"
+          key="title"
+        />
         <meta
           name="description"
-          content="Tutorial site for learning web and software development"
+          content="Check out the latest courses on web development, IT, cloud technology and more..."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:url" content="https://baremetals.io/courses" />
+        <meta property="og:type" content="courses" />
+        <link rel="canonical" href="https://baremetals.io/courses" />
       </Head>
       <CoursesPage />
     </>
