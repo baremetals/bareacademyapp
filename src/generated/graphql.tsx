@@ -2637,11 +2637,12 @@ export type RecentArticlesQueryVariables = Exact<{
 export type RecentArticlesQuery = { __typename?: 'Query', articles?: { __typename?: 'ArticleEntityResponseCollection', data: Array<{ __typename?: 'ArticleEntity', id?: string | null | undefined, attributes?: { __typename?: 'Article', title?: string | null | undefined, slug?: string | null | undefined, updatedAt?: any | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, heroImage?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type GetBooksQueryVariables = Exact<{
-  filters?: InputMaybe<BookFiltersInput>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  pagination?: InputMaybe<PaginationArg>;
 }>;
 
 
-export type GetBooksQuery = { __typename?: 'Query', books?: { __typename?: 'BookEntityResponseCollection', data: Array<{ __typename?: 'BookEntity', id?: string | null | undefined, attributes?: { __typename?: 'Book', title?: string | null | undefined, description?: string | null | undefined, image?: string | null | undefined, link?: string | null | undefined, author?: string | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type GetBooksQuery = { __typename?: 'Query', books?: { __typename?: 'BookEntityResponseCollection', data: Array<{ __typename?: 'BookEntity', id?: string | null | undefined, attributes?: { __typename?: 'Book', title?: string | null | undefined, description?: string | null | undefined, image?: string | null | undefined, link?: string | null | undefined, author?: string | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }>, meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', page: number, total: number, pageSize: number, pageCount: number } } } | null | undefined };
 
 export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3490,8 +3491,8 @@ export type RecentArticlesQueryHookResult = ReturnType<typeof useRecentArticlesQ
 export type RecentArticlesLazyQueryHookResult = ReturnType<typeof useRecentArticlesLazyQuery>;
 export type RecentArticlesQueryResult = Apollo.QueryResult<RecentArticlesQuery, RecentArticlesQueryVariables>;
 export const GetBooksDocument = gql`
-    query GetBooks($filters: BookFiltersInput) {
-  books(filters: $filters) {
+    query GetBooks($sort: [String], $pagination: PaginationArg) {
+  books(sort: $sort, pagination: $pagination) {
     data {
       id
       attributes {
@@ -3507,6 +3508,14 @@ export const GetBooksDocument = gql`
             }
           }
         }
+      }
+    }
+    meta {
+      pagination {
+        page
+        total
+        pageSize
+        pageCount
       }
     }
   }
@@ -3525,7 +3534,8 @@ export const GetBooksDocument = gql`
  * @example
  * const { data, loading, error } = useGetBooksQuery({
  *   variables: {
- *      filters: // value for 'filters'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
  *   },
  * });
  */
