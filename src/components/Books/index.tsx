@@ -12,6 +12,7 @@ import {
   ApplyButton,
   PageHeading,
   PageWrapper,
+  FilterSearch,
 } from "../../styles/common.styles";
 import { ErrorMsg } from 'components/Input';
 
@@ -34,7 +35,11 @@ function BooksPage(props: {
   return (
     <>
       <Dashboard>
-        <PageHeading>Recommended Books</PageHeading>
+        <PageHeading>
+          Recommended Books   
+          
+            <FilterSearch style={{ float: 'right' }} placeholder="Search" />
+        </PageHeading>
         <PageWrapper>
           {!books ? (
             <div>loading...</div>
