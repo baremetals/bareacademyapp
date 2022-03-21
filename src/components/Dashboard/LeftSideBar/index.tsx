@@ -39,7 +39,6 @@ const LeftSideBar = () => {
         <BackOverlay onClick={() => setMenuState(false)} className="" />
       )}
 
-      
       <LeftSideContainer>
         <LeftSideBarWrapper>
           <TopBarLogo>
@@ -47,7 +46,7 @@ const LeftSideBar = () => {
               <LogoShape color="#5634bf" width="100" height="100" />
             </a>
           </TopBarLogo>
-          
+
           <LeftSideBarListItem
             className={router.pathname == "/home" ? "active" : ""}
           >
@@ -120,7 +119,7 @@ const LeftSideBar = () => {
             </Link>
           </LeftSideBarListItem>
           <LeftSideBarListItem
-            className={router.pathname == "/notifications" ? "active" : ""}
+            className={router.pathname == "/articles" ? "active" : ""}
           >
             <LeftSideBarIcon>
               <Link href="/articles">
@@ -147,7 +146,6 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Support</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
-
         </LeftSideBarWrapper>
       </LeftSideContainer>
     </>
