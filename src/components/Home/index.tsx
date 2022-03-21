@@ -1,5 +1,5 @@
 import React from 'react'
-import {  } from 'styles/common.styles'
+import { BlogCardBody, BlogCardImage, BlogCardTitle, PageWrapper } from 'styles/common.styles'
 import Dashboard from '../Dashboard'
 
 import { useAppSelector } from "app/hooks";
@@ -41,7 +41,7 @@ const Home = (props: {
       <Dashboard>
         <PageHeading>@{user?.username} Dashboard</PageHeading>
         <ProfileWrapGroup
-          style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
+          // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
             style={{
@@ -50,35 +50,35 @@ const Home = (props: {
               borderRadius: "0",
             }}
           >
-            {/* <PageWrapper className="blog-wrapper"> */}
+            <PageWrapper>
               {courses &&
                 courses.map((course, id) => (
                   <BlogCard key={id}>
                     <Link href={`/courses/${course?.attributes?.slug}`}>
-                      <CardImage
+                      <BlogCardImage
                         alt="course image"
                         src={course?.attributes?.image?.data?.attributes?.url}
                       />
                     </Link>
-                    <CardBody>
+                    <BlogCardBody>
                       <CardDuration>
                         Duration - {course?.attributes?.duration}
                       </CardDuration>
-                      <CardTitle>
+                      <BlogCardTitle>
                         <Link href={`/courses/${course?.attributes?.slug}`}>
                           {course?.attributes?.title}
                         </Link>
-                      </CardTitle>
-                      <CardDescription>
+                      </BlogCardTitle>
+                      <CardDescription style={{marginBottom: '0'}}>
                         <CardStartDate>
                           Date -{" "}
                           {dayjs(course?.attributes?.startDate).fromNow()}
                         </CardStartDate>
                       </CardDescription>
-                    </CardBody>
+                    </BlogCardBody>
                   </BlogCard>
                 ))}
-            {/* </PageWrapper> */}
+            </PageWrapper>
           </PageWrapGroup>
 
           <RightSideBar>

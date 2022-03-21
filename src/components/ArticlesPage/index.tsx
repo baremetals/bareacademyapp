@@ -57,7 +57,7 @@ function ArticlesPage(props: {
 
       <Dashboard style={{}}>
         <ProfileWrapGroup
-          style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
+          // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
             style={{
