@@ -144,7 +144,7 @@ function CourseDetails(props: {
       {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
 
       <Dashboard>
-        <ProfileWrapGroup
+        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
           // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup

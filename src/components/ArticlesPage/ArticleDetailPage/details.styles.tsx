@@ -89,24 +89,31 @@ export const CoursesH2 = styled.h2`
 `;
 
 export const CoursesTeacherWrap = styled.div`
-  /* align-items: flex-start; */
   display: grid;
 `;
 export const CoursesTeacherNameAndImageWrap = styled.div`
   display: flex;
   align-items: center;
-  padding-top: 10px
 `;
 
 export const CoursesTeacherName = styled.p`
-  font-size: 12px;
-  font-weight: 300;
-  margin: 0 10px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  span {
+    font-size: .875rem;
+    display: block;
+    font-weight: 300;
+  }
 `;
 
 export const CoursesTeacherImage = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 2px #7755e2;
+  margin-right: 1rem;
+  margin-left: 2px;
 `;

@@ -56,7 +56,7 @@ function ArticlesPage(props: {
       {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
 
       <Dashboard style={{}}>
-        <ProfileWrapGroup
+        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
           // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
@@ -67,7 +67,7 @@ function ArticlesPage(props: {
             }}
           >
             <PageHeading>Articles</PageHeading>
-            <PageWrapper className="blog-wrapper">
+            <PageWrapper className={ !user?.id? '' : 'blog-wrapper'}>
               {articles?.map((art, id) => (
                 <BlogCard key={id}>
                   <BlogCardImage

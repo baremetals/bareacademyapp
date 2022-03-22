@@ -40,7 +40,7 @@ const Home = (props: {
     <>
       <Dashboard>
         <PageHeading>@{user?.username} Dashboard</PageHeading>
-        <ProfileWrapGroup
+        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
           // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup

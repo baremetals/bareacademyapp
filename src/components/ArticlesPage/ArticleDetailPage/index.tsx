@@ -9,6 +9,10 @@ import {
   BlogCardImage,
   ProfileWrapGroup,
   PageWrapGroup,
+  CoursesArticleWrap,
+  CoursesArticleNameAndImageWrap,
+  CoursesArticleImage,
+  CoursesArticleName,
 } from "../../../styles/common.styles";
 import RightSideBar from "components/Dashboard/RightSideBar";
 import { CardTitle } from "../../ArticlesPage/ArticleDetailPage/details.styles";
@@ -69,7 +73,7 @@ function ArticleDetailPage(props: {
       {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
 
       <Dashboard style={{}}>
-        <ProfileWrapGroup
+        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
           // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
@@ -87,6 +91,17 @@ function ArticleDetailPage(props: {
               />
               {article?.attributes?.title}
             </PageHeading>
+            
+            <CoursesArticleWrap style={{marginBottom: '2rem'}}>
+              <CardTitle>Author</CardTitle>
+              <CoursesArticleNameAndImageWrap style={{paddingTop: '0'}}>
+                <CoursesArticleImage src="/D.jpg" />
+                <CoursesArticleName>
+                  Daniel Asante
+                  <span>Developer</span>
+                  </CoursesArticleName>
+              </CoursesArticleNameAndImageWrap>
+            </CoursesArticleWrap>
 
             <BlogCardImage
               style={{ borderRadius: "1rem" }}
@@ -100,6 +115,7 @@ function ArticleDetailPage(props: {
             <div style={{ marginBottom: "1.5rem" }}>
               <Markdown>{article?.attributes?.body as string}</Markdown>
             </div>
+            
           </PageWrapGroup>
           <RightSideBar>
             <RecentArticles />

@@ -102,7 +102,8 @@ const Login = () => {
               </Link>
               <FormWrap>
                 <MainContainer>
-                  <WelcomeText>login</WelcomeText>
+                  
+                  <WelcomeText>Login</WelcomeText>
                   {errorMsg && (
                     <>
                       <ErrorMsg>{initialValues.error}</ErrorMsg>
@@ -136,6 +137,7 @@ const Login = () => {
                       type="submit"
                       content="Sign in"
                       disabled={isSubmitting}
+                      loading={isSubmitting}
                     />
                     <Link href="/auth/signup">
                       <LoginWith>Register </LoginWith>
