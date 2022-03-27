@@ -52,79 +52,79 @@ function ArticleDetailPage(props: {
   // const allPosts = data.data;
   const article = data?.articles?.data[0];
 
-  // console.log(article);
+  const imageurl = article?.attributes?.heroImage?.data?.attributes?.url
+  const author = article?.attributes?.author?.data?.attributes;
+  const avatar = author?.avatar?.data?.attributes?.url;
 
-  const imageurl = article?.attributes?.heroImage?.data?.attributes?.url;
+    // useEffect(() => {
+    //   if (typeof window != undefined) {
+    //     logEvent(analytics, `${article?.attributes?.title}_visited`);
+    //   }
+    // });
 
-  // useEffect(() => {
-  //   if (typeof window != undefined) {
-  //     logEvent(analytics, `${article?.attributes?.title}_visited`);
-  //   }
-  // });
+    // if (typeof window != undefined) {
+    //   useEffect(() => {
+    //     logEvent(analytics, `${article?.attributes?.title}_visited`);
+    //   });
+    // }
 
-  // if (typeof window != undefined) {
-  //   useEffect(() => {
-  //     logEvent(analytics, `${article?.attributes?.title}_visited`);
-  //   });
-  // }
+    return (
+      <>
+        {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
 
-  return (
-    <>
-      {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
-
-      <Dashboard style={{}}>
-        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
-          // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
-        >
-          <PageWrapGroup
-            style={{
-              backgroundColor: "transparent",
-              boxShadow: "none",
-              borderRadius: "0",
-            }}
+        <Dashboard style={{}}>
+          <ProfileWrapGroup
+            className={user?.id ? "" : "container-loggedin"}
+            // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
           >
-            <PageHeading>
-              <SocialShare
-                pathname={router.asPath}
-                toggle={toggle}
-                socialDropdown={socialDropdown}
-              />
-              {article?.attributes?.title}
-            </PageHeading>
-            
-            <CoursesArticleWrap style={{marginBottom: '2rem'}}>
-              <CardTitle>Author</CardTitle>
-              <CoursesArticleNameAndImageWrap style={{paddingTop: '0'}}>
-                <CoursesArticleImage src="/D.jpg" />
-                <CoursesArticleName>
-                  Daniel Asante
-                  <span>Developer</span>
+            <PageWrapGroup
+              style={{
+                backgroundColor: "transparent",
+                boxShadow: "none",
+                borderRadius: "0",
+              }}
+            >
+              <PageHeading>
+                <SocialShare
+                  pathname={router.asPath}
+                  toggle={toggle}
+                  socialDropdown={socialDropdown}
+                />
+                {article?.attributes?.title}
+              </PageHeading>
+
+              <CoursesArticleWrap style={{ marginBottom: "2rem" }}>
+                <CardTitle>Author</CardTitle>
+                <CoursesArticleNameAndImageWrap style={{ paddingTop: "0" }}>
+                  <CoursesArticleImage src={avatar} alt="author avatar"/>
+                  <CoursesArticleName>
+                    {author?.fullName}
+                    <span>{author?.jobTitle}</span>
                   </CoursesArticleName>
-              </CoursesArticleNameAndImageWrap>
-            </CoursesArticleWrap>
+                </CoursesArticleNameAndImageWrap>
+              </CoursesArticleWrap>
 
-            <BlogCardImage
-              style={{ borderRadius: "1rem" }}
-              alt="article image"
-              src={imageurl}
-            />
+              <BlogCardImage
+                style={{ borderRadius: "1rem" }}
+                alt="article image"
+                src={imageurl}
+              />
 
-            <CardTitle style={{ margin: "1rem 0" }}>
-              {article?.attributes?.title}
-            </CardTitle>
-            <div style={{ marginBottom: "1.5rem" }}>
-              <Markdown>{article?.attributes?.body as string}</Markdown>
-            </div>
-            
-          </PageWrapGroup>
-          <RightSideBar>
-            <RecentArticles />
-          </RightSideBar>
-        </ProfileWrapGroup>
-      </Dashboard>
-      {!user?.id && <Footer />}
-    </>
-  );
+              <CardTitle style={{ margin: "1rem 0" }}>
+                {article?.attributes?.title}
+              </CardTitle>
+              <div style={{ marginBottom: "1.5rem" }}>
+                <Markdown>{article?.attributes?.body as string}</Markdown>
+              </div>
+            </PageWrapGroup>
+            <RightSideBar>
+              <RecentArticles />
+            </RightSideBar>
+          </ProfileWrapGroup>
+        </Dashboard>
+        {!user?.id && <Footer />}
+      </>
+    );
 }
 
 export default ArticleDetailPage;

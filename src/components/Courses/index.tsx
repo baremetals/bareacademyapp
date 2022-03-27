@@ -41,7 +41,7 @@ function CoursesPage() {
       {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
       <Dashboard>
       <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
-        //style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
+        // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
             style={{

@@ -40,7 +40,7 @@ export default function NavBar({ toggle, ...props }: any) {
     <Nav scrollNav={scrcollNav} {...props}>
       <NavBarContainer>
         <Link href="/">
-          <NavLogo onClick={toggleHome}>
+          <NavLogo onClick={() => toggleHome()}>
             <LogoShape color="#5634bf" width="50" height="50" />
           </NavLogo>
         </Link>
