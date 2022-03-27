@@ -15,6 +15,12 @@ export const PageContainer = styled.div`
 
 export const ProfileWrapGroup = styled.div`
   display: flex;
+  &.container-loggedin {
+      max-width: 1232px;
+      width: 100%;
+      margin: 0 auto;
+      padding-top: 5rem;
+  }
 `;
 
 export const ContentArea = styled.div`
@@ -504,3 +510,34 @@ export const H4 = styled.h4`
   font-weight: bold;
 `;
 export const Strong = styled.strong``;
+
+export const CoursesArticleWrap = styled.div`
+  display: grid;
+`;
+
+export const CoursesArticleNameAndImageWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const CoursesArticleName = styled.p`
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  span {
+    font-size: .875rem;
+    display: block;
+    font-weight: 300;
+  }
+`;
+
+export const CoursesArticleImage = styled.img`
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 2px #7755e2;
+  margin-right: 1rem;
+  margin-left: 2px;
+`;

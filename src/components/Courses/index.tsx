@@ -35,12 +35,13 @@ function CoursesPage() {
   const { user: user } = useAppSelector(isUser);
   const courses: any = useAppSelector(theCourses);
   // console.log(courses);
+
   return (
     <>
       {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
       <Dashboard>
-        <ProfileWrapGroup
-          // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
+      <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
+        //style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
             style={{
@@ -50,7 +51,7 @@ function CoursesPage() {
             }}
           >
             <PageHeading>Courses</PageHeading>
-            <PageWrapper className="blog-wrapper">
+            <PageWrapper className={ !user?.id? '' : 'blog-wrapper'}>
               {!courses ? (
                 <div>loading...</div>
               ) : (
