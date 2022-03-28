@@ -50,6 +50,7 @@ import VideoCard from './VideoCard';
 import NavBar from 'components/NavBar/NavBar';
 import Footer from 'components/Footer/Footer';
 import SocialShare from 'components/SocialShare';
+import NavDropDown from 'components/NavDropDown';
 
 const RecentCourses = dynamic(() => import("../RecentCourses"));
 
@@ -80,6 +81,12 @@ function CourseDetails(props: {
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
     setSocialDropdown(!socialDropdown);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu: any = () => {
+    setIsOpen(!isOpen);
   };
 
   const [errorMsg, setErrorMsg] = useState(false);
@@ -141,10 +148,16 @@ function CourseDetails(props: {
   };
   return (
     <>
-      {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
+      {!user?.id && (
+        <>
+          <NavBar style={{ backgroundColor: "#fff" }} toggle={toggleMenu} />
+          <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
+        </>
+      )}
 
       <Dashboard>
-        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
+        <ProfileWrapGroup
+          className={user?.id ? "" : "container-loggedin"}
           // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup

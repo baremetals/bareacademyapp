@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
@@ -28,6 +28,7 @@ import NavBar from "components/NavBar/NavBar";
 // import { PageContainer } from "components/ErrorPage";
 // import { InnerContainer } from "components/EmailTemplate/style.template";
 import Footer from "components/Footer/Footer";
+import NavDropDown from 'components/NavDropDown';
 dayjs.extend(relativeTime);
 
 
@@ -35,13 +36,24 @@ function CoursesPage() {
   const { user: user } = useAppSelector(isUser);
   const courses: any = useAppSelector(theCourses);
   // console.log(courses);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu: any = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
-      {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
+      {!user?.id && (
+        <>
+          <NavBar style={{ backgroundColor: "#fff" }} toggle={toggleMenu} />
+          <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
+        </>
+      )}
       <Dashboard>
-      <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
-        // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
+        <ProfileWrapGroup
+          className={user?.id ? "" : "container-loggedin"}
+          // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
             style={{
@@ -51,7 +63,7 @@ function CoursesPage() {
             }}
           >
             <PageHeading>Courses</PageHeading>
-            <PageWrapper className={ !user?.id? '' : 'blog-wrapper'}>
+            <PageWrapper className={!user?.id ? "" : "blog-wrapper"}>
               {!courses ? (
                 <div>loading...</div>
               ) : (

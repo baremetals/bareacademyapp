@@ -23,6 +23,7 @@ export default function NavBar({ toggle, ...props }: any) {
   // console.log(router.pathname)
   const [scrcollNav, setScrollNav] = useState(false);
 
+
   const changeNav = () => {
     if (window.scrollY >= 80) {
       setScrollNav(true);
@@ -44,9 +45,9 @@ export default function NavBar({ toggle, ...props }: any) {
             <LogoShape color="#5634bf" width="50" height="50" />
           </NavLogo>
         </Link>
-        <MobileIcon onClick={toggle}>
-          <FaBars style={{ color: "black" }} />
-        </MobileIcon>
+          <MobileIcon onClick={toggle}>
+            <FaBars style={{ color: "black" }} />
+          </MobileIcon>
         <NavMenu>
           {router.pathname === "/" ? (
             <>

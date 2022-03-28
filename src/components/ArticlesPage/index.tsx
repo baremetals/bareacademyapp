@@ -1,4 +1,4 @@
-// import React, {useEffect} from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import { useAppSelector } from "app/hooks";
 // import { analytics, logEve } from "lib/admin";
@@ -22,6 +22,8 @@ import NavBar from "components/NavBar/NavBar";
 import Footer from "components/Footer/Footer";
 import { ArticleEntity, Query } from 'generated/graphql';
 import { ErrorMsg } from 'components/Input';
+import NavDropDown from 'components/NavDropDown';
+
 
 
 function ArticlesPage(props: {
@@ -38,6 +40,12 @@ function ArticlesPage(props: {
 
    if (error) return <ErrorMsg>{error}</ErrorMsg>;
 
+   const [isOpen, setIsOpen] = useState(false);
+
+   const toggleMenu: any = () => {
+     setIsOpen(!isOpen);
+   };
+
   const articleData = data?.articles;
   const articles = articleData?.data as Array<ArticleEntity>;
 
@@ -53,10 +61,16 @@ function ArticlesPage(props: {
 
   return (
     <>
-      {!user?.id && <NavBar style={{ backgroundColor: "#fff" }} />}
+      {!user?.id && (
+        <>
+          <NavBar style={{ backgroundColor: "#fff" }} toggle={toggleMenu} />
+          <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
+        </>
+      )}
 
       <Dashboard style={{}}>
-        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
+        <ProfileWrapGroup
+          className={user?.id ? "" : "container-loggedin"}
           // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
           <PageWrapGroup
@@ -67,7 +81,7 @@ function ArticlesPage(props: {
             }}
           >
             <PageHeading>Articles</PageHeading>
-            <PageWrapper className={ !user?.id? '' : 'blog-wrapper'}>
+            <PageWrapper className={!user?.id ? "" : "blog-wrapper"}>
               {articles?.map((art, id) => (
                 <BlogCard key={id}>
                   <BlogCardImage
