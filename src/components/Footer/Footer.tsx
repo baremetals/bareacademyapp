@@ -85,13 +85,21 @@ function Footer(): ReactElement {
                 >
                   <FaTwitter />
                 </SocialIconLink>
-                <SocialIconLink href="" target="_blank" aria-label="FaceBook">
+                <SocialIconLink
+                  href="https://www.facebook.com/baremetals.academy"
+                  target="_blank"
+                  aria-label="FaceBook"
+                >
                   <FaFacebook />
                 </SocialIconLink>
                 <SocialIconLink href="" target="_blank" aria-label="Tiktok">
                   <SiTiktok />
                 </SocialIconLink>
-                <SocialIconLink href="" target="_blank" aria-label="Youtube">
+                <SocialIconLink
+                  href="https://www.youtube.com/channel/UCTmmiAeYJmHKo5oACmPGh-g/featured"
+                  target="_blank"
+                  aria-label="Youtube"
+                >
                   <FaYoutube />
                 </SocialIconLink>
                 <SocialIconLink

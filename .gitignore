@@ -30,6 +30,7 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .env
+.env.dev
 
 # vercel
 .vercel
@@ -59,3 +60,5 @@ yarn-error.log
 private.ts
 storagedb.json
 .vscode
+/public/robots.txt
+/public/sitemap.xml

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { MdHome, MdForum, MdSchool } from "react-icons/md";
 import { FaRegQuestionCircle } from "react-icons/fa";
-import { RiNotification2Fill } from "react-icons/ri";
+import { RiNotification2Fill, RiNewspaperFill } from "react-icons/ri";
 import { TopBarLogo } from "../TopBar/topbar.styles";
 import {
   LeftSideContainer,
@@ -17,11 +17,10 @@ import {
 
 import { LogoShape } from "../../../../public/assets/icons/LogoShape"
 import { BooksIcon } from "../../../../public/assets/icons/BooksIcon";
-import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
-
-
+// import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
 
 const LeftSideBar = () => {
+
   const router = useRouter();
   const [menuState, setMenuState] = useState(false);
   {
@@ -39,6 +38,7 @@ const LeftSideBar = () => {
       {menuState && (
         <BackOverlay onClick={() => setMenuState(false)} className="" />
       )}
+
       <LeftSideContainer>
         <LeftSideBarWrapper>
           <TopBarLogo>
@@ -61,7 +61,6 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Dashboard</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
-
           <LeftSideBarListItem
             className={router.pathname == "/courses" ? "active" : ""}
           >
@@ -88,22 +87,6 @@ const LeftSideBar = () => {
             </LeftSideBarIcon>
             <Link href="/books">
               <LeftSideBarListItemText>Books</LeftSideBarListItemText>
-            </Link>
-          </LeftSideBarListItem>
-
-          <LeftSideBarListItem
-            className={router.pathname == "/messages" ? "active" : ""}
-          >
-            <LeftSideBarIcon>
-              {/* <IconBadge></IconBadge> */}
-              <Link href="/messages">
-                <div>
-                  <ChatIcon />
-                </div>
-              </Link>
-            </LeftSideBarIcon>
-            <Link href="/messages">
-              <LeftSideBarListItemText>Chat</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
           <LeftSideBarListItem
@@ -133,6 +116,20 @@ const LeftSideBar = () => {
             </LeftSideBarIcon>
             <Link href="/notifications">
               <LeftSideBarListItemText>Notifications</LeftSideBarListItemText>
+            </Link>
+          </LeftSideBarListItem>
+          <LeftSideBarListItem
+            className={router.pathname == "/articles" ? "active" : ""}
+          >
+            <LeftSideBarIcon>
+              <Link href="/articles">
+                <div>
+                  <RiNewspaperFill />
+                </div>
+              </Link>
+            </LeftSideBarIcon>
+            <Link href="/articles">
+              <LeftSideBarListItemText>Articles</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
           <LeftSideBarListItem

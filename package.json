@@ -8,7 +8,8 @@
     "start": "next start -p 3500",
     "lint": "next lint",
     "gen": "graphql-codegen --config codegen.yml",
-    "yarn gen": "graphql-codegen --config codegen.yml"
+    "yarn gen": "graphql-codegen --config codegen.yml",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
@@ -33,6 +34,7 @@
     "graphql": "^15.6.1",
     "html-to-draftjs": "^1.5.0",
     "isomorphic-fetch": "^3.0.0",
+    "markdown-to-jsx": "^7.1.7",
     "next": "12",
     "next-apollo": "^5.0.7",
     "next-auth": "^4.0.0-beta.6",
@@ -84,6 +86,7 @@
     "eslint-config-next": "11.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.24.0",
+    "next-sitemap": "^2.5.7",
     "prettier": "^2.3.2",
     "ts-node": "^10.2.1",
     "typescript": "4.3.5"

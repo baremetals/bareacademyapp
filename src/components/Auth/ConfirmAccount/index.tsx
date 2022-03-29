@@ -28,7 +28,6 @@ const ConfirmAccount = ({ ...props }: activePage) => {
           <MainContainer>
             <WelcomeText>Account Activation</WelcomeText>
             {props.children}
-            
           </MainContainer>
         </PageWrap>
         <FormWrapThumb>
@@ -38,6 +37,7 @@ const ConfirmAccount = ({ ...props }: activePage) => {
             width={450}
             height={300}
             layout="responsive"
+            priority
           />
         </FormWrapThumb>
       </FormWrapRow>

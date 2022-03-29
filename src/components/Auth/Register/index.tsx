@@ -64,7 +64,7 @@ const Register = () => {
         setErrorMsg(true);
         setTimeout(() => {
           setErrorMsg(false);
-        }, 7000);
+        }, 10000);
       });
   };
 
@@ -156,6 +156,7 @@ const Register = () => {
                   width={600}
                   height={620}
                   layout="responsive"
+                  priority
                 />
               </FormWrapThumb>
             </FormWrapRow>

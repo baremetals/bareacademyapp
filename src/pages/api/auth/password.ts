@@ -28,9 +28,7 @@ export default async function handler(
       res.status(200).json({resp: resp.data});
     } catch (err: any) {
       // console.log(err.response.data);
-      res
-        .status(401)
-        .json({ message: "Something went wrong please try again later." });
+      res.status(401).json({ message: err.response.data });
     }
   } else if (req.body.data.flag === "RESETPASSWORD") {
     try {
@@ -49,10 +47,8 @@ export default async function handler(
     //   console.log(resp.data.user.username);
       res.status(200).json({ resp: resp.data.user.confirmed });
     } catch (err: any) {
-      // console.log(err.response.data);
-      res
-        .status(401)
-        .json({ message: "Something went wrong please try again later." });
+      // console.log(err.response.data.message);
+      res.status(401).json({ message: err.response.data.error.message });
     }
   } else {
     try {
@@ -68,10 +64,8 @@ export default async function handler(
       // console.log(response)
       res.status(200).json({ message: "Successfuly registered!" });
     } catch (err: any) {
-      // console.log(err.response.data);
-      res
-        .status(401)
-        .json({ message: "Something went wrong please try again later." });
+      console.log(err.response.data.error.message);
+      res.status(401).json({ message: err.response.data.error.message });
     }
   }
 

@@ -1,11 +1,12 @@
-query Courses {
-  courses {
+query Courses($pagination: PaginationArg, $sort: [String]) {
+  courses(pagination: $pagination, sort: $sort) {
     data {
       id
       attributes {
         slug
         title
         duration
+        introduction
         description
         startDate
         image {

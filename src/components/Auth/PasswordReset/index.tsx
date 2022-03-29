@@ -50,7 +50,7 @@ const ResetPassword = () => {
       .then((res) => {
         // console.log(res.data);
         if (res.data.resp === true) {
-          const msg: string = "Password reset successfull, please login.";
+          const msg: string = "Password reset successful, please login.";
           initialValues.success = msg;
           setSuccessMsg(true);
           toast.success(msg);
@@ -64,7 +64,7 @@ const ResetPassword = () => {
           toast.success(msg);
           setTimeout(() => {
             router.push("/auth/reset-password/reset-email");
-          }, 4000);
+          }, 6000);
         }
       })
       .catch((err) => {
@@ -140,6 +140,7 @@ const ResetPassword = () => {
                   width={450}
                   height={300}
                   layout="responsive"
+                  priority
                 />
               </FormWrapThumb>
             </FormWrapRow>

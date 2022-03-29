@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router"
+import axios from "axios";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -12,7 +13,9 @@ import Dropdown, {
   ItemWrapper,
 } from "../Dropdown";
 // import { useDeletePostMutation } from "generated/graphql";
-import { ToastContainer } from "react-toastify";
+
+import { ErrorMsg } from "components/Input";
+import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -46,7 +49,6 @@ import {
 interface ForumPost {
   slug: string;
   username: string;
-  userIdSlug: string;
   image: string;
   date: any;
   title: string;
@@ -55,12 +57,12 @@ interface ForumPost {
   commentCount: number;
   children?: any;
   id: string;
+  userIdSlug?: string;
 }
 
 
 const ImagePostCard = ({
   username,
-  slug: userIdSlug,
   image,
   date,
   title,
@@ -69,24 +71,35 @@ const ImagePostCard = ({
   commentCount = 0,
   slug,
   children,
-  id
+  id,
+  userIdSlug,
 }: ForumPost) => {
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState(false);
-  // const [deletePost] = useDeletePostMutation();
-  
+  const [msg, setMsg] = useState("");
+  const [error, setError] = useState(true);
+
+
   const handleDelete = async (postId: string) => {
-    // const res = await deletePost({
-    //   variables: { deletePostId: postId },
-    // });
-    // if (res.data?.deletePost.includes("deleted")) {
-    //   // console.log(res);
-    //   // result.refetch(DeletePostDocument);
-    // } else {
-    //   toast.error(res.data?.deletePost);
-    // }
+    console.log(postId);
+    await axios
+      .post("/api/posts/delete", {
+        data: {
+          deletePostId: postId,
+        },
+      })
+      .then(() => {
+        router.push(`/user-profile/${userIdSlug}`);
+      })
+      .catch((err) => {
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          toast.error("Sorry something went wrong please try again later.");
+          setError(false);
+        }, 10000);
+      });
   };
-  
 
   return (
     <>
@@ -96,6 +109,7 @@ const ImagePostCard = ({
             <Link href={`user-profile/${userIdSlug}`}>
               <PostProfileImge src={image} alt="user profile image" />
             </Link>
+
             <Link href={`user-profile/${userIdSlug}`}>
               <UserName>
                 {username}
@@ -104,6 +118,7 @@ const ImagePostCard = ({
               </UserName>
             </Link>
           </PostLeftWrap>
+          {error && <ErrorMsg>{msg}</ErrorMsg>}
           <PostTopRightWrap>
             <PostDropdown>
               <span

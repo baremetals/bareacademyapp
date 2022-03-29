@@ -1,5 +1,6 @@
 import React from "react";
-import { Button } from "../Button/styles"
+import { useRouter } from "next/router";
+import { Button } from "../Button/styles";
 import {
   MainContainer,
   MainWrapper,
@@ -12,10 +13,8 @@ import {
   Subtitle,
   BtnWrap,
   ImgWrap,
-  Img
+  Img,
 } from "./styles";
-
-
 
 const MainSection = ({
   lightBg,
@@ -34,6 +33,7 @@ const MainSection = ({
   dark2,
   ...props
 }: any) => {
+  const router = useRouter();
 
   return (
     <>
@@ -51,16 +51,8 @@ const MainSection = ({
                 </Subtitle>
                 <BtnWrap>
                   <Button
-                    exact="true"
-                    to="home"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    offset={-80}
-                    primary={primary ? 1 : 0}
-                    dark={dark ? 1 : 0}
-                    dark2={dark2 ? 1 : 0}
-                    {...props}
+                    type="button"
+                    onClick={() => router.push("/auth/signup")}
                   >
                     {buttonLabel}
                   </Button>

@@ -1,5 +1,5 @@
-query GetBooks($filters: BookFiltersInput) {
-  books(filters: $filters) {
+query GetBooks($sort: [String], $pagination: PaginationArg) {
+  books(sort: $sort, pagination: $pagination) {
     data {
       id
       attributes {
@@ -15,6 +15,14 @@ query GetBooks($filters: BookFiltersInput) {
             }
           }
         }
+      }
+    }
+    meta {
+      pagination {
+        page
+        total
+        pageSize
+        pageCount
       }
     }
   }

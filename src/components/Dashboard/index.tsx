@@ -1,4 +1,6 @@
 import React from 'react'
+import { useAppSelector } from "app/hooks";
+import { isUser } from "features/auth/selectors";
 import TopBar from './TopBar'
 import LeftSideBar from './LeftSideBar'
 import SmallFooter from './SmallFooter'
@@ -10,14 +12,15 @@ import {
 
 
 const Dashboard = ({ children}: any) => {
+  const { user: user } = useAppSelector(isUser);
   return (
     <>
       <PageContainer>
-        <LeftSideBar />
+        {user?.id && <LeftSideBar />}
         <InnerContainer>
-          <TopBar />
+          {user?.id && <TopBar />}
           {children}
-          <SmallFooter />
+          {user?.id && <SmallFooter />}
         </InnerContainer>
       </PageContainer>
     </>

@@ -16,6 +16,7 @@ import {
 //   }
 // );
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+const folder: string | undefined = process.env.NEXT_PUBLIC_POST_UPLOAD_FOLDER;
 
 const ModalEditor = ({
   onEditorStateChange,
@@ -24,9 +25,9 @@ const ModalEditor = ({
   // content,
   ...props
 }: any) => {
-  
+
     const uploadImageCallBack = async (file: File) => {
-      const testingRef = ref(storage, `testing folder/${file.name}`);
+      const testingRef = ref(storage, `${folder}/${file.name}`);
       await uploadInlineImageForModal(file, testingRef);
       const url = await getDownloadURL(testingRef);
       // console.log(res);

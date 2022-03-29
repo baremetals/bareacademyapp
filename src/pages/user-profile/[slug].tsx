@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import Profile from "components/Profile";
@@ -14,11 +15,36 @@ import {
 
 
 const UserProfile = (props: { data: any; loading: any; error: any; }) => {
+  const searchedUser =
+    props?.data?.data?.usersPermissionsUsers?.data[0]?.attributes;
+  const loggedInUser =
+    props?.data?.data?.usersPermissionsUser?.data?.attributes || {};
+  const user = loggedInUser ? loggedInUser : searchedUser || {};
   useIsAuth();
-  
   return (
     <>
-      <Profile props={props}/>
+      <Head>
+        <title>Bare Metals Aacademy | Online Courses</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Online Courses"
+          key="title"
+        />
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <meta property="og:type" content="user-profile" />
+        <meta
+          property="og:url"
+          content={`https://baremetals.io/user-profile/${user?.slug}/` || ""}
+        />
+        <link
+          rel="canonical"
+          href={`https://baremetals.io/user-profile/${user?.slug}/` || ""}
+        />
+      </Head>
+      <Profile props={props} />
     </>
   );
 };

@@ -7,6 +7,7 @@ import axios from "axios";
 import NextImage from "next/image";
 
 
+
 // Redux imports
 import { useAppDispatch } from "app/hooks";
 import { setSuccess, setError } from "features/ui/reducers";
@@ -33,6 +34,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FooterLinkContainer } from "components/Footer/styles";
+// import Spinner from "components/Spinner"
 
 
 
@@ -58,9 +60,9 @@ const Login = () => {
       .then((res) => {
         // console.log(res.data.data);
         if (res.data.data !== null) {
-          dispatch(setSuccess("login successful"));
+          dispatch(setSuccess("Login successful"));
           dispatch(setUser(res.data));
-          toast.success("login successful");
+          toast.success("Login successful");
           setTimeout(() => {
             // router.push(`/user-profile/${res.data.username}`);
             router.push("/home");
@@ -69,12 +71,12 @@ const Login = () => {
           const errMsgData = res.data.error;
           console.log(errMsgData);
           if (errMsgData.name === "ValidationError") {
-            err = "incorrect details provided";
+            err = "Incorrect details provided";
             initialValues.error = err;
             setErrorMsg(true);
             dispatch(setError(err));
           } else {
-            err = "something went wrong please try again later";
+            err = "Something went wrong please try again later";
             initialValues.error = err;
             setErrorMsg(true);
             dispatch(setError(err));
@@ -100,7 +102,8 @@ const Login = () => {
               </Link>
               <FormWrap>
                 <MainContainer>
-                  <WelcomeText>login</WelcomeText>
+                  
+                  <WelcomeText>Login</WelcomeText>
                   {errorMsg && (
                     <>
                       <ErrorMsg>{initialValues.error}</ErrorMsg>
@@ -134,6 +137,7 @@ const Login = () => {
                       type="submit"
                       content="Sign in"
                       disabled={isSubmitting}
+                      loading={isSubmitting}
                     />
                     <Link href="/auth/signup">
                       <LoginWith>Register </LoginWith>
@@ -165,5 +169,4 @@ const Login = () => {
     </>
   );
 }
-
 export default Login

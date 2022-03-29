@@ -51,7 +51,7 @@ const ChangePassword = () => {
           toast.success("Please check your email inbox");
           setTimeout(() => {
             router.push("/auth/signin");
-          }, 3000);
+          }, 5000);
         }
         
       })
@@ -121,6 +121,7 @@ const ChangePassword = () => {
                     width={450}
                     height={300}
                     layout="responsive"
+                    priority
                   />
                 </FormWrapThumb>
               </FormWrapRow>

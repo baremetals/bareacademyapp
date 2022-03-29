@@ -1,0 +1,21 @@
+query RecentCourses($pagination: PaginationArg, $sort: [String]) {
+  courses(pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        duration
+        image {
+          data {
+            id
+            attributes {
+              url
+            }
+          }
+        }
+        updatedAt
+      }
+    }
+  }
+}

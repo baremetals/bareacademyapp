@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import slugify from "slugify";
+import axios from "axios";
 
 // import { useAppSelector } from "app/hooks";
 // import { isUser } from "features/auth";
@@ -10,7 +11,6 @@ import slugify from "slugify";
 
 import {
   useCategoriesQuery,
-  useUpdatePostMutation
 } from "generated/graphql";
 
 import { EditorState, convertToRaw } from "draft-js";
@@ -40,7 +40,7 @@ import {
   SubmitButton,
 } from "../ShareForm/modal.styles";
 import { FormInput } from "./PostForm"
-import { ErrorMsg } from 'components/Input';
+import { ErrorMsg, SuccessMsg } from 'components/Input';
 
 
 type editPostType = {
@@ -60,11 +60,11 @@ const EditPostForm = ({ ...props }: editPostType) =>
   {
     const router = useRouter();
     const { data } = useCategoriesQuery();
-    const [update] = useUpdatePostMutation();
     // const { user: user } = useAppSelector(isUser);
 
     const categories = data?.categories?.data;
     // dispatch(setCategory(data?.getAllCategories));
+    
 
     const {
       closeM,
@@ -76,7 +76,7 @@ const EditPostForm = ({ ...props }: editPostType) =>
       body,
       id,
     } = props;
-    // console.log(categoryId)
+    
 
     const {
       register,
@@ -86,38 +86,37 @@ const EditPostForm = ({ ...props }: editPostType) =>
     } = useForm<FormInput>();
 
     const [msg, setMsg] = useState("");
-    // const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [content, setContent] = useState(body);
 
     const [, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
     const onEditSubmit = async (info: FormInput) => {
-      console.log(info);
-      const res = await update({
-        variables: {
-          updatePostId: id,
+
+      const slug: string = slugify(info.title);
+      await axios
+        .post("/api/posts/edit", {
           data: {
+            updatePostId: id,
             title: info.title,
             slug: slugify(info.title),
             body: info.body,
           },
-        },
-      });
-
-      // console.log(res)
-
-      if (res?.data) {
-        const slug = res?.data?.updatePost?.data?.attributes?.slug;
-        router.push(`/forum/${slug}`);
-        setShowModal(false);;
-      } else {
-        setMsg("Sorry something went wrong please try again later.");
-        setError(true);
-        setTimeout(() => {
-          setError(false);
-        }, 5000);
-      }
+        })
+        .then(() => {
+          setShowModal(false);
+          setMsg("Post edited successfully");
+          setSuccess(true);
+          router.push(`/forum/${slug}`);
+        })
+        .catch((err) => {
+          setMsg("Sorry something went wrong please try again later.");
+          setError(true);
+          setTimeout(() => {
+            setError(false);
+          }, 10000);
+        });
     };
 
     return (
@@ -133,7 +132,7 @@ const EditPostForm = ({ ...props }: editPostType) =>
             </CloseButtonWrap>
             <CardText>Edit Post</CardText>
             {error && <ErrorMsg>{msg}</ErrorMsg>}
-            {/* {success && <SuccessMsg>{msg}</SuccessMsg>} */}
+            {success && <SuccessMsg>{msg}</SuccessMsg>}
             <InputContainer>
               <InputFormGroupRow>
                 <InputFormGroup>

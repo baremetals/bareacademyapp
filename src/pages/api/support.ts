@@ -3,15 +3,6 @@ import { initializeApollo } from "lib/apolloClient";
 import { CreateSupportMessageDocument, CreateSupportMessageMutationOptions } from 'generated/graphql';
 
 
-// type message = {
-//   fullName: string | undefined;
-//   email: string | undefined;
-//   body: string | undefined;
-//   subject: string | undefined;
-//   username?: string | undefined;
-// };
-
-
 type Data = {
   message: string;
 };

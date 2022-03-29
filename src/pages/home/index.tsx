@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import Home from "components/Home";
@@ -15,7 +16,22 @@ function HomePage(props: { data: { courses: CourseEntityResponseCollection; }; }
   useIsAuth();
   return (
     <>
-      <Home props={props}/>
+      <Head>
+        <title>Bare Metals Aacademy | Dashboard</title>
+        <meta
+          property="og:title"
+          content="Bare Metals Aacademy | Dashboard"
+          key="title"
+        />
+        <meta
+          name="description"
+          content="Tutorial site for learning web and software development"
+        />
+        <meta property="og:type" content="user-dashboard" />
+        <meta property="og:url" content="https://baremetals.io/home" />
+        <link rel="canonical" href="https://baremetals.io/home" />
+      </Head>
+      <Home props={props} />
     </>
   );
 }

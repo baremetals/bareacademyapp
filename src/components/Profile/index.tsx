@@ -34,8 +34,8 @@ const Profile = (props: { props: { data: any; loading: any; error: any; }; }) =>
     ? data?.data?.usersPermissionsUsers?.data![0]
     : data?.data?.usersPermissionsUser?.data;
   const user = userData?.attributes;
-  const { posts } = user
-  const { student } = user;
+  const { posts } = user || {};
+  const { student } = user || {};;
   const courses = student?.data?.attributes?.courses?.data;
   // console.log(student?.data?.attributes?.courses?.data);
 
