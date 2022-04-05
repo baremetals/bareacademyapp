@@ -48,7 +48,7 @@ import Dashboard from 'components/Dashboard';
 
 import VideoCard from './VideoCard';
 import NavBar from 'components/NavBar/NavBar';
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 import SocialShare from 'components/SocialShare';
 import NavDropDown from 'components/NavDropDown';
 

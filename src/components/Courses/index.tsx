@@ -27,7 +27,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import NavBar from "components/NavBar/NavBar";
 // import { PageContainer } from "components/ErrorPage";
 // import { InnerContainer } from "components/EmailTemplate/style.template";
-import Footer from "components/Footer/Footer";
+import Footer from "components/Footer";
 import NavDropDown from 'components/NavDropDown';
 dayjs.extend(relativeTime);
 

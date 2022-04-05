@@ -19,7 +19,7 @@ import { CardTitle } from "../../ArticlesPage/ArticleDetailPage/details.styles";
 
 import { useRouter } from "next/router";
 import NavBar from "components/NavBar/NavBar";
-import Footer from "components/Footer/Footer";
+import Footer from "components/Footer";
 import { ArticleEntityResponseCollection } from "generated/graphql";
 import { ErrorMsg } from "components/Input";
 import SocialShare from "components/SocialShare";

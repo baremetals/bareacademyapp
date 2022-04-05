@@ -9,7 +9,7 @@ import {
 } from "../../styles/common.styles";
 import Dashboard from "components/Dashboard";
 import PrivacyContent from './PrivacyContent';
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 
 
 function PrivacyPage() {

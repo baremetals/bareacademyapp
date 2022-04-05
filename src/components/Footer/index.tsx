@@ -47,9 +47,9 @@ function Footer(): ReactElement {
                 <Link href="/books">
                   <FooterLink>Books</FooterLink>
                 </Link>
-                <Link href="/messages">
+                {/* <Link href="/messages">
                   <FooterLink>Chat</FooterLink>
-                </Link>
+                </Link> */}
               </FooterLinkItem>
 
               <FooterLinkItem>

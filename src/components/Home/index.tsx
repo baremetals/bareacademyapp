@@ -26,7 +26,7 @@ import {
   // PageWrapper,
 } from "../../styles/common.styles";
 import Link from 'next/link';
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 
 const Home = (props: {
   props: { data: { courses: CourseEntityResponseCollection } };
