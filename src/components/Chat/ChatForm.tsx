@@ -22,13 +22,11 @@ function ChatForm(props: any) {
   const router = useRouter();
   const { socket } = useSockets();
   const { slug } = router.query;
+  // console.log(socket)
   
-  // const username: string = slug?.split("-")[1];
-  const test = slug as string;
-  const username = test?.split('-')[1];
-  // console.log(typeof recipient);
-  // const [newChat] = useCreateChatMessageMutation();
-  // const [newChatMsg] = useRespondToChatMessageMutation();
+  // const messageslug = slug as string;
+  // const username = messageslug?.split("-")[1];
+
   const { user: user } = useAppSelector(isUser);
   const {
     // setValue,
@@ -41,11 +39,9 @@ function ChatForm(props: any) {
   // const { username } = router.query;
   const me = user;
 
-  // console.log(username);
-  const chatId = props?.props?.data?.chatMsgs?.data[0]?.id
-    ? props?.props?.data?.chatMsgs?.data[0]?.id
-    : "";
-  // console.log(props?.props?.data?.chatMsgs?.data[0]?.id);
+  const data = props?.props ? props?.props: {};
+  const {chatId, receiverId } = data
+  // console.log(" the chat id data",chatId);
 
   const onSubmit = async ({ body }: any) => {
     if (chatId !== "" && chatId !== undefined) {
@@ -54,7 +50,7 @@ function ChatForm(props: any) {
         // console.log(" i went to off blud")
         socket.emit(
           "respondToChat",
-          { sender: user?.id, chatId, body },
+          { sender: user?.id, chatId, body, receiver: receiverId },
           (error: any) => {
             if (error) {
               console.log(
@@ -70,9 +66,10 @@ function ChatForm(props: any) {
       }
     } else {
       try {
+        // console.log(chatId, "we don't have a chat id broo");
         socket.emit(
           "createChat",
-          { owner: me?.id, username, body, slug },
+          { owner: me?.id, recipient: receiverId, body, slug },
           (error: any) => {
             if (error) {
               console.log(" Something went wrong please try again later.");

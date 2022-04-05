@@ -3,6 +3,7 @@ import Link from "next/link";
 import { IconBadge, IconItem } from "./topbar.styles";
 import { useRouter } from "next/router";
 
+
 import { WellIcon } from "../../../../public/assets/icons/WellIcon";
 import { useQuery } from '@apollo/client';
 import {
@@ -62,7 +63,10 @@ const AlarmBell = (userId: { id: string; }) => {
   //   }
   // }, [newNotice]);
 
+
+
   const noticeLength: number = noticeArray.concat(notices).length;
+
 
   const markMessageRead = async () => {
     // const id: string = userId.id;

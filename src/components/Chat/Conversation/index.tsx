@@ -14,15 +14,17 @@ interface PageProps {
   // chatId: string | undefined;
 }
 
-function Conversation({ username, slug, image, id }: PageProps) {
+function Conversation({ username, slug, image }: PageProps) {
   return (
     <>
-      <ConversationWrap>
+      <ConversationWrap >
         <Link href={`/messages/${slug}`}>
-          <ConversationImg alt="image of the recipient" src={image} />
+        <ConversationImg alt="image of the recipient" src={image} />
         </Link>
         <Link href={`/messages/${slug}`}>
-          <ConversationUserName>{username}</ConversationUserName>
+        <ConversationUserName>
+          {username}
+        </ConversationUserName>
         </Link>
       </ConversationWrap>
     </>
