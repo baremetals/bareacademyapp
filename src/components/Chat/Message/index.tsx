@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, SetStateAction } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 import dayjs from "dayjs";
