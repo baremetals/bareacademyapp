@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, SetStateAction } from "react";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 import dayjs from "dayjs";
@@ -34,6 +34,12 @@ type MessagePageType = {
   }
 };
 
+type socketMessage = {
+  msg: MessagePageType;
+  to: string;
+  from: string;
+};
+
 // type chatType = {
 //   id: string;
 // }
@@ -49,7 +55,7 @@ function Message() {
   // console.log(slug);
 
   // eslint-disable-next-line no-unused-vars
-  const [newChatMessage, setNewChatMessage] = useState();
+  const [newChatMessage, setNewChatMessage] = useState<socketMessage>();
   const [msgArray, setMsgArray] = useState([]);
   const [messages, setMessages] = useState([]);
   const [chatId, setChatId] = useState<Object>({});
@@ -81,11 +87,13 @@ function Message() {
   useEffect(() => {
     // console.log('Iam am here')
     if (newChatMessage) {
-      const newChatMessageItem = newChatMessage;
+      console.log(newChatMessage);
+      const newChatMessageItem = newChatMessage.msg;
       const newArrayItem: any = (prevArray: MessagePageType[]) => {
         return [...prevArray, newChatMessageItem];
       };
-      setMsgArray(newArrayItem);
+      if (me === newChatMessage.to && me !== newChatMessage.from)setMsgArray(newArrayItem);
+      // setMsgArray(newArrayItem);
     }
   }, [newChatMessage]);
 
@@ -129,21 +137,17 @@ function Message() {
   // }, [socket]);
 
   socket.on("message", (dta) => {
-    console.log(socket);
-    if (me === dta.to || me === dta.from) {
-      setNewChatMessage(dta.msg);
-    }
-    // setNewChatMessage(dta.msg);
+    console.log(dta.to, dta.from);
+    // if (me === dta.to) {
+    //   setNewChatMessage(dta.msg);
+    // }
+    setNewChatMessage(dta);
   });
-
-  
 
   // socket.on("users", (usrs) => {
   //   console.log(usrs);
   //   // setUsers(usrs);
   // });
-
-
 
   return (
     <>
