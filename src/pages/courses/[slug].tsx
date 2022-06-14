@@ -12,8 +12,8 @@ function CourseDetailsPage(props: { data: { courses: CourseEntityResponseCollect
   useNoAuthPages();
   const course = props?.data?.courses?.data[0];
   const meta = course?.attributes?.SEO;
-  // console.log(props);
-  
+  // console.log(meta);
+
   return (
     <>
       <Head>

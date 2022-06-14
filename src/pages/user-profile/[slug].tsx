@@ -3,7 +3,7 @@ import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import Profile from "components/Profile";
-import { useIsAuth } from "../../lib/isAuth";
+import { useIsAuth } from "lib/isAuth";
 import { initializeApollo } from "lib/apolloClient";
 import {
   GetUserByIdDocument,

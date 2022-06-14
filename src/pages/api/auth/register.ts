@@ -9,7 +9,7 @@ type Data = {
 };
 
 
-export default async function handler(
+export default async function register(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {

@@ -18,7 +18,7 @@ const ResetEmail = () => {
         />
         <meta
           name="description"
-          content="check your email to rest the password"
+          content="check your email to reset the password"
         />
         <meta property="og:type" content="reset-email" />
         <link

@@ -95,6 +95,7 @@ function CourseDetails(props: {
   const [isTeacher, setIsTeacher] = useState(false);
   const { user: user } = useAppSelector(isUser);
   const me = user;
+  console.log('printing me',me)
 
 
   useEffect(() => {
@@ -103,7 +104,7 @@ function CourseDetails(props: {
         (student) => {
           const usrId = student?.attributes?.user?.data?.id;
           // console.log(student)
-          if (usrId === me?.id) {
+          if (me !== null && usrId === me?.id) {
             setIsStudent(true);
           }
         }
@@ -112,7 +113,7 @@ function CourseDetails(props: {
   }, [students, me?.id]);
 
   useEffect(() => {
-    if (teacher?.id === me?.id) {
+    if (me !== null && teacher?.id === me?.id) {
       setIsTeacher(true);
     }
   }, [me?.id]);
@@ -216,18 +217,28 @@ function CourseDetails(props: {
               <CardBottom>
                 {!isTeacher && (
                   <>
-                    {isStudent ? (
+                    {!me?.id && (
                       <ApplyButton
-                        onClick={joinCourse}
+                        onClick={() => router.push("/auth/signin")}
+                        type="button"
+                      >
+                        Buy course
+                      </ApplyButton>
+                    )}
+
+                    {me?.id && !isStudent && (
+                      <ApplyButton onClick={joinCourse} type="button">
+                        add to cart
+                      </ApplyButton>
+                    )}
+
+                    {me && isStudent && (
+                      <ApplyButton
+                        onClick={() => router.push("/home")}
                         style={{ backgroundColor: "red" }}
                         type="button"
-                        disabled={true}
                       >
-                        applied
-                      </ApplyButton>
-                    ) : (
-                      <ApplyButton onClick={joinCourse} type="button">
-                        apply
+                        My course
                       </ApplyButton>
                     )}
                     {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}

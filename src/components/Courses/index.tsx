@@ -94,7 +94,7 @@ function CoursesPage() {
                             {dayjs(course?.attributes?.startDate).fromNow()}
                           </CardStartDate>
                           <Link href={`/courses/${course?.attributes?.slug}`}>
-                            <ApplyButton>apply</ApplyButton>
+                            <ApplyButton>Buy course</ApplyButton>
                           </Link>
                         </CardBottom>
                       </BlogCardBody>
