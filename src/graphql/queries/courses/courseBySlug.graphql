@@ -9,6 +9,10 @@ query Course($filters: CourseFiltersInput) {
         description
         notes
         githubLink
+        level
+        price
+        soloPrice
+        isFree
         image {
           data {
             id
@@ -52,26 +56,18 @@ query Course($filters: CourseFiltersInput) {
             }
           }
         }
+        createdAt
+        updatedAt
+        publishedAt
         students {
           data {
             id
             attributes {
-              joined
-              user {
-                data {
-                  id
-                  attributes {
-                    username
-                    fullName
-                  }
-                }
-              }
+              username
+              fullName
             }
           }
         }
-        createdAt
-        updatedAt
-        publishedAt
         SEO {
           id
           title

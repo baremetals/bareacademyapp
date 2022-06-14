@@ -1,17 +1,19 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import Markdown from "markdown-to-jsx";
+
 import { CourseEntityResponseCollection } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 
+
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-
-import Markdown from "markdown-to-jsx";
 
 import {
   CardTitle,
@@ -25,10 +27,11 @@ import {
   MediaContainer,
   CoursesH2,
   CoursesTeacherWrap,
-  CoursesTeacherNameAndImageWrap,
-  CoursesTeacherName,
-  CoursesTeacherImage,
+  // CoursesTeacherNameAndImageWrap,
+  // CoursesTeacherName,
+  // CoursesTeacherImage,
   MediaRow,
+  Level,
 } from "./details.styles";
 
 import {
@@ -54,6 +57,8 @@ import NavDropDown from 'components/NavDropDown';
 
 const RecentCourses = dynamic(() => import("../RecentCourses"));
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK as string);
+
 function CourseDetails(props: {
   props: {
     data: { courses: CourseEntityResponseCollection };
@@ -76,7 +81,7 @@ function CourseDetails(props: {
   const videos = course?.attributes?.videos?.data;
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
-  // console.log(course);
+  // console.log(students);
 
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
@@ -98,12 +103,11 @@ function CourseDetails(props: {
 
 
   useEffect(() => {
-    if (students?.length !== 0) {
+    if (me?.id && students?.length !== 0) {
       students?.forEach(
         (student) => {
-          const usrId = student?.attributes?.user?.data?.id;
-          // console.log(student)
-          if (usrId === me?.id) {
+          const usrId = student?.id;
+          if (usrId == me?.id) {
             setIsStudent(true);
           }
         }
@@ -112,40 +116,66 @@ function CourseDetails(props: {
   }, [students, me?.id]);
 
   useEffect(() => {
-    if (teacher?.id === me?.id) {
+    if (me?.id && teacher?.id === me?.id) {
       setIsTeacher(true);
     }
   }, [me?.id]);
 
-  const joinCourse = async () => {
-    // console.log("testing", isStudent);
-    // console.log(id, me?.slug, me?.id);
+  const handleBuy = async () => {
+    const stripe = await stripePromise
 
     await axios
-      .post("/api/join", {
+      .post("/api/buy", {
         data: {
-          joined: true,
-          slug: me?.slug,
+          total: course?.attributes?.price,
+          quantity: 1,
           course: course.id,
-          user: me?.id,
-          publishedAt: Date.now(),
         },
       })
       .then((res) => {
-        console.log(res);
-        if (res.data.msg) {
-          setMessage(res.data.msg);
-          setErrorMsg(true);
-        } else {
-          setMessage("You have been successfully added to the course");
-          setErrorMsg(true);
-        }
+        console.log(res.data);
+        const session = res.data
+        stripe?.redirectToCheckout({
+          sessionId: session.id
+        })
       })
       .catch((err) => {
+        console.log(err)
         setMessage("Sorry something went wrong please try again later.");
         setErrorMsg(true);
       });
-  };
+  }
+
+  // const joinCourse = async () => {
+  //   // console.log("testing", isStudent);
+  //   // console.log(id, me?.slug, me?.id);
+
+  //   await axios
+  //     .post("/api/join", {
+  //       data: {
+  //         joined: true,
+  //         slug: me?.slug,
+  //         course: course.id,
+  //         user: me?.id,
+  //         publishedAt: Date.now(),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.data.msg) {
+  //         setMessage(res.data.msg);
+  //         setErrorMsg(true);
+  //       } else {
+  //         setMessage("You have been successfully added to the course");
+  //         setErrorMsg(true);
+  //       }
+  //     })
+  //     .catch((_err) => {
+  //       setMessage("Sorry something went wrong please try again later.");
+  //       setErrorMsg(true);
+  //     });
+  // };
+
   return (
     <>
       {!user?.id && (
@@ -178,30 +208,39 @@ function CourseDetails(props: {
             <br />
             <div>{errorMsg && <ErrorMsg>{message}</ErrorMsg>}</div>
             <CoursesTeacherWrap>
-              <CardTitle>Teacher</CardTitle>
-              <CoursesTeacherNameAndImageWrap>
+              {!me?.id && (
+                <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
+              )}
+              {me?.id && !isStudent && (
+                <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
+              )}
+              {/* <CoursesTeacherNameAndImageWrap>
                 <CoursesTeacherImage src={teacher?.attributes?.img as string} />
                 <CoursesTeacherName>
                   {teacher?.attributes?.fullName}
                 </CoursesTeacherName>
-              </CoursesTeacherNameAndImageWrap>
+              </CoursesTeacherNameAndImageWrap> */}
             </CoursesTeacherWrap>
             <br />
             <DetailsCardWrapper>
               <CardTop>
                 <CardLeftWrap>
                   <StartDateTitle>
-                    Start Date{" "}
+                    {/* Price{" "} */}
                     <StartDate>
                       {" "}
-                      -{" "}
+                      {/* -{" "}
                       {dayjs(course?.attributes?.startDate).format(
                         "DD.MM.YY"
                       )}{" "}
                       to {dayjs(course?.attributes?.endDate).format("DD.MM.YY")}{" "}
-                      - {course?.attributes?.duration}
+                      -  */}
+                      {course?.attributes?.duration}
                       {/* dayjs(course?.attributes?.startDate).fromNow() */}
                     </StartDate>
+                  </StartDateTitle>
+                  <StartDateTitle>
+                    <Level>{course?.attributes?.level}</Level>
                   </StartDateTitle>
                   <CardTitle>Course Description</CardTitle>
                 </CardLeftWrap>
@@ -216,18 +255,42 @@ function CourseDetails(props: {
               <CardBottom>
                 {!isTeacher && (
                   <>
-                    {isStudent ? (
+                    {!me?.id && (
                       <ApplyButton
-                        onClick={joinCourse}
+                        onClick={() => router.push("/auth/signin")}
+                        type="button"
+                      >
+                        Buy course
+                      </ApplyButton>
+                    )}
+
+                    {/* {isStudent ? (
+                      <ApplyButton
+                        onClick={() => router.push("/home")}
                         style={{ backgroundColor: "red" }}
                         type="button"
-                        disabled={true}
                       >
-                        applied
+                        My course
                       </ApplyButton>
                     ) : (
-                      <ApplyButton onClick={joinCourse} type="button">
-                        apply
+                      <ApplyButton onClick={handleBuy} type="button">
+                        Buy Now
+                      </ApplyButton>
+                    )} */}
+
+                    {me?.id && !isStudent && (
+                      <ApplyButton onClick={handleBuy} type="button">
+                        Buy Now
+                      </ApplyButton>
+                    )}
+
+                    {me?.id && isStudent && (
+                      <ApplyButton
+                        onClick={() => router.push("/home")}
+                        style={{ backgroundColor: "red" }}
+                        type="button"
+                      >
+                        My course
                       </ApplyButton>
                     )}
                     {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}

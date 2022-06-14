@@ -1,0 +1,38 @@
+query MyOrders(
+  $filters: OrderFiltersInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  orders(filters: $filters, sort: $sort, pagination: $pagination) {
+    data {
+      id
+      attributes {
+        checkout_session
+        status
+        total
+        updatedAt
+        quantity
+        course {
+          data {
+            id
+            attributes {
+              slug
+              title
+              price
+              isFree
+              level
+              image {
+                data {
+                  id
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

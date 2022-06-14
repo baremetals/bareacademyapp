@@ -128,9 +128,10 @@ const Topbar = () => {
               </Link>
             </ProfileItem>
             <ProfileItem>
-              <Link href="/privacy">
-                Privacy settings
-              </Link>
+              <Link href={`/home/orders`}>Orders</Link>
+            </ProfileItem>
+            <ProfileItem>
+              <Link href="/privacy">Privacy settings</Link>
             </ProfileItem>
             <ProfileItem>
               <Link href="/terms">Terms</Link>
