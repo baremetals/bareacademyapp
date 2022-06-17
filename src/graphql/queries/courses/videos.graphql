@@ -1,0 +1,20 @@
+query CourseVideos(
+  $filters: CourseVideoFiltersInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  courseVideos(filters: $filters, sort: $sort, pagination: $pagination) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        description
+        url
+        createdAt
+        updatedAt
+        publishedAt
+      }
+    }
+  }
+}

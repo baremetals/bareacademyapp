@@ -36,9 +36,12 @@ export default function UserFeed(props: any) {
 
 
   useEffect(() => {
-    if (user?.slug === slug) {
-      setLoggedInUser(true);
+    if (router.pathname === "/user-profile") {setLoggedInUser(true)} else {
+      if (user?.slug === slug) {
+        setLoggedInUser(true);
+      }
     }
+      
   }, [user, slug]);
   return (
     <FeedContainer>

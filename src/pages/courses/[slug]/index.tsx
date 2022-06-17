@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import CourseDetails from "../../components/Courses/CourseDetails";
+import CourseDetails from "../../../components/Courses/CourseDetails";
 import { useNoAuthPages } from "lib/noAuth";
 import { client } from "lib/initApollo";
 import { CourseDocument, CourseEntityResponseCollection, CourseQueryResult } from "generated/graphql";
@@ -48,6 +48,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       },
     },
   });
+  // console.log(slug);
   return {
     props: { data }, // will be passed to the page component as props
   };

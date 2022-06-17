@@ -11,8 +11,9 @@ import {
   GetCoursesByUserIdQueryResult,
 } from "generated/graphql";
 
-
-function HomePage(props: { data: { courses: CourseEntityResponseCollection; }; }) {
+function HomePage(props: {
+  data: { courses: CourseEntityResponseCollection };
+}) {
   useIsAuth();
   return (
     <>
@@ -46,10 +47,8 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       variables: {
         filters: {
           students: {
-            user: {
-              id: {
-                eq: id,
-              },
+            id: {
+              eq: id,
             },
           },
         },
@@ -61,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       },
     });
     return {
-      props: {data},
+      props: { data },
     };
   }
 );

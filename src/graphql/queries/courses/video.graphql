@@ -1,0 +1,14 @@
+query CourseVideo($courseVideoId: ID) {
+  courseVideo(id: $courseVideoId) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        description
+        url
+        updatedAt
+      }
+    }
+  }
+}

@@ -1,10 +1,15 @@
 import React from 'react'
 import styled from 'styled-components';
-import CoursesTaken from '../CoursesTaken';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
+import {
+  CourseEntity,
+  useGetCoursesByUserIdQuery,
+} from "generated/graphql";
 
+import CoursesTaken from "../CoursesTaken";
+import { ErrorMsg } from 'components/Input';
 
 export const MainContainer = styled.aside`
   flex: 3.5;
@@ -55,13 +60,34 @@ const RightBarInfoValue = styled.span`
 
 type courseCard = {
   city: string;
-  coursesTaken: number;
+  userId: string;
   joined: string
-  courses: any
 };
 
-function ProfileRightCard({ city, coursesTaken, joined, courses}: courseCard) {
-  // console.log(typeof courses);
+function ProfileRightCard({ city, userId, joined }: courseCard) {
+  const { data, loading, error } = useGetCoursesByUserIdQuery({
+    variables: {
+      filters: {
+        students: {
+          id: {
+            eq: userId,
+          },
+        },
+      },
+      sort: "updatedAt:desc",
+      pagination: {
+        start: 0,
+        limit: 6,
+      },
+    },
+  });
+  if (!data || loading) {
+    return <div>loading...</div>;
+  }
+  if (error) return <ErrorMsg>{error}</ErrorMsg>;
+
+  const courses = data?.courses?.data;
+  // console.log(data?.courses?.data);
   return (
     <>
       <MainContainer>
@@ -74,7 +100,7 @@ function ProfileRightCard({ city, coursesTaken, joined, courses}: courseCard) {
             </RightBarInfoItem>
             <RightBarInfoItem>
               <RightBarInfoKey>Courses Taken</RightBarInfoKey>
-              <RightBarInfoValue>{coursesTaken}</RightBarInfoValue>
+              <RightBarInfoValue>{courses?.length}</RightBarInfoValue>
             </RightBarInfoItem>
             {/* <RightBarInfoItem>
               <RightBarInfoKey>Complete</RightBarInfoKey>
@@ -87,7 +113,7 @@ function ProfileRightCard({ city, coursesTaken, joined, courses}: courseCard) {
           </RightBarInfo>
           {courses !== undefined && (
             <CoursesTakenGroup>
-              <CoursesTaken course={courses} />
+              <CoursesTaken course={courses as CourseEntity[]} />
             </CoursesTakenGroup>
           )}
         </MainWrapper>

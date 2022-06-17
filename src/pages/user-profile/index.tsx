@@ -3,12 +3,12 @@ import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
 import Profile from "components/Profile";
-import { useIsAuth } from "../../lib/isAuth";
+import { useIsAuth } from "lib/isAuth";
 import { initializeApollo } from "lib/apolloClient";
 import {
-  UserQueryResult,
-  UserDocument,
-  UsersPermissionsUserEntityResponseCollection,
+  MeQueryResult,
+  MeDocument,
+  UsersPermissionsUserEntityResponse,
   UsersPermissionsUser,
 } from "generated/graphql";
 
@@ -18,11 +18,9 @@ type userProps = {
 };
 
 const UserProfile = (props: {
-  data: { usersPermissionsUsers: UsersPermissionsUserEntityResponseCollection };
+  data: { usersPermissionsUser: UsersPermissionsUserEntityResponse };
 }) => {
-  // console.log(props);
-
-  const user = props?.data.usersPermissionsUsers?.data[0] as userProps;
+  const user = props.data.usersPermissionsUser?.data as userProps;
   useIsAuth();
   return (
     <>
@@ -60,48 +58,34 @@ const UserProfile = (props: {
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
-    const { slug } = ctx.query;
     const cookies = JSON.parse(ctx.req.cookies.bareacademy);
-    const { jwt, slug: loggedInUser} = cookies;
+    const { jwt, id,} = cookies;
     const token = `Bearer ${jwt}`;
     const apolloClient = initializeApollo(null, token);
-    if (slug === loggedInUser) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/user-profile",
-        },
-      };
-    }
-
-    const { data } = await apolloClient.query<UserQueryResult>({
-        query: UserDocument,
-        variables: {
-          filters: {
-            slug: {
-              eq: slug,
+    // console.log(id);
+    const { data } = await apolloClient.query<MeQueryResult>({
+      query: MeDocument,
+      variables: {
+        usersPermissionsUserId: id,
+        filters: {
+          creator: {
+            id: {
+              eq: id,
             },
           },
-          postsFilters2: {
-            creator: {
-            slug: {
-              eq: slug,
-            },
-          },
-          },
-          sort: "updatedAt:desc",
-          pagination: {
-            start: 0,
-            limit: 6
-          }
         },
-      }); 
-    // console.log(loggedInUser);
+        sort: "updatedAt:desc",
+        pagination: {
+          start: 0,
+          limit: 6,
+        },
+      },
+    });
+    // console.log(token);
     return {
-      props: {data},
+      props: { data },
     };
   }
 );
 
 export default UserProfile;
-

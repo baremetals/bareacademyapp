@@ -1,58 +1,31 @@
-query GetUserById(
-  $usersPermissionsUserId: ID
-  $pagination: PaginationArg
+query User(
+  $filters: UsersPermissionsUserFiltersInput
   $sort: [String]
-  $coursesSort2: [String]
-  $coursesPagination2: PaginationArg
+  $pagination: PaginationArg
+  $postsFilters2: PostFiltersInput
 ) {
-  usersPermissionsUser(id: $usersPermissionsUserId) {
+  usersPermissionsUsers(filters: $filters) {
     data {
       id
       attributes {
         username
-        email
-        createdAt
-        location
-        description
-        slug
         fullName
+        slug
+        description
+        location
         img
         backgroundImg
-        posts(pagination: $pagination, sort: $sort) {
+        createdAt
+        posts(sort: $sort, pagination: $pagination, filters: $postsFilters2) {
           data {
             id
             attributes {
               title
               slug
+              total_comments
               points
               body
-              total_comments
               updatedAt
-            }
-          }
-        }
-        student {
-          data {
-            id
-            attributes {
-              courseCount
-              courses(sort: $coursesSort2, pagination: $coursesPagination2) {
-                data {
-                  id
-                  attributes {
-                    slug
-                    title
-                    image {
-                      data {
-                        id
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                  }
-                }
-              }
             }
           }
         }

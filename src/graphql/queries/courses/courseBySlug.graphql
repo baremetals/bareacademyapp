@@ -25,37 +25,6 @@ query Course($filters: CourseFiltersInput) {
         endDate
         totalStudents
         totalLessons
-        teacher {
-          data {
-            id
-            attributes {
-              tutor {
-                data {
-                  id
-                  attributes {
-                    fullName
-                    username
-                    slug
-                    img
-                  }
-                }
-              }
-            }
-          }
-        }
-        videos {
-          data {
-            id
-            attributes {
-              title
-              description
-              createdAt
-              updatedAt
-              publishedAt
-              url
-            }
-          }
-        }
         createdAt
         updatedAt
         publishedAt

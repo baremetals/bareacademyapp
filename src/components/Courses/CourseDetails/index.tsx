@@ -24,13 +24,13 @@ import {
   CardCenterWrap,
   // CardText,
   StartDateTitle,
-  MediaContainer,
+  // MediaContainer,
   CoursesH2,
   CoursesTeacherWrap,
   // CoursesTeacherNameAndImageWrap,
   // CoursesTeacherName,
   // CoursesTeacherImage,
-  MediaRow,
+  // MediaRow,
   Level,
 } from "./details.styles";
 
@@ -78,7 +78,7 @@ function CourseDetails(props: {
 
   
   const course = data?.courses?.data[0];
-  const videos = course?.attributes?.videos?.data;
+  // const videos = course?.attributes?.videos?.data;
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
   // console.log(students);
@@ -303,7 +303,11 @@ function CourseDetails(props: {
                 <Markdown>{course?.attributes?.notes as string}</Markdown>
               </div>
               <br />
-              <MediaRow>
+              <VideoCard
+                courseId={course?.id as string}
+                slug={course?.attributes?.slug as string}
+              />
+              {/* <MediaRow>
                 {videos?.map((vid, id: React.Key | null | undefined) => (
                   <MediaContainer key={id}>
                     <VideoCard
@@ -313,11 +317,12 @@ function CourseDetails(props: {
                       url={vid?.attributes?.url}
                       slug={course?.attributes?.slug as string}
                       description={vid?.attributes?.description as string}
+                      courseId={course?.id as string}
                     />
-                    {/* {vid?.attributes?.description as string} */}
+                    {vid?.attributes?.description as string}
                   </MediaContainer>
                 ))}
-              </MediaRow>
+              </MediaRow> */}
             </DetailsCardWrapper>
           </PageWrapGroup>
           <RightSideBar>

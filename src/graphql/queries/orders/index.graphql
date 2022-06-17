@@ -12,6 +12,7 @@ query MyOrders(
         total
         updatedAt
         quantity
+        imageUrl
         course {
           data {
             id
@@ -21,14 +22,6 @@ query MyOrders(
               price
               isFree
               level
-              image {
-                data {
-                  id
-                  attributes {
-                    url
-                  }
-                }
-              }
             }
           }
         }

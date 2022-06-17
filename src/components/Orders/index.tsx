@@ -66,8 +66,7 @@ const Orders = (props: {
                       <BlogCardImage
                         alt="order image"
                         src={
-                          order?.attributes?.course?.data?.attributes?.image
-                            ?.data?.attributes?.url
+                          order?.attributes?.imageUrl
                         }
                       />
                     </Link>
