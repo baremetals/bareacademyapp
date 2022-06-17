@@ -4,7 +4,7 @@ import axios from "axios";
 const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { total, quantity, course } = req.body.data;
+  const { total, quantity, course, imageUrl } = req.body.data;
   const token = JSON.parse(req.cookies.bareacademy).jwt;
 
   // console.log("we got here");
@@ -23,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           total,
           quantity,
           course,
+          imageUrl,
         },
       },
     });

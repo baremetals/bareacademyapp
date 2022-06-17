@@ -76,12 +76,12 @@ function CourseDetails(props: {
   }
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
 
-  
   const course = data?.courses?.data[0];
   // const videos = course?.attributes?.videos?.data;
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
-  // console.log(students);
+  const imageUrl = course?.attributes?.image?.data?.attributes?.url;
+  // console.log(imageUrl);
 
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
@@ -101,17 +101,14 @@ function CourseDetails(props: {
   const { user: user } = useAppSelector(isUser);
   const me = user;
 
-
   useEffect(() => {
     if (me?.id && students?.length !== 0) {
-      students?.forEach(
-        (student) => {
-          const usrId = student?.id;
-          if (usrId == me?.id) {
-            setIsStudent(true);
-          }
+      students?.forEach((student) => {
+        const usrId = student?.id;
+        if (usrId == me?.id) {
+          setIsStudent(true);
         }
-      );
+      });
     }
   }, [students, me?.id]);
 
@@ -122,7 +119,7 @@ function CourseDetails(props: {
   }, [me?.id]);
 
   const handleBuy = async () => {
-    const stripe = await stripePromise
+    const stripe = await stripePromise;
 
     await axios
       .post("/api/buy", {
@@ -130,21 +127,22 @@ function CourseDetails(props: {
           total: course?.attributes?.price,
           quantity: 1,
           course: course.id,
+          imageUrl,
         },
       })
       .then((res) => {
         console.log(res.data);
-        const session = res.data
+        const session = res.data;
         stripe?.redirectToCheckout({
-          sessionId: session.id
-        })
+          sessionId: session.id,
+        });
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setMessage("Sorry something went wrong please try again later.");
         setErrorMsg(true);
       });
-  }
+  };
 
   // const joinCourse = async () => {
   //   // console.log("testing", isStudent);
