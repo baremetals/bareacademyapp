@@ -50,8 +50,8 @@ import {
 import Dashboard from 'components/Dashboard';
 import RightSideBar from 'components/Dashboard/RightSideBar';
 import AdCardThree from 'components/AdCards/AdCardThree';
-import AdCardTwo from 'components/AdCards/AdCardTwo';
-import AdCardOne from 'components/AdCards/AdCardOne';
+// import AdCardTwo from 'components/AdCards/AdCardTwo';
+// import AdCardOne from 'components/AdCards/AdCardOne';
 
 
 
@@ -316,7 +316,7 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
           removeSuccessMsg();
           setValue("success", "Profile image changed successfully.");
         })
-        .catch((err) => {
+        .catch((_err) => {
           setMsg("Something went wrong please try again later.");
           error.isImgError = true;
           removeErrorMsg();
@@ -528,8 +528,8 @@ const EditProfile = (props: { props: { data: any; loading: any; }; }) => {
 
         <RightSideBar>
           <AdCardThree />
-          <AdCardTwo />
-          <AdCardOne />
+          {/* <AdCardTwo />
+          <AdCardOne /> */}
         </RightSideBar>
       </ProfileWrapGroup>
     </Dashboard>

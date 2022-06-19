@@ -9,7 +9,7 @@ export default async function (
   const token = JSON.parse(req.cookies.bareacademy).jwt;
   if (req.body.data && req.body.data.isDecrement !== undefined) {
     const { isDecrement, post, user, publishedAt } = req.body.data;
-    console.log("me deya");
+    // console.log("me deya");
     try {
       const response = await axios({
         method: "POST",
@@ -30,12 +30,12 @@ export default async function (
 
       res.send(response.data.data.attributes.error);
     } catch (err) {
-      console.log("fuck me finally", err);
+      // console.log("fuck me finally", err);
       res.send(err);
     }
   } else {
     const { pointsId } = req.body;
-    console.log(pointsId);
+    // console.log(pointsId);
     try {
       const response = await axios({
         method: "DELETE",
@@ -48,7 +48,7 @@ export default async function (
 
       res.send(response.data.data.attributes.error);
     } catch (err) {
-      console.log("fuck you finally", err);
+      // console.log("fuck you finally", err);
       res.send(err);
     }
   }

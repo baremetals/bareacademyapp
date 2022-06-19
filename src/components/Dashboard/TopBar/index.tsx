@@ -44,13 +44,13 @@ const Topbar = () => {
   const handleLogOut = async () => {
     try {
       const res = await axios.post("/api/auth/logout");
-      console.log(res);
+      // console.log(res);
       if (res.status === 200 || res?.data?.message) {
         router.push("/auth/signin");
       }
     } catch (error) {
-      console.log(error);
-      throw error;
+      // console.log(error);
+      return error;
     }
   };
 

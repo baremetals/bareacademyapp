@@ -35,6 +35,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse){
       })
     );
   }
-  console.log('me gwarn')
+  // console.log('me gwarn')
   return res.status(200).json({ message: "Successfuly logged out!" });
 }

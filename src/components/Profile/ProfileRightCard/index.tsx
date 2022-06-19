@@ -111,11 +111,12 @@ function ProfileRightCard({ city, userId, joined }: courseCard) {
               <RightBarInfoValue>{dayjs(joined).fromNow()}</RightBarInfoValue>
             </RightBarInfoItem>
           </RightBarInfo>
-          {courses !== undefined && (
-            <CoursesTakenGroup>
-              <CoursesTaken course={courses as CourseEntity[]} />
-            </CoursesTakenGroup>
-          )}
+          {courses !== undefined &&
+            courses.length > 0 && (
+              <CoursesTakenGroup>
+                <CoursesTaken course={courses as CourseEntity[]} />
+              </CoursesTakenGroup>
+            )}
         </MainWrapper>
       </MainContainer>
     </>

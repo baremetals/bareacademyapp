@@ -81,7 +81,7 @@ function CourseDetails(props: {
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
   const imageUrl = course?.attributes?.image?.data?.attributes?.url;
-  // console.log(students);
+  // console.log(course?.attributes);
 
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
@@ -155,14 +155,12 @@ function CourseDetails(props: {
           setTimeout(() => {
             setErrorMsg(true);
           }, 10000);
-          
         } else {
           setMessage("Sorry something went wrong please try again later.");
           setTimeout(() => {
             setErrorMsg(true);
           }, 10000);
         }
-        
       });
   };
 
@@ -231,8 +229,14 @@ function CourseDetails(props: {
               {!me?.id && (
                 <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
               )}
-              {me?.id && !isStudent && (
+              {!me?.id && course?.attributes?.isFree && (
+                <CardTitle>Free</CardTitle>
+              )}
+              {me?.id && !isStudent && !course?.attributes?.isFree && (
                 <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
+              )}
+              {me?.id && course?.attributes?.isFree && (
+                <CardTitle>Free</CardTitle>
               )}
               {/* <CoursesTeacherNameAndImageWrap>
                 <CoursesTeacherImage src={teacher?.attributes?.img as string} />
@@ -318,12 +322,12 @@ function CourseDetails(props: {
                     )}
                     {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
 
-                    <ApplyButton
+                    {/* <ApplyButton
                       onClick={() => handleBuy("group")}
                       type="button"
                     >
                       Buy Now
-                    </ApplyButton>
+                    </ApplyButton> */}
                   </>
                 )}
               </CardBottom>
@@ -333,26 +337,12 @@ function CourseDetails(props: {
                 <Markdown>{course?.attributes?.notes as string}</Markdown>
               </div>
               <br />
-              <VideoCard
-                courseId={course?.id as string}
-                slug={course?.attributes?.slug as string}
-              />
-              {/* <MediaRow>
-                {videos?.map((vid, id: React.Key | null | undefined) => (
-                  <MediaContainer key={id}>
-                    <VideoCard
-                      fullName={teacher?.attributes?.fullName as string}
-                      date={vid?.attributes?.createdAt}
-                      title={vid?.attributes?.title as string}
-                      url={vid?.attributes?.url}
-                      slug={course?.attributes?.slug as string}
-                      description={vid?.attributes?.description as string}
-                      courseId={course?.id as string}
-                    />
-                    {vid?.attributes?.description as string}
-                  </MediaContainer>
-                ))}
-              </MediaRow> */}
+              {me?.id && isStudent && (
+                <VideoCard
+                  courseId={course?.id as string}
+                  slug={course?.attributes?.slug as string}
+                />
+              )}
             </DetailsCardWrapper>
           </PageWrapGroup>
           <RightSideBar>

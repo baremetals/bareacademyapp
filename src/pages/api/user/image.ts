@@ -76,7 +76,7 @@ export default async function (
     }
   } else {
     try {
-      console.log("profile image update");
+      // console.log("profile image update");
       const { data } =
         await apolloClient.mutate<EditProfileImageMutationOptions>({
           mutation: EditProfileImageDocument,
@@ -116,7 +116,7 @@ export default async function (
       }
       res.status(200).send({ data: data });
     } catch (err) {
-      console.log("i am the error", err);
+      // console.log("i am the error", err);
       res.status(401).json({ message: "try again later." });
     }
   }
