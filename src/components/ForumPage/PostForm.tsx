@@ -117,7 +117,7 @@ const PostForm = ({
         router.push(`/forum/${slug}`);
         
       })
-      .catch((err) => {
+      .catch((_err) => {
         setMsg("Sorry something went wrong please try again later.");
         setError(true);
         setTimeout(() => {

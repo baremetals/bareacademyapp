@@ -23,7 +23,7 @@ import {
   CardDescription,
   // CardImage,
   CardDuration,
-  CardStartDate,
+  // CardStartDate,
   // CardBody,
   PageHeading,
   PageWrapGroup,
@@ -82,12 +82,12 @@ const Orders = (props: {
                         </Link>
                       </BlogCardTitle>
                       <CardDescription style={{ marginBottom: "0" }}>
-                        <CardStartDate>
+                        {/* <CardStartDate>
                           Purchase on -
                           {dayjs(order?.attributes?.updatedAt).format(
                             "DD/MM/YYYY"
                           )}
-                        </CardStartDate>
+                        </CardStartDate> */}
                       </CardDescription>
                     </BlogCardBody>
                   </BlogCard>

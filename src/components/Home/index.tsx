@@ -18,7 +18,7 @@ import {
   CardDescription,
   // CardImage,
   CardDuration,
-  CardStartDate,
+  // CardStartDate,
   // CardBody,
   PageHeading,
   PageWrapGroup,
@@ -70,10 +70,10 @@ const Home = (props: {
                         </Link>
                       </BlogCardTitle>
                       <CardDescription style={{marginBottom: '0'}}>
-                        <CardStartDate>
+                        {/* <CardStartDate>
                           Date -{" "}
                           {dayjs(course?.attributes?.startDate).fromNow()}
-                        </CardStartDate>
+                        </CardStartDate> */}
                       </CardDescription>
                     </BlogCardBody>
                   </BlogCard>

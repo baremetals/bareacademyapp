@@ -60,7 +60,7 @@ const SmallFooter
                 <FaYoutube />
               </SocialIconLink>
               <SocialIconLink
-                href="https://www.linkedin.com/in/daniel-asante-205504127/"
+                href="https://www.linkedin.com/company/bare-metals-academy"
                 target="_blank"
                 aria-label="Linkedin"
               >

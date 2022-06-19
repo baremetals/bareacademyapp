@@ -1,5 +1,5 @@
-query Posts {
-  posts {
+query Posts($sort: [String], $pagination: PaginationArg) {
+  posts(sort: $sort, pagination: $pagination) {
     data {
       id
       attributes {

@@ -2972,7 +2972,10 @@ export type PostQueryVariables = Exact<{
 
 export type PostQuery = { __typename?: 'Query', posts?: { __typename?: 'PostEntityResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null | undefined, attributes?: { __typename?: 'Post', title?: string | null | undefined, slug?: string | null | undefined, total_comments?: number | null | undefined, points?: number | null | undefined, body?: string | null | undefined, createdAt?: any | null | undefined, creator?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, comments?: { __typename?: 'CommentRelationResponseCollection', data: Array<{ __typename?: 'CommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'Comment', body: string, createdAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', slug: string, username: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined, post_points?: { __typename?: 'PostPointRelationResponseCollection', data: Array<{ __typename?: 'PostPointEntity', id?: string | null | undefined, attributes?: { __typename?: 'PostPoint', user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostsQueryVariables = Exact<{
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
 
 
 export type PostsQuery = { __typename?: 'Query', posts?: { __typename?: 'PostEntityResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null | undefined, attributes?: { __typename?: 'Post', title?: string | null | undefined, slug?: string | null | undefined, total_comments?: number | null | undefined, points?: number | null | undefined, body?: string | null | undefined, createdAt?: any | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name?: string | null | undefined, slug?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, creator?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
@@ -4655,8 +4658,8 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-    query Posts {
-  posts {
+    query Posts($sort: [String], $pagination: PaginationArg) {
+  posts(sort: $sort, pagination: $pagination) {
     data {
       id
       attributes {
@@ -4703,6 +4706,8 @@ export const PostsDocument = gql`
  * @example
  * const { data, loading, error } = usePostsQuery({
  *   variables: {
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
  *   },
  * });
  */
