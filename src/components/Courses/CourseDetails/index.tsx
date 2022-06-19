@@ -81,7 +81,7 @@ function CourseDetails(props: {
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
   const imageUrl = course?.attributes?.image?.data?.attributes?.url;
-  // console.log(imageUrl);
+  // console.log(students);
 
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
@@ -118,7 +118,7 @@ function CourseDetails(props: {
     }
   }, [me?.id]);
 
-  const handleBuy = async () => {
+  const handleBuy = async (orderType: string) => {
     const stripe = await stripePromise;
 
     await axios
@@ -128,19 +128,41 @@ function CourseDetails(props: {
           quantity: 1,
           course: course.id,
           imageUrl,
+          isFree: course?.attributes?.isFree,
+          orderType,
         },
       })
       .then((res) => {
-        console.log(res.data);
-        const session = res.data;
-        stripe?.redirectToCheckout({
-          sessionId: session.id,
-        });
+        // console.log(res);
+        if (res?.status === 200 && res?.data?.status !== 400) {
+          // console.log(res?.data?.data?.id);
+          if (res?.data?.data?.id === "free-purchase") {
+            router.push("/home/orders/success?session_id=free-purchase");
+          } else {
+            const session = res?.data?.data?.id;
+            stripe?.redirectToCheckout({
+              sessionId: session,
+            });
+          }
+        }
       })
       .catch((err) => {
-        console.log(err);
-        setMessage("Sorry something went wrong please try again later.");
-        setErrorMsg(true);
+        // console.log(err.response.data.error);
+        if (
+          err?.response?.data?.error === "You previously purchased this course"
+        ) {
+          setMessage(err?.response?.data?.error);
+          setTimeout(() => {
+            setErrorMsg(true);
+          }, 10000);
+          
+        } else {
+          setMessage("Sorry something went wrong please try again later.");
+          setTimeout(() => {
+            setErrorMsg(true);
+          }, 10000);
+        }
+        
       });
   };
 
@@ -277,7 +299,10 @@ function CourseDetails(props: {
                     )} */}
 
                     {me?.id && !isStudent && (
-                      <ApplyButton onClick={handleBuy} type="button">
+                      <ApplyButton
+                        onClick={() => handleBuy("group")}
+                        type="button"
+                      >
                         Buy Now
                       </ApplyButton>
                     )}
@@ -292,6 +317,13 @@ function CourseDetails(props: {
                       </ApplyButton>
                     )}
                     {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
+
+                    <ApplyButton
+                      onClick={() => handleBuy("group")}
+                      type="button"
+                    >
+                      Buy Now
+                    </ApplyButton>
                   </>
                 )}
               </CardBottom>

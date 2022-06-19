@@ -1,56 +1,56 @@
 import React from "react";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import VideoDetails from "components/Courses/CourseDetails/VideoDetails";
+import LectureDetails from "components/Courses/CourseDetails/LectureDetails";
 import { useIsAuth } from "lib/isAuth";
 import { client } from "lib/initApollo";
 import {
-  CourseVideoDocument,
-  CourseVideoEntity,
-  CourseVideoEntityResponse,
-  CourseVideoQueryResult,
+  LectureDocument,
+  LectureEntity,
+  LectureEntityResponse,
+  LectureQueryResult,
 } from "generated/graphql";
 
-function CourseVideoPage(props: {
-  data: { courseVideo: CourseVideoEntityResponse };
-}) {
+function LecturePage(props: { data: { lecture: LectureEntityResponse } }) {
   useIsAuth();
   // console.log(props);
-  const vid = props?.data?.courseVideo?.data as CourseVideoEntity;
+  const lect = props?.data?.lecture?.data as LectureEntity;
 
   return (
     <>
       <Head>
-        <title>Bare Metals Aacademy | {vid?.attributes?.slug} </title>
+        <title>Bare Metals Aacademy | {lect?.attributes?.slug} </title>
         <meta
           property="og:title"
-          content={vid?.attributes?.slug as string}
+          content={lect?.attributes?.slug as string}
           key="title"
         />
         <meta name="description" content="lecture video" />
         <meta property="og:image:width" content="100%" />
         <meta property="og:image:height" content="auto" />
       </Head>
-      <VideoDetails props={vid} />
+      <LectureDetails props={lect} />
     </>
   );
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { videoId } = ctx.query;
-  // console.log(videoId);
-  let id = videoId as string
+  const { lectureId } = ctx.query;
+  // console.log(lectureId);
+  let id = lectureId as string
   id = id?.split('-')[1] as string
-  const vidId = id
-  const { data } = await client.query<CourseVideoQueryResult>({
-    query: CourseVideoDocument,
+  // const vidId = id
+  const { data } = await client.query<LectureQueryResult>({
+    query: LectureDocument,
     variables: {
-      courseVideoId: vidId,
+      lectureId: id,
     },
   });
+
+  console.log(data);
   return {
     props: { data }, // will be passed to the page component as props
   };
 }
 
-export default CourseVideoPage;
+export default LecturePage;

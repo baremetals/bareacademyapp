@@ -4,7 +4,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Markdown from "markdown-to-jsx";
 
-import { CourseVideoEntity } from "generated/graphql";
+import { LectureEntity } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 
@@ -32,12 +32,12 @@ import Dashboard from "components/Dashboard";
 
 const RecentCourses = dynamic(() => import("../RecentCourses"));
 
-function VideoDetails(props: { props: CourseVideoEntity }) {
-// const router = useRouter();
-//   const { slug } = router.query;
-// console.log(props?.props);
+function LectureDetails(props: { props: LectureEntity }) {
+  // const router = useRouter();
+  //   const { slug } = router.query;
+  // console.log(props?.props);
 
-  const video = props?.props;
+  const lect = props?.props;
   const { user: user } = useAppSelector(isUser);
 
   return (
@@ -55,13 +55,13 @@ function VideoDetails(props: { props: CourseVideoEntity }) {
             }}
           >
             <PageHeading>
-              {/* {slug} - {video?.attributes?.title} */}
+              {/* {slug} - {lect?.attributes?.title} */}
             </PageHeading>
             <br />
             <PostMediaVideoPageIF
               width="560"
               height="315"
-              src={video?.attributes?.url}
+              src={lect?.attributes?.videoUrl}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               // allowFullScreen
             />
@@ -80,9 +80,7 @@ function VideoDetails(props: { props: CourseVideoEntity }) {
                 <CoursesH2>Lecture Notes</CoursesH2>
                 <br />
                 <div>
-                  <Markdown>
-                    {video?.attributes?.description as string}
-                  </Markdown>
+                  <Markdown>{lect?.attributes?.description as string}</Markdown>
                 </div>
               </CardCenterWrap>
             </DetailsCardWrapper>
@@ -96,4 +94,4 @@ function VideoDetails(props: { props: CourseVideoEntity }) {
   );
 }
 
-export default VideoDetails;
+export default LectureDetails;

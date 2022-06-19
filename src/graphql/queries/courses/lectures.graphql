@@ -1,19 +1,19 @@
-query CourseVideos(
-  $filters: CourseVideoFiltersInput
+query Lectures(
   $sort: [String]
   $pagination: PaginationArg
+  $filters: LectureFiltersInput
 ) {
-  courseVideos(filters: $filters, sort: $sort, pagination: $pagination) {
+  lectures(sort: $sort, pagination: $pagination, filters: $filters) {
     data {
       id
       attributes {
         slug
         title
         description
-        url
         createdAt
         updatedAt
         publishedAt
+        videoUrl
       }
     }
   }

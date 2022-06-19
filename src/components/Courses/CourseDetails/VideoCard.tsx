@@ -3,7 +3,7 @@ import React from 'react'
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import { useCourseVideosQuery } from "generated/graphql";
+import { useLecturesQuery } from "generated/graphql";
 
 import {
   // ForumWrapper,
@@ -35,7 +35,8 @@ const VideoCard = ({
   slug,
   courseId,
 }: VideoPost) => {
-  const { data, loading, error } = useCourseVideosQuery({
+
+  const { data, loading, error } = useLecturesQuery({
     variables: {
       filters: {
         course: {
@@ -47,49 +48,54 @@ const VideoCard = ({
       sort: "updatedAt:desc",
       pagination: {
         start: 0,
-        limit: 6,
+        limit: 12,
       },
     },
   });
-  if (!data || loading) {
+  if (loading) {
     return <div>loading...</div>;
   }
-  if (error) return <ErrorMsg>{error}</ErrorMsg>;
-  // console.log(coursesVids);
-  const coursesVids = data?.courseVideos?.data;
 
-  // console.log(coursesVids);
+  if (!data) {
+    return <div>No Lectures...</div>;
+  }
+  if (error) return <ErrorMsg>{error}</ErrorMsg>;
+
+  // console.log(slug);
+  const lectures = data?.lectures?.data;
+
+  // console.log(lectureVids);
   return (
     <MediaRow>
-      {coursesVids?.map((vid, id) => (
+      {lectures?.map((lect, id) => (
         <MediaContainer key={id}>
           <ForumWrapper>
             <PostTop>
               <PostLeftWrap>
-                <Link href={`user-profile/${slug}`}>
+                <Link href={`${slug}/${lect?.attributes?.slug}`}>
                   <UserName>
-                    {'fullName'}
+                    {lect?.attributes?.slug}
                     <PostDate>
-                      {dayjs(vid?.attributes?.createdAt).fromNow()}
+                      {dayjs(lect?.attributes?.createdAt).fromNow()}
                     </PostDate>
                   </UserName>
                 </Link>
               </PostLeftWrap>
             </PostTop>
             <PostCenterWrap>
-              <PostTitle>{vid?.attributes?.title}</PostTitle>
+              <PostTitle><Link href={`courses/${slug}/${lect?.attributes?.slug}`}>{lect?.attributes?.title}</Link></PostTitle>
             </PostCenterWrap>
             <PostCenterWrap>
               <PostMediaVideoIF
                 width="560"
                 height="315"
-                src={vid?.attributes?.url}
+                src={lect?.attributes?.videoUrl}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                 // allowFullScreen
               />
             </PostCenterWrap>
             {/* <PostBottomWrapper> */}
-            <PostText>{vid?.attributes?.description}</PostText>
+            {/* <PostText>{lect?.attributes?.description}</PostText> */}
             {/* </PostBottomWrapper> */}
           </ForumWrapper>
         </MediaContainer>
