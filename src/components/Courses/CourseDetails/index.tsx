@@ -226,7 +226,7 @@ function CourseDetails(props: {
             <br />
             <div>{errorMsg && <ErrorMsg>{message}</ErrorMsg>}</div>
             <CoursesTeacherWrap>
-              {!me?.id && (
+              {!me?.id && !course?.attributes?.isFree && (
                 <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
               )}
               {!me?.id && course?.attributes?.isFree && (
@@ -275,6 +275,11 @@ function CourseDetails(props: {
                     {course?.attributes?.description as string}
                   </Markdown>
                 </div>
+                {/* <div
+                  dangerouslySetInnerHTML={{
+                    __html: course?.attributes?.description as string,
+                  }}
+                ></div> */}
               </CardCenterWrap>
               <CardBottom>
                 {!isTeacher && (
@@ -336,6 +341,11 @@ function CourseDetails(props: {
               <div>
                 <Markdown>{course?.attributes?.notes as string}</Markdown>
               </div>
+              {/* <div
+                dangerouslySetInnerHTML={{
+                  __html: course?.attributes?.notes as string,
+                }}
+              ></div> */}
               <br />
               {me?.id && isStudent && (
                 <VideoCard

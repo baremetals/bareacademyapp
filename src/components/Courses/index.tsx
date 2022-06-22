@@ -98,7 +98,7 @@ function CoursesPage() {
                           </Link>
                         </BlogCardTitle>
                         <CardDescription>
-                          {course?.attributes?.description?.slice(0, 80)}
+                          {course?.attributes?.introduction?.slice(0, 80)}...
                         </CardDescription>
                         <CardBottom>
                           <CardStartDate>

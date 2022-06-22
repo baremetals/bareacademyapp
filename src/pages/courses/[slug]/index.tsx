@@ -48,7 +48,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       },
     },
   });
-  // console.log(slug);
+  // console.log(data);
   return {
     props: { data }, // will be passed to the page component as props
   };
