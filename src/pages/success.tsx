@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
@@ -13,10 +13,12 @@ const Success = () => {
   const router = useRouter();
   // console.log('i am the sessions id - ',router.query.session_id);
 
-
-  setTimeout(() => {
-    router.push(`/home/orders/success?session_id=${router.query.session_id}`);
-  }, 5);
+  useEffect(() => {
+    setTimeout(() => {
+      router.push(`/home/orders/success?session_id=${router.query.session_id}`);
+    }, 0);
+  })
+  
 
   return (
     <>
