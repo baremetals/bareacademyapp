@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Markdown from "markdown-to-jsx";
+import Spinner from "components/Spinner";
 
 import { CourseEntityResponseCollection } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
@@ -83,6 +84,7 @@ function CourseDetails(props: {
   const imageUrl = course?.attributes?.image?.data?.attributes?.url;
   // console.log(course?.attributes);
 
+  const [isloading, setIsLoading] = useState(false);
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
     setSocialDropdown(!socialDropdown);
@@ -119,8 +121,9 @@ function CourseDetails(props: {
   }, [me?.id]);
 
   const handleBuy = async (orderType: string) => {
+    console.log('in this biatch');
     const stripe = await stripePromise;
-
+    setIsLoading(true)
     await axios
       .post("/api/buy", {
         data: {
@@ -137,8 +140,10 @@ function CourseDetails(props: {
         if (res?.status === 200 && res?.data?.status !== 400) {
           // console.log(res?.data?.data?.id);
           if (res?.data?.data?.id === "free-purchase") {
+            setIsLoading(false);
             router.push("/home/orders/success?session_id=free-purchase");
           } else {
+            setIsLoading(false);
             const session = res?.data?.data?.id;
             stripe?.redirectToCheckout({
               sessionId: session,
@@ -148,6 +153,7 @@ function CourseDetails(props: {
       })
       .catch((err) => {
         // console.log(err.response.data.error);
+        setIsLoading(false);
         if (
           err?.response?.data?.error === "You previously purchased this course"
         ) {
@@ -288,24 +294,12 @@ function CourseDetails(props: {
                       <ApplyButton
                         onClick={() => router.push("/auth/signin")}
                         type="button"
+                        style={{ backgroundColor: "red" }}
                       >
                         Buy course
+                        {isloading && <Spinner />}
                       </ApplyButton>
                     )}
-
-                    {/* {isStudent ? (
-                      <ApplyButton
-                        onClick={() => router.push("/home")}
-                        style={{ backgroundColor: "red" }}
-                        type="button"
-                      >
-                        My course
-                      </ApplyButton>
-                    ) : (
-                      <ApplyButton onClick={handleBuy} type="button">
-                        Buy Now
-                      </ApplyButton>
-                    )} */}
 
                     {me?.id && !isStudent && (
                       <ApplyButton
@@ -313,16 +307,18 @@ function CourseDetails(props: {
                         type="button"
                       >
                         Buy Now
+                        {isloading && <Spinner />}
                       </ApplyButton>
                     )}
 
                     {me?.id && isStudent && (
                       <ApplyButton
                         onClick={() => router.push("/home")}
-                        style={{ backgroundColor: "red" }}
                         type="button"
+                        style={{ backgroundColor: "red" }}
                       >
                         My course
+                        {isloading && <Spinner />}
                       </ApplyButton>
                     )}
                     {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
@@ -366,3 +362,6 @@ function CourseDetails(props: {
 }
 
 export default CourseDetails
+
+
+

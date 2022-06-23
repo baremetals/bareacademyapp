@@ -16,7 +16,7 @@ import {
   SocialIcons,
   SocialIconLink,
 } from "./styles";
-import { FaFacebook, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaLinkedin, FaTwitter, FaYoutube, FaInstagram } from 'react-icons/fa';
 import { SiTiktok } from "react-icons/si";
 import { LogoShape } from "../../../public/assets/icons/LogoShape";
 // interface Props {
@@ -79,7 +79,7 @@ function Footer(): ReactElement {
               </WebsiteRights>
               <SocialIcons>
                 <SocialIconLink
-                  href="https://twitter.com/bare_academy"
+                  href="https://twitter.com/bareacademy_"
                   target="_blank"
                   aria-label="Twitter"
                 >
@@ -92,7 +92,11 @@ function Footer(): ReactElement {
                 >
                   <FaFacebook />
                 </SocialIconLink>
-                <SocialIconLink href="" target="_blank" aria-label="Tiktok">
+                <SocialIconLink
+                  href="https://www.tiktok.com/@bareacademy"
+                  target="_blank"
+                  aria-label="Tiktok"
+                >
                   <SiTiktok />
                 </SocialIconLink>
                 <SocialIconLink
@@ -108,6 +112,13 @@ function Footer(): ReactElement {
                   aria-label="Linkedin"
                 >
                   <FaLinkedin />
+                </SocialIconLink>
+                <SocialIconLink
+                  href="https://www.instagram.com/bareacademy"
+                  target="_blank"
+                  aria-label="Instagram"
+                >
+                  <FaInstagram />
                 </SocialIconLink>
               </SocialIcons>
             </SocialMediaWrap>

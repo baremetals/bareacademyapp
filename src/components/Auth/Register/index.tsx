@@ -135,6 +135,7 @@ const Register = () => {
                       content="Sign Up"
                       type="submit"
                       disabled={isSubmitting}
+                      loading={isSubmitting}
                     />
                     <Link href="/auth/signin">
                       <LoginWith>Or Login </LoginWith>

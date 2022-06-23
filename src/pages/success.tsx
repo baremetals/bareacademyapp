@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 const Success = () => {
   
   const router = useRouter();
-  console.log('i am the sessions id - ',router.query.session_id);
+  // console.log('i am the sessions id - ',router.query.session_id);
 
 
   setTimeout(() => {

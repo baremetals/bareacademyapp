@@ -34,7 +34,7 @@ type pagePros = successProps | errorProps | any;
 
 const Success = (props: pagePros) => {
   useIsAuth();
-  console.log(props);
+  // console.log(props);
   const router = useRouter();
   let data: { message: string; route: string; note: string } = {
     message: "Your Payment was successfully processed",
