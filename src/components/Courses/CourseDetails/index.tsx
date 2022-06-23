@@ -294,7 +294,6 @@ function CourseDetails(props: {
                       <ApplyButton
                         onClick={() => router.push("/auth/signin")}
                         type="button"
-                        style={{ backgroundColor: "red" }}
                       >
                         Buy course
                         {isloading && <Spinner />}
