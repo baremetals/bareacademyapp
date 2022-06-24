@@ -4,7 +4,7 @@ import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import axios from "axios";
 import MessageTemplate from "components/EmailTemplate/MsgTemplate";
-import { useIsAuth } from 'lib/isAuth';
+import { useIsAuth } from "lib/isAuth";
 
 type errorProps = {
   data: {
@@ -32,47 +32,35 @@ type successProps = {
 
 type pagePros = successProps | errorProps | any;
 
-const Success = (props: pagePros) => {
+const Cancel = (props: pagePros) => {
   useIsAuth();
   // console.log(props);
   const router = useRouter();
   let data: { message: string; route: string; note: string } = {
-    message: "Your order was successfully processed",
+    message: "Your order has been cancelled",
     route: "/home",
     note: "Thanks for your purchase",
   };
-  
+
   if (props?.data?.status === 400 || 403 || 500) {
     data = {
       message:
         "Sorry something went wrong, please check your email for confirmation",
       route: "/home",
-      note: "Thanks for your purchase",
-    };
-  } 
-
-  if (props?.data?.data?.id || props?.id) {
-    data = {
-      message: "Your order was successfully processed and confirmed.",
-      route: "/home",
-      note: "Thanks for your purchase",
+      note: "Order cancelled",
     };
   }
 
   setTimeout(() => {
-    router.push("/home/orders");
+    router.push("/home");
   }, 9000);
 
   return (
     <>
       <Head>
-        <title>Bare Metals Aacademy | Order Confirmation </title>
-        <meta
-          property="og:title"
-          content="Thank you for your purchase"
-          key="title"
-        />
-        <meta name="description" content="Thank you for your purchase" />
+        <title>Bare Metals Aacademy | Order Cancellation </title>
+        <meta property="og:title" content="Order cancelled" key="title" />
+        <meta name="description" content="Order cancelled" />
         <meta property="og:image:width" content="100%" />
         <meta property="og:image:height" content="auto" />
       </Head>
@@ -87,11 +75,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
   const cookies = JSON.parse(ctx?.req?.cookies?.bareacademy) || {};
   // console.log(cookies);
-  const { jwt, id } = cookies;
+  const { jwt } = cookies;
   // const token = `Bearer ${jwt}`;
   // console.log(session_id)
 
-  const fetchOrder = async () => {
+  const cancelOrder = async () => {
     try {
       return (
         await axios({
@@ -101,7 +89,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
             Accept: "application/json",
             Authorization: `Bearer ${jwt}`,
           },
-          data: { checkout_session: session_id, cancel: false },
+          data: { checkout_session: session_id, cancel: true },
         })
       ).data;
     } catch (err: any) {
@@ -123,20 +111,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  // eslint-disable-next-line camelcase
-  if (session_id === "free-purchase") {
-    return {
-      props: { id }, // will be passed to the page component as props
-    };
-  }
 
   // console.log(session_id);
   // eslint-disable-next-line camelcase
-  const data = await fetchOrder();
+  const data = await cancelOrder();
   // console.log(data);
 
   return {
     props: { data }, // will be passed to the page component as props
   };
 }
-export default Success;
+export default Cancel;
