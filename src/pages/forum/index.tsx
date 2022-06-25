@@ -52,6 +52,13 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     const apolloClient = initializeApollo(null, token);
     const { data } = await apolloClient.query<PostsQueryResult>({
       query: PostsDocument,
+      variables: {
+        pagination: {
+          start: 0,
+          limit: 6,
+        },
+        sort: "updatedAt:desc",
+      },
     });
     // console.log(data)
     return {

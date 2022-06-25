@@ -109,7 +109,7 @@ const ChatSideBar = ({children}: any) => {
     // const generatedToken = v4();
     setSearchItem(event.target.value);
     // console.log(searchItem);
-    if (filteredMessages !== []) {
+    if (filteredMessages.length > 0) {
       if (searchItem !== "") {
         // console.log(messages);
         const filteredData = messages?.filter((msg: any) => {
@@ -255,7 +255,7 @@ const ChatSideBar = ({children}: any) => {
 
           <OnlineChatContainer>
             <OnlineChatWrapper>
-              {searchedUsers !== [] &&
+              {searchedUsers.length > 0 &&
                 searchedUsers.map(
                   ({ attributes: { img, username, online } }, id) => (
                     <OnlineChat

@@ -3,7 +3,7 @@ import Head from "next/head";
 import Register from "components/Auth/Register";
 import { withApollo } from "utils/withApollo";
 import { useNoAuth } from "lib/noAuth";
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 
 
 function SignUp() {

@@ -19,7 +19,7 @@ import {
   PageWrapGroup,
 } from "../../styles/common.styles";
 import NavBar from "components/NavBar/NavBar";
-import Footer from "components/Footer/Footer";
+import Footer from "components/Footer";
 import { ArticleEntity, Query } from 'generated/graphql';
 import { ErrorMsg } from 'components/Input';
 import NavDropDown from 'components/NavDropDown';

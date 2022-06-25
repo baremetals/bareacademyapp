@@ -11,7 +11,7 @@ import { withApollo } from "utils/withApollo";
 import { useNoAuth } from "lib/noAuth";
 import NavBar from 'components/NavBar/NavBar';
 import { useState } from 'react';
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 import NavDropDown from 'components/NavDropDown';
 
 function Home() {

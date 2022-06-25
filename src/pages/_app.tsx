@@ -69,6 +69,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <link rel="icon" href="/favicon.ico" />
         <meta property="og:locale" content="en_GB" />
+        <meta
+          name="google-site-verification"
+          content="gs_BKadk8g0Cycal5cU_aD7buop3dlItHbNmjAdQoWg"
+        />
       </Head>
       <Provider store={store}>
         <ApolloProvider client={apolloClient}>

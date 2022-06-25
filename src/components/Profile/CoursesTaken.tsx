@@ -34,17 +34,13 @@ const CourseTitle = styled.span`
   cursor: pointer;
 `;
 
-type courseProps = {
-  course: Array<CourseEntity>;
-};
-
-function CoursesTaken(course: courseProps) {
-  // console.log(course);
-  const courses = course?.course;
+function CoursesTaken(props: { course: Array<CourseEntity> }) {
+  // console.log(props);
+  const courses = props?.course;
   return (
     <>
       {courses &&
-        courses.map((c, id) => (
+        courses?.map((c, id) => (
           <Container key={id}>
             <CourseImageWrap>
               <Link href={`/courses/${c?.attributes?.slug}`}>

@@ -17,10 +17,10 @@ export default async function handler(
   const cookies = JSON.parse(req.cookies.bareacademy).jwt;
   const token = `Bearer ${cookies}`;
   const apolloClient = initializeApollo(null, token);
-  console.log(req.body);
+  // console.log(req.body);
 
   try {
-    console.log("editing post");
+    // console.log("editing post");
     await apolloClient.mutate<UpdatePostMutationOptions>({
       mutation: UpdatePostDocument,
       variables: {

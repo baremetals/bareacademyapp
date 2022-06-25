@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardDuration,
   CardBottom,
+  CardPrice,
   CardStartDate,
   ApplyButton,
   BlogCardBody,
@@ -27,7 +28,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import NavBar from "components/NavBar/NavBar";
 // import { PageContainer } from "components/ErrorPage";
 // import { InnerContainer } from "components/EmailTemplate/style.template";
-import Footer from "components/Footer/Footer";
+import Footer from "components/Footer";
 import NavDropDown from 'components/NavDropDown';
 dayjs.extend(relativeTime);
 
@@ -77,21 +78,33 @@ function CoursesPage() {
                         />
                       </Link>
                       <BlogCardBody>
-                        <CardDuration>
-                          {" "}
-                          {course?.attributes?.duration}
-                        </CardDuration>
+                        <CardBottom>
+                          <CardDuration>
+                            {" "}
+                            {/* {course?.attributes?.duration} */}
+                            {course?.attributes?.level}
+                          </CardDuration>
+                          <CardPrice>
+                            {" "}
+                            {course?.attributes?.isFree
+                              ? "Free"
+                              : `£${course?.attributes?.price}`}
+                          </CardPrice>
+                        </CardBottom>
+
                         <BlogCardTitle>
                           <Link href={`/courses/${course?.attributes?.slug}`}>
                             {course?.attributes?.title}
                           </Link>
                         </BlogCardTitle>
                         <CardDescription>
-                          {course?.attributes?.description?.slice(0, 80)}
+                          {course?.attributes?.introduction?.slice(0, 80)}...
                         </CardDescription>
                         <CardBottom>
                           <CardStartDate>
-                            {dayjs(course?.attributes?.startDate).fromNow()}
+                            {/* {dayjs(course?.attributes?.startDate).fromNow()} */}
+                            {/* {course?.attributes?.level} */}
+                            {course?.attributes?.duration}
                           </CardStartDate>
                           <Link href={`/courses/${course?.attributes?.slug}`}>
                             <ApplyButton>Buy course</ApplyButton>

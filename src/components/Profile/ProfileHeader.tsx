@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
 // import { useRouter } from "next/router";
-import { MessageButtonWrap, ProfileCover, ProfileCoverImage, ProfileInfo, UserDescription, UserName, UserProfileImage } from './profile.styles';
+import {
+  // MessageButtonWrap,
+  ProfileCover,
+  ProfileCoverImage,
+  ProfileInfo,
+  UserDescription,
+  UserName,
+  UserProfileImage,
+} from "./profile.styles";
 // import { useAppSelector } from "app/hooks";
 // import { isUser } from "features/auth/selectors";
-import Link from 'next/link';
+// import Link from "next/link";
 
 type profilePageProps = {
   backgroundImg: string | undefined;
@@ -17,7 +25,7 @@ const ProfileHeader = ({
   profileImage,
   fullName,
   description,
-  username
+  username,
 }: profilePageProps) => {
   // const router = useRouter();
   // const { user: user } = useAppSelector(isUser);
@@ -29,18 +37,18 @@ const ProfileHeader = ({
         <UserProfileImage alt="user profile image" src={profileImage} />
       </ProfileCover>
       <ProfileInfo>
-        <UserName>{fullName}</UserName>
+        <UserName>{fullName || username}</UserName>
 
-        <Link href={`/messages/${username}`}>
+        {/* <Link href={`/messages/${username}`}>
           <MessageButtonWrap>
             <button type="button">contact {username}</button>
           </MessageButtonWrap>
-        </Link>
+        </Link> */}
         <br />
-        <UserDescription>{description}!</UserDescription>
+        <UserDescription>{description}</UserDescription>
       </ProfileInfo>
     </>
   );
 };
 
-export default ProfileHeader
+export default ProfileHeader;

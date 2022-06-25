@@ -21,7 +21,7 @@ const folder: string | undefined = process.env.NEXT_PUBLIC_POST_UPLOAD_FOLDER;
 const ModalEditor = ({
   onEditorStateChange,
   editorState,
-  id,
+  _id,
   // content,
   ...props
 }: any) => {

@@ -17,7 +17,7 @@ import {
   // ExpandIcon,
   PostCenterWrap,
   // PostTitle,
-  PostMediaImage,
+  // PostMediaImage,
   PostBottomWrapper,
   BottomLeftWrap,
   FilledLikeIcon,
@@ -29,7 +29,7 @@ import {
   // PostDropdown,
   LikeGroup,
   // DropAndCenterWrap,
-  PostMediaVideoIF,
+  // PostMediaVideoIF,
 } from "./forum.styles";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -77,15 +77,14 @@ const DetailPost = (props: {
 
   const [hasLikedPost, setHasLikedPost] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
-  const [isVideo, setIsVideo] = useState(false);
+  // const [isVideo, setIsVideo] = useState(false);
   // const [commentsArray, setCommentsArray] = useState([]);
   const [message, setMessage] = useState<string | undefined>("");
 
   const { user: user } = useAppSelector(isUser);
   const me = user;
   // eslint-disable-next-line camelcase
-  const { body, createdAt, title, total_comments } =
-    post.attributes as Post;
+  const { body, createdAt, title, total_comments } = post.attributes as Post;
 
   const [postPointNumber, setPostPointsNumber] = useState(
     post?.attributes?.points
@@ -99,9 +98,9 @@ const DetailPost = (props: {
   // Comments Subscription data
   // const newComms = useNewCommentSubscription();
   // const newCommsData = newComms?.data?.newComment;
-  // let commentsLength: number = 0;
+  // let commentsLength: number = 0;<iframe width="560" height="315" src="https://www.youtube.com/embed/KKz7P2pF7o8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-  // console.log(comments);
+  // console.log(data.data);
 
   // This useEffect updates the points count
   useEffect(() => {
@@ -114,17 +113,17 @@ const DetailPost = (props: {
     };
   }, []);
 
-  useEffect(() => {
-    let mounted = true;
-    if (body?.includes("www.youtube.com" || ".mp4" || ".mov")) {
-      if (mounted) {
-        setIsVideo(true);
-      }
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [body]);
+  // useEffect(() => {
+  //   let mounted = true;
+  //   if (body?.includes("www.youtube.com" || ".mp4" || ".mov")) {
+  //     if (mounted) {
+  //       setIsVideo(true);
+  //     }
+  //   }
+  //   return () => {
+  //     mounted = false;
+  //   };
+  // }, [body]);
 
   // This useEffect is subscribing to new comments to update the comments count
   // useEffect(() => {
@@ -185,7 +184,7 @@ const DetailPost = (props: {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.msg) {
           setMessage(res.data.msg);
           setErrorMsg(true);
@@ -264,7 +263,7 @@ const DetailPost = (props: {
         <br />
         {/* <PostTitle>{title}</PostTitle> */}
         {/* <br /> */}
-        {isVideo && (
+        {/* {isVideo && (
           <PostMediaVideoIF
             {...props}
             width="560"
@@ -272,8 +271,8 @@ const DetailPost = (props: {
             src={body as string}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           />
-        )}
-        {<PostMediaImage alt="Post image" src={body as string} />}
+        )} */}
+        {/* {<PostMediaImage alt="Post image" src={body as string} />} */}
         <div dangerouslySetInnerHTML={{ __html: body as string }}></div>
       </PostCenterWrap>
 

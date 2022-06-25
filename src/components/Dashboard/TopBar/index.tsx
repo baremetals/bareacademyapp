@@ -61,13 +61,13 @@ const Topbar = () => {
   const handleLogOut = async () => {
     try {
       const res = await axios.post("/api/auth/logout");
-      console.log(res);
+      // console.log(res);
       if (res.status === 200 || res?.data?.message) {
         router.push("/auth/signin");
       }
     } catch (error) {
-      console.log(error);
-      throw error;
+      // console.log(error);
+      return error;
     }
   };
 
@@ -157,6 +157,9 @@ const Topbar = () => {
               <Link href={`/user-profile/${me?.slug}/edit-profile`}>
                 Edit Profile
               </Link>
+            </ProfileItem>
+            <ProfileItem>
+              <Link href={`/home/orders`}>Orders</Link>
             </ProfileItem>
             <ProfileItem>
               <Link href="/privacy">Privacy settings</Link>

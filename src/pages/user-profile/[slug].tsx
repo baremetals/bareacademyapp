@@ -6,20 +6,23 @@ import Profile from "components/Profile";
 import { useIsAuth } from "lib/isAuth";
 import { initializeApollo } from "lib/apolloClient";
 import {
-  GetUserByIdDocument,
-  GetUserByIdQueryResult,
-  GetUserQueryResult,
-  GetUserDocument,
+  UserQueryResult,
+  UserDocument,
+  UsersPermissionsUserEntityResponseCollection,
+  UsersPermissionsUser,
 } from "generated/graphql";
 
+type userProps = {
+  id: string;
+  attributes: UsersPermissionsUser;
+};
 
+const UserProfile = (props: {
+  data: { usersPermissionsUsers: UsersPermissionsUserEntityResponseCollection };
+}) => {
+  // console.log(props);
 
-const UserProfile = (props: { data: any; loading: any; error: any; }) => {
-  const searchedUser =
-    props?.data?.data?.usersPermissionsUsers?.data[0]?.attributes;
-  const loggedInUser =
-    props?.data?.data?.usersPermissionsUser?.data?.attributes || {};
-  const user = loggedInUser ? loggedInUser : searchedUser || {};
+  const user = props?.data.usersPermissionsUsers?.data[0] as userProps;
   useIsAuth();
   return (
     <>
@@ -37,14 +40,20 @@ const UserProfile = (props: { data: any; loading: any; error: any; }) => {
         <meta property="og:type" content="user-profile" />
         <meta
           property="og:url"
-          content={`https://baremetals.io/user-profile/${user?.slug}/` || ""}
+          content={
+            `https://baremetals.io/user-profile/${user?.attributes?.slug}/` ||
+            ""
+          }
         />
         <link
           rel="canonical"
-          href={`https://baremetals.io/user-profile/${user?.slug}/` || ""}
+          href={
+            `https://baremetals.io/user-profile/${user?.attributes?.slug}/` ||
+            ""
+          }
         />
       </Head>
-      <Profile props={props} />
+      <Profile props={user} />
     </>
   );
 };
@@ -53,51 +62,41 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
     const { slug } = ctx.query;
     const cookies = JSON.parse(ctx.req.cookies.bareacademy);
-    const { jwt, id, slug: loggedInUser} = cookies;
+    const { jwt, slug: loggedInUser} = cookies;
     const token = `Bearer ${jwt}`;
     const apolloClient = initializeApollo(null, token);
-    // console.log(loggedInUser);
-    let data;
-    if (slug !== loggedInUser) {
-      data = await apolloClient.query<GetUserQueryResult>({
-        query: GetUserDocument,
+    if (slug === loggedInUser) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/user-profile",
+        },
+      };
+    }
+
+    const { data } = await apolloClient.query<UserQueryResult>({
+        query: UserDocument,
         variables: {
           filters: {
             slug: {
               eq: slug,
             },
           },
+          postsFilters2: {
+            creator: {
+            slug: {
+              eq: slug,
+            },
+          },
+          },
           sort: "updatedAt:desc",
           pagination: {
             start: 0,
             limit: 6
-          },
-          coursesSort2: "updatedAt:desc",
-          coursesPagination2: {
-            start: 0,
-            limit: 4
           }
         },
-      });
-    } else {
-      data = await apolloClient.query<GetUserByIdQueryResult>({
-        query: GetUserByIdDocument,
-        variables: {
-          usersPermissionsUserId: id,
-          pagination: {
-            start: 0,
-            limit: 6,
-          },
-          sort: "updatedAt:desc",
-          coursesSort2: "updatedAt:desc",
-          coursesPagination2: {
-            start: 0,
-            limit: 4
-          }
-        },
-      });
-      // return data
-    }
+      }); 
+    // console.log(loggedInUser);
     return {
       props: {data},
     };

@@ -4,7 +4,7 @@ import Head from "next/head";
 import Login from "components/Auth/Login";
 import { useNoAuth } from "lib/noAuth";
 import { withApollo } from "utils/withApollo";
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 
 
 function SignIn() {

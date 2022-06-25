@@ -32,7 +32,7 @@ export default async function password(
     }
   } else if (req.body.data.flag === "RESETPASSWORD") {
     try {
-      console.log("I am resetting my password");
+      // console.log("I am resetting my password");
       const { code, password, passwordConfirmation } = req.body.data
       const resp = await axios({
         method: "POST",
@@ -52,7 +52,7 @@ export default async function password(
     }
   } else {
     try {
-      console.log("I need new email confirmation");
+      // console.log("I need new email confirmation");
       await axios({
         method: "POST",
         url: `${baseUrl}/auth/send-email-confirmation`,
@@ -64,7 +64,7 @@ export default async function password(
       // console.log(response)
       res.status(200).json({ message: "Successfuly registered!" });
     } catch (err: any) {
-      console.log(err.response.data.error.message);
+      // console.log(err.response.data.error.message);
       res.status(401).json({ message: err.response.data.error.message });
     }
   }

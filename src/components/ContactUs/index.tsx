@@ -16,7 +16,7 @@ import {
 
 import Dashboard from 'components/Dashboard';
 import { BackToHomeButton } from "../../styles/common.styles";
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 import ContactForm from './ContactForm';
 
 

@@ -1,17 +1,20 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import Markdown from "markdown-to-jsx";
+import Spinner from "components/Spinner";
+
 import { CourseEntityResponseCollection } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 
+
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-
-import Markdown from "markdown-to-jsx";
 
 import {
   CardTitle,
@@ -22,13 +25,14 @@ import {
   CardCenterWrap,
   // CardText,
   StartDateTitle,
-  MediaContainer,
+  // MediaContainer,
   CoursesH2,
   CoursesTeacherWrap,
-  CoursesTeacherNameAndImageWrap,
-  CoursesTeacherName,
-  CoursesTeacherImage,
-  MediaRow,
+  // CoursesTeacherNameAndImageWrap,
+  // CoursesTeacherName,
+  // CoursesTeacherImage,
+  // MediaRow,
+  Level,
 } from "./details.styles";
 
 import {
@@ -48,11 +52,13 @@ import Dashboard from 'components/Dashboard';
 
 import VideoCard from './VideoCard';
 import NavBar from 'components/NavBar/NavBar';
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 import SocialShare from 'components/SocialShare';
 import NavDropDown from 'components/NavDropDown';
 
 const RecentCourses = dynamic(() => import("../RecentCourses"));
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK as string);
 
 function CourseDetails(props: {
   props: {
@@ -71,13 +77,14 @@ function CourseDetails(props: {
   }
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
 
-  
   const course = data?.courses?.data[0];
-  const videos = course?.attributes?.videos?.data;
+  // const videos = course?.attributes?.videos?.data;
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
-  // console.log(course);
+  const imageUrl = course?.attributes?.image?.data?.attributes?.url;
+  // console.log(course?.attributes);
 
+  const [isloading, setIsLoading] = useState(false);
   const [socialDropdown, setSocialDropdown] = useState(false);
   const toggle: any = () => {
     setSocialDropdown(!socialDropdown);
@@ -95,58 +102,105 @@ function CourseDetails(props: {
   const [isTeacher, setIsTeacher] = useState(false);
   const { user: user } = useAppSelector(isUser);
   const me = user;
-  console.log('printing me',me)
-
+  // console.log('printing me',me)
 
   useEffect(() => {
-    if (students?.length !== 0) {
-      students?.forEach(
-        (student) => {
-          const usrId = student?.attributes?.user?.data?.id;
-          // console.log(student)
-          if (me !== null && usrId === me?.id) {
-            setIsStudent(true);
-          }
+    if (me?.id && students?.length !== 0) {
+      students?.forEach((student) => {
+        const usrId = student?.id;
+        if (usrId == me?.id) {
+          setIsStudent(true);
         }
-      );
+      });
     }
   }, [students, me?.id]);
 
   useEffect(() => {
-    if (me !== null && teacher?.id === me?.id) {
+    if (me?.id && teacher?.id === me?.id) {
       setIsTeacher(true);
     }
   }, [me?.id]);
 
-  const joinCourse = async () => {
-    // console.log("testing", isStudent);
-    // console.log(id, me?.slug, me?.id);
-
+  const handleBuy = async (orderType: string) => {
+    console.log('in this biatch');
+    const stripe = await stripePromise;
+    setIsLoading(true)
     await axios
-      .post("/api/join", {
+      .post("/api/buy", {
         data: {
-          joined: true,
-          slug: me?.slug,
+          total: course?.attributes?.price,
+          quantity: 1,
           course: course.id,
-          user: me?.id,
-          publishedAt: Date.now(),
+          imageUrl,
+          isFree: course?.attributes?.isFree,
+          orderType,
         },
       })
       .then((res) => {
-        console.log(res);
-        if (res.data.msg) {
-          setMessage(res.data.msg);
-          setErrorMsg(true);
-        } else {
-          setMessage("You have been successfully added to the course");
-          setErrorMsg(true);
+        // console.log(res);
+        if (res?.status === 200 && res?.data?.status !== 400) {
+          // console.log(res?.data?.data?.id);
+          if (res?.data?.data?.id === "free-purchase") {
+            setIsLoading(false);
+            router.push("/home/orders/success?session_id=free-purchase");
+          } else {
+            setIsLoading(false);
+            const session = res?.data?.data?.id;
+            stripe?.redirectToCheckout({
+              sessionId: session,
+            });
+          }
         }
       })
       .catch((err) => {
-        setMessage("Sorry something went wrong please try again later.");
-        setErrorMsg(true);
+        // console.log(err.response.data.error);
+        setIsLoading(false);
+        if (
+          err?.response?.data?.error === "You previously purchased this course"
+        ) {
+          setMessage(err?.response?.data?.error);
+          setTimeout(() => {
+            setErrorMsg(true);
+          }, 10000);
+        } else {
+          setMessage("Sorry something went wrong please try again later.");
+          setTimeout(() => {
+            setErrorMsg(true);
+          }, 10000);
+        }
       });
   };
+
+  // const joinCourse = async () => {
+  //   // console.log("testing", isStudent);
+  //   // console.log(id, me?.slug, me?.id);
+
+  //   await axios
+  //     .post("/api/join", {
+  //       data: {
+  //         joined: true,
+  //         slug: me?.slug,
+  //         course: course.id,
+  //         user: me?.id,
+  //         publishedAt: Date.now(),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       if (res.data.msg) {
+  //         setMessage(res.data.msg);
+  //         setErrorMsg(true);
+  //       } else {
+  //         setMessage("You have been successfully added to the course");
+  //         setErrorMsg(true);
+  //       }
+  //     })
+  //     .catch((_err) => {
+  //       setMessage("Sorry something went wrong please try again later.");
+  //       setErrorMsg(true);
+  //     });
+  // };
+
   return (
     <>
       {!user?.id && (
@@ -179,30 +233,45 @@ function CourseDetails(props: {
             <br />
             <div>{errorMsg && <ErrorMsg>{message}</ErrorMsg>}</div>
             <CoursesTeacherWrap>
-              <CardTitle>Teacher</CardTitle>
-              <CoursesTeacherNameAndImageWrap>
+              {!me?.id && !course?.attributes?.isFree && (
+                <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
+              )}
+              {!me?.id && course?.attributes?.isFree && (
+                <CardTitle>Free</CardTitle>
+              )}
+              {me?.id && !isStudent && !course?.attributes?.isFree && (
+                <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
+              )}
+              {me?.id && course?.attributes?.isFree && (
+                <CardTitle>Free</CardTitle>
+              )}
+              {/* <CoursesTeacherNameAndImageWrap>
                 <CoursesTeacherImage src={teacher?.attributes?.img as string} />
                 <CoursesTeacherName>
                   {teacher?.attributes?.fullName}
                 </CoursesTeacherName>
-              </CoursesTeacherNameAndImageWrap>
+              </CoursesTeacherNameAndImageWrap> */}
             </CoursesTeacherWrap>
             <br />
             <DetailsCardWrapper>
               <CardTop>
                 <CardLeftWrap>
                   <StartDateTitle>
-                    Start Date{" "}
+                    {/* Price{" "} */}
                     <StartDate>
                       {" "}
-                      -{" "}
+                      {/* -{" "}
                       {dayjs(course?.attributes?.startDate).format(
                         "DD.MM.YY"
                       )}{" "}
                       to {dayjs(course?.attributes?.endDate).format("DD.MM.YY")}{" "}
-                      - {course?.attributes?.duration}
+                      -  */}
+                      {course?.attributes?.duration}
                       {/* dayjs(course?.attributes?.startDate).fromNow() */}
                     </StartDate>
+                  </StartDateTitle>
+                  <StartDateTitle>
+                    <Level>{course?.attributes?.level}</Level>
                   </StartDateTitle>
                   <CardTitle>Course Description</CardTitle>
                 </CardLeftWrap>
@@ -213,6 +282,11 @@ function CourseDetails(props: {
                     {course?.attributes?.description as string}
                   </Markdown>
                 </div>
+                {/* <div
+                  dangerouslySetInnerHTML={{
+                    __html: course?.attributes?.description as string,
+                  }}
+                ></div> */}
               </CardCenterWrap>
               <CardBottom>
                 {!isTeacher && (
@@ -223,25 +297,38 @@ function CourseDetails(props: {
                         type="button"
                       >
                         Buy course
+                        {isloading && <Spinner />}
                       </ApplyButton>
                     )}
 
                     {me?.id && !isStudent && (
-                      <ApplyButton onClick={joinCourse} type="button">
-                        add to cart
+                      <ApplyButton
+                        onClick={() => handleBuy("group")}
+                        type="button"
+                      >
+                        Buy Now
+                        {isloading && <Spinner />}
                       </ApplyButton>
                     )}
 
-                    {me && isStudent && (
+                    {me?.id && isStudent && (
                       <ApplyButton
                         onClick={() => router.push("/home")}
-                        style={{ backgroundColor: "red" }}
                         type="button"
+                        style={{ backgroundColor: "red" }}
                       >
                         My course
+                        {isloading && <Spinner />}
                       </ApplyButton>
                     )}
                     {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
+
+                    {/* <ApplyButton
+                      onClick={() => handleBuy("group")}
+                      type="button"
+                    >
+                      Buy Now
+                    </ApplyButton> */}
                   </>
                 )}
               </CardBottom>
@@ -250,22 +337,18 @@ function CourseDetails(props: {
               <div>
                 <Markdown>{course?.attributes?.notes as string}</Markdown>
               </div>
+              {/* <div
+                dangerouslySetInnerHTML={{
+                  __html: course?.attributes?.notes as string,
+                }}
+              ></div> */}
               <br />
-              <MediaRow>
-                {videos?.map((vid, id: React.Key | null | undefined) => (
-                  <MediaContainer key={id}>
-                    <VideoCard
-                      fullName={teacher?.attributes?.fullName as string}
-                      date={vid?.attributes?.createdAt}
-                      title={vid?.attributes?.title as string}
-                      url={vid?.attributes?.url}
-                      slug={course?.attributes?.slug as string}
-                      description={vid?.attributes?.description as string}
-                    />
-                    {/* {vid?.attributes?.description as string} */}
-                  </MediaContainer>
-                ))}
-              </MediaRow>
+              {me?.id && isStudent && (
+                <VideoCard
+                  courseId={course?.id as string}
+                  slug={course?.attributes?.slug as string}
+                />
+              )}
             </DetailsCardWrapper>
           </PageWrapGroup>
           <RightSideBar>
@@ -279,3 +362,6 @@ function CourseDetails(props: {
 }
 
 export default CourseDetails
+
+
+
