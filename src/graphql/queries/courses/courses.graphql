@@ -9,6 +9,10 @@ query Courses($pagination: PaginationArg, $sort: [String]) {
         introduction
         description
         startDate
+        level
+        price
+        soloPrice
+        isFree
         image {
           data {
             id

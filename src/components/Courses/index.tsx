@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardDuration,
   CardBottom,
+  CardPrice,
   CardStartDate,
   ApplyButton,
   BlogCardBody,
@@ -77,24 +78,36 @@ function CoursesPage() {
                         />
                       </Link>
                       <BlogCardBody>
-                        <CardDuration>
-                          {" "}
-                          {course?.attributes?.duration}
-                        </CardDuration>
+                        <CardBottom>
+                          <CardDuration>
+                            {" "}
+                            {/* {course?.attributes?.duration} */}
+                            {course?.attributes?.level}
+                          </CardDuration>
+                          <CardPrice>
+                            {" "}
+                            {course?.attributes?.isFree
+                              ? "Free"
+                              : `£${course?.attributes?.price}`}
+                          </CardPrice>
+                        </CardBottom>
+
                         <BlogCardTitle>
                           <Link href={`/courses/${course?.attributes?.slug}`}>
                             {course?.attributes?.title}
                           </Link>
                         </BlogCardTitle>
                         <CardDescription>
-                          {course?.attributes?.description?.slice(0, 80)}
+                          {course?.attributes?.introduction?.slice(0, 80)}...
                         </CardDescription>
                         <CardBottom>
                           <CardStartDate>
-                            {dayjs(course?.attributes?.startDate).fromNow()}
+                            {/* {dayjs(course?.attributes?.startDate).fromNow()} */}
+                            {/* {course?.attributes?.level} */}
+                            {course?.attributes?.duration}
                           </CardStartDate>
                           <Link href={`/courses/${course?.attributes?.slug}`}>
-                            <ApplyButton>apply</ApplyButton>
+                            <ApplyButton>Buy course</ApplyButton>
                           </Link>
                         </CardBottom>
                       </BlogCardBody>

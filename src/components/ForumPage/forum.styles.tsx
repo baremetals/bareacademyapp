@@ -145,6 +145,20 @@ export const PostMediaVideoIF = styled.iframe`
   }
 `;
 
+export const PostMediaVideoPageIF = styled.iframe`
+  margin-top: 1rem;
+  width: 100%;
+  max-height: 1000px;
+  /* object-fit: contain; */
+  border: none;
+  outline: none;
+  display: block;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 export const PostBottomWrapper = styled.div`
   display: flex;
   align-items: center;

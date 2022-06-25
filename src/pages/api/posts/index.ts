@@ -19,10 +19,10 @@ export default async function handler(
     const cookies = JSON.parse(req.cookies.bareacademy).jwt;
     const token = `Bearer ${cookies}`;
     const apolloClient = initializeApollo(null, token);
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
-        console.log("creating post");
+        // console.log("creating post");
         await apolloClient.mutate<CreatePostMutationOptions>({
           mutation: CreatePostDocument,
           variables: {

@@ -37,7 +37,7 @@ export default async function (
     res.send(response.data.data.attributes.error);
   } catch (err) {
     // console.log("this is where it is all going wrong", JSON.stringify(err));
-    console.log("fuck me finally", err);
+    // console.log("fuck me finally", err);
     res.send(err);
   }
 }

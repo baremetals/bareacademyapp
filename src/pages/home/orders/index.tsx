@@ -2,37 +2,37 @@ import React from "react";
 import Head from "next/head";
 import { requireAuthentication } from "lib/requireAuthentication";
 import { GetServerSideProps } from "next";
-import Home from "components/Home";
+import Orders from "components/Orders";
 import { useIsAuth } from "lib/isAuth";
 import { initializeApollo } from "lib/apolloClient";
 import {
-  CourseEntityResponseCollection,
-  GetCoursesByUserIdDocument,
-  GetCoursesByUserIdQueryResult,
+  OrderEntityResponseCollection,
+  MyOrdersDocument,
+  MyOrdersQueryResult,
 } from "generated/graphql";
 
-function HomePage(props: {
-  data: { courses: CourseEntityResponseCollection };
+function OrdersPage(props: {
+  data: { orders: OrderEntityResponseCollection };
 }) {
   useIsAuth();
   return (
     <>
       <Head>
-        <title>Bare Metals Aacademy | Dashboard</title>
+        <title>Bare Metals Aacademy | Orders</title>
         <meta
           property="og:title"
-          content="Bare Metals Aacademy | Dashboard"
+          content="Bare Metals Aacademy | Orders"
           key="title"
         />
         <meta
           name="description"
           content="Tutorial site for learning web and software development"
         />
-        <meta property="og:type" content="user-dashboard" />
-        <meta property="og:url" content="https://baremetals.io/home" />
-        <link rel="canonical" href="https://baremetals.io/home" />
+        <meta property="og:type" content="user-orders" />
+        <meta property="og:url" content="https://baremetals.io/home/orders" />
+        <link rel="canonical" href="https://baremetals.io/home/orders" />
       </Head>
-      <Home props={props} />
+      <Orders props={props} />
     </>
   );
 }
@@ -42,11 +42,11 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
     const { jwt, id } = cookies;
     const token = `Bearer ${jwt}`;
     const apolloClient = initializeApollo(null, token);
-    const { data } = await apolloClient.query<GetCoursesByUserIdQueryResult>({
-      query: GetCoursesByUserIdDocument,
+    const { data } = await apolloClient.query<MyOrdersQueryResult>({
+      query: MyOrdersDocument,
       variables: {
         filters: {
-          students: {
+          user: {
             id: {
               eq: id,
             },
@@ -65,4 +65,4 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
   }
 );
 
-export default HomePage;
+export default OrdersPage;

@@ -39,6 +39,9 @@ export const StartDateTitle = styled.p`
 export const StartDate = styled.span`
   color: #7755e2;
 `;
+export const Level = styled.span`
+  color: #5bb3aa;
+`;
 
 export const CardCenterWrap = styled.div`
   margin-bottom: 1rem;

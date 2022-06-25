@@ -256,6 +256,13 @@ export const CardDuration = styled.span`
   font-weight: 600;
   margin-bottom: 0.25rem;
 `;
+export const CardPrice = styled.span`
+  font-size: 0.875rem;
+  /* color: #5bb3aa; */
+  display: block;
+  font-weight: 650;
+  margin-bottom: 0.25rem;
+`;
 
 export const CardBottom = styled.div`
   margin-top: auto;
@@ -356,7 +363,7 @@ export const ApplyButton = styled.button`
   background-color: #7755e2;
   color: #fff;
   font-size: 1rem;
-  border-radius: 10rem;
+  border-radius: .5rem;
   padding: 0.625rem 1.5rem;
   border: none;
   cursor: pointer;

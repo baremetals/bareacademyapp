@@ -39,7 +39,7 @@ const ServiceCard = ({ linkIid, ...props }: any) => {
         <ServiceH1>Explore featured Courses</ServiceH1>
         <ServiceWrapper>
           {courses &&
-            courses?.map((c, id) => (
+            courses.slice(0, 3)?.map((c, id) => (
               <ServicesColumn key={id}>
                 <ServicesCard>
                   <Link href={`/courses/${c?.attributes?.slug}`}>
@@ -50,7 +50,10 @@ const ServiceCard = ({ linkIid, ...props }: any) => {
 
                   <ServiceH2>{c?.attributes?.title}</ServiceH2>
                   <ServiceP>
-                    {dayjs(c?.attributes?.startDate).fromNow()}
+                    {c?.attributes?.duration} |{" "}
+                    {c?.attributes?.isFree
+                      ? "Free"
+                      : `£${c?.attributes?.price}`}
                   </ServiceP>
                 </ServicesCard>
               </ServicesColumn>

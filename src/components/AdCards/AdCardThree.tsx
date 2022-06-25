@@ -67,6 +67,7 @@ const Img = styled.img`
   object-fit: cover;
   background: black;
   display: block;
+  cursor: pointer;
 `;
 const Status = styled.span`
   width: 0.75rem;
@@ -82,4 +83,5 @@ const Status = styled.span`
 const Title = styled.span`
   font-weight: 500;
   opacity: 0.6;
+  cursor: pointer;
 `;

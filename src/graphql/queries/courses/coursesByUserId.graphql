@@ -9,10 +9,12 @@ query GetCoursesByUserId(
       attributes {
         slug
         title
-        startDate
+        level
+        isFree
         duration
         image {
           data {
+            id
             attributes {
               url
             }

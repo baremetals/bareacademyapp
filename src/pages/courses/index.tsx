@@ -18,6 +18,8 @@ function courses(props: any) {
   const dispatch = useAppDispatch();
   const courseData = props.data?.courses;
   dispatch(setCourse(courseData));
+
+  
   
   return (
     <>

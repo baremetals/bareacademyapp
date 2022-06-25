@@ -1,8 +1,36 @@
-query Me {
-  me {
-    id
-    username
-    email
-    confirmed
+query Me(
+  $usersPermissionsUserId: ID
+  $filters: PostFiltersInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  usersPermissionsUser(id: $usersPermissionsUserId) {
+    data {
+      id
+      attributes {
+        username
+        email
+        location
+        slug
+        fullName
+        img
+        backgroundImg
+        createdAt
+        description
+        posts(filters: $filters, sort: $sort, pagination: $pagination) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              points
+              body
+              total_comments
+              updatedAt
+            }
+          }
+        }
+      }
+    }
   }
 }

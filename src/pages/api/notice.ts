@@ -25,7 +25,7 @@ export default async function handler(
   const cookies = JSON.parse(req.cookies.bareacademy).jwt;
   const token = `Bearer ${cookies}`;
   const apolloClient = initializeApollo(null, token);
-  console.log(id);
+  // console.log(id);
   if (flag === "DELETEONE") {
       try {
         console.log("deleting one notification");
@@ -44,7 +44,7 @@ export default async function handler(
       }
     } else {
       try {
-        console.log("profile details update");
+        // console.log("profile details update");
         // await apolloClient.mutate<UpdateMeMutationOptions>({
         //   mutation: UpdateMeDocument,
         //   variables: {
