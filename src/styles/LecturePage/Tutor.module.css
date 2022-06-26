@@ -1,0 +1,64 @@
+.tutorContainer {
+  padding: 20px;
+  background: var(--foreground);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.tutorInfos {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  text-decoration: none;
+  color: unset;
+}
+
+.tutorNameTitle {
+  padding: 0 10px;
+  flex-grow: 1;
+}
+
+.tutorName {
+  font-weight: 700;
+  color: var(--text1);
+  font-size: 1rem;
+}
+
+.tutorTitle {
+  color: var(--text2);
+  font-size: 0.8rem;
+}
+
+.tutorImage {
+  width: 40px;
+  background-position: center;
+  background-size: cover;
+  aspect-ratio: 1;
+  border-radius: 10px;
+}
+
+.tutorFollowButton {
+  background: var(--placeholder);
+  padding: 5px;
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tutorFollowButton:hover > .tutorFollowButtonInner {
+  border-radius: 10px;
+}
+
+.tutorFollowButtonInner {
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text1);
+  transition: border-radius 0.2s ease;
+}

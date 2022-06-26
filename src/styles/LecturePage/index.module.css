@@ -1,0 +1,22 @@
+.LecturePage {
+    height: 100vh;
+    overflow: hidden;
+    background: var(--background);
+}
+
+.container {
+    display: flex;
+}
+
+.col {
+    min-height: 100vh;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 50px 40px;
+}
+
+.col1 {
+    flex-grow: .25;
+    max-width: 35%;
+    border-right: 1px solid var(--placeholder);
+}
