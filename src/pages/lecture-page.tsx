@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/LecturePage/index.module.css";
 import classNames from "classnames";
-import { TitleDescription, Tutor } from "components/LecturePage";
+import { TitleDescription, Tutor, Achievements } from "components/LecturePage";
 
 const course = {
   tutor: {
@@ -14,6 +14,24 @@ const course = {
     "Learning How To Create a Beautiful Scene in Illustrator in 80 minutes",
   description:
     "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+  achievements: [
+    {
+      type: "points",
+      number: 1800,
+    },
+    {
+      type: "progress",
+      number: 45.3,
+    },
+    {
+      type: "level-up",
+      number: 26,
+    },
+    {
+      type: "level-up",
+      number: 26,
+    },
+  ],
 };
 
 type Props = {};
@@ -28,6 +46,7 @@ const LecturePage = (props: Props) => {
             title={course.title}
             description={course.description}
           />
+          <Achievements data={course.achievements} />
         </div>
         <div className={classNames(styles.col, styles.col2)}></div>
       </div>

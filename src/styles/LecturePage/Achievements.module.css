@@ -1,0 +1,75 @@
+.Achievements {
+    margin-top: 40px;
+    position: relative;
+}
+
+.heading {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--text1);
+}
+
+.heading span {
+    font-weight: 700;
+}
+
+.achievementsContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.navigationDisabled {
+    cursor: unset !important;
+    opacity: 0.2 !important;
+}
+
+.navigationLeft {
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    cursor: pointer;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.navigationRight {
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.achievement {
+    background: var(--foreground);
+    min-width: 120px;
+    aspect-ratio: 1/1.5;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.achievement + .achievement {
+    margin-left: 20px;
+}
+
+.achievementsContainer::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.text {
+color: var(--text2);
+font-size: 0.8rem;
+}
+.number {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text1);
+}
