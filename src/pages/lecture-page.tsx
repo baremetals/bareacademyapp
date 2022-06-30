@@ -1,7 +1,12 @@
 import React from "react";
 import styles from "../styles/LecturePage/index.module.css";
 import classNames from "classnames";
-import { TitleDescription, Tutor, Achievements } from "components/LecturePage";
+import {
+  TitleDescription,
+  Tutor,
+  Achievements,
+  Lectures,
+} from "components/LecturePage";
 
 const course = {
   tutor: {
@@ -32,6 +37,23 @@ const course = {
       number: 26,
     },
   ],
+  lectures: [
+    {
+      title: "Introduction",
+      duration: 204,
+      progress: 1,
+    },
+    {
+      title: "Getting started",
+      duration: 595,
+      progress: 0.75,
+    },
+    {
+      title: "The Illustration",
+      duration: 3768,
+      progress: 0,
+    },
+  ],
 };
 
 type Props = {};
@@ -47,6 +69,7 @@ const LecturePage = (props: Props) => {
             description={course.description}
           />
           <Achievements data={course.achievements} />
+          <Lectures data={course.lectures} />
         </div>
         <div className={classNames(styles.col, styles.col2)}></div>
       </div>

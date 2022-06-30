@@ -47,6 +47,7 @@
     "react-dropzone": "^11.4.2",
     "react-hook-form": "^7.17.2",
     "react-icons": "^4.2.0",
+    "react-indiana-drag-scroll": "^2.2.0",
     "react-redux": "^7.2.5",
     "react-scroll": "^1.8.4",
     "react-share": "^4.4.0",

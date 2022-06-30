@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  FiArrowLeftCircle,
-  FiArrowRightCircle,
-  FiArrowUp,
-  FiAward,
-  FiBarChart,
-} from "react-icons/fi";
+import { FiArrowUp, FiAward, FiBarChart } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Achievements.module.css";
-import classNames from "classnames";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 type Props = {
   data: Array<{
@@ -18,18 +12,6 @@ type Props = {
 
 const Achievements = (props: Props) => {
   const { data } = props;
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState(0);
-  const ACHIEVEMENT_WIDTH = 120;
-  const MARGIN = 20;
-
-  useEffect(() => {
-    if (containerRef.current) {
-      const container = containerRef.current;
-      const ACTUAL_WIDTH = ACHIEVEMENT_WIDTH + MARGIN / 2;
-      setOffset(Math.floor(container.offsetWidth / ACTUAL_WIDTH));
-    }
-  });
 
   const renderIcon = (type: string) => {
     switch (type) {
@@ -73,37 +55,7 @@ const Achievements = (props: Props) => {
       <div className={styles.heading}>
         <span>Course</span> Achievements
       </div>
-      <div
-        className={styles.achievementsContainer}
-        ref={containerRef}
-        onScroll={(e) => {
-          const container = e.currentTarget;
-          console.log(
-            container.scrollLeft,
-            container.scrollWidth - container.offsetWidth
-          );
-        }}
-      >
-        <div
-          className={classNames(styles.navigationLeft, {
-            [styles.navigationDisabled]:
-              offset === 0 || containerRef.current?.scrollLeft === 0,
-          })}
-        >
-          <FiArrowLeftCircle />
-        </div>
-        <div
-          className={classNames(styles.navigationRight, {
-            [styles.navigationDisabled]:
-              !containerRef.current?.scrollWidth ||
-              offset === 0 ||
-              containerRef.current?.scrollLeft ===
-                containerRef.current?.scrollWidth -
-                  containerRef.current?.offsetWidth,
-          })}
-        >
-          <FiArrowRightCircle />
-        </div>
+      <ScrollContainer horizontal className={styles.achievementsContainer}>
         {data.map((item, index) => (
           <div className={styles.achievement} key={index}>
             <div className={styles.icon}>{renderIcon(item.type)}</div>
@@ -115,7 +67,7 @@ const Achievements = (props: Props) => {
             </div>
           </div>
         ))}
-      </div>
+      </ScrollContainer>
     </div>
   );
 };
