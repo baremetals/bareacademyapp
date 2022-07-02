@@ -1,0 +1,205 @@
+.CourseVideo {
+  /* background: red; */
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CourseVideo input[type="range"] {
+  cursor: pointer;
+  height: 5px;
+  border-radius: 10px;
+  background: transparent;
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.CourseVideo input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 10px; /* Set a specific slider handle width */
+  height: 10px; /* Slider handle height */
+  background: var(--primary); /* Green background */
+  border-radius: 100%;
+  cursor: pointer; /* Cursor on hover */
+}
+
+.CourseVideo input[type="range"]::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: var(--primary);
+  cursor: pointer; /* Cursor on hover */
+}
+
+.video {
+  background: black;
+  width: 100%;
+  aspect-ratio: 2 / 1.5;
+}
+
+.controls {
+  position: absolute;
+  background-color: var(--video);
+  color: white;
+  border-radius: 20px;
+  z-index: 1;
+  width: 100%;
+  height: 80px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.playPause {
+  background: var(--primary);
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.videoTime {
+  font-size: 0.7rem;
+  font-weight: 400;
+  padding: 0 10px;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--video);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  color: white;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.loadingIcon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 1s linear infinite;
+}
+
+.fullScreen {
+  width: 40px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.soundControl {
+  position: relative;
+  width: 40px;
+  aspect-ratio: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.soundControlButton {
+  width: 40px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.soundControl:hover > .soundControlSlider {
+  display: flex;
+}
+
+.soundControlSlider {
+  position: absolute;
+  background: var(--video);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.soundInputContainer input {
+  width: 5vw;
+}
+
+.soundInputContainer {
+  display: flex;
+  position: relative;
+  background: var(--white);
+  border-radius: 10px;
+}
+
+.volume {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary);
+  z-index: -1;
+  height: 5px;
+  border-radius: 10px 0 0 10px;
+}
+
+.videoProgress {
+  border-radius: 10px;
+  height: 5px;
+  flex-grow: 1;
+  display: flex;
+  position: relative;
+  background: var(--white);
+  z-index: -2;
+}
+
+.videoProgress input {
+  width: 100%;
+}
+
+.progress {
+  background: var(--primary);
+  border-radius: 10px 0 0 10px;
+  height: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

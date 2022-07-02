@@ -8,7 +8,9 @@
   --placeholder: #e8eae8;
   --primary: #f7542e;
   --success: #7fc98e;
-  --video: #082136;
+  --video: #082136DA;
+  --highlighted: #FEF5F3;
+  --white: #fff;
 }
 
 * {

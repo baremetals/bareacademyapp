@@ -81,6 +81,10 @@
   background: var(--text1);
 }
 
+.lectureActive {
+  background: var(--highlighted) !important;
+}
+
 .lectureActive .lectureNumber {
   background: var(--primary);
 }

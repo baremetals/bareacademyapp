@@ -6,6 +6,7 @@ import {
   Tutor,
   Achievements,
   Lectures,
+  CourseVideo,
 } from "components/LecturePage";
 
 const course = {
@@ -53,7 +54,20 @@ const course = {
       duration: 3768,
       progress: 0,
     },
+    {
+      title: "The Conception",
+      duration: 5268,
+      progress: 0,
+    },
+    {
+      title: "The Process",
+      duration: 8668,
+      progress: 0,
+    },
   ],
+  video: {
+    url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+  },
 };
 
 type Props = {};
@@ -71,7 +85,9 @@ const LecturePage = (props: Props) => {
           <Achievements data={course.achievements} />
           <Lectures data={course.lectures} />
         </div>
-        <div className={classNames(styles.col, styles.col2)}></div>
+        <div className={classNames(styles.col, styles.col2)}>
+          <CourseVideo video={course.video} />
+        </div>
       </div>
     </div>
   );
