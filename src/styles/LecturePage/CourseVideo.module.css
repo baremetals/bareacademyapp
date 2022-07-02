@@ -1,11 +1,18 @@
 .CourseVideo {
-  /* background: red; */
   position: relative;
   border-radius: 20px;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: black;
+  width: 100%;
+  aspect-ratio: 2 / 1.5;
+  max-height: 600px;
+}
+
+.CourseVideoCursorHidden {
+  cursor: none;
 }
 
 .CourseVideo input[type="range"] {
@@ -33,13 +40,6 @@
   height: 25px; /* Slider handle height */
   background: var(--primary);
   cursor: pointer; /* Cursor on hover */
-}
-
-.video {
-  background: black;
-  width: 100%;
-  aspect-ratio: 2 / 1.5;
-  max-height: 600px;
 }
 
 .controls {
@@ -190,6 +190,25 @@
   z-index: -1;
 }
 
+.loaded {
+  background: var(--primary);
+  opacity: 0.5;
+  border-radius: 10px;
+  height: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.controlsVisible {
+  animation: fadeIn 0.2s ease-in-out forwards;
+}
+
+.controlsHidden {
+  animation: fadeOut 0.2s ease-in-out forwards;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -201,9 +220,24 @@
 
 @keyframes fadeIn {
   0% {
+    visibility: hidden;
+  }
+  1% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    visibility: hidden;
   }
 }

@@ -10,16 +10,23 @@ import {
   FiVolumeX,
 } from "react-icons/fi";
 import styles from "../../styles/LecturePage/CourseVideo.module.css";
+import ReactPlayer from "react-player";
+import classNames from "classnames";
+let timer: ReturnType<typeof setTimeout>;
 
+/**
+ * @component VideoProgress
+ * @desc Video progress and buffering bars
+ */
 const VideoProgress = (props: VideoProgressProps) => {
-  const { currentTime, duration, seek } = props;
-  const [time, setTime] = useState(currentTime || 0);
+  const { currentTime, duration, seekTo, loaded } = props;
+  const [time, setTime] = useState(currentTime);
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    if (isNaN(Number(value))) return;
+    if (!seekTo || isNaN(Number(value))) return;
     setTime(Number(value));
-    seek(Number(value));
+    seekTo(Number(value), "seconds");
   };
 
   return (
@@ -28,6 +35,12 @@ const VideoProgress = (props: VideoProgressProps) => {
         className={styles.progress}
         style={{
           width: `calc(${(time / duration) * 100}% + 2px)`,
+        }}
+      ></div>
+      <div
+        className={styles.loaded}
+        style={{
+          width: `${loaded * 100}%`,
         }}
       ></div>
       <input
@@ -42,30 +55,43 @@ const VideoProgress = (props: VideoProgressProps) => {
   );
 };
 
+/**
+ * @component SoundControl
+ * @desc
+ */
 const SoundControl = (props: SoundControlProps) => {
-  const { volume, setVolume } = props;
+  const { volume, setVolume, isMuted, setIsMuted } = props;
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVolume(parseFloat(e.currentTarget.value));
+    const { value } = e.target;
+    const numberValue = Number(value);
+    if (isNaN(numberValue)) return;
+    setVolume(numberValue);
+  };
+
+  const handleMute = () => {
+    setIsMuted(!isMuted);
   };
 
   return (
     <div className={styles.soundControl}>
-      <div className={styles.soundControlButton}>
-        {volume > 0 && volume <= 0.5 ? (
-          <FiVolume1 size={20} />
-        ) : volume > 0.5 && volume <= 1 ? (
-          <FiVolume2 size={20} />
-        ) : (
-          <FiVolumeX size={20} />
-        )}
+      <div className={styles.soundControlButton} onClick={handleMute}>
+        {isMuted && <FiVolumeX size={20} />}
+        {!isMuted &&
+          (volume > 0 && volume <= 0.5 ? (
+            <FiVolume1 size={20} />
+          ) : volume > 0.5 && volume <= 1 ? (
+            <FiVolume2 size={20} />
+          ) : (
+            <FiVolumeX size={20} />
+          ))}
       </div>
       <div className={styles.soundControlSlider}>
         <div className={styles.soundInputContainer}>
           <div
             className={styles.volume}
             style={{
-              width: `${volume * 100}%`,
+              width: `${(isMuted ? 0 : volume) * 100}%`,
             }}
           ></div>
           <input
@@ -73,7 +99,7 @@ const SoundControl = (props: SoundControlProps) => {
             min="0"
             max="1"
             step="0.01"
-            value={volume}
+            value={isMuted ? 0 : volume}
             onChange={handleVolumeChange}
           />
         </div>
@@ -82,6 +108,10 @@ const SoundControl = (props: SoundControlProps) => {
   );
 };
 
+/**
+ * @component Loading
+ * @desc Loading spinner when video is buffering or seeking
+ */
 const Loading = ({ isLoading }: LoadingProps) => {
   if (!isLoading) return null;
   return (
@@ -93,6 +123,10 @@ const Loading = ({ isLoading }: LoadingProps) => {
   );
 };
 
+/**
+ * @component FullScreen
+ * @desc The full screen button
+ */
 const FullScreen = (props: FullScreenProps) => {
   const { isFullScreen, onClick } = props;
 
@@ -103,6 +137,10 @@ const FullScreen = (props: FullScreenProps) => {
   );
 };
 
+/**
+ * @component VideoTime
+ * @desc The time/duration of the video
+ */
 const VideoTime = (props: VideoTimeProps) => {
   const { currentTime, duration } = props;
 
@@ -124,6 +162,10 @@ const VideoTime = (props: VideoTimeProps) => {
   );
 };
 
+/**
+ * @component PlayPause
+ * @desc The play/pause button
+ */
 const PLayPause = (props: PLayPauseProps) => {
   const { isPlaying, onClick } = props;
   return (
@@ -137,146 +179,92 @@ const PLayPause = (props: PLayPauseProps) => {
   );
 };
 
+/**
+ * @component CourseVideo
+ * @desc Video player component
+ */
 const CourseVideo = (props: CourseVideoProps) => {
   const { video } = props;
   const { url } = video;
-  const [videoState, setVideoState] = useState({
+  const [videoState, setVideoState] = useState<videoStateType>({
     isPlaying: false,
     currentTime: 0,
     duration: 0,
     isFullScreen: false,
     isBuffering: false,
     volume: 0.5,
+    isMuted: false,
+    loaded: 0,
   });
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const [isControlsHidden, setIsControlsHidden] = useState(false);
+  const reactPlayerRef = useRef<ReactPlayer>(null);
+  const courseVideoRef = useRef<HTMLDivElement>(null);
 
-  const handlePlayPause = () =>
-    setVideoState({ ...videoState, isPlaying: !videoState.isPlaying });
-
-  const handleFullScreen = () => {
-    if (!videoContainerRef.current) return;
-    const videoContainer = videoContainerRef.current;
-    const docElmWithBrowsersFullScreenFunctions =
-      videoContainer as HTMLDivElement & {
-        mozRequestFullScreen(): Promise<void>;
-        webkitRequestFullscreen(): Promise<void>;
-        msRequestFullscreen(): Promise<void>;
-      };
-    const docWithBrowsersExitFunctions = document as Document & {
-      mozCancelFullScreen(): Promise<void>;
-      webkitExitFullscreen(): Promise<void>;
-      msExitFullscreen(): Promise<void>;
+  useEffect(() => {
+    if (!courseVideoRef.current) return;
+    const courseVideo = courseVideoRef.current;
+    courseVideo.addEventListener("mousemove", () => {
+      clearTimeout(timer);
+      if (videoState.isPlaying) {
+        timer = setTimeout(mouseStopped, 3000);
+      }
+      if (isControlsHidden) setIsControlsHidden(false);
+    });
+    const mouseStopped = () => {
+      setIsControlsHidden(true);
     };
-    if (!videoState.isFullScreen) {
-      if (docElmWithBrowsersFullScreenFunctions.requestFullscreen) {
-        docElmWithBrowsersFullScreenFunctions.requestFullscreen();
-      } else if (docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen) {
-        /* Firefox */
-        docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen();
-      } else if (
-        docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen
-      ) {
-        /* Chrome, Safari and Opera */
-        docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen();
-      } else if (docElmWithBrowsersFullScreenFunctions.msRequestFullscreen) {
-        /* IE/Edge */
-        docElmWithBrowsersFullScreenFunctions.msRequestFullscreen();
-      }
-      setVideoState({ ...videoState, isFullScreen: true });
-    } else {
-      if (docWithBrowsersExitFunctions.exitFullscreen) {
-        docWithBrowsersExitFunctions.exitFullscreen();
-      } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) {
-        /* Firefox */
-        docWithBrowsersExitFunctions.mozCancelFullScreen();
-      } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) {
-        /* Chrome, Safari and Opera */
-        docWithBrowsersExitFunctions.webkitExitFullscreen();
-      } else if (docWithBrowsersExitFunctions.msExitFullscreen) {
-        /* IE/Edge */
-        docWithBrowsersExitFunctions.msExitFullscreen();
-      } else {
-      }
-      setVideoState({ ...videoState, isFullScreen: false });
-    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isControlsHidden, videoState.isPlaying]);
+
+  const handleBuffer = () =>
+    setVideoState((x) => ({ ...x, isBuffering: true }));
+
+  const handleReady = () =>
+    setVideoState((x) => ({ ...x, isBuffering: false }));
+
+  const handleDuration = (duration: number) =>
+    setVideoState((x) => ({ ...x, duration }));
+
+  const handlePlayPause = () => {
+    const { isPlaying } = videoState;
+    setVideoState((x) => ({ ...x, isPlaying: !isPlaying }));
   };
 
-  const handleVolume = (value: number) =>
-    setVideoState({ ...videoState, volume: value });
-
-  const handleSeek = (value: number) => {
-    if (!videoRef.current) return;
-    const video = videoRef.current;
-    video.currentTime = value;
-    if (!videoState.isPlaying || video.paused)
-      setVideoState({ ...videoState, isPlaying: true });
-    setVideoState({ ...videoState, currentTime: value });
+  const handleProgress = (state: {
+    loaded: number;
+    played: number;
+    loadedSeconds: number;
+    playedSeconds: number;
+  }) => {
+    const { loaded, playedSeconds } = state;
+    setVideoState((x) => ({ ...x, loaded, currentTime: playedSeconds }));
   };
 
-  useEffect(() => {
-    if (!videoRef.current) return;
-    const video = videoRef.current;
-    video.addEventListener("loadstart", () => {
-      setVideoState({ ...videoState, isBuffering: true });
-    });
-    video.addEventListener("waiting", () => {
-      setVideoState({ ...videoState, isBuffering: true });
-    });
-    video.addEventListener("stalled", () => {
-      setVideoState({ ...videoState, isBuffering: true });
-    });
-    video.addEventListener("seeking", () => {
-      setVideoState({ ...videoState, isBuffering: true });
-    });
-    video.addEventListener("canplay", () => {
-      setVideoState({
-        ...videoState,
-        isPlaying: video.paused === false,
-        duration: video.duration,
-        isBuffering: false,
-        volume: video.volume,
-      });
-    });
+  const handleVolume = (volume: number) =>
+    setVideoState((x) => ({ ...x, volume }));
 
-    video.addEventListener("timeupdate", () => {
-      if (video.readyState === 4) {
-        setVideoState({
-          ...videoState,
-          isPlaying: video.paused === false,
-          currentTime: video.currentTime,
-          duration: video.duration,
-          isBuffering: video.readyState < 4,
-          volume: video.volume,
-        });
-      }
-    });
-    video.load();
-  }, [videoRef]);
+  const handleMute = (isMuted: boolean) =>
+    setVideoState((x) => ({ ...x, isMuted }));
 
-  useEffect(() => {
-    console.log("hh");
-    if (!videoRef.current) return;
-    const video = videoRef.current;
-    if (videoState.isPlaying && video.paused) {
-      video.play();
-    } else if (!videoState.isPlaying && !video.paused) {
-      video.pause();
-    }
-  }, [videoState.isPlaying]);
-
-  useEffect(() => {
-    if (!videoRef.current) return;
-    const video = videoRef.current;
-    if (videoState.volume !== video.volume) {
-      video.volume = videoState.volume;
-    }
-  }, [videoState.volume]);
+  const handleFullScreen = () => {};
 
   return (
-    <div className={styles.CourseVideo} ref={videoContainerRef}>
+    <div
+      className={classNames(styles.CourseVideo, {
+        [styles.CourseVideoCursorHidden]: isControlsHidden,
+      })}
+      ref={courseVideoRef}
+    >
       <Loading isLoading={videoState.isBuffering} />
-      <div className={styles.controls}>
+      <div
+        className={classNames(styles.controls, {
+          [styles.controlsHidden]: isControlsHidden,
+          [styles.controlsVisible]: !isControlsHidden,
+        })}
+      >
         <PLayPause isPlaying={videoState.isPlaying} onClick={handlePlayPause} />
         <VideoTime
           currentTime={videoState.currentTime}
@@ -285,18 +273,40 @@ const CourseVideo = (props: CourseVideoProps) => {
         <VideoProgress
           currentTime={videoState.currentTime}
           duration={videoState.duration}
-          seek={handleSeek}
+          seekTo={reactPlayerRef.current?.seekTo || null}
+          loaded={videoState.loaded}
         />
-        <SoundControl volume={videoState.volume} setVolume={handleVolume} />
+        <SoundControl
+          volume={videoState.volume}
+          setVolume={handleVolume}
+          isMuted={videoState.isMuted}
+          setIsMuted={handleMute}
+        />
         <FullScreen
           isFullScreen={videoState.isFullScreen}
           onClick={handleFullScreen}
         />
       </div>
-      <video className={styles.video} src={url} ref={videoRef}></video>
+      <ReactPlayer
+        ref={reactPlayerRef}
+        playing={videoState.isPlaying}
+        url={url}
+        width="100%"
+        height="100%"
+        onBuffer={handleBuffer}
+        onReady={handleReady}
+        volume={videoState.volume}
+        muted={videoState.isMuted}
+        onDuration={handleDuration}
+        onProgress={handleProgress}
+      />
     </div>
   );
 };
+
+/**
+ * The components prop types:
+ */
 
 type CourseVideoProps = {
   video: {
@@ -326,12 +336,28 @@ type LoadingProps = {
 type SoundControlProps = {
   volume: number;
   setVolume: (value: number) => void;
+  isMuted: boolean;
+  setIsMuted: (value: boolean) => void;
 };
 
 type VideoProgressProps = {
   currentTime: number;
   duration: number;
-  seek: (value: number) => void;
+  seekTo:
+    | ((amount: number, type?: "seconds" | "fraction" | undefined) => void)
+    | null;
+  loaded: number;
+};
+
+type videoStateType = {
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  isBuffering: boolean;
+  isFullScreen: boolean;
+  volume: number;
+  isMuted: boolean;
+  loaded: number;
 };
 
 export default CourseVideo;
