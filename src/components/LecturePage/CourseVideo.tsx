@@ -13,11 +13,12 @@ import styles from "../../styles/LecturePage/CourseVideo.module.css";
 
 const VideoProgress = (props: VideoProgressProps) => {
   const { currentTime, duration, seek } = props;
+  const [time, setTime] = useState(currentTime || 0);
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log("valuuuue", value, Number(value));
     if (isNaN(Number(value))) return;
+    setTime(Number(value));
     seek(Number(value));
   };
 
@@ -26,15 +27,16 @@ const VideoProgress = (props: VideoProgressProps) => {
       <div
         className={styles.progress}
         style={{
-          width: `${(currentTime / duration) * 100}%`,
+          width: `calc(${(time / duration) * 100}% + 2px)`,
         }}
       ></div>
       <input
         type="range"
         min={0}
         max={duration}
-        value={currentTime}
-        onChange={handleSeek}
+        step={0.01}
+        value={time}
+        onInput={handleSeek}
       />
     </div>
   );
@@ -194,6 +196,7 @@ const CourseVideo = (props: CourseVideoProps) => {
       } else if (docWithBrowsersExitFunctions.msExitFullscreen) {
         /* IE/Edge */
         docWithBrowsersExitFunctions.msExitFullscreen();
+      } else {
       }
       setVideoState({ ...videoState, isFullScreen: false });
     }
@@ -206,7 +209,7 @@ const CourseVideo = (props: CourseVideoProps) => {
     if (!videoRef.current) return;
     const video = videoRef.current;
     video.currentTime = value;
-    if (!videoState.isPlaying)
+    if (!videoState.isPlaying || video.paused)
       setVideoState({ ...videoState, isPlaying: true });
     setVideoState({ ...videoState, currentTime: value });
   };
@@ -230,7 +233,6 @@ const CourseVideo = (props: CourseVideoProps) => {
       setVideoState({
         ...videoState,
         isPlaying: video.paused === false,
-        currentTime: video.currentTime,
         duration: video.duration,
         isBuffering: false,
         volume: video.volume,
@@ -253,11 +255,12 @@ const CourseVideo = (props: CourseVideoProps) => {
   }, [videoRef]);
 
   useEffect(() => {
+    console.log("hh");
     if (!videoRef.current) return;
     const video = videoRef.current;
-    if (videoState.isPlaying) {
+    if (videoState.isPlaying && video.paused) {
       video.play();
-    } else {
+    } else if (!videoState.isPlaying && !video.paused) {
       video.pause();
     }
   }, [videoState.isPlaying]);
@@ -269,10 +272,6 @@ const CourseVideo = (props: CourseVideoProps) => {
       video.volume = videoState.volume;
     }
   }, [videoState.volume]);
-
-  useEffect(() => {
-    console.log(videoState.currentTime);
-  }, [videoState.currentTime]);
 
   return (
     <div className={styles.CourseVideo} ref={videoContainerRef}>

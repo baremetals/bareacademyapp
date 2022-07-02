@@ -39,6 +39,7 @@
   background: black;
   width: 100%;
   aspect-ratio: 2 / 1.5;
+  max-height: 600px;
 }
 
 .controls {
@@ -71,6 +72,8 @@
   font-size: 0.7rem;
   font-weight: 400;
   padding: 0 10px;
+  min-width: 100px;
+  text-align: center;
 }
 
 .loading {
@@ -149,6 +152,7 @@
   position: relative;
   background: var(--white);
   border-radius: 10px;
+  z-index: 1;
 }
 
 .volume {
