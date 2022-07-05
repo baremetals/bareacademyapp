@@ -115,6 +115,7 @@
   aspect-ratio: 1;
   align-items: center;
   justify-content: center;
+  margin: 0 10px;
 }
 
 .soundControlButton {
@@ -207,6 +208,14 @@
 
 .controlsHidden {
   animation: fadeOut 0.2s ease-in-out forwards;
+}
+
+.videoProgress .popUp {
+  position: absolute;
+  bottom: 200%;
+  font-size: 0.7rem;
+  color: var(--foreground);
+  transform: translateX(-50%);
 }
 
 @keyframes spin {

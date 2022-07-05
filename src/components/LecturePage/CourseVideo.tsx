@@ -13,6 +13,17 @@ import styles from "../../styles/LecturePage/CourseVideo.module.css";
 import ReactPlayer from "react-player";
 import classNames from "classnames";
 let timer: ReturnType<typeof setTimeout>;
+let count = 0;
+
+const timeToString = (time: number) => {
+  const hours = Math.floor(time / 3600) || 0;
+  const minutes = Math.floor((time % 3600) / 60) || 0;
+  const seconds = Math.floor(time % 60) || 0;
+
+  return `${hours > 0 ? `${hours}:` : ""}${
+    minutes < 10 ? `0${minutes}` : minutes
+  }:${seconds < 10 ? `0${seconds}` : seconds}`;
+};
 
 /**
  * @component VideoProgress
@@ -21,20 +32,41 @@ let timer: ReturnType<typeof setTimeout>;
 const VideoProgress = (props: VideoProgressProps) => {
   const { currentTime, duration, seekTo, loaded } = props;
   const [time, setTime] = useState(currentTime);
+  const [popUp, setPopUp] = useState({
+    time: 0,
+    x: 0,
+    shown: false,
+  });
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    if (!seekTo || isNaN(Number(value))) return;
-    setTime(Number(value));
-    seekTo(Number(value), "seconds");
+    if (!seekTo) return;
+    setTime(popUp.time);
+    seekTo(popUp.time, "seconds");
   };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLInputElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percentage = Math.min(
+      1,
+      Math.max(0, (e.clientX - rect.left) / rect.width)
+    );
+    const time = percentage * duration;
+    setPopUp((p) => ({ ...p, time, x: percentage }));
+  };
+
+  const showPopUp = () => setPopUp((p) => ({ ...p, shown: true }));
+  const hidePopUp = () => setPopUp((p) => ({ ...p, shown: false }));
+
+  useEffect(() => {
+    setTime(currentTime);
+  }, [currentTime]);
 
   return (
     <div className={styles.videoProgress}>
       <div
         className={styles.progress}
         style={{
-          width: `calc(${(time / duration) * 100}% + 2px)`,
+          width: `calc(${(time / duration) * 100}%)`,
         }}
       ></div>
       <div
@@ -43,7 +75,19 @@ const VideoProgress = (props: VideoProgressProps) => {
           width: `${loaded * 100}%`,
         }}
       ></div>
+      <div
+        className={styles.popUp}
+        style={{
+          left: `${popUp.x * 100}%`,
+          display: popUp.shown ? "block" : "none",
+        }}
+      >
+        {timeToString(popUp.time)}
+      </div>
       <input
+        onMouseMove={handleMouseMove}
+        onMouseEnter={showPopUp}
+        onMouseLeave={hidePopUp}
         type="range"
         min={0}
         max={duration}
@@ -144,20 +188,10 @@ const FullScreen = (props: FullScreenProps) => {
 const VideoTime = (props: VideoTimeProps) => {
   const { currentTime, duration } = props;
 
-  const renderTime = (time: number) => {
-    const hours = Math.floor(time / 3600) || 0;
-    const minutes = Math.floor((time % 3600) / 60) || 0;
-    const seconds = Math.floor(time % 60) || 0;
-
-    return `${hours > 0 ? `${hours}:` : ""}${
-      minutes < 10 ? `0${minutes}` : minutes
-    }:${seconds < 10 ? `0${seconds}` : seconds}`;
-  };
-
   return (
     <div className={styles.videoTime}>
-      <span>{renderTime(currentTime)}</span> /{" "}
-      <span>{renderTime(duration)}</span>
+      <span>{timeToString(currentTime)}</span> /{" "}
+      <span>{timeToString(duration)}</span>
     </div>
   );
 };
@@ -249,7 +283,65 @@ const CourseVideo = (props: CourseVideoProps) => {
   const handleMute = (isMuted: boolean) =>
     setVideoState((x) => ({ ...x, isMuted }));
 
-  const handleFullScreen = () => {};
+  const handleFullScreen = () => {
+    if (!courseVideoRef.current) return;
+    const videoContainer = courseVideoRef.current;
+    const docElmWithBrowsersFullScreenFunctions =
+      videoContainer as HTMLDivElement & {
+        mozRequestFullScreen(): Promise<void>;
+        webkitRequestFullscreen(): Promise<void>;
+        msRequestFullscreen(): Promise<void>;
+      };
+    const docWithBrowsersExitFunctions = document as Document & {
+      mozCancelFullScreen(): Promise<void>;
+      webkitExitFullscreen(): Promise<void>;
+      msExitFullscreen(): Promise<void>;
+    };
+    if (!videoState.isFullScreen) {
+      if (docElmWithBrowsersFullScreenFunctions.requestFullscreen) {
+        docElmWithBrowsersFullScreenFunctions.requestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen) {
+        /* Firefox */
+        docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen();
+      } else if (
+        docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen
+      ) {
+        /* Chrome, Safari and Opera */
+        docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen();
+      } else if (docElmWithBrowsersFullScreenFunctions.msRequestFullscreen) {
+        /* IE/Edge */
+        docElmWithBrowsersFullScreenFunctions.msRequestFullscreen();
+      }
+      setVideoState({ ...videoState, isFullScreen: true });
+    } else {
+      if (docWithBrowsersExitFunctions.exitFullscreen) {
+        docWithBrowsersExitFunctions.exitFullscreen();
+      } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) {
+        /* Firefox */
+        docWithBrowsersExitFunctions.mozCancelFullScreen();
+      } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) {
+        /* Chrome, Safari and Opera */
+        docWithBrowsersExitFunctions.webkitExitFullscreen();
+      } else if (docWithBrowsersExitFunctions.msExitFullscreen) {
+        /* IE/Edge */
+        docWithBrowsersExitFunctions.msExitFullscreen();
+      } else {
+      }
+      setVideoState({ ...videoState, isFullScreen: false });
+    }
+  };
+
+  const handleClickAndDbClick = (e: React.MouseEvent) => {
+    count += 1;
+    setTimeout(() => {
+      if (count === 1) {
+        handlePlayPause();
+      } else if (count === 2) {
+        handleFullScreen();
+      }
+      count = 0;
+    }, 300);
+  };
 
   return (
     <div
@@ -287,19 +379,21 @@ const CourseVideo = (props: CourseVideoProps) => {
           onClick={handleFullScreen}
         />
       </div>
-      <ReactPlayer
-        ref={reactPlayerRef}
-        playing={videoState.isPlaying}
-        url={url}
-        width="100%"
-        height="100%"
-        onBuffer={handleBuffer}
-        onReady={handleReady}
-        volume={videoState.volume}
-        muted={videoState.isMuted}
-        onDuration={handleDuration}
-        onProgress={handleProgress}
-      />
+      <div className={styles.videoContainer} onClick={handleClickAndDbClick}>
+        <ReactPlayer
+          ref={reactPlayerRef}
+          playing={videoState.isPlaying}
+          url={url}
+          width="100%"
+          height="100%"
+          onBuffer={handleBuffer}
+          onReady={handleReady}
+          volume={videoState.volume}
+          muted={videoState.isMuted}
+          onDuration={handleDuration}
+          onProgress={handleProgress}
+        />
+      </div>
     </div>
   );
 };
