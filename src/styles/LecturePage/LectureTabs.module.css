@@ -1,0 +1,38 @@
+.container {
+  margin-top: 20px;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  cursor: pointer;
+  color: var(--text1);
+  margin-bottom: 5px;
+}
+
+.tabActive {
+  font-weight: 700;
+  color: var(--primary);
+  position: relative;
+}
+
+.tabActive::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  background-color: var(--primary);
+}
+
+.content {
+  /* background: red; */
+}
