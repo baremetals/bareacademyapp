@@ -9,7 +9,7 @@
 }
 
 .col {
-  min-height: 100vh;
+  height: 100vh;
   overflow-y: auto;
   flex-grow: 1;
   padding: 50px 40px;

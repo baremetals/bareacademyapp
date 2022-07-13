@@ -392,6 +392,7 @@ const CourseVideo = (props: CourseVideoProps) => {
           muted={videoState.isMuted}
           onDuration={handleDuration}
           onProgress={handleProgress}
+          className={styles.zbi}
         />
       </div>
     </div>

@@ -1,0 +1,99 @@
+.Chat {
+  padding: 20px 0;
+  background: var(--background);
+  transition: all 0.2s ease;
+}
+
+.ChatMaximized {
+  position: fixed;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.ChatMaximized .ChatBody {
+  height: calc(100% - 80px);
+}
+
+.ChatHeader {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  color: var(--text1);
+  font-size: 1.1rem;
+  height: 80px;
+}
+
+.maximizeButton {
+  cursor: pointer;
+  color: var(--text1);
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.maximizeButton:hover {
+  background: var(--foreground);
+  border-radius: 10px;
+}
+
+.ChatBody {
+  background: var(--foreground);
+  min-height: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.messages {
+  flex-grow: 1;
+  /* height: calc(100% - 50px); */
+}
+
+.ChatInput {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.025);
+  overflow: hidden;
+}
+
+.ChatInput input {
+  height: 100%;
+  flex-grow: 1;
+  border: 0;
+  background: transparent;
+  padding-left: 10px;
+  color: var(--text1);
+  font-size: 0.8rem;
+}
+
+.ChatInput button {
+  height: 100%;
+  aspect-ratio: 1;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ChatInput button:hover {
+  background: var(--primary);
+  color: var(--white);
+}

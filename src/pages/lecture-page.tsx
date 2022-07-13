@@ -10,9 +10,13 @@ import {
   LectureTabsContainer,
   LectureTab,
   LectureDescription,
+  Reviews,
+  QNA,
+  Chat,
 } from "components/LecturePage";
 
 const course = {
+  id: "12d3fd35dsfs21",
   tutor: {
     name: "Lana Marandina",
     title: "Course tutor",
@@ -90,7 +94,7 @@ const course = {
       },
       message:
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-      rating: 4,
+      rating: 5,
       time: "2022-07-10T20:55:43.537Z",
     },
     {
@@ -101,8 +105,40 @@ const course = {
       },
       message:
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-      rating: 5,
-      time: "2022-07-09T20:55:43.537Z",
+      rating: 2,
+      time: "2022-07-12T16:44:04.478Z",
+    },
+  ],
+  qna: [
+    {
+      user: {
+        name: "John Doe",
+        img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        url: "#",
+      },
+      title: "How to use the app?",
+      message:
+        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+      time: "2022-07-10T20:55:43.537Z",
+      comments: [],
+      votes: 0,
+      voted: false,
+      url: "#",
+    },
+    {
+      user: {
+        name: "Jane Doe",
+        img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+        url: "#",
+      },
+      title: "How to install the app?",
+      message:
+        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+      time: "2022-07-10T20:55:43.537Z",
+      comments: [],
+      votes: 20,
+      voted: true,
+      url: "#",
     },
   ],
 };
@@ -132,9 +168,15 @@ const LecturePage = (props: Props) => {
                 description={course.lectures[activeLecture].description}
               />
             </LectureTab>
-            <LectureTab title="Reviews">Reviews</LectureTab>
-            <LectureTab title="Group chat">Group chat</LectureTab>
-            <LectureTab title="Q&A">Q&A</LectureTab>
+            <LectureTab title="Reviews">
+              <Reviews data={course.reviews} />
+            </LectureTab>
+            <LectureTab title="Group chat">
+              <Chat courseId={course.id} />
+            </LectureTab>
+            <LectureTab title="Q&A">
+              <QNA data={course.qna} />
+            </LectureTab>
           </LectureTabsContainer>
         </div>
       </div>
