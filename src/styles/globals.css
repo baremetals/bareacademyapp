@@ -2,14 +2,14 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #f8f9f8;
+  --foreground: #f3f3f3;
   --text1: #33383c;
   --text2: #8e9193;
-  --placeholder: #e8eae8;
+  --placeholder: #f6f6f6;
   --primary: #f7542e;
   --success: #7fc98e;
-  --video: #082136DA;
-  --highlighted: #FEF5F3;
+  --video: #082136da;
+  --highlighted: #fef5f3;
   --white: #fff;
 }
 

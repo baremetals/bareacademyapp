@@ -33,6 +33,6 @@
   background-color: var(--primary);
 }
 
-.content {
-  /* background: red; */
+.content a {
+  color: var(--text1);
 }

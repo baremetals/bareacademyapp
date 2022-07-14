@@ -3,6 +3,7 @@ import { FiFilePlus, FiMaximize, FiMinimize, FiSend } from "react-icons/fi";
 import classNames from "classnames";
 import styles from "../../../styles/LecturePage/Chat.module.css";
 import Message from "./Message";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 type Props = {
   courseId: string;
@@ -24,6 +25,118 @@ const data = {
     {
       user: {
         userId: "sdsdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "text",
+      message: "I am fine wbu",
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdsdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "file",
+      file: {
+        name: "file.pdf",
+        size: "1.5MB",
+        url: "#",
+      },
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdxssdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "file",
+      file: {
+        name: "file.pdf",
+        size: "1.5MB",
+        url: "#",
+      },
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdsdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "text",
+      message: "I am fine wbu",
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdsdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "file",
+      file: {
+        name: "file.pdf",
+        size: "1.5MB",
+        url: "#",
+      },
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdxssdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "file",
+      file: {
+        name: "file.pdf",
+        size: "1.5MB",
+        url: "#",
+      },
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdxssdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "file",
+      file: {
+        name: "file.pdf",
+        size: "1.5MB",
+        url: "#",
+      },
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdxssdsd",
+        name: "John Doe",
+        img: "https://via.placeholder.com/150",
+        url: "#",
+      },
+      type: "file",
+      file: {
+        name: "file.pdf",
+        size: "1.5MB",
+        url: "#",
+      },
+      time: "2020-01-01T00:00:00.000Z",
+    },
+    {
+      user: {
+        userId: "sdxssdsd",
         name: "John Doe",
         img: "https://via.placeholder.com/150",
         url: "#",
@@ -58,20 +171,21 @@ const Chat = (props: Props) => {
         </div>
       </div>
       <div className={styles.ChatBody}>
-        <div className={styles.messages}>
+        <ScrollToBottom className={styles.messages}>
           {data.messages.map((message, index) => {
             return <Message message={message} key={index} />;
           })}
-        </div>
-        <div className={styles.ChatInput}>
-          <button>
+        </ScrollToBottom>
+        <form className={styles.ChatInput}>
+          <input type="file" id="fileUpload" />
+          <label htmlFor="fileUpload">
             <FiFilePlus size={25} />
-          </button>
+          </label>
           <input type="text" placeholder="Type a message..." />
-          <button>
+          <button type="submit">
             <FiSend size={25} />
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
