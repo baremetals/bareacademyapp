@@ -206,3 +206,51 @@
   right: 12px;
   color: var(--text2);
 }
+
+@media screen and (max-width: 470px) {
+  .ChatMaximized {
+    padding: 10px;
+  }
+  .ChatHeader {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+  .ChatHeader svg {
+    width: 20px;
+  }
+  .message {
+    max-width: 100%;
+    padding: 10px 20px 20px 10px;
+  }
+  .userPic {
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+  }
+  .ChatInput {
+    margin: 0 5px;
+  }
+  .ChatInput button,
+  .ChatInput label {
+    width: 40px;
+  }
+  .ChatInput svg {
+    width: 20px;
+  }
+  .ChatBody {
+    padding-bottom: 5px;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .Chat {
+    height: auto;
+  }
+  .ChatMaximized {
+    height: 100vh;
+  }
+  .ChatBody {
+    height: 300px;
+  }
+}

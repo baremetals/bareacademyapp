@@ -2680,6 +2680,13 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
+"@types/react-scroll-to-bottom@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-scroll-to-bottom/-/react-scroll-to-bottom-4.2.0.tgz#0bc306f6f34ab9606da000cf88ceaee494858790"
+  integrity sha512-CE8GnRIFl4CRYlnHikVwJcHj4WOFBbgclbs1LNlqooVGYSBfrRvig3C3aVKDUkiXQYpp0i2p8OPUMO1JvlrZ5Q==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-scroll@^1.8.3":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@types/react-scroll/-/react-scroll-1.8.3.tgz#80951ed1934ab49d4926aad95c26607b8b1a9713"

@@ -4,3 +4,9 @@
   line-height: 200%;
   margin-top: 20px;
 }
+
+@media screen and (max-width: 470px) {
+  .description {
+    font-size: 0.7rem;
+  }
+}

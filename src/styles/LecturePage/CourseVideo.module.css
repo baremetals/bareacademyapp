@@ -260,3 +260,22 @@
     visibility: hidden;
   }
 }
+
+@media screen and (max-width: 470px) {
+  .CourseVideo {
+    height: 300px;
+  }
+  .controls {
+    height: 50px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .playPause {
+    width: 30px;
+    height: 30px;
+  }
+  .videoTime {
+    font-size: 0.5rem;
+    min-width: 80px;
+  }
+}

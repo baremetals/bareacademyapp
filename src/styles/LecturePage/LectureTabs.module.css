@@ -36,3 +36,9 @@
 .content a {
   color: var(--text1);
 }
+
+@media screen and (max-width: 470px) {
+  .tab {
+    font-size: 0.75rem;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiFilePlus, FiMaximize, FiMinimize, FiSend } from "react-icons/fi";
 import classNames from "classnames";
 import styles from "../../../styles/LecturePage/Chat.module.css";
@@ -155,8 +155,30 @@ const data = {
 const Chat = (props: Props) => {
   const { courseId } = props;
   const [isMaximized, setIsMaximized] = useState(false);
+  const [messages, setMessages] = useState(data.messages || []);
+  const messagesRef = useRef<HTMLDivElement>(null);
+  const [message, setMessage] = useState({
+    user: {
+      userId: "sdsdsd",
+      name: "John Doe",
+      img: "https://via.placeholder.com/150",
+      url: "#",
+    },
+    type: "",
+    message: "",
+    file: null,
+    time: "",
+  });
 
   const handleMaximize = () => setIsMaximized((x) => !x);
+
+  useEffect(() => {
+    if (messagesRef.current) {
+      const scroll =
+        messagesRef.current.scrollHeight - messagesRef.current.clientHeight;
+      messagesRef.current.scrollTo(0, scroll);
+    }
+  }, [messages]);
 
   return (
     <div
@@ -171,11 +193,11 @@ const Chat = (props: Props) => {
         </div>
       </div>
       <div className={styles.ChatBody}>
-        <ScrollToBottom className={styles.messages}>
-          {data.messages.map((message, index) => {
+        <div ref={messagesRef} className={styles.messages}>
+          {messages.map((message, index) => {
             return <Message message={message} key={index} />;
           })}
-        </ScrollToBottom>
+        </div>
         <form className={styles.ChatInput}>
           <input type="file" id="fileUpload" />
           <label htmlFor="fileUpload">

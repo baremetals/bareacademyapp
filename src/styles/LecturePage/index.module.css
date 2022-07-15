@@ -21,3 +21,23 @@
   height: 100vh;
   border-right: 1px solid var(--placeholder);
 }
+
+@media screen and (max-width: 940px) {
+  .LecturePage {
+    overflow: unset;
+    height: auto;
+  }
+  .container {
+    flex-direction: column-reverse;
+  }
+  .col {
+    overflow: unset;
+    height: auto;
+    padding: 10px;
+  }
+  .col1 {
+    max-width: 100%;
+    border-right: none;
+    height: auto;
+  }
+}

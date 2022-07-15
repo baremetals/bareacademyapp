@@ -143,3 +143,44 @@
   margin-left: 50px;
   font-size: 0.8rem;
 }
+
+@media screen and (max-width: 470px) {
+  .avgRating {
+    font-size: 2rem;
+  }
+  .avg svg {
+    width: 30px;
+  }
+  .avgByNumberItemProgress {
+    min-width: 100px;
+    height: 5px;
+  }
+  .avgByNumberItemProgressBar {
+    height: 5px;
+  }
+  .avgByNumberItemNumber {
+    font-size: 0.5rem;
+  }
+  .reviewUserPic {
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+  }
+  .reviewUserName {
+    font-size: 0.8rem;
+  }
+  .reviewTimestamp {
+    font-size: 0.5rem;
+  }
+  .reviewRatingStar {
+    margin: 0 1px;
+  }
+  .reviewRatingStar svg {
+    width: 15px;
+  }
+  .reviewMessage {
+    margin-left: 40px;
+    font-size: 0.6rem;
+  }
+}

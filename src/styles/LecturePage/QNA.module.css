@@ -73,7 +73,7 @@
 }
 
 .qnaTitle {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--text1);
 }
@@ -108,4 +108,24 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+
+@media screen and (max-width: 470px) {
+  .qnaUserPic {
+    width: 30px;
+    height: 30px;
+  }
+  .qnaTitle {
+    font-size: 0.8rem;
+  }
+  .qnaUsernameTimestamp {
+    font-size: 0.6rem;
+  }
+  .qnaMessage {
+    font-size: 0.7rem;
+  }
+  .interaction svg {
+    min-width: 15px;
+    max-width: 15px;
+  }
 }
