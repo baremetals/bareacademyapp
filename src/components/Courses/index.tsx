@@ -46,8 +46,6 @@ function CoursesPage({ desc }: des) {
     setIsOpen(!isOpen);
   };
 
-  console.log(desc)
-
   
 
   return (
@@ -71,7 +69,10 @@ function CoursesPage({ desc }: des) {
             }}
           >
             <PageHeading>Courses</PageHeading>
-            <div><p>{desc as string}</p></div>
+            <div>
+              <p>{desc as string}</p>
+            </div>
+            <div></div><br />
             <div></div>
             <PageWrapper className={!user?.id ? "" : "blog-wrapper"}>
               {!courses ? (
