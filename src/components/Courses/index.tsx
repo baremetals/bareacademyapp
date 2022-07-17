@@ -32,8 +32,11 @@ import Footer from "components/Footer";
 import NavDropDown from 'components/NavDropDown';
 dayjs.extend(relativeTime);
 
+type des = {
+  desc: string | undefined;
+};
 
-function CoursesPage() {
+function CoursesPage({ desc }: des) {
   const { user: user } = useAppSelector(isUser);
   const courses: any = useAppSelector(theCourses);
   // console.log(courses);
@@ -42,6 +45,10 @@ function CoursesPage() {
   const toggleMenu: any = () => {
     setIsOpen(!isOpen);
   };
+
+  console.log(desc)
+
+  
 
   return (
     <>
@@ -64,6 +71,8 @@ function CoursesPage() {
             }}
           >
             <PageHeading>Courses</PageHeading>
+            <div><p>{desc as string}</p></div>
+            <div></div>
             <PageWrapper className={!user?.id ? "" : "blog-wrapper"}>
               {!courses ? (
                 <div>loading...</div>
