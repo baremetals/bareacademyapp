@@ -162,7 +162,7 @@ const LecturePage = (props: Props) => {
         </div>
         <div className={classNames(styles.col, styles.col2)}>
           <CourseVideo video={course.video} />
-          <LectureTabsContainer activeTab={2}>
+          <LectureTabsContainer activeTab={0}>
             <LectureTab title="Description">
               <LectureDescription
                 description={course.lectures[activeLecture].description}
