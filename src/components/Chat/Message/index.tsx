@@ -52,7 +52,7 @@ function Message() {
   const { user: user } = useAppSelector(isUser);
   const pathname = router.pathname;
 
-  // console.log(slug);
+  // console.log();
 
   // eslint-disable-next-line no-unused-vars
   const [newChatMessage, setNewChatMessage] = useState<socketMessage>();

@@ -14,6 +14,7 @@ export default async function register(
   res: NextApiResponse<Data>,
 ) {
   const data = req.body;
+  console.log(baseUrl);
   try {
     // console.log("register me!");
     const resp = await axios({

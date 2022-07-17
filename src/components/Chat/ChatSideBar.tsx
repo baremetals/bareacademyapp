@@ -264,6 +264,7 @@ const ChatSideBar = ({children}: any) => {
                       username={username}
                       slug={slug}
                       online={online}
+                      id={id}
                     />
                   )
                 )}

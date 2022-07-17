@@ -41,7 +41,7 @@ function ChatForm(props: any) {
 
   const data = props?.props ? props?.props: {};
   const {chatId, receiverId } = data
-  // console.log(" the chat id data",chatId);
+  console.log(" the chat id data", data);
 
   const onSubmit = async ({ body }: any) => {
     if (chatId !== "" && chatId !== undefined) {
