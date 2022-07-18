@@ -4,11 +4,11 @@ import styles from "../../styles/LecturePage/LectureTabs.module.css";
 
 const LectureTabsContainer = (props: LectureTabsContainerProps) => {
   const { children, activeTab } = props;
-  React.Children.forEach(children, (child) => {
-    if (child?.type.name !== "LectureTab") {
-      throw new Error("LectureTabs only accepts LectureTab as children");
-    }
-  });
+  // React.Children.forEach(children, (child) => {
+  //   if (child?.type.name !== "LectureTab") {
+  //     throw new Error("LectureTabs only accepts LectureTab as children");
+  //   }
+  // });
   const childrenArray = React.Children.toArray(children);
   const [actTab, setActTab] = React.useState(activeTab || 0);
 
