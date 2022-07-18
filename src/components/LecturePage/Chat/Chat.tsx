@@ -3,7 +3,6 @@ import { FiFilePlus, FiMaximize, FiMinimize, FiSend } from "react-icons/fi";
 import classNames from "classnames";
 import styles from "../../../styles/LecturePage/Chat.module.css";
 import Message from "./Message";
-import ScrollToBottom from "react-scroll-to-bottom";
 
 type Props = {
   courseId: string;
@@ -153,22 +152,23 @@ const data = {
 };
 
 const Chat = (props: Props) => {
-  const { courseId } = props;
+  // const { courseId } = props;
   const [isMaximized, setIsMaximized] = useState(false);
-  const [messages, setMessages] = useState(data.messages || []);
+  // const [messages, setMessages] = useState(data.messages || []);
+  const messages = useState(data.messages || [])[0];
   const messagesRef = useRef<HTMLDivElement>(null);
-  const [message, setMessage] = useState({
-    user: {
-      userId: "sdsdsd",
-      name: "John Doe",
-      img: "https://via.placeholder.com/150",
-      url: "#",
-    },
-    type: "",
-    message: "",
-    file: null,
-    time: "",
-  });
+  // const [message, setMessage] = useState({
+  //   user: {
+  //     userId: "sdsdsd",
+  //     name: "John Doe",
+  //     img: "https://via.placeholder.com/150",
+  //     url: "#",
+  //   },
+  //   type: "",
+  //   message: "",
+  //   file: null,
+  //   time: "",
+  // });
 
   const handleMaximize = () => setIsMaximized((x) => !x);
 

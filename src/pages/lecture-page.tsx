@@ -146,7 +146,8 @@ const course = {
 type Props = {};
 
 const LecturePage = (props: Props) => {
-  const [activeLecture, setActiveLecture] = useState(0);
+  const activeLecture = useState(0)[0];
+  // const [activeLecture, setActiveLecture] = useState(0);
 
   return (
     <div className={styles.LecturePage}>

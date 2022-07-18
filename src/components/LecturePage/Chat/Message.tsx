@@ -50,7 +50,7 @@ const renderTime = (time: string) => {
 };
 
 const renderMessage = (message: Props["message"]) => {
-  const { type, message: msg, file, time } = message;
+  const { type, message: msg, file } = message;
   if (type === "text") {
     return (
       <div className={styles.message}>

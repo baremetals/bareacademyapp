@@ -25,10 +25,6 @@ const timeToString = (time: number) => {
   }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
-/**
- * @component VideoProgress
- * @desc Video progress and buffering bars
- */
 const VideoProgress = (props: VideoProgressProps) => {
   const { currentTime, duration, seekTo, loaded } = props;
   const [time, setTime] = useState(currentTime);
@@ -99,10 +95,6 @@ const VideoProgress = (props: VideoProgressProps) => {
   );
 };
 
-/**
- * @component SoundControl
- * @desc
- */
 const SoundControl = (props: SoundControlProps) => {
   const { volume, setVolume, isMuted, setIsMuted } = props;
 
@@ -152,10 +144,6 @@ const SoundControl = (props: SoundControlProps) => {
   );
 };
 
-/**
- * @component Loading
- * @desc Loading spinner when video is buffering or seeking
- */
 const Loading = ({ isLoading }: LoadingProps) => {
   if (!isLoading) return null;
   return (
@@ -167,10 +155,6 @@ const Loading = ({ isLoading }: LoadingProps) => {
   );
 };
 
-/**
- * @component FullScreen
- * @desc The full screen button
- */
 const FullScreen = (props: FullScreenProps) => {
   const { isFullScreen, onClick } = props;
 
@@ -181,10 +165,6 @@ const FullScreen = (props: FullScreenProps) => {
   );
 };
 
-/**
- * @component VideoTime
- * @desc The time/duration of the video
- */
 const VideoTime = (props: VideoTimeProps) => {
   const { currentTime, duration } = props;
 
@@ -196,10 +176,6 @@ const VideoTime = (props: VideoTimeProps) => {
   );
 };
 
-/**
- * @component PlayPause
- * @desc The play/pause button
- */
 const PLayPause = (props: PLayPauseProps) => {
   const { isPlaying, onClick } = props;
   return (
@@ -213,10 +189,6 @@ const PLayPause = (props: PLayPauseProps) => {
   );
 };
 
-/**
- * @component CourseVideo
- * @desc Video player component
- */
 const CourseVideo = (props: CourseVideoProps) => {
   const { video } = props;
   const { url } = video;

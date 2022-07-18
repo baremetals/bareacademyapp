@@ -15,7 +15,7 @@ const LectureTabsContainer = (props: LectureTabsContainerProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.tabs}>
-        {childrenArray.map((child, index) => {
+        {React.Children.map(children, (child, index) => {
           return (
             <div
               style={{
@@ -27,7 +27,7 @@ const LectureTabsContainer = (props: LectureTabsContainerProps) => {
               key={index}
               onClick={() => setActTab(index)}
             >
-              {child.props.title}
+              {child?.props.title}
             </div>
           );
         })}

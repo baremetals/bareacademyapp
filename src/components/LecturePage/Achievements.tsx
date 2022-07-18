@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { FiArrowUp, FiAward, FiBarChart } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Achievements.module.css";
 import ScrollContainer from "react-indiana-drag-scroll";
