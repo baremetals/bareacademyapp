@@ -26,13 +26,13 @@ function OnlineChat({
       <ChatContainer>
         <OnlineUsersWrap>
           <OnlineUsersImageWrap>
-            <Link href={`/messages/${slug}`}>
+            <Link href={`/messages/${slug}/?username=${username}`}>
               <OnlineUsersImage alt="Online user image" src={img} />
             </Link>
 
             {online && <OnlineUsersImageBadge></OnlineUsersImageBadge>}
           </OnlineUsersImageWrap>
-          <Link href={`/messages/${slug}`}>
+          <Link href={`/messages/${slug}/?username=${username}`}>
             <OnlineUsersName>{username}</OnlineUsersName>
           </Link>
         </OnlineUsersWrap>

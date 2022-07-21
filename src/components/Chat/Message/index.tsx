@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import { useRouter } from "next/router";
+import { useSockets } from "context/socket.context";
 import {
   MessageWrap,
   MessageTop,
@@ -18,7 +19,6 @@ import {
 
 import { ChatBoxTop, MessageGroup } from '../msg.styles';
 import Chatform from "../ChatForm";
-// import { useSockets } from "context/socket.context";
 import User from 'models/User';
 
 type MessagePageType = {
@@ -29,28 +29,51 @@ type MessagePageType = {
   isRead: boolean;
   receiver: User;
   sender: User;
+  chat: {
+    id: string;
+  }
 };
 
-function Message(props: any, recipient: string) {
-  const router = useRouter();
-  // const { username } = router.query;
-  // const { socket } = useSockets();
-  const { user: user } = useAppSelector(isUser);
-  // const [filteredId, setFilteredId] = useState("");
-  const pathname = router.pathname;
-  const { data, loading } = props?.props;
+type socketMessage = {
+  msg: MessagePageType;
+  to: string;
+  from: string;
+};
 
-  // console.log(data);
+// type chatType = {
+//   id: string;
+// }
+
+function Message() {
+  const router = useRouter();
+  const { socket } = useSockets();
+  const { slug } = router.query;
+
+  const { user: user } = useAppSelector(isUser);
+  const pathname = router.pathname;
+
+  // console.log(slug);
 
   // eslint-disable-next-line no-unused-vars
-  const [newChatMessage, setNewChatMessage] = useState();
-  const messages = data?.chatMsgs.data;
-  // const errorMessages = result.data?.searchAllChatsByUserId.messages;
+  const [newChatMessage, setNewChatMessage] = useState<socketMessage>();
   const [msgArray, setMsgArray] = useState([]);
-  const [chatId, setChatId] = useState("" || undefined);
+  const [messages, setMessages] = useState([]);
+  const [chatId, setChatId] = useState<Object>({});
+  // const [users, setUsers] = useState([]);
 
   const me: string | undefined | any = user?.id;
   const scrollUpdate: any = useRef(null || undefined);
+
+
+  useEffect(() => {
+    if (socket == null) return;
+    socket.emit("load all messages", { slug }, (error: any, d: any) => {
+      if (error) {
+        console.log(" Something went wrong please try again later.", error);
+      }
+    });
+    socket.off("message");
+  }, [socket, slug]);
 
   useEffect(() => {
     if (messages && messages.length > 0) {
@@ -62,31 +85,77 @@ function Message(props: any, recipient: string) {
   }, [messages, msgArray]);
 
   useEffect(() => {
-    // console.log('Iam am here')
+    console.log('Iam am here')
     if (newChatMessage) {
-      const newChatMessageItem = newChatMessage;
+      console.log(newChatMessage);
+      const newChatMessageItem = newChatMessage.msg;
       const newArrayItem: any = (prevArray: MessagePageType[]) => {
         return [...prevArray, newChatMessageItem];
       };
-      setMsgArray(newArrayItem);
+      if (me === newChatMessage.to && me !== newChatMessage.from)setMsgArray(newArrayItem);
+      // setMsgArray(newArrayItem);
     }
   }, [newChatMessage]);
 
   useEffect(() => {
     if (messages && messages.length > 0) {
-      const id = messages[0]!.id;
-      // console.log(messages);
-      setChatId(id);
+      const msg: MessagePageType = messages[0];
+      console.log({msg});
+      
+      const id = msg?.chat?.id;
+      let receiverId;
+      if (msg?.receiver?.id !== me) {
+        receiverId = msg?.receiver?.id;
+      } else {
+        receiverId = msg?.sender?.id;
+      }
+      const data = {
+        chatId: id,
+        receiverId,
+      };
+
+      console.log(data , "data==>");
+      console.log(msg , "===msg");
+      
+      
+      setChatId(data);
     }
+  }, [messages]);
+
+  useEffect(() => {
+    // if (socket == null) return;
+    socket.on("messages loaded", (dt) => {
+      console.log({dt});
+      setMessages(dt);
+    });
+    // socket.off("messages loaded");
+  }, [socket]);
+
+  // useEffect(() => {
+  //   // if (socket == null) return;
+  //   socket.on("message", (dta) => {
+  //     console.log(dta)
+  //     if (me === dta.to || me === dta.from) {
+  //       setNewChatMessage(dta.msg);
+  //     }
+  //     // setNewChatMessage(dta.msg);
+  //   });
+
+  //   socket.off("message");
+  // }, [socket]);
+
+  socket.on("message", (dta) => {
+    console.log(dta.to, dta.from);
+    // if (me === dta.to) {
+    //   setNewChatMessage(dta.msg);
+    // }
+    setNewChatMessage(dta);
   });
 
-  // socket.on("message", (dta) => {
-  //   setNewChatMessage(dta);
+  // socket.on("users", (usrs) => {
+  //   console.log(usrs);
+  //   // setUsers(usrs);
   // });
-
-  if (loading) {
-    return <div>loading...</div>;
-  }
 
   return (
     <>
@@ -96,33 +165,20 @@ function Message(props: any, recipient: string) {
             <ScrollChat ref={scrollUpdate}>
               {/* {result.error || !messages || (msgArray.length === 0 && null)} */}
 
-              {!loading &&
+              {messages &&
                 [...messages, ...msgArray].map((msg: any, id: any) =>
-                  me == msg?.attributes?.sender?.data?.id ||
                   me == msg?.sender?.id ? (
                     // This part shows on the right, the right is for the logged in user
                     <OwnerMessageWrap key={id}>
                       <MessageTop>
                         <MessageImg
                           alt="Message image"
-                          src={
-                            msg?.attributes?.sender?.data?.attributes?.img
-                              ? msg?.attributes?.sender?.data?.attributes?.img
-                              : msg?.sender?.img
-                          }
+                          src={msg?.sender?.img}
                         />
-                        <OwnerMessageText>
-                          {msg?.attributes?.body
-                            ? msg?.attributes?.body
-                            : msg?.body}
-                        </OwnerMessageText>
+                        <OwnerMessageText>{msg?.body}</OwnerMessageText>
                       </MessageTop>
                       <MessageDateTime>
-                        {dayjs(
-                          msg?.attributes?.updatedAt
-                            ? msg?.attributes?.updatedAt
-                            : msg?.updatedAt
-                        ).fromNow()}
+                        {dayjs(msg?.createdAt).fromNow()}
                       </MessageDateTime>
                     </OwnerMessageWrap>
                   ) : (
@@ -131,24 +187,12 @@ function Message(props: any, recipient: string) {
                       <MessageTop>
                         <MessageImg
                           alt="Message image"
-                          src={
-                            msg?.attributes?.sender?.data?.attributes?.img
-                              ? msg?.attributes?.sender?.data?.attributes?.img
-                              : msg?.sender?.img
-                          }
+                          src={msg?.sender?.img}
                         />
-                        <MessageText>
-                          {msg?.attributes?.body
-                            ? msg?.attributes?.body
-                            : msg?.body}
-                        </MessageText>
+                        <MessageText>{msg?.body}</MessageText>
                       </MessageTop>
                       <MessageDateTime>
-                        {dayjs(
-                          msg?.attributes?.updatedAt
-                            ? msg?.attributes?.updatedAt
-                            : msg?.updatedAt
-                        ).fromNow()}
+                        {dayjs(msg?.createdAt).fromNow()}
                       </MessageDateTime>
                     </MessageWrap>
                   )
@@ -157,7 +201,7 @@ function Message(props: any, recipient: string) {
           )}
         </MessageGroup>
       </ChatBoxTop>
-      <Chatform props={chatId} {...props} />
+      <Chatform props={chatId} messages={messages} />
     </>
   );
 }
