@@ -6,7 +6,7 @@
   /* background: red; */
 }
 
-.qna + .qna {
+.qnaContainer + .qnaContainer {
   margin-top: 30px;
 }
 
@@ -108,6 +108,45 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+
+.qnaCommentInput {
+  margin-top: 10px;
+  display: flex;
+}
+
+.qnaCommentTextarea {
+  flex-grow: 1;
+  border: 1px solid var(--text2);
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 700;
+  color: var(--text1);
+  resize: none;
+  min-height: 50px;
+}
+
+.qnaCommentSubmit {
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  background: var(--primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--background);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+  border: none;
+}
+
+.qnaCommentSubmit[disabled] {
+  opacity: 0.5;
 }
 
 @media screen and (max-width: 470px) {

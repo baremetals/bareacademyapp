@@ -55,7 +55,11 @@ const Achievements = (props: Props) => {
       <div className={styles.heading}>
         <span>Course</span> Achievements
       </div>
-      <ScrollContainer horizontal className={styles.achievementsContainer}>
+      <ScrollContainer
+        horizontal
+        className={styles.achievementsContainer}
+        hideScrollbars={false}
+      >
         {data.map((item, index) => (
           <div className={styles.achievement} key={index}>
             <div className={styles.icon}>{renderIcon(item.type)}</div>
