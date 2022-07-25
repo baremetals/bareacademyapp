@@ -1,0 +1,18 @@
+.TitleDescription {
+    margin-top: 40px;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text1);
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--placeholder);
+    margin-bottom: 20px;
+}
+
+.description {
+    font-size: .8rem;
+    color: var(--text2);
+    line-height: 200%;
+}

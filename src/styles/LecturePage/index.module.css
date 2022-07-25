@@ -1,0 +1,43 @@
+.LecturePage {
+  height: 100vh;
+  overflow: hidden;
+  background: var(--background);
+}
+
+.container {
+  display: flex;
+}
+
+.col {
+  height: 100vh;
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 50px 40px;
+}
+
+.col1 {
+  flex-grow: 0.25;
+  max-width: 35%;
+  height: 100vh;
+  border-right: 1px solid var(--placeholder);
+}
+
+@media screen and (max-width: 940px) {
+  .LecturePage {
+    overflow: unset;
+    height: auto;
+  }
+  .container {
+    flex-direction: column-reverse;
+  }
+  .col {
+    overflow: unset;
+    height: auto;
+    padding: 20px;
+  }
+  .col1 {
+    max-width: 100%;
+    border-right: none;
+    height: auto;
+  }
+}
