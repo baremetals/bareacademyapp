@@ -4,6 +4,7 @@ import {
   ConversationWrap,
   ConversationImg,
   ConversationUserName,
+  ConversationUnread
 } from "./converse.styles";
 
 interface PageProps {
@@ -11,10 +12,11 @@ interface PageProps {
   slug: string;
   image: string;
   id: string | undefined;
+  count : number 
   // chatId: string | undefined;
 }
 
-function Conversation({ username, slug, image }: PageProps) {
+function Conversation({ username, slug, image , count }: PageProps) {
 
   console.log({username});
   
@@ -26,9 +28,22 @@ function Conversation({ username, slug, image }: PageProps) {
         </Link>
         <Link href={`/messages/${slug}/?username=${username}`}>
         <ConversationUserName>
-          {username}
+          {username} 
         </ConversationUserName>
+       
         </Link>
+        {
+            count > 0 ? 
+        <Link href={`/messages/${slug}/?username=${username}`}>
+          
+        <ConversationUnread>
+        {count}
+        
+        </ConversationUnread>
+        </Link>
+        :null
+}
+        
       </ConversationWrap>
     </>
   );

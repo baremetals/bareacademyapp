@@ -47,6 +47,7 @@ type chatProps = {
     img: string;
   };
   recipient: any;
+  counUnread : any
 };
 
 
@@ -70,23 +71,32 @@ const ChatSideBar = ({children}: any) => {
   const [slug, setSlug] = useState("");
   const [newChat, setNewChat] = useState(null);
 
+  
+
+
+  
   useEffect(() => {
     if (newChat) {
       const newChatItem = newChat;
       const newArrayItem: any = (prevArray: []) => {
         return [...prevArray, newChatItem];
       };
+      console.log({newChatItem})
       setFilteredMessages(newArrayItem);
     }
   }, [newChat]);
 
   useEffect(() => {
     socket.emit("load all chats", { id: me?.id }, (error: any, d: any) => {
+
       if (error) {
         console.log(" Something went wrong please try again later.", error);
       }
     });
   }, [me]);
+
+  
+
 
   useEffect(() => {
     setFilteredMessages(messages);
@@ -95,10 +105,8 @@ const ChatSideBar = ({children}: any) => {
   useEffect(() => {
     socket.on("chats loaded", (dt) => {
       // setChat(dt);
-
       setMessages(dt.chat);
-      console.log(messages);
-      
+      console.log({dt} , "====>dt");
     });
   }, []);
 
@@ -152,7 +160,7 @@ const ChatSideBar = ({children}: any) => {
             //   setSlug(slugify(me?.username + "-" + usr.attributes.username));
             //   // console.log(slug);
             // });
-            // console.log(searchedUsers);
+            console.log({searchUsers});
           } else setSearchedUsers([]);
         }
 
@@ -237,6 +245,7 @@ const ChatSideBar = ({children}: any) => {
                         image={msg?.owner?.img}
                         id={msg?.owner?.id}
                         slug={msg?.slug}
+                        count={msg?.counUnread}
                       />
                     </ConversationGroup>
                   ) : (
@@ -250,6 +259,7 @@ const ChatSideBar = ({children}: any) => {
                         image={msg?.recipient?.img}
                         id={msg.recipient?.id}
                         slug={msg?.slug}
+                        count={msg?.counUnread}
                       />
                     </ConversationGroup>
                   )

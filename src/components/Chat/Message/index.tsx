@@ -47,7 +47,7 @@ type socketMessage = {
 function Message() {
   const router = useRouter();
   const { socket } = useSockets();
-  const { slug } = router.query;
+  const { slug} = router.query;
 
   const { user: user } = useAppSelector(isUser);
   const pathname = router.pathname;
@@ -65,13 +65,40 @@ function Message() {
   const scrollUpdate: any = useRef(null || undefined);
 
 
+  const requestAndShowPermission = ()=> {
+    Notification.requestPermission(function (permission) {
+    });
+}
+const showNotification =(msg : any)=> {
+  //  if(document.visibilityState === "visible") {
+  //      return;
+  //  }
+   const title = msg?.sender?.username;
+   const icon = 'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'; 
+  //  // this is a large image may take more time to show notifiction, replace with small size icon
+   const body = msg?.body;
+
+   const notification = new Notification(title, { body, icon });
+
+   notification.onclick = () => {
+          notification.close();
+          window.parent.focus();
+   }
+   
+}
+
   useEffect(() => {
     if (socket == null) return;
-    socket.emit("load all messages", { slug }, (error: any, d: any) => {
-      if (error) {
-        console.log(" Something went wrong please try again later.", error);
-      }
-    });
+    console.log({me} , "=====>me");
+    if(me != 'undefined')
+    {
+      socket.emit("load all messages", { slug  ,me}, (error: any, d: any) => {
+        if (error) {
+          console.log(" Something went wrong please try again later.", error);
+        }
+      });
+    }
+    
     socket.off("message");
   }, [socket, slug]);
 
@@ -128,9 +155,34 @@ function Message() {
       console.log({dt});
       setMessages(dt);
     });
+
+    
     // socket.off("messages loaded");
   }, [socket]);
 
+
+  useEffect(()=>{
+    socket.on("getsinglechatnotification" , (msg)=>{
+      console.log({me});
+      console.log({msg});
+      
+      const permission = Notification.permission;
+      if(permission === "granted"){
+        // if()
+        
+        if(me == msg?.msg?.receiver?.id)
+        {
+          showNotification(msg?.msg);
+        }
+      
+     } else if(permission === "default"){
+        requestAndShowPermission();
+     } else {
+       alert("Use normal alert");
+     }
+
+    })
+  } , [socket])
   // useEffect(() => {
   //   // if (socket == null) return;
   //   socket.on("message", (dta) => {

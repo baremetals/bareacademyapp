@@ -20,3 +20,12 @@ export const ConversationImg = styled.img`
 export const ConversationUserName = styled.span`
   font-weight: 500;
 `;
+
+export const ConversationUnread = styled.span`
+  padding : 0.5rem;
+  background-color : yellow;
+  color : black;
+  font-size : 12px;
+  border-radius : 50%;
+  margin-left : 1rem;
+`;
