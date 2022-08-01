@@ -15,6 +15,7 @@ import {
   OwnerMessageWrap,
   OwnerMessageText,
   ScrollChat,
+  DeleteIcon
 } from "./message.styles";
 
 import { ChatBoxTop, MessageGroup } from '../msg.styles';
@@ -47,7 +48,7 @@ type socketMessage = {
 function Message() {
   const router = useRouter();
   const { socket } = useSockets();
-  const { slug} = router.query;
+  const { slug , username} = router.query;
 
   const { user: user } = useAppSelector(isUser);
   const pathname = router.pathname;
@@ -59,6 +60,7 @@ function Message() {
   const [msgArray, setMsgArray] = useState([]);
   const [messages, setMessages] = useState([]);
   const [chatId, setChatId] = useState<Object>({});
+
   // const [users, setUsers] = useState([]);
 
   const me: string | undefined | any = user?.id;
@@ -86,6 +88,30 @@ const showNotification =(msg : any)=> {
    }
    
 }
+const deleteCurrentMessage = (id : any)=>{
+  const con = confirm("Are you sure you want to delete" );
+  const sendData = {
+    slug : slug,
+    chatId : id,
+    userId : me,
+    username : username
+  }
+  if(con)
+  {
+    socket.emit("deleteChatMsg" , sendData ,(error: any, d: any) => {
+      if (error) {
+        console.log(" Something went wrong please try again later while delete message.", error);
+      }
+    });
+  }
+  
+
+  console.log({con});
+  
+}
+
+
+
 
   useEffect(() => {
     if (socket == null) return;
@@ -101,6 +127,12 @@ const showNotification =(msg : any)=> {
     
     socket.off("message");
   }, [socket, slug]);
+
+
+
+
+
+
 
   useEffect(() => {
     if (messages && messages.length > 0) {
@@ -228,9 +260,13 @@ const showNotification =(msg : any)=> {
                           src={msg?.sender?.img}
                         />
                         <OwnerMessageText>{msg?.body}</OwnerMessageText>
+                        <div onClick={()=> deleteCurrentMessage(msg?.id)}>
+                        <DeleteIcon></DeleteIcon>
+                        </div>
+
                       </MessageTop>
                       <MessageDateTime>
-                        {dayjs(msg?.createdAt).fromNow()}
+                        {dayjs(msg?.createdAt).fromNow()} Delete
                       </MessageDateTime>
                     </OwnerMessageWrap>
                   ) : (
@@ -242,6 +278,7 @@ const showNotification =(msg : any)=> {
                           src={msg?.sender?.img}
                         />
                         <MessageText>{msg?.body}</MessageText>
+                        
                       </MessageTop>
                       <MessageDateTime>
                         {dayjs(msg?.createdAt).fromNow()}
