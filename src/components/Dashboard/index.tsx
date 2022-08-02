@@ -13,6 +13,7 @@ import {
 
 const Dashboard = ({ children}: any) => {
   const { user: user } = useAppSelector(isUser);
+
   return (
     <>
       <PageContainer>

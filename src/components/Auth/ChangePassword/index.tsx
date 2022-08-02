@@ -102,6 +102,7 @@ const ChangePassword = () => {
                         type="submit"
                         content="send"
                         disabled={isSubmitting}
+                        loading={isSubmitting}
                       />
                       <Link href="/auth/signin">
                         <BackToLogin>back to login?</BackToLogin>

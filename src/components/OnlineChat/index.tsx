@@ -14,12 +14,14 @@ function OnlineChat({
   img,
   username,
   slug,
-  online
+  online,
+  id
 }: {
   img: string;
   username: string;
   slug: string;
   online: boolean;
+  id?: number;
 }) {
   return (
     <>
