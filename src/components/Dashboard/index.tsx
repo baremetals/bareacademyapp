@@ -1,17 +1,13 @@
-import React from 'react'
+import React from "react";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
-import TopBar from './TopBar'
-import LeftSideBar from './LeftSideBar'
-import SmallFooter from './SmallFooter'
+import TopBar from "./TopBar";
+import LeftSideBar from "./LeftSideBar";
+import SmallFooter from "./SmallFooter";
 
-import {
-  PageContainer,
-  InnerContainer,
-} from "styles/common.styles";
+import { PageContainer, InnerContainer } from "styles/common.styles";
 
-
-const Dashboard = ({ children}: any) => {
+const Dashboard = ({ children }: any) => {
   const { user: user } = useAppSelector(isUser);
   return (
     <>
@@ -27,4 +23,4 @@ const Dashboard = ({ children}: any) => {
   );
 };
 
-export default Dashboard
+export default Dashboard;

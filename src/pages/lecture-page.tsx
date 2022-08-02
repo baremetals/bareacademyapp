@@ -14,6 +14,7 @@ import {
   QNA,
   Chat,
 } from "components/LecturePage";
+import Dashboard from "components/Dashboard";
 
 const course = {
   id: "12d3fd35dsfs21",
@@ -150,38 +151,40 @@ const LecturePage = (props: Props) => {
   // const [activeLecture, setActiveLecture] = useState(0);
 
   return (
-    <div className={styles.LecturePage}>
-      <div className={styles.container}>
-        <div className={classNames(styles.col, styles.col1)}>
-          <Tutor tutor={course.tutor} />
-          <TitleDescription
-            title={course.title}
-            description={course.description}
-          />
-          <Achievements data={course.achievements} />
-          <Lectures data={course.lectures} />
-        </div>
-        <div className={classNames(styles.col, styles.col2)}>
-          <CourseVideo video={course.video} />
-          <LectureTabsContainer activeTab={0}>
-            <LectureTab title="Description">
-              <LectureDescription
-                description={course.lectures[activeLecture].description}
-              />
-            </LectureTab>
-            <LectureTab title="Reviews">
-              <Reviews data={course.reviews} />
-            </LectureTab>
-            <LectureTab title="Group chat">
-              <Chat courseId={course.id} />
-            </LectureTab>
-            <LectureTab title="Q&A">
-              <QNA data={course.qna} />
-            </LectureTab>
-          </LectureTabsContainer>
+    <Dashboard>
+      <div className={styles.LecturePage}>
+        <div className={styles.container}>
+          <div className={classNames(styles.col, styles.col1)}>
+            <Tutor tutor={course.tutor} />
+            <TitleDescription
+              title={course.title}
+              description={course.description}
+            />
+            <Achievements data={course.achievements} />
+            <Lectures data={course.lectures} />
+          </div>
+          <div className={classNames(styles.col, styles.col2)}>
+            <CourseVideo video={course.video} />
+            <LectureTabsContainer activeTab={0}>
+              <LectureTab title="Description">
+                <LectureDescription
+                  description={course.lectures[activeLecture].description}
+                />
+              </LectureTab>
+              <LectureTab title="Reviews">
+                <Reviews data={course.reviews} />
+              </LectureTab>
+              <LectureTab title="Group chat">
+                <Chat courseId={course.id} />
+              </LectureTab>
+              <LectureTab title="Q&A">
+                <QNA data={course.qna} />
+              </LectureTab>
+            </LectureTabsContainer>
+          </div>
         </div>
       </div>
-    </div>
+    </Dashboard>
   );
 };
 
