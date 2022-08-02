@@ -1,0 +1,186 @@
+.reviewsTab {
+  padding: 20px 0;
+}
+
+.avgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avg {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  margin-right: 20px;
+}
+
+.avg svg {
+  fill: var(--primary);
+}
+
+.avgRating {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.avgByNumber {
+  /* background: red; */
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.avgByNumberItem {
+  display: flex;
+  align-items: center;
+}
+
+.avgByNumberItemNumber {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.avgByNumberItemProgress {
+  min-width: 200px;
+  background: var(--placeholder);
+  border-radius: 10px;
+  height: 10px;
+  position: relative;
+}
+
+.avgByNumberItemProgressBar {
+  background: var(--primary);
+  border-radius: 10px;
+  height: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+}
+
+.review + .review {
+  margin-top: 30px;
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviewUserRating {
+  display: flex;
+  align-items: center;
+}
+
+.reviewUserTimestamp {
+  display: flex;
+  align-items: center;
+}
+
+.reviewUser {
+  /* background: red; */
+  display: flex;
+  align-items: center;
+}
+
+.reviewUserPic {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  margin-right: 10px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.reviewUserName {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text1);
+}
+
+.reviewTimestamp {
+  display: flex;
+  align-items: center;
+  color: var(--text2);
+  font-size: 0.7rem;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  background: var(--text2);
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.reviewRating {
+  display: flex;
+}
+
+.reviewRatingStar {
+  margin: 0 5px;
+}
+
+.reviewRatingStar svg {
+  stroke: none;
+  fill: var(--placeholder);
+}
+
+.reviewRatingStarActive svg {
+  fill: var(--primary);
+}
+
+.reviewMessage {
+  margin-top: 10px;
+  line-height: 200%;
+  color: var(--text2);
+  margin-left: 50px;
+  font-size: 0.8rem;
+}
+
+@media screen and (max-width: 470px) {
+  .avgRating {
+    font-size: 2rem;
+  }
+  .avg svg {
+    width: 30px;
+  }
+  .avgByNumberItemProgress {
+    min-width: 100px;
+    height: 5px;
+  }
+  .avgByNumberItemProgressBar {
+    height: 5px;
+  }
+  .avgByNumberItemNumber {
+    font-size: 0.5rem;
+  }
+  .reviewUserPic {
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+  }
+  .reviewUserName {
+    font-size: 0.8rem;
+  }
+  .reviewTimestamp {
+    font-size: 0.5rem;
+  }
+  .reviewRatingStar {
+    margin: 0 1px;
+  }
+  .reviewRatingStar svg {
+    width: 15px;
+  }
+  .reviewMessage {
+    margin-left: 40px;
+    font-size: 0.6rem;
+  }
+}

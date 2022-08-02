@@ -1,0 +1,136 @@
+.Lectures {
+  margin-top: 40px;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.heading .headingText {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--text1);
+}
+
+.heading .headingText span {
+  font-weight: 700;
+}
+
+.headingDuration {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text1);
+  border: 1px solid var(--placeholder);
+  padding: 8px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.headingDurationIcon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.headingDurationText {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lecturesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.lecture {
+  background: var(--foreground);
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lecture + .lecture {
+  margin-top: 20px;
+}
+
+.lectureNumberTitleDuration {
+  display: flex;
+  align-items: center;
+}
+
+.lectureNumber {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-right: 10px;
+  width: 50px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 10px;
+}
+
+.lectureNotStarted .lectureNumber {
+  background: var(--text1);
+}
+
+.lectureActive {
+  background: var(--highlighted) !important;
+}
+
+.lectureActive .lectureNumber {
+  background: var(--primary);
+}
+
+.lectureCompleted .lectureNumber {
+  background: var(--success);
+}
+
+.lectureTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text1);
+}
+
+.lectureDuration {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+}
+
+.lectureDurationIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.lectureProgress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lectureProgress .progressIcon {
+  stroke: var(--primary);
+  transform: rotateY(180deg);
+}
+
+.lectureProgress .progressCompleted {
+  aspect-ratio: 1;
+  background: var(--success);
+  color: white;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

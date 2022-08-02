@@ -1,0 +1,170 @@
+.QNATab {
+  padding: 20px 0;
+}
+
+.qnas {
+  /* background: red; */
+}
+
+.qnaContainer + .qnaContainer {
+  margin-top: 30px;
+}
+
+.qna {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qnaInteractions {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+}
+
+.interaction {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--text1);
+  font-weight: 400;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.2s ease;
+}
+
+.interaction:hover {
+  background: var(--foreground);
+  border-radius: 10px;
+}
+
+.interaction svg {
+  margin-right: 5px;
+  stroke-width: 2px;
+}
+
+.interaction + .interaction {
+  margin-top: 10px;
+}
+
+.interactionActive {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.interactionActive svg {
+  stroke-width: 3px;
+}
+
+.qnaUserPic {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 20px;
+}
+
+.qnaContent {
+  display: flex;
+  align-items: center;
+  width: calc(100% - 60px);
+}
+
+.qnaTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text1);
+}
+
+.qnaUsernameTimestamp {
+  display: flex;
+  align-items: center;
+  color: var(--text2);
+  font-size: 0.7rem;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  background: var(--text2);
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.qnaDetails {
+  width: calc(100% - 60px);
+}
+
+.qnaMessage {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text2);
+  line-height: 200%;
+  margin-top: 8px;
+  height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.qnaCommentInput {
+  margin-top: 10px;
+  display: flex;
+}
+
+.qnaCommentTextarea {
+  flex-grow: 1;
+  border: 1px solid var(--text2);
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 700;
+  color: var(--text1);
+  resize: none;
+  min-height: 50px;
+}
+
+.qnaCommentSubmit {
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  background: var(--primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--background);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+  border: none;
+}
+
+.qnaCommentSubmit[disabled] {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 470px) {
+  .qnaUserPic {
+    width: 30px;
+    height: 30px;
+  }
+  .qnaTitle {
+    font-size: 0.8rem;
+  }
+  .qnaUsernameTimestamp {
+    font-size: 0.6rem;
+  }
+  .qnaMessage {
+    font-size: 0.7rem;
+  }
+  .interaction svg {
+    min-width: 15px;
+    max-width: 15px;
+  }
+}

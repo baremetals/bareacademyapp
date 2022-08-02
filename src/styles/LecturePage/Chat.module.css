@@ -1,0 +1,256 @@
+.Chat {
+  margin: 20px 0;
+  background: var(--background);
+  height: calc(100vh - 715px);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.ChatMaximized {
+  position: fixed;
+  margin: 0;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+}
+
+.ChatMaximized .ChatBody {
+  height: calc(100% - 80px);
+}
+
+.ChatHeader {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  color: var(--text1);
+  font-size: 1.1rem;
+  height: 80px;
+}
+
+.maximizeButton {
+  cursor: pointer;
+  color: var(--text1);
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.maximizeButton:hover {
+  background: var(--foreground);
+  border-radius: 10px;
+}
+
+.ChatBody {
+  background: var(--foreground);
+  min-height: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  height: calc(100% - 80px);
+}
+
+.messages {
+  flex-grow: 1;
+  /* height: calc(100% - 50px); */
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.ChatInput {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.025);
+  overflow: hidden;
+  margin: 0 20px;
+}
+
+.ChatInput input {
+  height: 100%;
+  flex-grow: 1;
+  border: 0;
+  background: transparent;
+  padding-left: 10px;
+  color: var(--text1);
+  font-size: 0.8rem;
+}
+
+.ChatInput input[type="file"] {
+  display: none;
+}
+
+.ChatInput button,
+.ChatInput label {
+  height: 100%;
+  aspect-ratio: 1;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ChatInput button:hover,
+.ChatInput label:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.messageContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.messageContainerFromMe {
+  justify-content: flex-end;
+}
+
+.messageContainerFromMe .message {
+  background: var(--text1);
+  color: var(--white);
+}
+
+.messageContainer + .messageContainer {
+  margin-top: 20px;
+}
+
+.message {
+  background: var(--background);
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.025);
+  padding: 10px 20px 20px 20px;
+  border-radius: 20px;
+  max-width: 50%;
+  word-wrap: break-word;
+  font-size: 0.8rem;
+  color: var(--text1);
+  position: relative;
+}
+
+.userPic {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--primary);
+  margin-right: 10px;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.025);
+}
+
+.messageFile {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.messageFileIconPDF {
+  background: rgb(218, 106, 106) !important;
+  color: var(--white);
+}
+
+.messageFileIcon {
+  background: var(--text2);
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 10px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.messageNameSize {
+  min-width: 100px;
+}
+
+.messageFileName {
+  font-size: 0.8rem;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.messageFileSize {
+  font-size: 0.6rem;
+  font-weight: 400;
+}
+
+.messageTime {
+  font-size: 0.5rem;
+  font-weight: 400;
+  align-self: flex-end;
+  position: absolute;
+  /* top: calc(100% + 2px);
+  right: auto;
+  left: 5px; */
+  bottom: 3px;
+  right: 12px;
+  color: var(--text2);
+}
+
+@media screen and (max-width: 470px) {
+  .ChatMaximized {
+    padding: 10px;
+  }
+  .ChatHeader {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+  .ChatHeader svg {
+    width: 20px;
+  }
+  .message {
+    max-width: 100%;
+    padding: 10px 20px 20px 10px;
+  }
+  .userPic {
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+  }
+  .ChatInput {
+    margin: 0 5px;
+  }
+  .ChatInput button,
+  .ChatInput label {
+    width: 40px;
+  }
+  .ChatInput svg {
+    width: 20px;
+  }
+  .ChatBody {
+    padding-bottom: 5px;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .Chat {
+    height: auto;
+  }
+  .ChatMaximized {
+    height: 100vh;
+  }
+  .ChatBody {
+    height: 300px;
+  }
+}
