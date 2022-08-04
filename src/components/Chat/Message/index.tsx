@@ -60,6 +60,7 @@ function Message() {
   const [msgArray, setMsgArray] = useState([]);
   const [messages, setMessages] = useState([]);
   const [chatId, setChatId] = useState<Object>({});
+
   // const [users, setUsers] = useState([]);
 
   const me: string | undefined | any = user?.id;

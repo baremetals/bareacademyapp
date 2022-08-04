@@ -26,7 +26,7 @@ import {
   MasSearchGroup,
   ConversationGroup,
 } from "./msg.styles";
-
+import { useRouter } from "next/router";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 // import { QueryResult } from '@apollo/client';
@@ -71,9 +71,12 @@ const ChatSideBar = ({children}: any) => {
   const [slug, setSlug] = useState("");
   const [newChat, setNewChat] = useState(null);
 
-  
-
-
+  const router = useRouter();
+  const queryparams = router.query
+  const obj = {
+    id : me?.id,
+    slug : queryparams?.slug
+  }
   
   useEffect(() => {
     if (newChat) {
@@ -87,11 +90,22 @@ const ChatSideBar = ({children}: any) => {
   }, [newChat]);
 
   useEffect(() => {
-    socket.emit("load all chats", { id: me?.id }, (error: any, d: any) => {
+   
+    if(queryparams?.slug)
+    {
+      obj.slug = queryparams?.slug
+    }
+    else{
+      delete obj.slug
+    }
+
+    socket.emit("load all chats", obj, (error: any, d: any) => {
 
       if (error) {
         console.log(" Something went wrong please try again later.", error);
       }
+      console.log("CHAT LOADED HERE MANY TIMES");
+      
     });
   }, [me]);
 
@@ -282,7 +296,6 @@ const ChatSideBar = ({children}: any) => {
                       username={username}
                       slug={slug}
                       online={online}
-                      id={id}
                     />
                   )
                 )}
