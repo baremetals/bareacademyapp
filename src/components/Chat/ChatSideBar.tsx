@@ -69,6 +69,7 @@ const ChatSideBar = ({children}: any) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchItem, setSearchItem] = useState("");
   const [slug, setSlug] = useState("");
+  // const [existingSlug, setExistingSlug] = useState("");
   const [newChat, setNewChat] = useState(null);
 
   const router = useRouter();
@@ -109,6 +110,8 @@ const ChatSideBar = ({children}: any) => {
     });
   }, [me]);
 
+
+
   
 
 
@@ -130,6 +133,14 @@ const ChatSideBar = ({children}: any) => {
     });
   }, [])
 
+  // useEffect(() => {
+  //   if(searchedUsers.length > 0)
+  //   { 
+  //   }
+  // }, [searchedUsers])
+  
+  
+
   const handleSearch = async (event: { target: { value: string } }) => {
 
     // const generatedToken = v4();
@@ -147,8 +158,8 @@ const ChatSideBar = ({children}: any) => {
             .toLowerCase()
             .includes(searchItem.toLowerCase());
         });
-        console.log(filteredData);
-        setFilteredMessages(filteredData);
+        console.log({filteredData});
+        // setFilteredMessages(filteredData);
         if (filteredData && filteredData.length === 0) {
           console.log(filteredData, "I am filtered data");
           const res = await client.query<SearchUsersQuery>({
@@ -162,10 +173,14 @@ const ChatSideBar = ({children}: any) => {
             },
           });
 
+
+      console.log({res} , "rrrrr");
+
           const searchUsers: any = res?.data?.usersPermissionsUsers?.data;
           // console.log(searchUsers, "I am response data");
           if (searchUsers.length !== 0 && searchItem !== "") {
             const generatedToken = v4();
+            console.log({generatedToken})
             setSearchedUsers(searchUsers);
             setSlug(generatedToken);
 
@@ -193,7 +208,7 @@ const ChatSideBar = ({children}: any) => {
           },
         },
       });
-      
+
       
       const searchUsers = res?.data?.usersPermissionsUsers?.data;
       console.log(searchUsers, "I am response data");

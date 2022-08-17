@@ -209,10 +209,7 @@ const deleteCurrentMessage = (id : any)=>{
       
      } else if(permission === "default"){
         requestAndShowPermission();
-     } else {
-       alert("Use normal alert");
      }
-
     })
   } , [socket])
   // useEffect(() => {
@@ -278,6 +275,9 @@ const deleteCurrentMessage = (id : any)=>{
                           src={msg?.sender?.img}
                         />
                         <MessageText>{msg?.body}</MessageText>
+                        {/* <div onClick={()=> deleteCurrentMessage(msg?.id)}>
+                        <DeleteIcon></DeleteIcon>
+                        </div> */}
                         
                       </MessageTop>
                       <MessageDateTime>

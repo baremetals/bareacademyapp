@@ -39,6 +39,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     socket.connect();
+    socket.on("chatMsgs loaded", (dt) => {
+
+      console.log("call to chaticon from main app");
+      // console.log(dt);
+    });
+
     nprogress.configure({ showSpinner: false });
     Router.events.on("routeChangeStart", startLoading);
     Router.events.on("routeChangeComplete", stopLoading);
