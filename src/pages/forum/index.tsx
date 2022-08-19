@@ -47,7 +47,7 @@ function Forum(props: queryProps) {
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy).jwt;
+    const cookies = JSON.parse(ctx.req.cookies.bareacademy as string).jwt;
     const token = `Bearer ${cookies}`;
     const apolloClient = initializeApollo(null, token);
     const { data } = await apolloClient.query<PostsQueryResult>({
@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
         sort: "updatedAt:desc",
       },
     });
-    // console.log(data)
+    console.log('data')
     return {
       props: {data},
     };
