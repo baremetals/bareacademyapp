@@ -118,7 +118,7 @@ const deleteCurrentMessage = (id : any)=>{
     console.log({me} , "=====>me");
     if(me != 'undefined')
     {
-      socket.emit("load all messages", { slug  ,me}, (error: any, d: any) => {
+      socket.emit("load all messages", { slug  ,username , me}, (error: any, d: any) => {
         if (error) {
           console.log(" Something went wrong please try again later.", error);
         }
