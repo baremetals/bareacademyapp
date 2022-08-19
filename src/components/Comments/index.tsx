@@ -161,7 +161,7 @@ const Comment = ({id: ID }: {id: string}) => {
   const comments: any = result.data?.comments.data;
 
   // console.log(comments);
-  // console.log(result.data);
+  // console.log(result);
   const me: string | undefined | any = user?.id;
 
   // if (!result.data || result.loading) {
@@ -228,7 +228,7 @@ const Comment = ({id: ID }: {id: string}) => {
     // setEditContent(body);
     setContent(body);
     setComId(id);
-    console.log(editContent);
+    // console.log(editContent);
   };
 
   const handleDelete = async (id: string) => {
@@ -236,7 +236,7 @@ const Comment = ({id: ID }: {id: string}) => {
       variables: { deleteCommentId: id },
     });
     if (res.data) {
-      console.log(res);
+      // console.log(res);
       refetch();
     } else {
       toast.error("something went wrong your message was not deleted.");

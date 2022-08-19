@@ -294,7 +294,7 @@ const DetailPost = (props: {
           <CommentText>{total_comments}</CommentText>
         </BottomRightWrap>
       </PostBottomWrapper>
-      <Comment id={post?.id as string} />
+
       <EditPostForm
         showModal={showModal}
         closeM={() => setShowModal(false)}
@@ -305,6 +305,7 @@ const DetailPost = (props: {
         body={body as string}
         id={post?.id as string}
       />
+      <Comment id={post?.id as string} />
     </Dashboard>
   );
 };

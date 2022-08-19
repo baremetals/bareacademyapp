@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
         },
       },
     });
-    console.log(token);
+    // console.log(token);
     return {
       props: { data },
     };
