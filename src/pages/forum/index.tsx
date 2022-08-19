@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
         sort: "updatedAt:desc",
       },
     });
-    console.log('data')
+    // console.log('data')
     return {
       props: {data},
     };

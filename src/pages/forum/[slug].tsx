@@ -58,7 +58,7 @@ const PostDetails = (props: {
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
     const { slug } = ctx.query;
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy).jwt;
+    const cookies = JSON.parse(ctx.req.cookies.bareacademy as string).jwt;
     const token = `Bearer ${cookies}`;
     const apolloClient = initializeApollo(null, token);
     const data = await apolloClient.query<PostQueryResult>({
@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
         },
       },
     });
-    // console.log(data);
+    console.log(token);
     return {
       props: { data },
     };
