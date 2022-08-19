@@ -68,10 +68,10 @@ const ChatSideBar = ({children}: any) => {
 
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [searchItem, setSearchItem] = useState("");
-  const [slug, setSlug] = useState("");
+  const [generatedslug, setSlug] = useState("");
   // const [existingSlug, setExistingSlug] = useState("");
   const [newChat, setNewChat] = useState(null);
-
+  const [filteredSearchUsers , setfilteredSearchUsers] = useState([]);
   const router = useRouter();
   const queryparams = router.query
   const obj = {
@@ -133,17 +133,23 @@ const ChatSideBar = ({children}: any) => {
     });
   }, [])
 
+  useEffect(() => {
+    socket.on("users", (users) => {
+      setfilteredSearchUsers(users)
+      console.log(users , "FILTERED USERS");
+    });
+  }, [])
+
   // useEffect(() => {
   //   if(searchedUsers.length > 0)
   //   { 
   //   }
   // }, [searchedUsers])
   
-  
-
   const handleSearch = async (event: { target: { value: string } }) => {
 
     // const generatedToken = v4();
+    const targetValue =event.target.value 
     setSearchItem(event.target.value);
     console.log(searchItem);
     console.log(filteredMessages)
@@ -162,6 +168,13 @@ const ChatSideBar = ({children}: any) => {
         // setFilteredMessages(filteredData);
         if (filteredData && filteredData.length === 0) {
           console.log(filteredData, "I am filtered data");
+          socket.emit("getallusers", {targetValue , me : me?.id}, (error: any, d: any) => {
+            if (error) {
+              console.log(" Something went wrong please try again later.", error);
+            }    
+          });
+
+
           const res = await client.query<SearchUsersQuery>({
             query: SearchUsersDocument,
             variables: {
@@ -303,13 +316,13 @@ const ChatSideBar = ({children}: any) => {
           <OnlineChatContainer>
             <OnlineChatWrapper>
               {searchedUsers.length > 0 &&
-                searchedUsers.map(
-                  ({ attributes: { img, username, online } }, id) => (
+                filteredSearchUsers.map(
+                  ({ img, username, online , slug} , id) => (
                     <OnlineChat
                       key={id}
                       img={img}
                       username={username}
-                      slug={slug}
+                      slug={slug ? slug : generatedslug}
                       online={online}
                     />
                   )
