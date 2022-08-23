@@ -35,6 +35,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FooterLinkContainer } from "components/Footer/styles";
 // import Spinner from "components/Spinner"
+// import { useSockets } from "context/socket.context";
 
 
 
@@ -48,6 +49,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState(false);
+  // const { socket } = useSockets();
   let err: any;
   
 
@@ -62,6 +64,7 @@ const Login = () => {
         if (res.data.data !== null) {
           dispatch(setSuccess("Login successful"));
           dispatch(setUser(res.data));
+          // console.log(res.data);
           toast.success("Login successful");
           setTimeout(() => {
             // router.push(`/user-profile/${res.data.username}`);

@@ -3,12 +3,14 @@ import { useEffect } from "react";
 import { useAppDispatch } from "app/hooks";
 import { setUser } from "features/auth";
 import axios from "axios";
+// import { useSockets } from "context/socket.context";
 
 
 
 export const useIsAuth = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  // const { socket } = useSockets();
   
   const getUser = async() => {
     await axios.post("/api/user")

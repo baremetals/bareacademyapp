@@ -17,7 +17,7 @@ import {
 
 import { LogoShape } from "../../../../public/assets/icons/LogoShape"
 import { BooksIcon } from "../../../../public/assets/icons/BooksIcon";
-// import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
+import { ChatIcon } from "../../../../public/assets/icons/ChatIcon";
 
 const LeftSideBar = () => {
 
@@ -75,6 +75,21 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Courses</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
+
+          <LeftSideBarListItem
+            className={router.pathname == "/articles" ? "active" : ""}
+          >
+            <LeftSideBarIcon>
+              <Link href="/articles">
+                <div>
+                  <RiNewspaperFill />
+                </div>
+              </Link>
+            </LeftSideBarIcon>
+            <Link href="/articles">
+              <LeftSideBarListItemText>Articles</LeftSideBarListItemText>
+            </Link>
+          </LeftSideBarListItem>
           <LeftSideBarListItem
             className={router.pathname == "/books" ? "active" : ""}
           >
@@ -89,6 +104,22 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Books</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
+
+          <LeftSideBarListItem
+            className={router.pathname == "/messages" ? "active" : ""}
+          >
+            <LeftSideBarIcon>
+              <Link href="/messages">
+                <div>
+                  <ChatIcon />
+                </div>
+              </Link>
+            </LeftSideBarIcon>
+            <Link href="/messages">
+              <LeftSideBarListItemText>Chat</LeftSideBarListItemText>
+            </Link>
+          </LeftSideBarListItem>
+
           <LeftSideBarListItem
             className={router.pathname == "/forum" ? "active" : ""}
           >
@@ -118,20 +149,7 @@ const LeftSideBar = () => {
               <LeftSideBarListItemText>Notifications</LeftSideBarListItemText>
             </Link>
           </LeftSideBarListItem>
-          <LeftSideBarListItem
-            className={router.pathname == "/articles" ? "active" : ""}
-          >
-            <LeftSideBarIcon>
-              <Link href="/articles">
-                <div>
-                  <RiNewspaperFill />
-                </div>
-              </Link>
-            </LeftSideBarIcon>
-            <Link href="/articles">
-              <LeftSideBarListItemText>Articles</LeftSideBarListItemText>
-            </Link>
-          </LeftSideBarListItem>
+
           <LeftSideBarListItem
             className={router.pathname == "/support" ? "active" : ""}
           >

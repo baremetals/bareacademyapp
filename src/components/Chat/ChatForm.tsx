@@ -8,11 +8,11 @@ import {
   ChatMessageInputGroup,
   ChatSubmitButton,
 } from "./msg.styles";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 // import { useCreateChatMessageMutation, useRespondToChatMessageMutation } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
-import { SendIcon } from '../../../public/assets/icons/SendIcon';
+import { SendIcon } from "../../../public/assets/icons/SendIcon";
 
 type FormInput = {
   body: string;
@@ -21,19 +21,19 @@ type FormInput = {
 function ChatForm(props: any) {
   const router = useRouter();
   const { socket } = useSockets();
-  const { slug } = router.query;
-  
-  // const username: string = slug?.split("-")[1];
-  const test = slug as string;
-  const username = test?.split('-')[1];
-  // console.log(typeof recipient);
-  // const [newChat] = useCreateChatMessageMutation();
-  // const [newChatMsg] = useRespondToChatMessageMutation();
+  const { slug, username } = router.query;
+  // const messageslug = slug as string;
+  // const username = messageslug?.split("-")[1];
+
   const { user: user } = useAppSelector(isUser);
+  console.log(router.query, "query");
+  
+
   const {
     // setValue,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormInput>();
 
@@ -41,46 +41,56 @@ function ChatForm(props: any) {
   // const { username } = router.query;
   const me = user;
 
-  // console.log(username);
-  const chatId = props?.props?.data?.chatMsgs?.data[0]?.id
-    ? props?.props?.data?.chatMsgs?.data[0]?.id
-    : "";
-  // console.log(props?.props?.data?.chatMsgs?.data[0]?.id);
+  const data = props?.props ? props?.props : {};
+  console.log(" the chat id data", data);
+  // const msgs = props?.messages ? props?.messages: {};
+  const { chatId, receiverId } = data;
+
 
   const onSubmit = async ({ body }: any) => {
+    console.log(" the chat id data", data);
     if (chatId !== "" && chatId !== undefined) {
-      // console.log(chatId, "are you shooting this off?");
+      console.log(chatId, "are you shooting this off?");
       try {
         // console.log(" i went to off blud")
+       
         socket.emit(
           "respondToChat",
-          { sender: user?.id, chatId, body },
+          { sender: user?.id, chatId, body, receiver: receiverId },
           (error: any) => {
             if (error) {
               console.log(
                 " Something went wrong please try again later.",
                 error
               );
+              throw error;
             }
           }
         );
+
+        reset({ body: "" });
       } catch (ex) {
         console.log(ex);
         // throw ex;
       }
     } else {
       try {
+        console.log(username, "we don't have a chat id broo");
         socket.emit(
           "createChat",
-          { owner: me?.id, username, body, slug },
+          { owner: me?.id, recipient: username, body, slug },
           (error: any) => {
             if (error) {
-              console.log(" Something went wrong please try again later.");
+              console.log(
+                " Something went wrong please try again later. error"
+              );
             }
           }
         );
+
+        reset({ body: "" });
       } catch (ex) {
-        console.log(ex);
+        console.log(ex, "here is error");
         throw ex;
       }
     }
@@ -109,6 +119,4 @@ function ChatForm(props: any) {
   );
 }
 
-export default ChatForm
-
-
+export default ChatForm;

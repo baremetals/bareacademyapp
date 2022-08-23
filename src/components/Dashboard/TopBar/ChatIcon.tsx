@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from "next/link";
-// import { IconBadge, IconItem } from "./topbar.styles";
-import {IconItem } from "./topbar.styles";
+import { useSockets } from "context/socket.context";
+import { IconBadge, IconItem } from "./topbar.styles";
 // import { useQuery } from "@apollo/client";
 import { CommentIcon } from "../../../../public/assets/icons/CommentIcon";
 
 // import { toast, ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-// import { GetAllUnReadChatMsgsByUserIdDocument, useNewChatMessageSubscription, User } from 'generated/graphql';
+
 
 // type MessagePageType = {
 //   body: string;
@@ -20,16 +20,11 @@ import { CommentIcon } from "../../../../public/assets/icons/CommentIcon";
 // };
 
 
-const ChatIcon = () => {
-  // Chat Messages Call
-  // const rs = useQuery(GetAllUnReadChatMsgsByUserIdDocument);
-  // const dta = useNewChatMessageSubscription();
-  // const newChatMessage = dta?.data?.newChatMessage;
-  // const messages = rs.data?.getAllUnReadChatMsgsByUserId.chatMsgs;
-
+const ChatIcon = (userId: { id: string }) => {
+  const { socket } = useSockets();
   // const [msgArray, setMsgArray] = useState([]);
-
-// const [markAllNoticeRead] = useMarkAllMessagesReadByUserIdMutation();
+  const [msgTotal, setMsgTotal] = useState("");
+  // const _isMounted = useRef(true);
 
   // Chat Messages Call
   // useEffect(() => {
@@ -42,19 +37,42 @@ const ChatIcon = () => {
   //   }
   // }, [newChatMessage]);
 
-  // const chatMsgLength: number = msgArray.concat(messages).length;
+  // useEffect(() => {
+  //   // let mounted = true;
+  //   if (userId.id !== "") {
+  //     if (_isMounted) {
+  //       socket.emit(
+  //         "load unread messages",
+  //         { id: userId.id },
+  //         (error: any, d: any) => {
+  //           if (error) {
+  //             console.log(
+  //               " Something went wrong please try again later.",
+  //               error
+  //             );
+  //           }
+  //         }
+  //       );
+  //     }
+  //   }
 
-//   const markMessageRead = async () => {
-//     const id: string = userId.id;
-//     // console.log(id);
-//     const res = await markAllNoticeRead({
-//       variables: { id },
-//     });
-//     console.log(res, id);
-//     if (!res.data?.markAllMessagesReadByUserId.includes("edited")) {
-//       toast.error(res.data?.markAllMessagesReadByUserId);
-//     }
-//   };
+  //   return () => {
+  //     _isMounted.current = false;
+  //   };
+    
+  // }, [userId.id]);
+
+  useEffect(() => {
+    socket.on("chatMsgs loaded", (dt) => {
+
+      console.log("call to chaticon");
+      
+      setMsgTotal(dt);
+      // console.log(dt);
+    });
+  }, [socket])
+
+  
 
   return (
     <>
@@ -64,13 +82,11 @@ const ChatIcon = () => {
             <CommentIcon />
           </div>
         </Link>
-        {/* {chatMsgLength != 0 && messages !== undefined && (
-          <IconBadge>{chatMsgLength}</IconBadge>
-        )} */}
+        {msgTotal != '' && <IconBadge>{msgTotal}</IconBadge>}
       </IconItem>
       {/* <ToastContainer /> */}
     </>
   );
-}
+};
 
 export default ChatIcon
