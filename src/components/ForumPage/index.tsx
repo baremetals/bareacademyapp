@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {
   CategoriesQuery,
   Exact,
+  Post,
   Query,
   useCategoriesQuery,
 } from "generated/graphql";
@@ -113,8 +114,9 @@ const ForumPage = (props: {
       // console.log(event.target.value);
       const searchValue = event.target.value;
       if (searchValue !== "") {
-        const filteredData = posts?.filter((post: { [s: string]: unknown; } | ArrayLike<unknown>) => {
-          return Object.values(post)
+        const filteredData = posts?.filter((post) => {
+          const p = post?.attributes as Post;
+          return Object.values(p)
             .join(" ")
             .toLowerCase()
             .includes(searchValue.toLowerCase());

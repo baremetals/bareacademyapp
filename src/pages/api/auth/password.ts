@@ -8,7 +8,7 @@ type Data = {
   resp?: any
 };
 
-export default async function handler(
+export default async function password(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {

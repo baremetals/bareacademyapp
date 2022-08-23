@@ -102,6 +102,7 @@ function CourseDetails(props: {
   const [isTeacher, setIsTeacher] = useState(false);
   const { user: user } = useAppSelector(isUser);
   const me = user;
+  // console.log('printing me',me)
 
   useEffect(() => {
     if (me?.id && students?.length !== 0) {
