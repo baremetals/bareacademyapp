@@ -36,7 +36,7 @@ function LecturePage(props: { data: { lecture: LectureEntityResponse } }) {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { lectureId } = ctx.query;
-  // console.log(lectureId);
+  console.log(lectureId);
   let id = lectureId as string
   id = id?.split('-')[1] as string
   // const vidId = id
