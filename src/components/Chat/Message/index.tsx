@@ -15,7 +15,8 @@ import {
   OwnerMessageWrap,
   OwnerMessageText,
   ScrollChat,
-  DeleteIcon
+  DeleteIcon,
+  MessageTopName
 } from "./message.styles";
 
 import { ChatBoxTop, MessageGroup } from '../msg.styles';
@@ -179,12 +180,15 @@ const deleteCurrentMessage = (id : any)=>{
       
       setChatId(data);
     }
+    else{
+      setChatId({});
+    }
   }, [messages]);
 
   useEffect(() => {
     // if (socket == null) return;
     socket.on("messages loaded", (dt) => {
-      console.log({dt});
+      console.log({dt} , "=====>dt");
       setMessages(dt);
     });
 
@@ -240,12 +244,15 @@ const deleteCurrentMessage = (id : any)=>{
 
   return (
     <>
+     <MessageTopName> <b> {username} </b></MessageTopName>
       <ChatBoxTop>
+        
         <MessageGroup>
+          
           {pathname !== "/messages" && (
             <ScrollChat ref={scrollUpdate}>
               {/* {result.error || !messages || (msgArray.length === 0 && null)} */}
-
+             
               {messages &&
                 [...messages, ...msgArray].map((msg: any, id: any) =>
                   me == msg?.sender?.id ? (

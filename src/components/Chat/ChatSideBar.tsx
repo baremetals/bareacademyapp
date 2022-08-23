@@ -32,6 +32,7 @@ import { isUser } from "features/auth/selectors";
 // import { QueryResult } from '@apollo/client';
 import { client } from "lib/initApollo";
 import { useSockets } from "context/socket.context";
+import { useForm } from "react-hook-form";
 
 type chatProps = {
   id: string;
@@ -48,6 +49,10 @@ type chatProps = {
   };
   recipient: any;
   counUnread : any
+};
+
+type FormInput = {
+  searchItem: string;
 };
 
 
@@ -78,6 +83,12 @@ const ChatSideBar = ({children}: any) => {
     id : me?.id,
     slug : queryparams?.slug
   }
+
+  const {
+    // setValue,
+    reset,
+  } = useForm<FormInput>();
+  
   
   useEffect(() => {
     if (newChat) {
@@ -120,7 +131,9 @@ const ChatSideBar = ({children}: any) => {
   }, [messages]);
 
   useEffect(() => {
+    
     socket.on("chats loaded", (dt) => {
+      
       // setChat(dt);
       setMessages(dt.chat);
       console.log({dt} , "====>dt");
@@ -130,6 +143,14 @@ const ChatSideBar = ({children}: any) => {
   useEffect(() => {
     socket.on("chat", (dt) => {
       setNewChat(dt);
+    });
+  }, [])
+  
+
+  useEffect(() => {
+    socket.on("emptyusers", (dt) => {
+      setfilteredSearchUsers([]);
+      reset({searchItem : ""})
     });
   }, [])
 
@@ -149,13 +170,15 @@ const ChatSideBar = ({children}: any) => {
   const handleSearch = async (event: { target: { value: string } }) => {
 
     // const generatedToken = v4();
-    const targetValue =event.target.value 
+    const targetValue =event.target.value
+    console.log(event.target.value , "eventtargetvalue");
+    
     setSearchItem(event.target.value);
     console.log(searchItem);
-    console.log(filteredMessages)
+    console.log(filteredMessages , "newmesssages2")
     if (filteredMessages.length > 0) {
       if (searchItem !== "") {
-        console.log(messages);
+        console.log(messages , "newmesssages");
         const filteredData = messages?.filter((msg: any) => {
           console.log(msg?.attributes?.slug);
           setSlug(msg?.slug);
@@ -168,11 +191,18 @@ const ChatSideBar = ({children}: any) => {
         // setFilteredMessages(filteredData);
         if (filteredData && filteredData.length === 0) {
           console.log(filteredData, "I am filtered data");
-          socket.emit("getallusers", {targetValue , me : me?.id}, (error: any, d: any) => {
-            if (error) {
-              console.log(" Something went wrong please try again later.", error);
-            }    
-          });
+          if(event.target.value != "")
+          {
+            socket.emit("getallusers", {targetValue , me : me?.id}, (error: any, d: any) => {
+              if (error) {
+                console.log(" Something went wrong please try again later.", error);
+              }    
+            });
+          }
+          else{
+            setfilteredSearchUsers([])
+          }
+          
 
 
           const res = await client.query<SearchUsersQuery>({
@@ -222,6 +252,14 @@ const ChatSideBar = ({children}: any) => {
         },
       });
 
+        if(event.target.value != "")
+            {
+              socket.emit("getallusers", {targetValue , me : me?.id}, (error: any, d: any) => {
+                if (error) {
+                  console.log(" Something went wrong please try again later.", error);
+                }    
+              });
+            }
       
       const searchUsers = res?.data?.usersPermissionsUsers?.data;
       console.log(searchUsers, "I am response data");
@@ -257,15 +295,18 @@ const ChatSideBar = ({children}: any) => {
           <MsgChatMenu>
             <MsgChatMenuWrapper>
               <MasSearchGroup>
+                
                 <SearchNewIcon />
-                <MsgChatMenuInput
-                  type="text"
-                  placeholder="Search for a user"
-                  onChange={handleSearch}
-                  name="searchItem"
-                  value={searchItem}
-                />
-              </MasSearchGroup>
+                
+                  <MsgChatMenuInput
+                    type="text"
+                    placeholder="Search for a user"
+                    onChange={handleSearch}
+                    name="searchItem"
+                    value={searchItem}
+                  />
+                  </MasSearchGroup>
+                
 
               {!filteredMessages && (
                 <>
@@ -322,7 +363,7 @@ const ChatSideBar = ({children}: any) => {
                       key={id}
                       img={img}
                       username={username}
-                      slug={slug ? slug : generatedslug}
+                      slug={slug != null  ? slug : generatedslug}
                       online={online}
                     />
                   )

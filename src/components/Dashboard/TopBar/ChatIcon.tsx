@@ -23,7 +23,7 @@ import { CommentIcon } from "../../../../public/assets/icons/CommentIcon";
 const ChatIcon = (userId: { id: string }) => {
   const { socket } = useSockets();
   // const [msgArray, setMsgArray] = useState([]);
-  const [msgTotal, setMsgTotal] = useState<string>("");
+  const [msgTotal, setMsgTotal] = useState("");
   // const _isMounted = useRef(true);
 
   // Chat Messages Call
@@ -64,10 +64,13 @@ const ChatIcon = (userId: { id: string }) => {
 
   useEffect(() => {
     socket.on("chatMsgs loaded", (dt) => {
+
+      console.log("call to chaticon");
+      
       setMsgTotal(dt);
       // console.log(dt);
     });
-  }, [])
+  }, [socket])
 
   
 

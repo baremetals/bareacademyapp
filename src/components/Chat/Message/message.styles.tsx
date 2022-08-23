@@ -40,6 +40,15 @@ export const MessageTop = styled.div`
   align-items: flex-start;
 `;
 
+
+
+
+export const MessageTopName = styled.div`
+  width : 100%;
+  background-color : #7755e2;
+  padding : 2%;  
+`;
+
 export const MessageImg = styled.img`
   width: 3rem;
   height: 3rem;
@@ -47,6 +56,7 @@ export const MessageImg = styled.img`
   object-fit: cover;
   margin-right: 1rem;
 `;
+
 
 export const MessageText = styled.p`
   padding: 0.75rem 1rem;

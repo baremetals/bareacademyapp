@@ -52,6 +52,7 @@ export const MsgChatMenuWrapper = styled.div`
   height: 100%;
   position: relative;
   z-index: 1;
+  overflow-y: auto;
 `;
 
 export const MasSearchGroup = styled.div`

@@ -36,6 +36,7 @@ const Topbar = () => {
   const [dropdown, setDropdown] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [search, setSearch] = useState(false);
+  // const [msgTotal, setMsgTotal] = useState<string>("");
   const { user: user } = useAppSelector(isUser);
   const { socket } = useSockets();
 
@@ -81,6 +82,12 @@ const Topbar = () => {
         }
       }
     );
+
+    socket.on("chatMsgs loaded", (dt) => {
+      console.log("call to chaticon  from headers");
+      // setMsgTotal(dt);
+      // console.log(dt);
+    });
   }, [])
 
   

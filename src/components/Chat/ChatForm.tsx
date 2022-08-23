@@ -27,6 +27,7 @@ function ChatForm(props: any) {
 
   const { user: user } = useAppSelector(isUser);
   console.log(router.query, "query");
+  
 
   const {
     // setValue,
@@ -41,8 +42,10 @@ function ChatForm(props: any) {
   const me = user;
 
   const data = props?.props ? props?.props : {};
+  console.log(" the chat id data", data);
   // const msgs = props?.messages ? props?.messages: {};
   const { chatId, receiverId } = data;
+
 
   const onSubmit = async ({ body }: any) => {
     console.log(" the chat id data", data);
@@ -50,6 +53,7 @@ function ChatForm(props: any) {
       console.log(chatId, "are you shooting this off?");
       try {
         // console.log(" i went to off blud")
+       
         socket.emit(
           "respondToChat",
           { sender: user?.id, chatId, body, receiver: receiverId },
