@@ -159,7 +159,12 @@ const editCurrentMessage = (id : any , message : any)=>{
         console.log({prevArray});
         return [newChatMessageItem];
       };
-      if (me === newChatMessage.to && me !== newChatMessage.from)setMsgArray([]);
+      if (me === newChatMessage.to && me !== newChatMessage.from)
+      {
+        setMsgArray([]);
+        console.log({newArrayItem});
+        
+      }
       // setMsgArray(newArrayItem);
     }
   }, [newChatMessage]);
