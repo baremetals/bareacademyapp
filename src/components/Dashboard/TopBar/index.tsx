@@ -82,12 +82,6 @@ const Topbar = () => {
         }
       }
     );
-
-    socket.on("chatMsgs loaded", (dt) => {
-      console.log("call to chaticon  from headers");
-      // setMsgTotal(dt);
-      // console.log(dt);
-    });
   }, [])
 
   
@@ -141,6 +135,8 @@ const Topbar = () => {
       </TopCenterWrap>
       <TopRightWrap>
         <Icons>
+          {console.log("meid",me?.id)
+          }
           <ChatIcon id={me?.id as string} />
           <AlarmBell id={me?.id as string} />
         </Icons>

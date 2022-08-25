@@ -16,7 +16,8 @@ import {
   OwnerMessageText,
   ScrollChat,
   DeleteIcon,
-  MessageTopName
+  MessageTopName,
+  EditIcon
 } from "./message.styles";
 
 import { ChatBoxTop, MessageGroup } from '../msg.styles';
@@ -58,8 +59,9 @@ function Message() {
 
   // eslint-disable-next-line no-unused-vars
   const [newChatMessage, setNewChatMessage] = useState<socketMessage>();
-  const [msgArray, setMsgArray] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [msgArray, setMsgArray] = useState([]);
+  const [selectedEditMessage, setSelectedEditMessage] = useState({});
   const [chatId, setChatId] = useState<Object>({});
 
   // const [users, setUsers] = useState([]);
@@ -109,6 +111,10 @@ const deleteCurrentMessage = (id : any)=>{
 
   console.log({con});
   
+}
+
+const editCurrentMessage = (id : any , message : any)=>{
+  setSelectedEditMessage({id, message })
 }
 
 
@@ -266,11 +272,15 @@ const deleteCurrentMessage = (id : any)=>{
                         <OwnerMessageText>{msg?.body}</OwnerMessageText>
                         <div onClick={()=> deleteCurrentMessage(msg?.id)}>
                         <DeleteIcon></DeleteIcon>
+                       
+                        </div>
+                        <div>
+                        <EditIcon onClick={()=>editCurrentMessage(msg?.id , msg?.body)}></EditIcon>
                         </div>
 
                       </MessageTop>
                       <MessageDateTime>
-                        {dayjs(msg?.createdAt).fromNow()} Delete
+                        {dayjs(msg?.createdAt).fromNow()}
                       </MessageDateTime>
                     </OwnerMessageWrap>
                   ) : (
@@ -297,7 +307,7 @@ const deleteCurrentMessage = (id : any)=>{
           )}
         </MessageGroup>
       </ChatBoxTop>
-      <Chatform props={chatId} messages={messages} />
+      <Chatform props={chatId} messages={messages} setSelectedEditMessage={setSelectedEditMessage}  selectedEditMessage={selectedEditMessage}/>
     </>
   );
 }
