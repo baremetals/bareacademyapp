@@ -16,7 +16,8 @@ import {
   OwnerMessageText,
   ScrollChat,
   DeleteIcon,
-  MessageTopName
+  MessageTopName,
+  EditIcon
 } from "./message.styles";
 
 import { ChatBoxTop, MessageGroup } from '../msg.styles';
@@ -58,8 +59,9 @@ function Message() {
 
   // eslint-disable-next-line no-unused-vars
   const [newChatMessage, setNewChatMessage] = useState<socketMessage>();
-  const [msgArray, setMsgArray] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [msgArray, setMsgArray] = useState([]);
+  const [selectedEditMessage, setSelectedEditMessage] = useState({});
   const [chatId, setChatId] = useState<Object>({});
 
   // const [users, setUsers] = useState([]);
@@ -111,6 +113,10 @@ const deleteCurrentMessage = (id : any)=>{
   
 }
 
+const editCurrentMessage = (id : any , message : any)=>{
+  setSelectedEditMessage({id, message })
+}
+
 
 
 
@@ -150,9 +156,15 @@ const deleteCurrentMessage = (id : any)=>{
       console.log(newChatMessage);
       const newChatMessageItem = newChatMessage.msg;
       const newArrayItem: any = (prevArray: MessagePageType[]) => {
-        return [...prevArray, newChatMessageItem];
+        console.log({prevArray});
+        return [newChatMessageItem];
       };
-      if (me === newChatMessage.to && me !== newChatMessage.from)setMsgArray(newArrayItem);
+      if (me === newChatMessage.to && me !== newChatMessage.from)
+      {
+        setMsgArray([]);
+        console.log({newArrayItem});
+        
+      }
       // setMsgArray(newArrayItem);
     }
   }, [newChatMessage]);
@@ -242,6 +254,9 @@ const deleteCurrentMessage = (id : any)=>{
   //   // setUsers(usrs);
   // });
 
+  console.log({msgArray});
+  
+
   return (
     <>
      <MessageTopName> <b> {username} </b></MessageTopName>
@@ -254,7 +269,7 @@ const deleteCurrentMessage = (id : any)=>{
               {/* {result.error || !messages || (msgArray.length === 0 && null)} */}
              
               {messages &&
-                [...messages, ...msgArray].map((msg: any, id: any) =>
+                [...messages , ...msgArray].map((msg: any, id: any) =>
                   me == msg?.sender?.id ? (
                     // This part shows on the right, the right is for the logged in user
                     <OwnerMessageWrap key={id}>
@@ -266,11 +281,15 @@ const deleteCurrentMessage = (id : any)=>{
                         <OwnerMessageText>{msg?.body}</OwnerMessageText>
                         <div onClick={()=> deleteCurrentMessage(msg?.id)}>
                         <DeleteIcon></DeleteIcon>
+                       
+                        </div>
+                        <div>
+                        <EditIcon onClick={()=>editCurrentMessage(msg?.id , msg?.body)}></EditIcon>
                         </div>
 
                       </MessageTop>
                       <MessageDateTime>
-                        {dayjs(msg?.createdAt).fromNow()} Delete
+                        {dayjs(msg?.createdAt).fromNow()}
                       </MessageDateTime>
                     </OwnerMessageWrap>
                   ) : (
@@ -297,7 +316,7 @@ const deleteCurrentMessage = (id : any)=>{
           )}
         </MessageGroup>
       </ChatBoxTop>
-      <Chatform props={chatId} messages={messages} />
+      <Chatform props={chatId} messages={messages} setSelectedEditMessage={setSelectedEditMessage}  selectedEditMessage={selectedEditMessage}/>
     </>
   );
 }

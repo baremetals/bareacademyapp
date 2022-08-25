@@ -114,7 +114,7 @@ export const ChatBoxWrapper = styled.div`
 `;
 
 export const ChatBoxTop = styled.div`
-  height: calc(100% - 6rem);
+  height: calc(100% - 9rem);
   background-color: #fff;
   display: flex;
   align-items: flex-end;

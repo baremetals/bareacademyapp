@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdEdit } from "react-icons/md";
 export const MessageWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,6 +47,7 @@ export const MessageTopName = styled.div`
   width : 100%;
   background-color : #7755e2;
   padding : 2%;  
+  color:white;
 `;
 
 export const MessageImg = styled.img`
@@ -71,6 +72,17 @@ export const MessageText = styled.p`
 export const DeleteIcon = styled(MdDeleteForever)`
   font-size: 25px;
   margin-top:10px;
+  &:hover {
+    cursor:pointer;
+  }
+`;
+
+export const EditIcon = styled(MdEdit)`
+  font-size: 25px;
+  margin-top:10px;
+  &:hover {
+    cursor:pointer;
+  }
 `;
 
 export const MessageDateTime = styled.div`
