@@ -47,6 +47,7 @@ export const MessageTopName = styled.div`
   width : 100%;
   background-color : #7755e2;
   padding : 2%;  
+  color:white;
 `;
 
 export const MessageImg = styled.img`
