@@ -50,7 +50,7 @@ import RightSideBar from "components/Dashboard/RightSideBar";
 import { ErrorMsg } from 'components/Input';
 import Dashboard from 'components/Dashboard';
 
-import VideoCard from './VideoCard';
+// import VideoCard from './VideoCard';
 import NavBar from 'components/NavBar/NavBar';
 import Footer from 'components/Footer';
 import SocialShare from 'components/SocialShare';
@@ -81,7 +81,7 @@ function CourseDetails(props: {
   // const videos = course?.attributes?.videos?.data;
   const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
-  const imageUrl = course?.attributes?.image?.data?.attributes?.url;
+  const imageUrl = course?.attributes?.image;
   // console.log(course?.attributes);
 
   const [isloading, setIsLoading] = useState(false);
@@ -313,7 +313,7 @@ function CourseDetails(props: {
 
                     {me?.id && isStudent && (
                       <ApplyButton
-                        onClick={() => router.push("/home")}
+                        onClick={() => router.push(`/courses/${course?.attributes?.slug}/lectures`)}
                         type="button"
                         style={{ backgroundColor: "red" }}
                       >
@@ -343,12 +343,12 @@ function CourseDetails(props: {
                 }}
               ></div> */}
               <br />
-              {me?.id && isStudent && (
+              {/* {me?.id && isStudent && (
                 <VideoCard
                   courseId={course?.id as string}
                   slug={course?.attributes?.slug as string}
                 />
-              )}
+              )} */}
             </DetailsCardWrapper>
           </PageWrapGroup>
           <RightSideBar>

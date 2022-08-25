@@ -25,7 +25,7 @@ const AdCardThree = () => {
                 <Link href={`/courses/${c?.attributes?.slug}`}>
                   <Img
                     alt="Course Image"
-                    src={c?.attributes?.image?.data?.attributes?.url}
+                    src={c?.attributes?.image as string}
                   />
                 </Link>
                 <Status />

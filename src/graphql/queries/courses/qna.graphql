@@ -1,0 +1,52 @@
+query QuestionAndAnswers(
+  $filters: QuestionAndAnswerFiltersInput
+  $sort: [String]
+  $pagination: PaginationArg
+) {
+  questionAndAnswers(filters: $filters, sort: $sort, pagination: $pagination) {
+    data {
+      id
+      attributes {
+        title
+        question
+        updatedAt
+        user {
+          data {
+            id
+            attributes {
+              username
+              fullName
+              img
+              slug
+            }
+          }
+        }
+        course {
+          data {
+            id
+          }
+        }
+        comments {
+          data {
+            id
+            attributes {
+              body
+              updatedAt
+              user {
+                data {
+                  id
+                  attributes {
+                    username
+                    fullName
+                    slug
+                    img
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

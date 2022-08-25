@@ -3,13 +3,28 @@ import { FiCheck, FiClock } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Lectures.module.css";
 import classNames from "classnames";
 
+// import {
+//   // Lectures,
+//   CourseVideo,
+//   LectureTabsContainer,
+//   LectureTab,
+//   LectureDescription,
+//   Reviews,
+//   QNA,
+//   Chat,
+// } from "components/LecturePage";
+
 type Props = {
   data: Array<{
+    id: string;
     title: string;
+    notes: string;
+    video: string;
     duration: number;
     progress: number;
   }>;
 };
+
 
 const ProgressIcon = (props: { progress: number; size: number }) => {
   const { progress, size } = props;
@@ -93,6 +108,7 @@ const Lectures = (props: Props) => {
               [styles.lectureNotStarted]: lecture.progress === 0,
             })}
             key={index}
+            onClick={() => lecture.id}
           >
             <div className={styles.lectureNumberTitleDuration}>
               <div className={styles.lectureNumber}>{index + 1}</div>

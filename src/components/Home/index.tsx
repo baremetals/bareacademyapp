@@ -57,7 +57,7 @@ const Home = (props: {
                     <Link href={`/courses/${course?.attributes?.slug}`}>
                       <BlogCardImage
                         alt="course image"
-                        src={course?.attributes?.image?.data?.attributes?.url}
+                        src={course?.attributes?.image as string}
                       />
                     </Link>
                     <BlogCardBody>
