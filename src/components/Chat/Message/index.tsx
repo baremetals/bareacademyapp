@@ -156,9 +156,10 @@ const editCurrentMessage = (id : any , message : any)=>{
       console.log(newChatMessage);
       const newChatMessageItem = newChatMessage.msg;
       const newArrayItem: any = (prevArray: MessagePageType[]) => {
-        return [...prevArray, newChatMessageItem];
+        console.log({prevArray});
+        return [newChatMessageItem];
       };
-      if (me === newChatMessage.to && me !== newChatMessage.from)setMsgArray(newArrayItem);
+      if (me === newChatMessage.to && me !== newChatMessage.from)setMsgArray([]);
       // setMsgArray(newArrayItem);
     }
   }, [newChatMessage]);
@@ -248,6 +249,9 @@ const editCurrentMessage = (id : any , message : any)=>{
   //   // setUsers(usrs);
   // });
 
+  console.log({msgArray});
+  
+
   return (
     <>
      <MessageTopName> <b> {username} </b></MessageTopName>
@@ -260,7 +264,7 @@ const editCurrentMessage = (id : any , message : any)=>{
               {/* {result.error || !messages || (msgArray.length === 0 && null)} */}
              
               {messages &&
-                [...messages, ...msgArray].map((msg: any, id: any) =>
+                [...messages , ...msgArray].map((msg: any, id: any) =>
                   me == msg?.sender?.id ? (
                     // This part shows on the right, the right is for the logged in user
                     <OwnerMessageWrap key={id}>
