@@ -2,9 +2,9 @@
   padding: 20px 0;
 }
 
-/* .qnas {
-  background: red;
-} */
+.qnas {
+  /* background: red; */
+}
 
 .qnaContainer + .qnaContainer {
   margin-top: 30px;
@@ -95,8 +95,6 @@
 
 .qnaDetails {
   width: calc(100% - 60px);
-  display: flex;
-  flex-direction: column;
 }
 
 .qnaMessage {
@@ -106,10 +104,10 @@
   line-height: 200%;
   margin-top: 8px;
   height: 20px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  /* background: red; */
 }
 
 .qnaCommentInput {
