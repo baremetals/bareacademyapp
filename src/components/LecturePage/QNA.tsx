@@ -17,8 +17,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import classNames from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
 import styles from "../../styles/LecturePage/QNA.module.css";
-import Modal from "components/ShareForm/Modal"
-
+import Modal from "components/ShareForm/Modal";
 
 const LectureEditor = dynamic(() => import("./LectureEditor"), {
   ssr: false,
@@ -28,7 +27,6 @@ import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth";
 
 import {
-
   TitleInput,
   BodyTextWrapper,
   InputFormGroupRow,
@@ -43,9 +41,7 @@ import {
   CardText,
 } from "../ShareForm/modal.styles";
 import { ErrorMsg, SuccessMsg } from "components/Input";
-import { QuestionAndAnswersDocument } from 'generated/graphql';
-
-
+import { QuestionAndAnswersDocument } from "generated/graphql";
 
 type Props = {
   data: Array<{
@@ -108,8 +104,8 @@ export type FormInput = {
 const QNA = (props: Props) => {
   const router = useRouter();
   const { slug } = router.query;
-  // const { data } = props;
-  const data = []
+  const { data } = props;
+  // const data = [];
   const { refetch, ...result } = useQuery(QuestionAndAnswersDocument, {
     variables: {
       filters: {
@@ -127,13 +123,13 @@ const QNA = (props: Props) => {
     },
   });
   const comments: any = result.data?.comments.data;
-  console.log(slug)
+  console.log(slug);
   const { user: user } = useAppSelector(isUser);
   const [showInput, setShowInput] = React.useState(
     Array(data.length).fill(false)
   );
   const [input, setInput] = React.useState(Array(data.length).fill(""));
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [msg, setMsg] = useState("");
@@ -184,11 +180,11 @@ const QNA = (props: Props) => {
 
   return (
     <div className={styles.QNATab}>
-      <button onClick={() => setShowModal(true)}>
-        Ask a question
-      </button>
-      <br />
-      <br />
+      <div className={styles.askButtonContainer}>
+        <button className={styles.askButton} onClick={() => setShowModal(true)}>
+          Ask a question
+        </button>
+      </div>
       <div className={styles.qnas}>
         {data.map((qna, index) => {
           return (

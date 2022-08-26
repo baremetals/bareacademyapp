@@ -46,7 +46,7 @@ const LecturePage = (props: Props) => {
                 <LectureTabsContainer activeTab={0}>
                   <LectureTab title="Description">
                     <LectureDescription
-                      description={course.lectures[activeLecture].description}
+                      notes={course.lectures[activeLecture].notes}
                     />
                   </LectureTab>
                   <LectureTab title="Reviews">

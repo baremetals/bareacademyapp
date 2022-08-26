@@ -151,6 +151,31 @@
   opacity: 0.5;
 }
 
+.askButton {
+  padding: 10px 20px;
+  background: var(--white);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 10px;
+  font-size: 0.8rem;
+  margin: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 700;
+}
+
+.askButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.askButton:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
 @media screen and (max-width: 470px) {
   .qnaUserPic {
     width: 30px;

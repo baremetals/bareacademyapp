@@ -1,9 +1,9 @@
 {
   "id": "12d3fd35dsfs21",
   "tutor": {
-    "name": "Lana Marandina",
+    "fullName": "Lana Marandina",
     "title": "Course tutor",
-    "img": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80",
+    "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80",
     "url": "#"
   },
   "title": "Learning How To Create a Beautiful Scene in Illustrator in 80 minutes",
@@ -20,10 +20,8 @@
       "title": "Introduction",
       "duration": 204,
       "progress": 1,
-      "description": "Description Lecture 1",
-      "video": {
-        "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-      },
+      "notes": "Description Lecture 1",
+      "video": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       "reviews": [
         {
           "user": {
@@ -54,7 +52,7 @@
             "url": "#"
           },
           "title": "How to use the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 0,
@@ -68,7 +66,7 @@
             "url": "#"
           },
           "title": "How to install the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 20,
@@ -82,10 +80,8 @@
       "title": "Getting started",
       "duration": 595,
       "progress": 0.75,
-      "description": "Description Lecture 2",
-      "video": {
-        "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-      },
+      "notes": "Description Lecture 2",
+      "video": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       "reviews": [
         {
           "user": {
@@ -116,7 +112,7 @@
             "url": "#"
           },
           "title": "How to use the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 0,
@@ -130,7 +126,7 @@
             "url": "#"
           },
           "title": "How to install the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 20,
@@ -144,10 +140,8 @@
       "title": "The Illustration",
       "duration": 3768,
       "progress": 0,
-      "description": "Description Lecture 3",
-      "video": {
-        "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-      },
+      "notes": "Description Lecture 3",
+      "video": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       "reviews": [
         {
           "user": {
@@ -178,7 +172,7 @@
             "url": "#"
           },
           "title": "How to use the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 0,
@@ -192,7 +186,7 @@
             "url": "#"
           },
           "title": "How to install the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 20,
@@ -206,10 +200,8 @@
       "title": "The Conception",
       "duration": 5268,
       "progress": 0,
-      "description": "Description Lecture 4",
-      "video": {
-        "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-      },
+      "notes": "Description Lecture 4",
+      "video": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       "reviews": [
         {
           "user": {
@@ -240,7 +232,7 @@
             "url": "#"
           },
           "title": "How to use the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 0,
@@ -254,7 +246,7 @@
             "url": "#"
           },
           "title": "How to install the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 20,
@@ -268,10 +260,8 @@
       "title": "The Process",
       "duration": 8668,
       "progress": 0,
-      "description": "Description Lecture 5",
-      "video": {
-        "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-      },
+      "notes": "Description Lecture 5",
+      "video": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       "reviews": [
         {
           "user": {
@@ -302,7 +292,7 @@
             "url": "#"
           },
           "title": "How to use the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 0,
@@ -316,7 +306,7 @@
             "url": "#"
           },
           "title": "How to install the app?",
-          "message": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
+          "question": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
           "time": "2022-07-10T20:55:43.537Z",
           "comments": [],
           "votes": 20,

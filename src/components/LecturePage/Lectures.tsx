@@ -28,7 +28,6 @@ type Props = {
   openLecture: number;
 };
 
-
 const ProgressIcon = (props: { progress: number; size: number }) => {
   const { progress, size } = props;
   const strokeWidth = 2;
@@ -105,7 +104,6 @@ const Lectures = (props: Props) => {
               [styles.openLecture]: index === openLecture,
             })}
             key={index}
-            onClick={() => lecture.id}
           >
             <div className={styles.lectureNumberTitleDuration}>
               <div className={styles.lectureNumber}>{index + 1}</div>
