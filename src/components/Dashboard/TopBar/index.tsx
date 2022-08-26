@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { useSockets } from "context/socket.context";
 
 // styled components
 import {
@@ -28,18 +29,35 @@ import { isUser } from "features/auth/selectors";
 
 import { BackOverlay } from '../LeftSideBar/leftside.styles';
 import AlarmBell from './AlarmBell';
-// import ChatIcon from './ChatIcon';
+import ChatIcon from './ChatIcon';
 
 const Topbar = () => {
   const router = useRouter();
   const [dropdown, setDropdown] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [search, setSearch] = useState(false);
+  // const [msgTotal, setMsgTotal] = useState<string>("");
   const { user: user } = useAppSelector(isUser);
+  const { socket } = useSockets();
 
-
+  
   const me = user;
+  
   // console.log(me);
+  // useEffect(() => {
+  //   socket.emit(
+  //     "connected",
+  //     { id: me?.id, sessionID: me?.username },
+  //     (error: any, d: any) => {
+  //       socket.auth = { id: me?.id, sessionID: me?.username,};
+  //       socket.id = me?.id as string
+  //       // console.log("why am i printing on the server", d);
+  //       if (error) {
+  //         console.log(" Something went wrong please try again later.", error);
+  //       }
+  //     }
+  //   );
+  // }, [me])
 
   const handleLogOut = async () => {
     try {
@@ -53,6 +71,20 @@ const Topbar = () => {
       return error;
     }
   };
+
+  useEffect(() => {
+    socket.emit(
+      "load unread messages",
+      { id: me?.id },
+      (error: any, d: any) => {
+        if (error) {
+          console.log(" Something went wrong please try again later.", error);
+        }
+      }
+    );
+  }, [])
+
+  
 
   const onSearch = (event: any) => {
     setSearch(event.target.value);
@@ -103,7 +135,9 @@ const Topbar = () => {
       </TopCenterWrap>
       <TopRightWrap>
         <Icons>
-          {/* <ChatIcon /> */}
+          {console.log("meid",me?.id)
+          }
+          <ChatIcon id={me?.id as string} />
           <AlarmBell id={me?.id as string} />
         </Icons>
         <ProfileSetting>

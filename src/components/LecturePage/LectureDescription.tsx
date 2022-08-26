@@ -1,17 +1,19 @@
 import React from "react";
 import styles from "../../styles/LecturePage/LectureDescription.module.css";
+import Markdown from "markdown-to-jsx";
 
 type Props = {
-  description: string;
+  notes: string;
 };
 
 const LectureDescription = (props: Props) => {
-  const { description } = props;
+  const { notes } = props;
   return (
     <div className={styles.description}>
-      {description.split("\n").map((line, index) => {
-        return <p key={index}>{line}</p>;
+      {notes.split("\n").map((line, index) => {
+        return <Markdown key={index}>{line}</Markdown>;
       })}
+      {/* <Markdown >{notes}</Markdown>; */}
     </div>
   );
 };

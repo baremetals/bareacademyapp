@@ -1,9 +1,51 @@
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import React, { useEffect } from "react";
-import { FiArrowUpCircle, FiMessageSquare, FiSend } from "react-icons/fi";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import { useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
+import {
+  // FiArrowUpCircle,
+  FiMessageSquare,
+  FiSend,
+  // FiPlus,
+} from "react-icons/fi";
+import { AiFillCloseCircle } from "react-icons/ai";
 import classNames from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
 import styles from "../../styles/LecturePage/QNA.module.css";
+import Modal from "components/ShareForm/Modal"
+
+
+const LectureEditor = dynamic(() => import("./LectureEditor"), {
+  ssr: false,
+});
+
+import { useAppSelector } from "app/hooks";
+import { isUser } from "features/auth";
+
+import {
+
+  TitleInput,
+  BodyTextWrapper,
+  InputFormGroupRow,
+  InputFormGroup,
+  InputContainer,
+  ButtonContainer,
+  CloseButton,
+  SubmitButton,
+  MainContainer,
+  FormWrap,
+  CloseButtonWrap,
+  CardText,
+} from "../ShareForm/modal.styles";
+import { ErrorMsg, SuccessMsg } from "components/Input";
+import { QuestionAndAnswersDocument } from 'generated/graphql';
+
+
 
 type Props = {
   data: Array<{
@@ -13,7 +55,7 @@ type Props = {
       url: string;
     };
     title: string;
-    message: string;
+    question: string;
     votes: number;
     voted: boolean;
     time: string;
@@ -56,19 +98,97 @@ const renderTime = (time: string) => {
   }
 };
 
+export type FormInput = {
+  title: string;
+  category: string;
+  body: string;
+  id?: string;
+};
+
 const QNA = (props: Props) => {
-  const { data } = props;
+  const router = useRouter();
+  const { slug } = router.query;
+  // const { data } = props;
+  const data = []
+  const { refetch, ...result } = useQuery(QuestionAndAnswersDocument, {
+    variables: {
+      filters: {
+        course: {
+          slug: {
+            eq: slug,
+          },
+        },
+      },
+      pagination: {
+        start: 0,
+        limit: 4,
+      },
+      sort: "updatedAt:desc",
+    },
+  });
+  const comments: any = result.data?.comments.data;
+  console.log(slug)
+  const { user: user } = useAppSelector(isUser);
   const [showInput, setShowInput] = React.useState(
     Array(data.length).fill(false)
   );
   const [input, setInput] = React.useState(Array(data.length).fill(""));
+  const [showModal, setShowModal] = useState(false)
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [msg, setMsg] = useState("");
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormInput>();
+
+  const [editorState, setEditorState] = useState<EditorState>(
+    EditorState.createEmpty()
+  );
+  const [content, setContent] = useState<string>("");
 
   useEffect(() => {
     console.log(showInput);
   }, [showInput]);
 
+  const onSubmit = async (info: FormInput) => {
+    console.log(info);
+    // console.log(slugify(info.title))
+    // setShowModal(false);
+
+    await axios
+      .post("/api/posts", {
+        data: {
+          title: info.title,
+          question: info.body,
+          user: user?.id as string,
+          course: "1",
+          publishedAt: new Date(),
+        },
+      })
+      .then(() => {
+        setShowModal(false);
+        setMsg("Question created successfully");
+        setSuccess(true);
+      })
+      .catch((_err) => {
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 10000);
+      });
+  };
+
   return (
     <div className={styles.QNATab}>
+      <button onClick={() => setShowModal(true)}>
+        Ask a question
+      </button>
+      <br />
+      <br />
       <div className={styles.qnas}>
         {data.map((qna, index) => {
           return (
@@ -102,18 +222,18 @@ const QNA = (props: Props) => {
                         {renderTime(qna.time)}
                       </div>
                     </div>
-                    <div className={styles.qnaMessage}>{qna.message}</div>
+                    <div className={styles.qnaMessage}>{qna.question}</div>
                   </div>
                 </div>
                 <div className={styles.qnaInteractions}>
-                  <div
+                  {/* <div
                     className={classNames(styles.interaction, styles.qnaVotes, {
                       [styles.interactionActive]: qna.voted,
                     })}
                   >
                     <FiArrowUpCircle size={20} />
                     <span>{qna.votes}</span>
-                  </div>
+                  </div> */}
                   <div
                     className={classNames(
                       styles.interaction,
@@ -157,6 +277,60 @@ const QNA = (props: Props) => {
           );
         })}
       </div>
+      <Modal
+        showModal={showModal}
+        closeM={() => setShowModal(false)}
+        setShowModal={setShowModal}
+      >
+        <FormWrap onSubmit={handleSubmit(onSubmit)}>
+          <MainContainer>
+            <CloseButtonWrap>
+              <AiFillCloseCircle onClick={() => setShowModal(false)} />
+            </CloseButtonWrap>
+            <CardText>Question?</CardText>
+            {error && <ErrorMsg>{msg}</ErrorMsg>}
+            {success && <SuccessMsg>{msg}</SuccessMsg>}
+            <InputContainer>
+              <InputFormGroupRow>
+                <InputFormGroup>
+                  <TitleInput
+                    {...register("title", { required: true })}
+                    placeholder="title"
+                    type="text"
+                    name="title"
+                    {...props}
+                  />
+                  {errors.title && <span>Title is required</span>}
+                </InputFormGroup>
+              </InputFormGroupRow>
+
+              <BodyTextWrapper>
+                <LectureEditor
+                  id={user?.id as string}
+                  editorState={editorState}
+                  onEditorStateChange={(newState: EditorState) => {
+                    setEditorState(newState);
+                    setContent(
+                      draftToHtml(convertToRaw(newState.getCurrentContent()))
+                    );
+                    setValue("body", content);
+                  }}
+                />
+              </BodyTextWrapper>
+            </InputContainer>
+            <ButtonContainer>
+              <CloseButton
+                onClick={() => setShowModal(false)}
+                {...props}
+                type="button"
+              >
+                close
+              </CloseButton>
+              <SubmitButton type="submit">submit</SubmitButton>
+            </ButtonContainer>
+          </MainContainer>
+        </FormWrap>
+      </Modal>
     </div>
   );
 };

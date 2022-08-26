@@ -63,11 +63,11 @@ const RecentCourses = () => {
         <RightBarTitle style={{ marginBottom: "1.5rem" }}>
           Recent Courses
         </RightBarTitle>
-        {courses?.map((item: { attributes: { title: string; image: { data: { attributes: { url: string; }; }; }; duration: string | undefined; slug: any; }; }, id: string) => (
+        {courses?.map((item: { attributes: { title: string; image: string; duration: string | undefined; slug: any; }; }, id: string) => (
           <SideBarCard
             key={id}
             title={item?.attributes?.title}
-            image={item?.attributes?.image?.data?.attributes?.url}
+            image={item?.attributes?.image}
             category={item?.attributes?.duration}
             style={{ cursor: "pointer" }}
             onClick={() => router.push(`/courses/${item?.attributes?.slug}`)}

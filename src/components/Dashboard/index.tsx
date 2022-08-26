@@ -9,6 +9,7 @@ import { PageContainer, InnerContainer } from "styles/common.styles";
 
 const Dashboard = ({ children }: any) => {
   const { user: user } = useAppSelector(isUser);
+
   return (
     <>
       <PageContainer>

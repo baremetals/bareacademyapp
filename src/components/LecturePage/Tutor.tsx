@@ -5,10 +5,10 @@ import styles from "../../styles/LecturePage/Tutor.module.css";
 
 type Props = {
   tutor: {
-    name: string;
+    fullName: string;
     title: string;
-    url: string;
-    img: string;
+    image: string;
+    url?: string | null;
   };
 };
 
@@ -16,16 +16,16 @@ const Tutor = (props: Props) => {
   const { tutor } = props;
   return (
     <div className={styles.tutorContainer}>
-      <Link href={tutor.url}>
+      <Link href={tutor.url as string}>
         <a className={styles.tutorInfos}>
           <div
             className={styles.tutorImage}
             style={{
-              backgroundImage: `url('${tutor.img}')`,
+              backgroundImage: `url('${tutor.image}')`,
             }}
           ></div>
           <div className={styles.tutorNameTitle}>
-            <div className={styles.tutorName}>{tutor.name}</div>
+            <div className={styles.tutorName}>{tutor.fullName}</div>
             <div className={styles.tutorTitle}>{tutor.title}</div>
           </div>
         </a>

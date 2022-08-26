@@ -17,7 +17,7 @@ type user = {
 };
 
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function login(req: NextApiRequest, res: NextApiResponse) {
   // console.log(req.body);
   const { usernameOrEmail, password, } = req.body;
   

@@ -36,7 +36,7 @@ const SmallFooter
             </WebsiteRights>
             <SocialIcons>
               <SocialIconLink
-                href="https://twitter.com/bare_academy"
+                href="https://twitter.com/bareacademy_"
                 target="_blank"
                 aria-label="Twitter"
               >

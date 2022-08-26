@@ -1,5 +1,5 @@
-import Modal from 'components/ShareForm/Modal';
 import React from 'react'
+import Modal from "components/ShareForm/Modal";
 import { useForm } from "react-hook-form";
 
 export type FormInput = {
@@ -25,8 +25,6 @@ const Form = ({
 }: any) => {
 
     const {
-      
-
         setValue,
     //   formState: { errors },
     } = useForm<FormInput>();
@@ -40,8 +38,7 @@ const Form = ({
         showModal={showModal}
         closeM={() => setShowModal(false)}
         setShowModal={setShowModal}
-      >
-       
+      >   
       </Modal>
     );
 }

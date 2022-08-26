@@ -13,6 +13,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Date: any;
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
@@ -54,6 +56,7 @@ export type ArticleEntityResponseCollection = {
 };
 
 export type ArticleFiltersInput = {
+  SEO?: InputMaybe<ComponentSeoSeoFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ArticleFiltersInput>>>;
   author?: InputMaybe<AuthorFiltersInput>;
   body?: InputMaybe<StringFilterInput>;
@@ -455,6 +458,39 @@ export type ComponentCourseVideoVideos = {
   url?: Maybe<Scalars['String']>;
 };
 
+export type ComponentLecturesLectures = {
+  __typename?: 'ComponentLecturesLectures';
+  date?: Maybe<Scalars['Date']>;
+  duration?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
+  notes?: Maybe<Scalars['String']>;
+  progress?: Maybe<Scalars['Float']>;
+  title?: Maybe<Scalars['String']>;
+  video?: Maybe<Scalars['String']>;
+};
+
+export type ComponentLecturesLecturesFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentLecturesLecturesFiltersInput>>>;
+  date?: InputMaybe<DateFilterInput>;
+  duration?: InputMaybe<IntFilterInput>;
+  not?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
+  notes?: InputMaybe<StringFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentLecturesLecturesFiltersInput>>>;
+  progress?: InputMaybe<FloatFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  video?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentLecturesLecturesInput = {
+  date?: InputMaybe<Scalars['Date']>;
+  duration?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['ID']>;
+  notes?: InputMaybe<Scalars['String']>;
+  progress?: InputMaybe<Scalars['Float']>;
+  title?: InputMaybe<Scalars['String']>;
+  video?: InputMaybe<Scalars['String']>;
+};
+
 export type ComponentSeoSeo = {
   __typename?: 'ComponentSeoSeo';
   description?: Maybe<Scalars['String']>;
@@ -464,6 +500,18 @@ export type ComponentSeoSeo = {
   title?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+export type ComponentSeoSeoFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentSeoSeoFiltersInput>>>;
+  description?: InputMaybe<StringFilterInput>;
+  image?: InputMaybe<StringFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentSeoSeoFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentSeoSeoFiltersInput>>>;
+  title?: InputMaybe<StringFilterInput>;
+  type?: InputMaybe<StringFilterInput>;
+  url?: InputMaybe<StringFilterInput>;
 };
 
 export type ComponentSeoSeoInput = {
@@ -485,16 +533,16 @@ export type Course = {
   description?: Maybe<Scalars['String']>;
   duration: Scalars['String'];
   endDate?: Maybe<Scalars['DateTime']>;
-  githubLink?: Maybe<Scalars['String']>;
-  image?: Maybe<UploadFileEntityResponse>;
+  image?: Maybe<Scalars['String']>;
   introduction?: Maybe<Scalars['String']>;
   isFree: Scalars['Boolean'];
-  lectures?: Maybe<LectureRelationResponseCollection>;
+  lecture?: Maybe<Array<Maybe<ComponentLecturesLectures>>>;
   level?: Maybe<Enum_Course_Level>;
   notes?: Maybe<Scalars['String']>;
   orders?: Maybe<OrderRelationResponseCollection>;
   price: Scalars['Float'];
   publishedAt?: Maybe<Scalars['DateTime']>;
+  reviews?: Maybe<ReviewRelationResponseCollection>;
   slug: Scalars['String'];
   soloPrice?: Maybe<Scalars['Float']>;
   startDate?: Maybe<Scalars['DateTime']>;
@@ -504,7 +552,6 @@ export type Course = {
   totalLessons: Scalars['Int'];
   totalStudents?: Maybe<Scalars['Int']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  videos?: Maybe<CourseVideoRelationResponseCollection>;
 };
 
 
@@ -516,10 +563,9 @@ export type CourseCategoriesArgs = {
 };
 
 
-export type CourseLecturesArgs = {
-  filters?: InputMaybe<LectureFiltersInput>;
+export type CourseLectureArgs = {
+  filters?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -532,17 +578,17 @@ export type CourseOrdersArgs = {
 };
 
 
-export type CourseStudentsArgs = {
-  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
+export type CourseReviewsArgs = {
+  filters?: InputMaybe<ReviewFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
-export type CourseVideosArgs = {
-  filters?: InputMaybe<CourseVideoFiltersInput>;
+export type CourseStudentsArgs = {
+  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -564,6 +610,7 @@ export type CourseEntityResponseCollection = {
 };
 
 export type CourseFiltersInput = {
+  SEO?: InputMaybe<ComponentSeoSeoFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<CourseFiltersInput>>>;
   categories?: InputMaybe<CategoryFiltersInput>;
   courseType?: InputMaybe<StringFilterInput>;
@@ -571,11 +618,11 @@ export type CourseFiltersInput = {
   description?: InputMaybe<StringFilterInput>;
   duration?: InputMaybe<StringFilterInput>;
   endDate?: InputMaybe<DateTimeFilterInput>;
-  githubLink?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  image?: InputMaybe<StringFilterInput>;
   introduction?: InputMaybe<StringFilterInput>;
   isFree?: InputMaybe<BooleanFilterInput>;
-  lectures?: InputMaybe<LectureFiltersInput>;
+  lecture?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
   level?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CourseFiltersInput>;
   notes?: InputMaybe<StringFilterInput>;
@@ -583,6 +630,7 @@ export type CourseFiltersInput = {
   orders?: InputMaybe<OrderFiltersInput>;
   price?: InputMaybe<FloatFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  reviews?: InputMaybe<ReviewFiltersInput>;
   slug?: InputMaybe<StringFilterInput>;
   soloPrice?: InputMaybe<FloatFilterInput>;
   startDate?: InputMaybe<DateTimeFilterInput>;
@@ -592,7 +640,6 @@ export type CourseFiltersInput = {
   totalLessons?: InputMaybe<IntFilterInput>;
   totalStudents?: InputMaybe<IntFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  videos?: InputMaybe<CourseVideoFiltersInput>;
 };
 
 export type CourseInput = {
@@ -602,16 +649,16 @@ export type CourseInput = {
   description?: InputMaybe<Scalars['String']>;
   duration?: InputMaybe<Scalars['String']>;
   endDate?: InputMaybe<Scalars['DateTime']>;
-  githubLink?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['ID']>;
+  image?: InputMaybe<Scalars['String']>;
   introduction?: InputMaybe<Scalars['String']>;
   isFree?: InputMaybe<Scalars['Boolean']>;
-  lectures?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  lecture?: InputMaybe<Array<InputMaybe<ComponentLecturesLecturesInput>>>;
   level?: InputMaybe<Enum_Course_Level>;
   notes?: InputMaybe<Scalars['String']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   price?: InputMaybe<Scalars['Float']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
+  reviews?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   slug?: InputMaybe<Scalars['String']>;
   soloPrice?: InputMaybe<Scalars['Float']>;
   startDate?: InputMaybe<Scalars['DateTime']>;
@@ -620,7 +667,6 @@ export type CourseInput = {
   title?: InputMaybe<Scalars['String']>;
   totalLessons?: InputMaybe<Scalars['Int']>;
   totalStudents?: InputMaybe<Scalars['Int']>;
-  videos?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type CourseRelationResponseCollection = {
@@ -684,9 +730,57 @@ export type CourseVideoInput = {
   url?: InputMaybe<Scalars['String']>;
 };
 
-export type CourseVideoRelationResponseCollection = {
-  __typename?: 'CourseVideoRelationResponseCollection';
-  data: Array<CourseVideoEntity>;
+export type CoursesPage = {
+  __typename?: 'CoursesPage';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  metaDescription?: Maybe<Scalars['String']>;
+  metaTitle?: Maybe<Scalars['String']>;
+  metaUrl?: Maybe<Scalars['String']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CoursesPageEntity = {
+  __typename?: 'CoursesPageEntity';
+  attributes?: Maybe<CoursesPage>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type CoursesPageEntityResponse = {
+  __typename?: 'CoursesPageEntityResponse';
+  data?: Maybe<CoursesPageEntity>;
+};
+
+export type CoursesPageInput = {
+  description?: InputMaybe<Scalars['String']>;
+  metaDescription?: InputMaybe<Scalars['String']>;
+  metaTitle?: InputMaybe<Scalars['String']>;
+  metaUrl?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type DateFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  between?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  contains?: InputMaybe<Scalars['Date']>;
+  containsi?: InputMaybe<Scalars['Date']>;
+  endsWith?: InputMaybe<Scalars['Date']>;
+  eq?: InputMaybe<Scalars['Date']>;
+  gt?: InputMaybe<Scalars['Date']>;
+  gte?: InputMaybe<Scalars['Date']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  lt?: InputMaybe<Scalars['Date']>;
+  lte?: InputMaybe<Scalars['Date']>;
+  ne?: InputMaybe<Scalars['Date']>;
+  not?: InputMaybe<DateFilterInput>;
+  notContains?: InputMaybe<Scalars['Date']>;
+  notContainsi?: InputMaybe<Scalars['Date']>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  notNull?: InputMaybe<Scalars['Boolean']>;
+  null?: InputMaybe<Scalars['Boolean']>;
+  or?: InputMaybe<Array<InputMaybe<Scalars['Date']>>>;
+  startsWith?: InputMaybe<Scalars['Date']>;
 };
 
 export type DateTimeFilterInput = {
@@ -720,7 +814,8 @@ export enum Enum_Course_Coursetype {
 export enum Enum_Course_Level {
   Advance = 'Advance',
   Beginner = 'Beginner',
-  Intermediate = 'Intermediate'
+  Intermediate = 'Intermediate',
+  Primer = 'Primer'
 }
 
 export enum Enum_Order_Status {
@@ -758,7 +853,39 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentSeoSeo | Course | CourseVideo | I18NLocale | Lecture | Notification | Order | Post | PostPoint | Privacy | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseVideo | CoursesPage | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+
+export type Home = {
+  __typename?: 'Home';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  metaDescription?: Maybe<Scalars['String']>;
+  metaTitle?: Maybe<Scalars['String']>;
+  metaUrl?: Maybe<Scalars['String']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  title?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type HomeEntity = {
+  __typename?: 'HomeEntity';
+  attributes?: Maybe<Home>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type HomeEntityResponse = {
+  __typename?: 'HomeEntityResponse';
+  data?: Maybe<HomeEntity>;
+};
+
+export type HomeInput = {
+  description?: InputMaybe<Scalars['String']>;
+  metaDescription?: InputMaybe<Scalars['String']>;
+  metaTitle?: InputMaybe<Scalars['String']>;
+  metaUrl?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  title?: InputMaybe<Scalars['String']>;
+};
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -865,75 +992,6 @@ export type JsonFilterInput = {
   startsWith?: InputMaybe<Scalars['JSON']>;
 };
 
-export type Lecture = {
-  __typename?: 'Lecture';
-  course?: Maybe<CourseEntityResponse>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description: Scalars['String'];
-  files?: Maybe<UploadFileRelationResponseCollection>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  slug?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  video?: Maybe<UploadFileEntityResponse>;
-  videoUrl: Scalars['String'];
-};
-
-
-export type LectureFilesArgs = {
-  filters?: InputMaybe<UploadFileFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type LectureEntity = {
-  __typename?: 'LectureEntity';
-  attributes?: Maybe<Lecture>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type LectureEntityResponse = {
-  __typename?: 'LectureEntityResponse';
-  data?: Maybe<LectureEntity>;
-};
-
-export type LectureEntityResponseCollection = {
-  __typename?: 'LectureEntityResponseCollection';
-  data: Array<LectureEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type LectureFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<LectureFiltersInput>>>;
-  course?: InputMaybe<CourseFiltersInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<LectureFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<LectureFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  slug?: InputMaybe<StringFilterInput>;
-  title?: InputMaybe<StringFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-  videoUrl?: InputMaybe<StringFilterInput>;
-};
-
-export type LectureInput = {
-  course?: InputMaybe<Scalars['ID']>;
-  description?: InputMaybe<Scalars['String']>;
-  files?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
-  slug?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  video?: InputMaybe<Scalars['ID']>;
-  videoUrl?: InputMaybe<Scalars['String']>;
-};
-
-export type LectureRelationResponseCollection = {
-  __typename?: 'LectureRelationResponseCollection';
-  data: Array<LectureEntity>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   createArticle?: Maybe<ArticleEntityResponse>;
@@ -945,11 +1003,12 @@ export type Mutation = {
   createComment?: Maybe<CommentEntityResponse>;
   createCourse?: Maybe<CourseEntityResponse>;
   createCourseVideo?: Maybe<CourseVideoEntityResponse>;
-  createLecture?: Maybe<LectureEntityResponse>;
   createNotification?: Maybe<NotificationEntityResponse>;
   createOrder?: Maybe<OrderEntityResponse>;
   createPost?: Maybe<PostEntityResponse>;
   createPostPoint?: Maybe<PostPointEntityResponse>;
+  createQuestionAndAnswer?: Maybe<QuestionAndAnswerEntityResponse>;
+  createReview?: Maybe<ReviewEntityResponse>;
   createStudent?: Maybe<StudentEntityResponse>;
   createSupportMessage?: Maybe<SupportMessageEntityResponse>;
   createTeacher?: Maybe<TeacherEntityResponse>;
@@ -967,12 +1026,15 @@ export type Mutation = {
   deleteComment?: Maybe<CommentEntityResponse>;
   deleteCourse?: Maybe<CourseEntityResponse>;
   deleteCourseVideo?: Maybe<CourseVideoEntityResponse>;
-  deleteLecture?: Maybe<LectureEntityResponse>;
+  deleteCoursesPage?: Maybe<CoursesPageEntityResponse>;
+  deleteHome?: Maybe<HomeEntityResponse>;
   deleteNotification?: Maybe<NotificationEntityResponse>;
   deleteOrder?: Maybe<OrderEntityResponse>;
   deletePost?: Maybe<PostEntityResponse>;
   deletePostPoint?: Maybe<PostPointEntityResponse>;
   deletePrivacy?: Maybe<PrivacyEntityResponse>;
+  deleteQuestionAndAnswer?: Maybe<QuestionAndAnswerEntityResponse>;
+  deleteReview?: Maybe<ReviewEntityResponse>;
   deleteSearch?: Maybe<SearchEntityResponse>;
   deleteStudent?: Maybe<StudentEntityResponse>;
   deleteSupportMessage?: Maybe<SupportMessageEntityResponse>;
@@ -1003,13 +1065,16 @@ export type Mutation = {
   updateComment?: Maybe<CommentEntityResponse>;
   updateCourse?: Maybe<CourseEntityResponse>;
   updateCourseVideo?: Maybe<CourseVideoEntityResponse>;
+  updateCoursesPage?: Maybe<CoursesPageEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
-  updateLecture?: Maybe<LectureEntityResponse>;
+  updateHome?: Maybe<HomeEntityResponse>;
   updateNotification?: Maybe<NotificationEntityResponse>;
   updateOrder?: Maybe<OrderEntityResponse>;
   updatePost?: Maybe<PostEntityResponse>;
   updatePostPoint?: Maybe<PostPointEntityResponse>;
   updatePrivacy?: Maybe<PrivacyEntityResponse>;
+  updateQuestionAndAnswer?: Maybe<QuestionAndAnswerEntityResponse>;
+  updateReview?: Maybe<ReviewEntityResponse>;
   updateSearch?: Maybe<SearchEntityResponse>;
   updateStudent?: Maybe<StudentEntityResponse>;
   updateSupportMessage?: Maybe<SupportMessageEntityResponse>;
@@ -1069,11 +1134,6 @@ export type MutationCreateCourseVideoArgs = {
 };
 
 
-export type MutationCreateLectureArgs = {
-  data: LectureInput;
-};
-
-
 export type MutationCreateNotificationArgs = {
   data: NotificationInput;
 };
@@ -1091,6 +1151,16 @@ export type MutationCreatePostArgs = {
 
 export type MutationCreatePostPointArgs = {
   data: PostPointInput;
+};
+
+
+export type MutationCreateQuestionAndAnswerArgs = {
+  data: QuestionAndAnswerInput;
+};
+
+
+export type MutationCreateReviewArgs = {
+  data: ReviewInput;
 };
 
 
@@ -1169,11 +1239,6 @@ export type MutationDeleteCourseVideoArgs = {
 };
 
 
-export type MutationDeleteLectureArgs = {
-  id: Scalars['ID'];
-};
-
-
 export type MutationDeleteNotificationArgs = {
   id: Scalars['ID'];
 };
@@ -1190,6 +1255,16 @@ export type MutationDeletePostArgs = {
 
 
 export type MutationDeletePostPointArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteQuestionAndAnswerArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteReviewArgs = {
   id: Scalars['ID'];
 };
 
@@ -1318,15 +1393,19 @@ export type MutationUpdateCourseVideoArgs = {
 };
 
 
+export type MutationUpdateCoursesPageArgs = {
+  data: CoursesPageInput;
+};
+
+
 export type MutationUpdateFileInfoArgs = {
   id: Scalars['ID'];
   info?: InputMaybe<FileInfoInput>;
 };
 
 
-export type MutationUpdateLectureArgs = {
-  data: LectureInput;
-  id: Scalars['ID'];
+export type MutationUpdateHomeArgs = {
+  data: HomeInput;
 };
 
 
@@ -1356,6 +1435,18 @@ export type MutationUpdatePostPointArgs = {
 
 export type MutationUpdatePrivacyArgs = {
   data: PrivacyInput;
+};
+
+
+export type MutationUpdateQuestionAndAnswerArgs = {
+  data: QuestionAndAnswerInput;
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateReviewArgs = {
+  data: ReviewInput;
+  id: Scalars['ID'];
 };
 
 
@@ -1757,10 +1848,10 @@ export type Query = {
   courseVideo?: Maybe<CourseVideoEntityResponse>;
   courseVideos?: Maybe<CourseVideoEntityResponseCollection>;
   courses?: Maybe<CourseEntityResponseCollection>;
+  coursesPage?: Maybe<CoursesPageEntityResponse>;
+  home?: Maybe<HomeEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
-  lecture?: Maybe<LectureEntityResponse>;
-  lectures?: Maybe<LectureEntityResponseCollection>;
   me?: Maybe<UsersPermissionsMe>;
   notification?: Maybe<NotificationEntityResponse>;
   notifications?: Maybe<NotificationEntityResponseCollection>;
@@ -1771,6 +1862,10 @@ export type Query = {
   postPoints?: Maybe<PostPointEntityResponseCollection>;
   posts?: Maybe<PostEntityResponseCollection>;
   privacy?: Maybe<PrivacyEntityResponse>;
+  questionAndAnswer?: Maybe<QuestionAndAnswerEntityResponse>;
+  questionAndAnswers?: Maybe<QuestionAndAnswerEntityResponseCollection>;
+  review?: Maybe<ReviewEntityResponse>;
+  reviews?: Maybe<ReviewEntityResponseCollection>;
   search?: Maybe<SearchEntityResponse>;
   student?: Maybe<StudentEntityResponse>;
   students?: Maybe<StudentEntityResponseCollection>;
@@ -1905,6 +2000,16 @@ export type QueryCoursesArgs = {
 };
 
 
+export type QueryCoursesPageArgs = {
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+
+export type QueryHomeArgs = {
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+
 export type QueryI18NLocaleArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -1913,19 +2018,6 @@ export type QueryI18NLocaleArgs = {
 export type QueryI18NLocalesArgs = {
   filters?: InputMaybe<I18NLocaleFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-
-export type QueryLectureArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryLecturesArgs = {
-  filters?: InputMaybe<LectureFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -1984,6 +2076,32 @@ export type QueryPostsArgs = {
 
 export type QueryPrivacyArgs = {
   publicationState?: InputMaybe<PublicationState>;
+};
+
+
+export type QueryQuestionAndAnswerArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryQuestionAndAnswersArgs = {
+  filters?: InputMaybe<QuestionAndAnswerFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type QueryReviewArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryReviewsArgs = {
+  filters?: InputMaybe<ReviewFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
@@ -2071,9 +2189,128 @@ export type QueryUsersPermissionsUsersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type QuestionAndAnswer = {
+  __typename?: 'QuestionAndAnswer';
+  comments?: Maybe<CommentRelationResponseCollection>;
+  course?: Maybe<CourseEntityResponse>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  question?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user?: Maybe<UsersPermissionsUserEntityResponse>;
+};
+
+
+export type QuestionAndAnswerCommentsArgs = {
+  filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type QuestionAndAnswerEntity = {
+  __typename?: 'QuestionAndAnswerEntity';
+  attributes?: Maybe<QuestionAndAnswer>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type QuestionAndAnswerEntityResponse = {
+  __typename?: 'QuestionAndAnswerEntityResponse';
+  data?: Maybe<QuestionAndAnswerEntity>;
+};
+
+export type QuestionAndAnswerEntityResponseCollection = {
+  __typename?: 'QuestionAndAnswerEntityResponseCollection';
+  data: Array<QuestionAndAnswerEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type QuestionAndAnswerFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<QuestionAndAnswerFiltersInput>>>;
+  comments?: InputMaybe<CommentFiltersInput>;
+  course?: InputMaybe<CourseFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<QuestionAndAnswerFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<QuestionAndAnswerFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  question?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type QuestionAndAnswerInput = {
+  comments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  course?: InputMaybe<Scalars['ID']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  question?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Scalars['ID']>;
+};
+
 export type ResponseCollectionMeta = {
   __typename?: 'ResponseCollectionMeta';
   pagination: Pagination;
+};
+
+export type Review = {
+  __typename?: 'Review';
+  course?: Maybe<CourseEntityResponse>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  message?: Maybe<Scalars['String']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  rating?: Maybe<Scalars['Float']>;
+  time?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user?: Maybe<UsersPermissionsUserEntityResponse>;
+};
+
+export type ReviewEntity = {
+  __typename?: 'ReviewEntity';
+  attributes?: Maybe<Review>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type ReviewEntityResponse = {
+  __typename?: 'ReviewEntityResponse';
+  data?: Maybe<ReviewEntity>;
+};
+
+export type ReviewEntityResponseCollection = {
+  __typename?: 'ReviewEntityResponseCollection';
+  data: Array<ReviewEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ReviewFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ReviewFiltersInput>>>;
+  course?: InputMaybe<CourseFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  message?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ReviewFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ReviewFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  rating?: InputMaybe<FloatFilterInput>;
+  time?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type ReviewInput = {
+  course?: InputMaybe<Scalars['ID']>;
+  message?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  rating?: InputMaybe<Scalars['Float']>;
+  time?: InputMaybe<Scalars['DateTime']>;
+  user?: InputMaybe<Scalars['ID']>;
+};
+
+export type ReviewRelationResponseCollection = {
+  __typename?: 'ReviewRelationResponseCollection';
+  data: Array<ReviewEntity>;
 };
 
 export type Search = {
@@ -2253,11 +2490,15 @@ export type SupportMessageInput = {
 
 export type Teacher = {
   __typename?: 'Teacher';
+  bio?: Maybe<Scalars['String']>;
   courses?: Maybe<CourseRelationResponseCollection>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  fullName?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
   publishedAt?: Maybe<Scalars['DateTime']>;
-  tutor?: Maybe<UsersPermissionsUserEntityResponse>;
+  title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 
@@ -2287,20 +2528,28 @@ export type TeacherEntityResponseCollection = {
 
 export type TeacherFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<TeacherFiltersInput>>>;
+  bio?: InputMaybe<StringFilterInput>;
   courses?: InputMaybe<CourseFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  fullName?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  image?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<TeacherFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<TeacherFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
-  tutor?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  url?: InputMaybe<StringFilterInput>;
 };
 
 export type TeacherInput = {
+  bio?: InputMaybe<Scalars['String']>;
   courses?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  fullName?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
-  tutor?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
 };
 
 export type Term = {
@@ -2405,11 +2654,6 @@ export type UploadFileInput = {
   size?: InputMaybe<Scalars['Float']>;
   url?: InputMaybe<Scalars['String']>;
   width?: InputMaybe<Scalars['Int']>;
-};
-
-export type UploadFileRelationResponseCollection = {
-  __typename?: 'UploadFileRelationResponseCollection';
-  data: Array<UploadFileEntity>;
 };
 
 export type UsersPermissionsCreateRolePayload = {
@@ -2894,7 +3138,7 @@ export type CourseQueryVariables = Exact<{
 }>;
 
 
-export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration: string, description?: string | null | undefined, notes?: string | null | undefined, githubLink?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, startDate?: any | null | undefined, endDate?: any | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, image?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined, students?: { __typename?: 'UsersPermissionsUserRelationResponseCollection', data: Array<{ __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined } | null | undefined }> } | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration: string, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, startDate?: any | null | undefined, endDate?: any | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, students?: { __typename?: 'UsersPermissionsUserRelationResponseCollection', data: Array<{ __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined } | null | undefined }> } | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type CoursesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
@@ -2902,7 +3146,7 @@ export type CoursesQueryVariables = Exact<{
 }>;
 
 
-export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration: string, introduction?: string | null | undefined, description?: string | null | undefined, startDate?: any | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration: string, introduction?: string | null | undefined, description?: string | null | undefined, startDate?: any | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined } | null | undefined }> } | null | undefined };
 
 export type GetCoursesByUserIdQueryVariables = Exact<{
   filters?: InputMaybe<CourseFiltersInput>;
@@ -2911,25 +3155,25 @@ export type GetCoursesByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCoursesByUserIdQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, level?: Enum_Course_Level | null | undefined, isFree: boolean, duration: string, image?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
-
-export type LectureQueryVariables = Exact<{
-  lectureId?: InputMaybe<Scalars['ID']>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  pagination?: InputMaybe<PaginationArg>;
-}>;
-
-
-export type LectureQuery = { __typename?: 'Query', lecture?: { __typename?: 'LectureEntityResponse', data?: { __typename?: 'LectureEntity', id?: string | null | undefined, attributes?: { __typename?: 'Lecture', title?: string | null | undefined, slug?: string | null | undefined, videoUrl: string, description: string, updatedAt?: any | null | undefined, video?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, files?: { __typename?: 'UploadFileRelationResponseCollection', data: Array<{ __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type GetCoursesByUserIdQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, level?: Enum_Course_Level | null | undefined, isFree: boolean, duration: string, image?: string | null | undefined } | null | undefined }> } | null | undefined };
 
 export type LecturesQueryVariables = Exact<{
+  filters?: InputMaybe<CourseFiltersInput>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
   pagination?: InputMaybe<PaginationArg>;
-  filters?: InputMaybe<LectureFiltersInput>;
 }>;
 
 
-export type LecturesQuery = { __typename?: 'Query', lectures?: { __typename?: 'LectureEntityResponseCollection', data: Array<{ __typename?: 'LectureEntity', id?: string | null | undefined, attributes?: { __typename?: 'Lecture', slug?: string | null | undefined, title?: string | null | undefined, description: string, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, videoUrl: string } | null | undefined }> } | null | undefined };
+export type LecturesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', title: string, slug: string, introduction?: string | null | undefined, description?: string | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, lecture?: Array<{ __typename?: 'ComponentLecturesLectures', id: string, title?: string | null | undefined, date?: any | null | undefined, video?: string | null | undefined, notes?: string | null | undefined, duration?: number | null | undefined, progress?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined };
+
+export type QuestionAndAnswersQueryVariables = Exact<{
+  filters?: InputMaybe<QuestionAndAnswerFiltersInput>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+
+export type QuestionAndAnswersQuery = { __typename?: 'Query', questionAndAnswers?: { __typename?: 'QuestionAndAnswerEntityResponseCollection', data: Array<{ __typename?: 'QuestionAndAnswerEntity', id?: string | null | undefined, attributes?: { __typename?: 'QuestionAndAnswer', title?: string | null | undefined, question?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, img?: string | null | undefined, slug: string } | null | undefined } | null | undefined } | null | undefined, course?: { __typename?: 'CourseEntityResponse', data?: { __typename?: 'CourseEntity', id?: string | null | undefined } | null | undefined } | null | undefined, comments?: { __typename?: 'CommentRelationResponseCollection', data: Array<{ __typename?: 'CommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'Comment', body: string, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type RecentCoursesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
@@ -2937,7 +3181,7 @@ export type RecentCoursesQueryVariables = Exact<{
 }>;
 
 
-export type RecentCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration: string, updatedAt?: any | null | undefined, image?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type RecentCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration: string, image?: string | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined };
 
 export type NotificationsQueryVariables = Exact<{
   filters?: InputMaybe<NotificationFiltersInput>;
@@ -2989,7 +3233,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', usersPermissionsUsers?: { __typename?: 'UsersPermissionsUserEntityResponseCollection', data: Array<{ __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, description?: string | null | undefined, location?: string | null | undefined, createdAt?: any | null | undefined, backgroundImg?: string | null | undefined, img?: string | null | undefined, posts?: { __typename?: 'PostRelationResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null | undefined, attributes?: { __typename?: 'Post', title?: string | null | undefined, slug?: string | null | undefined, points?: number | null | undefined, total_comments?: number | null | undefined, body?: string | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined, student?: { __typename?: 'StudentEntityResponse', data?: { __typename?: 'StudentEntity', id?: string | null | undefined, attributes?: { __typename?: 'Student', courseCount?: number | null | undefined, courses?: { __typename?: 'CourseRelationResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, image?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type GetUserQuery = { __typename?: 'Query', usersPermissionsUsers?: { __typename?: 'UsersPermissionsUserEntityResponseCollection', data: Array<{ __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, description?: string | null | undefined, location?: string | null | undefined, createdAt?: any | null | undefined, backgroundImg?: string | null | undefined, img?: string | null | undefined, posts?: { __typename?: 'PostRelationResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null | undefined, attributes?: { __typename?: 'Post', title?: string | null | undefined, slug?: string | null | undefined, points?: number | null | undefined, total_comments?: number | null | undefined, body?: string | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined, student?: { __typename?: 'StudentEntityResponse', data?: { __typename?: 'StudentEntity', id?: string | null | undefined, attributes?: { __typename?: 'Student', courseCount?: number | null | undefined, courses?: { __typename?: 'CourseRelationResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, image?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type MeQueryVariables = Exact<{
   usersPermissionsUserId?: InputMaybe<Scalars['ID']>;
@@ -4071,19 +4315,11 @@ export const CourseDocument = gql`
         duration
         description
         notes
-        githubLink
         level
         price
         soloPrice
         isFree
-        image {
-          data {
-            id
-            attributes {
-              url
-            }
-          }
-        }
+        image
         startDate
         endDate
         totalStudents
@@ -4158,14 +4394,7 @@ export const CoursesDocument = gql`
         price
         soloPrice
         isFree
-        image {
-          data {
-            id
-            attributes {
-              url
-            }
-          }
-        }
+        image
       }
     }
   }
@@ -4211,14 +4440,7 @@ export const GetCoursesByUserIdDocument = gql`
         level
         isFree
         duration
-        image {
-          data {
-            id
-            attributes {
-              url
-            }
-          }
-        }
+        image
       }
     }
   }
@@ -4254,83 +4476,36 @@ export function useGetCoursesByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type GetCoursesByUserIdQueryHookResult = ReturnType<typeof useGetCoursesByUserIdQuery>;
 export type GetCoursesByUserIdLazyQueryHookResult = ReturnType<typeof useGetCoursesByUserIdLazyQuery>;
 export type GetCoursesByUserIdQueryResult = Apollo.QueryResult<GetCoursesByUserIdQuery, GetCoursesByUserIdQueryVariables>;
-export const LectureDocument = gql`
-    query Lecture($lectureId: ID, $sort: [String], $pagination: PaginationArg) {
-  lecture(id: $lectureId) {
-    data {
-      id
-      attributes {
-        title
-        slug
-        videoUrl
-        description
-        video {
-          data {
-            id
-            attributes {
-              url
-              previewUrl
-            }
-          }
-        }
-        updatedAt
-        files(sort: $sort, pagination: $pagination) {
-          data {
-            id
-            attributes {
-              url
-              previewUrl
-            }
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useLectureQuery__
- *
- * To run a query within a React component, call `useLectureQuery` and pass it any options that fit your needs.
- * When your component renders, `useLectureQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLectureQuery({
- *   variables: {
- *      lectureId: // value for 'lectureId'
- *      sort: // value for 'sort'
- *      pagination: // value for 'pagination'
- *   },
- * });
- */
-export function useLectureQuery(baseOptions?: Apollo.QueryHookOptions<LectureQuery, LectureQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LectureQuery, LectureQueryVariables>(LectureDocument, options);
-      }
-export function useLectureLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LectureQuery, LectureQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LectureQuery, LectureQueryVariables>(LectureDocument, options);
-        }
-export type LectureQueryHookResult = ReturnType<typeof useLectureQuery>;
-export type LectureLazyQueryHookResult = ReturnType<typeof useLectureLazyQuery>;
-export type LectureQueryResult = Apollo.QueryResult<LectureQuery, LectureQueryVariables>;
 export const LecturesDocument = gql`
-    query Lectures($sort: [String], $pagination: PaginationArg, $filters: LectureFiltersInput) {
-  lectures(sort: $sort, pagination: $pagination, filters: $filters) {
+    query Lectures($filters: CourseFiltersInput, $sort: [String], $pagination: PaginationArg) {
+  courses(filters: $filters) {
     data {
       id
       attributes {
-        slug
         title
+        slug
+        introduction
         description
-        createdAt
-        updatedAt
-        publishedAt
-        videoUrl
+        teacher {
+          data {
+            id
+            attributes {
+              fullName
+              image
+              title
+              url
+            }
+          }
+        }
+        lecture(sort: $sort, pagination: $pagination) {
+          id
+          title
+          date
+          video
+          notes
+          duration
+          progress
+        }
       }
     }
   }
@@ -4349,9 +4524,9 @@ export const LecturesDocument = gql`
  * @example
  * const { data, loading, error } = useLecturesQuery({
  *   variables: {
+ *      filters: // value for 'filters'
  *      sort: // value for 'sort'
  *      pagination: // value for 'pagination'
- *      filters: // value for 'filters'
  *   },
  * });
  */
@@ -4366,6 +4541,86 @@ export function useLecturesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<L
 export type LecturesQueryHookResult = ReturnType<typeof useLecturesQuery>;
 export type LecturesLazyQueryHookResult = ReturnType<typeof useLecturesLazyQuery>;
 export type LecturesQueryResult = Apollo.QueryResult<LecturesQuery, LecturesQueryVariables>;
+export const QuestionAndAnswersDocument = gql`
+    query QuestionAndAnswers($filters: QuestionAndAnswerFiltersInput, $sort: [String], $pagination: PaginationArg) {
+  questionAndAnswers(filters: $filters, sort: $sort, pagination: $pagination) {
+    data {
+      id
+      attributes {
+        title
+        question
+        updatedAt
+        user {
+          data {
+            id
+            attributes {
+              username
+              fullName
+              img
+              slug
+            }
+          }
+        }
+        course {
+          data {
+            id
+          }
+        }
+        comments {
+          data {
+            id
+            attributes {
+              body
+              updatedAt
+              user {
+                data {
+                  id
+                  attributes {
+                    username
+                    fullName
+                    slug
+                    img
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useQuestionAndAnswersQuery__
+ *
+ * To run a query within a React component, call `useQuestionAndAnswersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQuestionAndAnswersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQuestionAndAnswersQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      sort: // value for 'sort'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useQuestionAndAnswersQuery(baseOptions?: Apollo.QueryHookOptions<QuestionAndAnswersQuery, QuestionAndAnswersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QuestionAndAnswersQuery, QuestionAndAnswersQueryVariables>(QuestionAndAnswersDocument, options);
+      }
+export function useQuestionAndAnswersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QuestionAndAnswersQuery, QuestionAndAnswersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QuestionAndAnswersQuery, QuestionAndAnswersQueryVariables>(QuestionAndAnswersDocument, options);
+        }
+export type QuestionAndAnswersQueryHookResult = ReturnType<typeof useQuestionAndAnswersQuery>;
+export type QuestionAndAnswersLazyQueryHookResult = ReturnType<typeof useQuestionAndAnswersLazyQuery>;
+export type QuestionAndAnswersQueryResult = Apollo.QueryResult<QuestionAndAnswersQuery, QuestionAndAnswersQueryVariables>;
 export const RecentCoursesDocument = gql`
     query RecentCourses($pagination: PaginationArg, $sort: [String]) {
   courses(pagination: $pagination, sort: $sort) {
@@ -4375,14 +4630,7 @@ export const RecentCoursesDocument = gql`
         slug
         title
         duration
-        image {
-          data {
-            id
-            attributes {
-              url
-            }
-          }
-        }
+        image
         updatedAt
       }
     }
@@ -4760,14 +5008,7 @@ export const GetUserDocument = gql`
                   attributes {
                     slug
                     title
-                    image {
-                      data {
-                        id
-                        attributes {
-                          url
-                        }
-                      }
-                    }
+                    image
                   }
                 }
               }

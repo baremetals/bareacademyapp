@@ -26,7 +26,7 @@ const StyledButton = styled.button`
   box-shadow: 0px 2px 80px rgb(66 66 66 / 8%);
   transition: all 0.2s ease-in-out;
   position: relative;
-  &:disabled{
+  &:disabled {
     pointer-events: none;
   }
   @media (max-width: 991px) {
