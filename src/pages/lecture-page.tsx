@@ -15,140 +15,12 @@ import {
   Chat,
 } from "components/LecturePage";
 import Dashboard from "components/Dashboard";
-
-const course = {
-  id: "12d3fd35dsfs21",
-  tutor: {
-    fullName: "Lana Marandina",
-    title: "Course tutor",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80",
-    url: "#",
-  },
-  title:
-    "Learning How To Create a Beautiful Scene in Illustrator in 80 minutes",
-  description:
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-  achievements: [
-    {
-      type: "points",
-      number: 1800,
-    },
-    {
-      type: "progress",
-      number: 45.3,
-    },
-    {
-      type: "level-up",
-      number: 26,
-    },
-    {
-      type: "level-up",
-      number: 26,
-    },
-  ],
-  lectures: [
-    {
-      title: "Introduction",
-      duration: 204,
-      progress: 1,
-      description:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-    },
-    {
-      title: "Getting started",
-      duration: 595,
-      progress: 0.75,
-      description:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-    },
-    {
-      title: "The Illustration",
-      duration: 3768,
-      progress: 0,
-      description:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-    },
-    {
-      title: "The Conception",
-      duration: 5268,
-      progress: 0,
-      description:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-    },
-    {
-      title: "The Process",
-      duration: 8668,
-      progress: 0,
-      description:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-    },
-  ],
-  video: {
-    url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-  },
-  reviews: [
-    {
-      user: {
-        name: "John Doe",
-        img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        url: "#",
-      },
-      message:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-      rating: 5,
-      time: "2022-07-10T20:55:43.537Z",
-    },
-    {
-      user: {
-        name: "Jane Doe",
-        img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        url: "#",
-      },
-      message:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-      rating: 2,
-      time: "2022-07-12T16:44:04.478Z",
-    },
-  ],
-  qna: [
-    {
-      user: {
-        name: "John Doe",
-        img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        url: "#",
-      },
-      title: "How to use the app?",
-      message:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-      time: "2022-07-10T20:55:43.537Z",
-      comments: [],
-      votes: 0,
-      voted: false,
-      url: "#",
-    },
-    {
-      user: {
-        name: "Jane Doe",
-        img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-        url: "#",
-      },
-      title: "How to install the app?",
-      message:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit, nostrum quos. Ut aut, sed modi iste distinctio quam unde suscipit culpa aliquam aliquid dolore fugiat doloremque repellat sit recusandae magnam?",
-      time: "2022-07-10T20:55:43.537Z",
-      comments: [],
-      votes: 20,
-      voted: true,
-      url: "#",
-    },
-  ],
-};
+import course from "components/LecturePage/assets/course.json";
 
 type Props = {};
 
 const LecturePage = (props: Props) => {
-  const activeLecture = useState(0)[0];
-  // const [activeLecture, setActiveLecture] = useState(0);
+  const [activeLecture, setActiveLecture] = useState(0);
 
   return (
     <Dashboard>
@@ -161,26 +33,34 @@ const LecturePage = (props: Props) => {
               description={course.description}
             />
             <Achievements data={course.achievements} />
-            <Lectures data={course.lectures} />
+            <Lectures
+              data={course.lectures}
+              openLecture={activeLecture}
+              setOpenLecture={setActiveLecture}
+            />
           </div>
           <div className={classNames(styles.col, styles.col2)}>
-            <CourseVideo video={course.video} />
-            <LectureTabsContainer activeTab={0}>
-              <LectureTab title="Description">
-                <LectureDescription
-                  description={course.lectures[activeLecture].description}
-                />
-              </LectureTab>
-              <LectureTab title="Reviews">
-                <Reviews data={course.reviews} />
-              </LectureTab>
-              <LectureTab title="Group chat">
-                <Chat courseId={course.id} />
-              </LectureTab>
-              <LectureTab title="Q&A">
-                <QNA data={course.qna} />
-              </LectureTab>
-            </LectureTabsContainer>
+            {course.lectures[activeLecture] && (
+              <>
+                <CourseVideo video={course.lectures[activeLecture].video} />
+                <LectureTabsContainer activeTab={0}>
+                  <LectureTab title="Description">
+                    <LectureDescription
+                      description={course.lectures[activeLecture].description}
+                    />
+                  </LectureTab>
+                  <LectureTab title="Reviews">
+                    <Reviews data={course.lectures[activeLecture].reviews} />
+                  </LectureTab>
+                  <LectureTab title="Group chat">
+                    <Chat courseId={course.lectures[activeLecture].id} />
+                  </LectureTab>
+                  <LectureTab title="Q&A">
+                    <QNA data={course.lectures[activeLecture].qna} />
+                  </LectureTab>
+                </LectureTabsContainer>
+              </>
+            )}
           </div>
         </div>
       </div>
