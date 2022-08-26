@@ -1,19 +1,36 @@
 query Lectures(
+  $filters: CourseFiltersInput
   $sort: [String]
   $pagination: PaginationArg
-  $filters: LectureFiltersInput
 ) {
-  lectures(sort: $sort, pagination: $pagination, filters: $filters) {
+  courses(filters: $filters) {
     data {
       id
       attributes {
-        slug
         title
+        slug
+        introduction
         description
-        createdAt
-        updatedAt
-        publishedAt
-        videoUrl
+        teacher {
+          data {
+            id
+            attributes {
+              fullName
+              image
+              title
+              url
+            }
+          }
+        }
+        lecture(sort: $sort, pagination: $pagination) {
+          id
+          title
+          date
+          video
+          notes
+          duration
+          progress
+        }
       }
     }
   }

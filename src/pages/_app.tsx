@@ -7,15 +7,17 @@ import store from "../app/store";
 import Head from "next/head";
 import nprogress from "nprogress";
 import Router from "next/router";
-// import SocketsProvider from "../context/socket.context";
+import SocketsProvider from "../context/socket.context";
 import { darkTheme } from "../styles/theme";
 import { useApollo } from "../lib/apolloClient";
 import { analytics, logEvent } from "lib/admin";
+import { useSockets } from "context/socket.context";
 
 import "../styles/globals.css";
 import "nprogress/nprogress.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { socket } = useSockets();
   const startLoading = () => {
     if (typeof window !== "undefined") {
       nprogress.start();
@@ -36,6 +38,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   useEffect(() => {
+    socket.connect();
+      
+
     nprogress.configure({ showSpinner: false });
     Router.events.on("routeChangeStart", startLoading);
     Router.events.on("routeChangeComplete", stopLoading);
@@ -74,9 +79,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={darkTheme}>
-            {/* <SocketsProvider> */}
+            <SocketsProvider>
             <Component {...pageProps} />
-            {/* </SocketsProvider> */}
+            </SocketsProvider>
           </ThemeProvider>
         </ApolloProvider>
       </Provider>

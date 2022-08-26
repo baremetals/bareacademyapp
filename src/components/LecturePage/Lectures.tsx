@@ -4,15 +4,30 @@ import styles from "../../styles/LecturePage/Lectures.module.css";
 import classNames from "classnames";
 import durationToString from "helpers/durationToString";
 
+// import {
+//   // Lectures,
+//   CourseVideo,
+//   LectureTabsContainer,
+//   LectureTab,
+//   LectureDescription,
+//   Reviews,
+//   QNA,
+//   Chat,
+// } from "components/LecturePage";
+
 type Props = {
   data: Array<{
+    id: string;
     title: string;
+    notes: string;
+    video: string;
     duration: number;
     progress: number;
   }>;
   setOpenLecture: (index: number) => void;
   openLecture: number;
 };
+
 
 const ProgressIcon = (props: { progress: number; size: number }) => {
   const { progress, size } = props;
@@ -90,6 +105,7 @@ const Lectures = (props: Props) => {
               [styles.openLecture]: index === openLecture,
             })}
             key={index}
+            onClick={() => lecture.id}
           >
             <div className={styles.lectureNumberTitleDuration}>
               <div className={styles.lectureNumber}>{index + 1}</div>
