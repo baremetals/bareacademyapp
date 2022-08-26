@@ -47,23 +47,12 @@
 }
 
 .lecture {
-  cursor: pointer;
   background: var(--foreground);
   width: 100%;
   padding: 20px;
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
-  transition: border 0.2s ease;
-  border: 1px solid transparent;
-}
-
-.openLecture {
-  border: 1px solid var(--primary);
-}
-
-.lecture:hover {
-  border-color: var(--primary) !important;
 }
 
 .lecture + .lecture {

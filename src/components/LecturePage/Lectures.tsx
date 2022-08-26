@@ -101,7 +101,6 @@ const Lectures = (props: Props) => {
                 [styles.openLecture]: index === openLecture,
               })}
               key={index}
-              // onClick={() => lecture.id}
             >
               <div className={styles.lectureNumberTitleDuration}>
                 <div className={styles.lectureNumber}>{index + 1}</div>
