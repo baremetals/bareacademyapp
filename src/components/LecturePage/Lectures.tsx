@@ -2,7 +2,6 @@ import React from "react";
 import { FiCheck, FiClock } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Lectures.module.css";
 import classNames from "classnames";
-import durationToString from "helpers/durationToString";
 
 // import {
 //   // Lectures,
@@ -24,8 +23,6 @@ type Props = {
     duration: number;
     progress: number;
   }>;
-  setOpenLecture: (index: number) => void;
-  openLecture: number;
 };
 
 
@@ -75,8 +72,16 @@ ProgressIcon.defaultProps = {
 };
 
 const Lectures = (props: Props) => {
-  const { data, setOpenLecture, openLecture } = props;
+  const { data } = props;
   const totalDuration = data.reduce((acc, cur) => acc + cur.duration, 0);
+
+  const durationToString = (duration: number) => {
+    const minutes = Math.floor(duration / 60);
+    const seconds = Math.floor(duration % 60);
+    const minutesString = minutes > 0 ? `${minutes} min, ` : "";
+    const secondsString = seconds > 0 ? `${seconds} sec` : "";
+    return `${minutesString}${secondsString}`;
+  };
 
   return (
     <div className={styles.Lectures}>
@@ -96,13 +101,11 @@ const Lectures = (props: Props) => {
       <div className={styles.lecturesContainer}>
         {data.map((lecture, index) => (
           <div
-            onClick={() => setOpenLecture(index)}
             className={classNames(styles.lecture, {
               [styles.lectureActive]:
                 lecture.progress < 1 && lecture.progress > 0,
               [styles.lectureCompleted]: lecture.progress === 1,
               [styles.lectureNotStarted]: lecture.progress === 0,
-              [styles.openLecture]: index === openLecture,
             })}
             key={index}
             onClick={() => lecture.id}
