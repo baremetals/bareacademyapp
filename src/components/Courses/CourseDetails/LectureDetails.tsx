@@ -163,6 +163,8 @@ function LectureDetails(props: { props: CourseEntity }) {
   const teacher = lect?.attributes?.teacher?.data as Maybe<TeacherEntity>;
   const lecture = lect?.attributes?.lecture || [];
   const activeLecture =  parseInt(id as string)
+
+  const [activeLectures, setActiveLectures] = useState(0);
   // console.log(activeLecture);
   // console.log(lecture );
 
@@ -183,7 +185,11 @@ function LectureDetails(props: { props: CourseEntity }) {
                 />
                 {/* <Achievements data={course.achievements} /> */}
                 <div>
-                  <Lectures data={lecture} />
+                  <Lectures
+                    data={lecture}
+                    openLecture={activeLectures}
+                    setOpenLecture={setActiveLectures}
+                  />
                 </div>
               </div>
               <div className={classNames(styles.col, styles.col2)}>

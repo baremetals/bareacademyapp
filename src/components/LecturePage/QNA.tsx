@@ -135,7 +135,7 @@ const QNA = (props: IdType) => {
   // console.log(result);
   const { user: user } = useAppSelector(isUser);
 
-   const [showInput, setShowInput] = React.useState(false);
+  const [showInput, setShowInput] = React.useState(false);
   
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
