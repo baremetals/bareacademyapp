@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React, { useState} from "react";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 // import dynamic from "next/dynamic";
 // import Markdown from "markdown-to-jsx";
 import styles from "styles/LecturePage/index.module.css";
@@ -19,7 +19,7 @@ import {
   Chat,
 } from "components/LecturePage";
 
-import { LectureEntity } from "generated/graphql";
+import { CourseEntity, Maybe, TeacherEntity } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 
@@ -154,24 +154,17 @@ const course = {
   ],
 };
 
-function LectureDetails(props: { props: LectureEntity }) {
-  // const activeLecture = useState(1)[0];
-  // const router = useRouter();
-  //   const { slug } = router.query;
-  
+function LectureDetails(props: { props: CourseEntity }) {
+  const router = useRouter();
+  const { id } = router.query;
+  // console.log(id);
   const lect = props?.props;
   const { user: user } = useAppSelector(isUser);
-  // console.log(lect?.attributes?.lecture);
-  const teacher = lect?.attributes?.teacher?.data;
-  const lecture = lect?.attributes?.lecture;
-
-  const [activeLecture, setActiveLecture] = useState([0])[0];
+  const teacher = lect?.attributes?.teacher?.data as Maybe<TeacherEntity>;
+  const lecture = lect?.attributes?.lecture || [];
+  const activeLecture =  parseInt(id as string)
   // console.log(activeLecture);
-  // console.log(lecture[0]);
-
-  const makeLectureActive = () => {
-    setActiveLecture()
-  }
+  // console.log(lecture );
 
   return (
     <>
@@ -185,8 +178,8 @@ function LectureDetails(props: { props: LectureEntity }) {
               <div className={classNames(styles.col, styles.col1)}>
                 <Tutor tutor={teacher?.attributes} />
                 <TitleDescription
-                  title={lect?.attributes?.title}
-                  description={lect?.attributes?.introduction}
+                  title={lect?.attributes?.title as string}
+                  description={lect?.attributes?.introduction as string}
                 />
                 {/* <Achievements data={course.achievements} /> */}
                 <div>
@@ -196,20 +189,22 @@ function LectureDetails(props: { props: LectureEntity }) {
               <div className={classNames(styles.col, styles.col2)}>
                 <CourseVideo
                   // video={course.video}
-                  video={lecture[activeLecture].video}
+                  video={lecture[id ? activeLecture : 0]?.video as string}
                 />
                 <LectureTabsContainer activeTab={0}>
                   <LectureTab title="Description">
-                    <LectureDescription notes={lecture[activeLecture].notes} />
+                    <LectureDescription
+                      notes={lecture[id ? activeLecture : 0]?.notes as string}
+                    />
                   </LectureTab>
                   <LectureTab title="Reviews">
-                    <Reviews data={course.reviews} />
+                    <Reviews id={lect?.id as string} />
                   </LectureTab>
                   <LectureTab title="Group chat">
                     <Chat courseId={course.id} />
                   </LectureTab>
                   <LectureTab title="Q&A">
-                    <QNA data={course.qna} />
+                    <QNA id={lect?.id as string} />
                   </LectureTab>
                 </LectureTabsContainer>
               </div>

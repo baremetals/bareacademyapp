@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import axios from "axios";
+import Markdown from "markdown-to-jsx";
 import { useForm } from "react-hook-form";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
@@ -47,30 +48,30 @@ import { QuestionAndAnswersDocument } from 'generated/graphql';
 
 
 
-type Props = {
-  data: Array<{
-    user: {
-      name: string;
-      img: string;
-      url: string;
-    };
-    title: string;
-    question: string;
-    votes: number;
-    voted: boolean;
-    time: string;
-    comments: Array<{
-      user: {
-        name: string;
-        img: string;
-        url: string;
-      };
-      message: string;
-      time: string;
-    }>;
-    url: string;
-  }>;
-};
+// type Props = {
+//   data: Array<{
+//     user: {
+//       name: string;
+//       img: string;
+//       url: string;
+//     };
+//     title: string;
+//     question: string;
+//     votes: number;
+//     voted: boolean;
+//     time: string;
+//     comments: Array<{
+//       user: {
+//         name: string;
+//         img: string;
+//         url: string;
+//       };
+//       message: string;
+//       time: string;
+//     }>;
+//     url: string;
+//   }>;
+// };
 
 const renderTime = (time: string) => {
   const date = new Date(time);
@@ -105,11 +106,15 @@ export type FormInput = {
   id?: string;
 };
 
-const QNA = (props: Props) => {
+type IdType = {
+  id: string;
+}
+
+const QNA = (props: IdType) => {
   const router = useRouter();
   const { slug } = router.query;
-  // const { data } = props;
-  const data = []
+  const { id } = props;
+  // const data = []
   const { refetch, ...result } = useQuery(QuestionAndAnswersDocument, {
     variables: {
       filters: {
@@ -121,19 +126,18 @@ const QNA = (props: Props) => {
       },
       pagination: {
         start: 0,
-        limit: 4,
+        limit: 6,
       },
       sort: "updatedAt:desc",
     },
   });
-  const comments: any = result.data?.comments.data;
-  console.log(slug)
+  const data: any = result.data?.questionAndAnswers?.data || [];
+  // console.log(result);
   const { user: user } = useAppSelector(isUser);
-  const [showInput, setShowInput] = React.useState(
-    Array(data.length).fill(false)
-  );
-  const [input, setInput] = React.useState(Array(data.length).fill(""));
-  const [showModal, setShowModal] = useState(false)
+
+   const [showInput, setShowInput] = React.useState(false);
+  
+  const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [msg, setMsg] = useState("");
@@ -148,10 +152,12 @@ const QNA = (props: Props) => {
     EditorState.createEmpty()
   );
   const [content, setContent] = useState<string>("");
+  const [body, setBody] = useState<string>("");
+  
 
-  useEffect(() => {
-    console.log(showInput);
-  }, [showInput]);
+  // useEffect(() => {
+  //   console.log(showInput);
+  // }, [showInput]);
 
   const onSubmit = async (info: FormInput) => {
     console.log(info);
@@ -159,16 +165,18 @@ const QNA = (props: Props) => {
     // setShowModal(false);
 
     await axios
-      .post("/api/posts", {
+      .post("/api/course/qna", {
         data: {
           title: info.title,
           question: info.body,
           user: user?.id as string,
-          course: "1",
+          course: id,
           publishedAt: new Date(),
         },
       })
       .then(() => {
+        console.log("Question created successfully");
+        refetch();
         setShowModal(false);
         setMsg("Question created successfully");
         setSuccess(true);
@@ -182,47 +190,83 @@ const QNA = (props: Props) => {
       });
   };
 
+  const onSubmitComment = async () => {
+    console.log(body);
+    await axios
+      .post("/api/course/comments", {
+        data: {
+          body,
+          user: user?.id as string,
+          course: id,          
+          publishedAt: new Date(),
+        },
+      })
+      .then(() => {
+        refetch();
+        setShowModal(false);
+        setMsg("Comment created successfully");
+        setSuccess(true);
+        setShowInput(!showInput);
+        setBody("");
+      })
+      .catch((_err) => {
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 10000);
+      });
+  };
+
   return (
     <div className={styles.QNATab}>
-      <button onClick={() => setShowModal(true)}>
-        Ask a question
-      </button>
+      <button onClick={() => setShowModal(true)}>Ask a question</button>
       <br />
       <br />
       <div className={styles.qnas}>
-        {data.map((qna, index) => {
+        {data.map((qna: { attributes: { user: { data: { attributes: { slug: string; img: string; username: string }; }; }; title: string; updatedAt: string; question: string; comments: { data: string | any[]; }; }; }, id: number) => {
           return (
-            <div className={styles.qnaContainer} key={index}>
+            <div className={styles.qnaContainer} key={id}>
               <div className={styles.qna}>
                 <div className={styles.qnaContent}>
-                  <Link href={`${qna.user.url}`}>
+                  <Link
+                    href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
+                  >
                     <a>
                       <div
                         className={styles.qnaUserPic}
                         style={{
-                          backgroundImage: `url(${qna.user.img})`,
+                          backgroundImage: `url(${qna?.attributes?.user?.data?.attributes?.img})`,
                         }}
                       ></div>
                     </a>
                   </Link>
                   <div className={styles.qnaDetails}>
-                    <Link href={`${qna.url}`}>
-                      <a className={styles.qnaTitle}>{qna.title}</a>
+                    <Link
+                      href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
+                    >
+                      <a className={styles.qnaTitle}>
+                        {qna?.attributes?.title}
+                      </a>
                     </Link>
                     <div className={styles.qnaUsernameTimestamp}>
-                      <Link href={`${qna.user.url}`}>
+                      <Link
+                        href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
+                      >
                         <a>
                           <div className={styles.qnaUsername}>
-                            {qna.user.name}
+                            {qna?.attributes?.user?.data?.attributes?.username}
                           </div>
                         </a>
                       </Link>
                       <div className={styles.dot}></div>
                       <div className={styles.qnaTimestamp}>
-                        {renderTime(qna.time)}
+                        {renderTime(qna?.attributes?.updatedAt)}
                       </div>
                     </div>
-                    <div className={styles.qnaMessage}>{qna.question}</div>
+                    <div className={styles.qnaMessage}>
+                      <Markdown>{qna?.attributes?.question}</Markdown>
+                    </div>
                   </div>
                 </div>
                 <div className={styles.qnaInteractions}>
@@ -239,39 +283,31 @@ const QNA = (props: Props) => {
                       styles.interaction,
                       styles.qnaComments
                     )}
-                    onClick={() =>
-                      setShowInput(
-                        showInput.map((item, i) => (index === i ? !item : item))
-                      )
-                    }
+                    onClick={() => setShowInput(!showInput)}
                   >
                     <FiMessageSquare size={20} />
-                    <span>{qna.comments.length}</span>
+                    <span>{qna?.attributes?.comments?.data.length}</span>
                   </div>
                 </div>
               </div>
-              {showInput[index] && (
-                <div className={styles.qnaCommentInput}>
+              {showInput && (
+                <form className={styles.qnaCommentInput}>
                   <TextareaAutosize
                     className={styles.qnaCommentTextarea}
                     rows={1}
                     placeholder="Write a comment..."
-                    value={input[index]}
-                    onChange={(e) =>
-                      setInput(
-                        input.map((item, i) =>
-                          index === i ? e.target.value : item
-                        )
-                      )
-                    }
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
                   />
                   <button
-                    disabled={input[index].length === 0}
+                    type="button"
+                    onClick={() => onSubmitComment()}
+                    disabled={!showInput}
                     className={styles.qnaCommentSubmit}
                   >
                     <FiSend size={20} />
                   </button>
-                </div>
+                </form>
               )}
             </div>
           );

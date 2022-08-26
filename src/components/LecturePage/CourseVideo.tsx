@@ -352,9 +352,7 @@ const CourseVideo = (props: CourseVideoProps) => {
         />
       </div>
       <div className={styles.videoContainer} onClick={handleClickAndDbClick}>
-        {video?.split("\n").map((line, index) => {
-          
-          // <Markdown key={index}>{line}</Markdown>;
+        {video?.split("\n").map((line, id) => {
 
           return <ReactPlayer
             ref={reactPlayerRef}
@@ -369,7 +367,7 @@ const CourseVideo = (props: CourseVideoProps) => {
             onDuration={handleDuration}
             onProgress={handleProgress}
             className={styles.zbi}
-            key={index}
+            key={id}
           />;
         })}
       </div>

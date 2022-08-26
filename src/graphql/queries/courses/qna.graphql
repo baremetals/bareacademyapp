@@ -1,9 +1,9 @@
 query QuestionAndAnswers(
   $filters: QuestionAndAnswerFiltersInput
-  $sort: [String]
   $pagination: PaginationArg
+  $sort: [String]
 ) {
-  questionAndAnswers(filters: $filters, sort: $sort, pagination: $pagination) {
+  questionAndAnswers(filters: $filters, pagination: $pagination, sort: $sort) {
     data {
       id
       attributes {
@@ -16,14 +16,9 @@ query QuestionAndAnswers(
             attributes {
               username
               fullName
-              img
               slug
+              img
             }
-          }
-        }
-        course {
-          data {
-            id
           }
         }
         comments {

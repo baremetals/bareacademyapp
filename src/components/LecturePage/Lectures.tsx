@@ -2,6 +2,8 @@ import React from "react";
 import { FiCheck, FiClock } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Lectures.module.css";
 import classNames from "classnames";
+import Link from 'next/link';
+import { useRouter } from "next/router";
 
 // import {
 //   // Lectures,
@@ -75,6 +77,10 @@ const Lectures = (props: Props) => {
   const { data } = props;
   const totalDuration = data.reduce((acc, cur) => acc + cur.duration, 0);
 
+  const router = useRouter();
+  const { slug } = router.query;
+  // console.log(slug);
+
   const durationToString = (duration: number) => {
     const minutes = Math.floor(duration / 60);
     const seconds = Math.floor(duration % 60);
@@ -100,34 +106,36 @@ const Lectures = (props: Props) => {
       </div>
       <div className={styles.lecturesContainer}>
         {data.map((lecture, index) => (
-          <div
-            className={classNames(styles.lecture, {
-              [styles.lectureActive]:
-                lecture.progress < 1 && lecture.progress > 0,
-              [styles.lectureCompleted]: lecture.progress === 1,
-              [styles.lectureNotStarted]: lecture.progress === 0,
-            })}
-            key={index}
-            onClick={() => lecture.id}
-          >
-            <div className={styles.lectureNumberTitleDuration}>
-              <div className={styles.lectureNumber}>{index + 1}</div>
-              <div className={styles.lectureTitleDuration}>
-                <div className={styles.lectureTitle}>{lecture.title}</div>
-                <div className={styles.lectureDuration}>
-                  <div className={styles.lectureDurationIcon}>
-                    <FiClock size={12} />
-                  </div>
-                  <div className={styles.lectureDurationText}>
-                    {durationToString(lecture.duration)}
+          <Link href={`/courses/${slug}/lectures?id=${index}`} key={index}>
+            <div
+              className={classNames(styles.lecture, {
+                [styles.lectureActive]:
+                  lecture.progress < 1 && lecture.progress > 0,
+                [styles.lectureCompleted]: lecture.progress === 1,
+                [styles.lectureNotStarted]: lecture.progress === 0,
+              })}
+              key={index}
+              onClick={() => lecture.id}
+            >
+              <div className={styles.lectureNumberTitleDuration}>
+                <div className={styles.lectureNumber}>{index + 1}</div>
+                <div className={styles.lectureTitleDuration}>
+                  <div className={styles.lectureTitle}>{lecture.title}</div>
+                  <div className={styles.lectureDuration}>
+                    <div className={styles.lectureDurationIcon}>
+                      <FiClock size={12} />
+                    </div>
+                    <div className={styles.lectureDurationText}>
+                      {durationToString(lecture.duration)}
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className={styles.lectureProgress}>
+                <ProgressIcon progress={lecture.progress} />
+              </div>
             </div>
-            <div className={styles.lectureProgress}>
-              <ProgressIcon progress={lecture.progress} />
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
