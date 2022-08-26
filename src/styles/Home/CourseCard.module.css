@@ -1,0 +1,101 @@
+.CourseCard {
+  width: 33%;
+  aspect-ratio: 1 / 0.9;
+  border-radius: 20px;
+  padding: 5px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.CourseCard:nth-child(3n + 1) {
+  background: #70367c;
+}
+
+.CourseCard:nth-child(3n + 2) {
+  background: #95cfd5;
+}
+
+.CourseCard:nth-child(3n + 0) {
+  background: #f7b733;
+}
+
+.img {
+  width: 100%;
+  height: 60%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 15px 15px 0 0;
+  position: relative;
+}
+
+.imgOverlay {
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.CourseCard:nth-child(3n + 1) .imgOverlay {
+  background: linear-gradient(to top, #70367c, rgba(0, 0, 0, 0));
+}
+
+.CourseCard:nth-child(3n + 2) .imgOverlay {
+  background: linear-gradient(to top, #95cfd5, rgba(0, 0, 0, 0));
+}
+
+.CourseCard:nth-child(3n + 0) .imgOverlay {
+  background: linear-gradient(to top, #f7b733, rgba(0, 0, 0, 0));
+}
+
+.CourseCardTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  padding: 10px;
+}
+
+.CourseCardThreeDots {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: red;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.CourseCardThreeDots:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.CourseCardDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  justify-self: flex-end;
+}
+
+.CourseCardRating,
+.CourseCardDuration {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.CourseCardRating span,
+.CourseCardDuration span {
+  margin-left: 5px;
+}

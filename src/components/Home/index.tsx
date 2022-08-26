@@ -1,12 +1,17 @@
-import React from 'react'
-import { BlogCardBody, BlogCardImage, BlogCardTitle, PageWrapper } from 'styles/common.styles'
-import Dashboard from '../Dashboard'
+import React from "react";
+import {
+  BlogCardBody,
+  BlogCardImage,
+  BlogCardTitle,
+  PageWrapper,
+} from "styles/common.styles";
+import Dashboard from "../Dashboard";
 
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
-import RightSideBar from 'components/Dashboard/RightSideBar';
-import AdCardThree from 'components/AdCards/AdCardThree';
-import { CourseEntityResponseCollection } from 'generated/graphql';
+import RightSideBar from "components/Dashboard/RightSideBar";
+import AdCardThree from "components/AdCards/AdCardThree";
+import { CourseEntityResponseCollection } from "generated/graphql";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
@@ -25,8 +30,48 @@ import {
   ProfileWrapGroup,
   // PageWrapper,
 } from "../../styles/common.styles";
-import Link from 'next/link';
-import Footer from 'components/Footer';
+import Link from "next/link";
+import Footer from "components/Footer";
+import styles from "../../styles/Home/index.module.css";
+import CourseCard from "./CourseCard";
+import ArticleEntry from "./ArticleEntry";
+import TakeQuizDialog from "./TakeQuizDialog";
+
+const testCourses = [
+  {
+    title: "Web development",
+    duration: 204,
+    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80",
+    rating: 4.5,
+  },
+  {
+    title: "Mobile app design",
+    duration: 595,
+    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80",
+    rating: 4,
+  },
+  {
+    title: "Facebook brand UI kit",
+    duration: 225,
+    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80",
+    rating: 4.5,
+  },
+];
+
+const articles = [
+  {
+    title: "Web development",
+    overview: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    title: "Mobile app design",
+    overview: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    title: "Facebook brand UI kit",
+    overview: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+];
 
 const Home = (props: {
   props: { data: { courses: CourseEntityResponseCollection } };
@@ -39,10 +84,26 @@ const Home = (props: {
   return (
     <>
       <Dashboard>
-        <PageHeading>@{user?.username} Dashboard</PageHeading>
-        <ProfileWrapGroup className={ user?.id? '' : 'container-loggedin'}
+        <PageHeading>Hello, {user?.username}</PageHeading>
+        <ProfileWrapGroup
+          className={user?.id ? "" : "container-loggedin"}
           // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
         >
+          <div className={styles.container}>
+            <div className={styles.courses}>
+              {testCourses &&
+                testCourses.map((course, index) => (
+                  <CourseCard key={index} course={course} />
+                ))}
+            </div>
+            <div className={styles.articles}>
+              <div className={styles.articlesHeading}>Latest articles</div>
+              {articles &&
+                articles.map((article, index) => (
+                  <ArticleEntry key={index} article={article} />
+                ))}
+            </div>
+          </div>
           <PageWrapGroup
             style={{
               backgroundColor: "transparent",
@@ -69,7 +130,7 @@ const Home = (props: {
                           {course?.attributes?.title}
                         </Link>
                       </BlogCardTitle>
-                      <CardDescription style={{marginBottom: '0'}}>
+                      <CardDescription style={{ marginBottom: "0" }}>
                         {/* <CardStartDate>
                           Date -{" "}
                           {dayjs(course?.attributes?.startDate).fromNow()}
@@ -83,6 +144,7 @@ const Home = (props: {
 
           <RightSideBar>
             <AdCardThree />
+            <TakeQuizDialog />
           </RightSideBar>
         </ProfileWrapGroup>
       </Dashboard>
@@ -91,4 +153,4 @@ const Home = (props: {
   );
 };
 
-export default Home
+export default Home;
