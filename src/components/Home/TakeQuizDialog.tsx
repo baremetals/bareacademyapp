@@ -10,7 +10,9 @@ const TakeQuizDialog = (props: Props) => {
       <div className={styles.TakeQuizImage}>
         <Image src={require("./assets/takequiz.png")} alt="takequiz" />
       </div>
-      <div className={styles.TakeQuizText}>Haven't decided what to study?</div>
+      <div className={styles.TakeQuizText}>
+        Haven&apos;t decided what to study?
+      </div>
       <div className={styles.button}>Start quiz</div>
     </div>
   );
