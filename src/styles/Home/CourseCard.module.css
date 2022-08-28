@@ -99,3 +99,43 @@
 .CourseCardDuration span {
   margin-left: 5px;
 }
+
+@media screen and (max-width: 1350px) {
+  .CourseCard {
+    width: 49%;
+    margin-bottom: 5px;
+    margin-right: 1%;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .CourseCard {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-right: unset;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .CourseCard {
+    width: 33%;
+    margin-bottom: 5px;
+    margin-right: unset;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .CourseCard {
+    width: 49%;
+    margin-bottom: 5px;
+    margin-right: 1%;
+  }
+}
+
+@media screen and (max-width: 470px) {
+  .CourseCard {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-right: unset;
+  }
+}
