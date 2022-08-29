@@ -1,19 +1,22 @@
+import { Teacher } from 'generated/graphql';
 import Link from "next/link";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Tutor.module.css";
 
 type Props = {
-  tutor: {
-    fullName: string;
-    title: string;
-    image: string;
-    url?: string | null;
-  };
+  tutor: Teacher;
+  // {
+  //   fullName: string;
+  //   title: string;
+  //   image: string;
+  //   url?: string | null;
+  // };
 };
 
 const Tutor = (props: Props) => {
   const { tutor } = props;
+  // console.log(tutor)
   return (
     <div className={styles.tutorContainer}>
       <Link href={tutor.url as string}>

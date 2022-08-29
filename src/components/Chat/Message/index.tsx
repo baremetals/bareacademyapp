@@ -91,6 +91,7 @@ const showNotification =(msg : any)=> {
    }
    
 }
+
 const deleteCurrentMessage = (id : any)=>{
   const con = confirm("Are you sure you want to delete" );
   const sendData = {
@@ -228,18 +229,7 @@ const editCurrentMessage = (id : any , message : any)=>{
      }
     })
   } , [socket])
-  // useEffect(() => {
-  //   // if (socket == null) return;
-  //   socket.on("message", (dta) => {
-  //     console.log(dta)
-  //     if (me === dta.to || me === dta.from) {
-  //       setNewChatMessage(dta.msg);
-  //     }
-  //     // setNewChatMessage(dta.msg);
-  //   });
 
-  //   socket.off("message");
-  // }, [socket]);
 
   socket.on("message", (dta) => {
     console.log(dta.to, dta.from);
@@ -249,10 +239,6 @@ const editCurrentMessage = (id : any , message : any)=>{
     setNewChatMessage(dta);
   });
 
-  // socket.on("users", (usrs) => {
-  //   console.log(usrs);
-  //   // setUsers(usrs);
-  // });
 
   console.log({msgArray});
   

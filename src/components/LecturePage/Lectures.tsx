@@ -6,16 +6,18 @@ import classNames from "classnames";
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import durationToString from "helpers/durationToString";
+import { ComponentLecturesLectures, Maybe } from 'generated/graphql';
 
 type Props = {
-  data: Array<{
-    id: string;
-    title: string;
-    notes: string;
-    video: string;
-    duration: number;
-    progress: number;
-  }>;
+  data: Maybe<ComponentLecturesLectures>[];
+  // Array<{
+  //   id: string;
+  //   title: string;
+  //   notes: string;
+  //   video: string;
+  //   duration: number;
+  //   progress: number;
+  // }>;
   setOpenLecture: (index: number) => void;
   openLecture: number;
 };
@@ -68,10 +70,15 @@ ProgressIcon.defaultProps = {
 
 const Lectures = (props: Props) => {
   const { data, setOpenLecture, openLecture } = props;
-  const totalDuration = data.reduce((acc, cur) => acc + cur.duration, 0);
+  const totalDuration = data.reduce(
+    (acc, cur) => {
+    const dur = cur?.duration as number
+    return acc + dur},
+    0
+  );
   const router = useRouter();
   const { slug } = router.query;
-  // console.log(slug);
+  // console.log(data);
 
   return (
     <div className={styles.Lectures}>
@@ -90,14 +97,16 @@ const Lectures = (props: Props) => {
       </div>
       <div className={styles.lecturesContainer}>
         {data.map((lecture, index) => (
+                    
           <Link href={`/courses/${slug}/lectures?id=${index}`} key={index}>
             <div
               onClick={() => setOpenLecture(index)}
               className={classNames(styles.lecture, {
+                
                 [styles.lectureActive]:
-                  lecture.progress < 1 && lecture.progress > 0,
-                [styles.lectureCompleted]: lecture.progress === 1,
-                [styles.lectureNotStarted]: lecture.progress === 0,
+                lecture?.progress || 0 < 1 && lecture!.progress || 1 > 0,
+                [styles.lectureCompleted]: lecture?.progress === 1,
+                [styles.lectureNotStarted]: lecture?.progress === 0,
                 [styles.openLecture]: index === openLecture,
               })}
               key={index}
@@ -105,19 +114,19 @@ const Lectures = (props: Props) => {
               <div className={styles.lectureNumberTitleDuration}>
                 <div className={styles.lectureNumber}>{index + 1}</div>
                 <div className={styles.lectureTitleDuration}>
-                  <div className={styles.lectureTitle}>{lecture.title}</div>
+                  <div className={styles.lectureTitle}>{lecture?.title}</div>
                   <div className={styles.lectureDuration}>
                     <div className={styles.lectureDurationIcon}>
                       <FiClock size={12} />
                     </div>
                     <div className={styles.lectureDurationText}>
-                      {durationToString(lecture.duration)}
+                      {durationToString(lecture?.duration as number)}
                     </div>
                   </div>
                 </div>
               </div>
               <div className={styles.lectureProgress}>
-                <ProgressIcon progress={lecture.progress} />
+                <ProgressIcon progress={lecture?.progress as number} />
               </div>
             </div>
           </Link>
