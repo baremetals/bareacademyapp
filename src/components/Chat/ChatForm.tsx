@@ -118,6 +118,7 @@ function ChatForm(props: any) {
 
         reset({ body: "" });
         props.setSelectedEditMessage({});
+        setMessage("");
       } catch (ex) {
         console.log(ex, "here is error");
         throw ex;

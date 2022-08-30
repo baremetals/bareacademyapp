@@ -10,7 +10,7 @@ const LectureDescription = (props: Props) => {
   const { notes } = props;
   return (
     <div className={styles.description}>
-      {notes.split("\n").map((line, index) => {
+      {notes && notes.split("\n").map((line, index) => {
         return <Markdown key={index}>{line}</Markdown>;
       })}
       {/* <Markdown >{notes}</Markdown>; */}

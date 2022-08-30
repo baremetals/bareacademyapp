@@ -137,11 +137,6 @@ const editCurrentMessage = (id : any , message : any)=>{
   }, [socket, slug]);
 
 
-
-
-
-
-
   useEffect(() => {
     if (messages && messages.length > 0) {
       scrollUpdate.current?.scrollIntoView({

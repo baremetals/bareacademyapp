@@ -6,177 +6,46 @@ import classNames from "classnames";
 import styles from "../../../styles/LecturePage/Chat.module.css";
 import Message from "./Message";
 
+import { FormData } from "formdata-node";
+// import fetch, { blobFrom } from "node-fetch";
+
+// import axios from "axios";
+// import { storage } from "lib/admin";
+// import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
-import User from 'models/User';
+// import User from 'models/User';
+import { ErrorMsg } from 'components/Input';
 
 type Props = {
   courseId: string;
 };
 
-const data = {
-  messages: [
-    {
-      user: {
-        userId: "xdcdf",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "text",
-      message: "Hello, how are you?",
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdsdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "text",
-      message: "I am fine wbu",
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdsdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "file",
-      file: {
-        name: "file.pdf",
-        size: "1.5MB",
-        url: "#",
-      },
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdxssdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "file",
-      file: {
-        name: "file.pdf",
-        size: "1.5MB",
-        url: "#",
-      },
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdsdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "text",
-      message: "I am fine wbu",
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdsdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "file",
-      file: {
-        name: "file.pdf",
-        size: "1.5MB",
-        url: "#",
-      },
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdxssdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "file",
-      file: {
-        name: "file.pdf",
-        size: "1.5MB",
-        url: "#",
-      },
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdxssdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "file",
-      file: {
-        name: "file.pdf",
-        size: "1.5MB",
-        url: "#",
-      },
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdxssdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "file",
-      file: {
-        name: "file.pdf",
-        size: "1.5MB",
-        url: "#",
-      },
-      time: "2020-01-01T00:00:00.000Z",
-    },
-    {
-      user: {
-        userId: "sdxssdsd",
-        name: "John Doe",
-        img: "https://via.placeholder.com/150",
-        url: "#",
-      },
-      type: "file",
-      file: {
-        name: "file.pdf",
-        size: "1.5MB",
-        url: "#",
-      },
-      time: "2020-01-01T00:00:00.000Z",
-    },
-  ],
-};
+// type MessagePageType = {
+//   message: string;
+//   updatedAt: Date;
+//   type: string;
+//   id: string;
+//   createdAt: Date;
+//   allRead: boolean;
+//   hasRead: JSON;
+//   student: User;
+//   course: {
+//     id: string;
+//   };
+//   file?: string;
+// };
 
-type MessagePageType = {
-  message: string;
-  updatedAt: Date;
+type FileType = {
+  lastModified: any;
+  lastModifiedDate: {};
+  name: string;
+  size: number;
   type: string;
-  id: string;
-  createdAt: Date;
-  allRead: boolean;
-  hasRead: JSON;
-  student: User;
-  course: {
-    id: string;
-  };
-  file?: string;
+  webkitRelativePath: string;
 };
 
-type socketMessage = {
-  msg: MessagePageType;
-  to: string;
-  from: string;
-};
 const Chat = (props: Props) => {
   const { courseId } = props;
   const router = useRouter();
@@ -184,15 +53,17 @@ const Chat = (props: Props) => {
   const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
   const [isMaximized, setIsMaximized] = useState(false);
-  // const [messages, setMessages] = useState(data.messages || []);
-  // const messages = useState(data.messages || [])[0];
+  const [body, setBody] = useState<string>("");
+  // const [value, setValue] = useState(null);
+  let [upload] = useState<FileType | null>(null);
+  const [msg, setMsg] = useState("");
+  const [fileSizeErr, setFileSizeErr] = useState(false);
   const messagesRef = useRef<HTMLDivElement>(null);
   const me: string | undefined | any = user?.id;
   // const scrollUpdate: any = useRef(null || undefined);
 
-  const [newChatMessage, setNewChatMessage] = useState<socketMessage>();
   const [messages, setMessages] = useState([]);
-  const [msgArray, setMsgArray] = useState([]);
+
   // const [selectedEditMessage, setSelectedEditMessage] = useState({});
 
   const handleMaximize = () => setIsMaximized((x) => !x);
@@ -203,11 +74,11 @@ const Chat = (props: Props) => {
         messagesRef.current.scrollHeight - messagesRef.current.clientHeight;
       messagesRef.current.scrollTo(0, scroll);
     }
-  }, [messages, msgArray]);
+  }, [messages]);
 
+  // Load all messages on mount
   useEffect(() => {
     if (socket == null) return;
-    console.log({ me }, "=====>me");
     if (me != "undefined") {
       socket.emit(
         "load all course messages",
@@ -219,54 +90,78 @@ const Chat = (props: Props) => {
         }
       );
     }
-
     socket.off("message");
   }, [socket, slug]);
 
+  // listen for loaded messages
   useEffect(() => {
-    // if (socket == null) return;
     socket.on("course messages loaded", (msgs) => {
-      // console.log({ msgs }, "=====>dt");
-      setMessages(msgs);
+      // console.log('to: ',msgs);
+      if (msgs.to === courseId) setMessages(msgs.messages);
     });
-
-    // socket.off("messages loaded");
   }, [socket]);
 
-  socket.on("new message", (dta) => {
-    console.log(dta.to, dta.from);
-    // if (me === dta.to) {
-    //   setNewChatMessage(dta.msg);
-    // }
-    setNewChatMessage(dta);
-  });
 
-  console.log(messages);
 
-  // useEffect(() => {
-  //   if (messages && messages.length > 0) {
-  //     scrollUpdate.current?.scrollIntoView({
-  //       behavior: "instant",
-  //       block: "end",
-  //     });
-  //   }
-  // }, [messages, msgArray]);
-    useEffect(() => {
-      console.log("Iam am here");
-      if (newChatMessage) {
-        console.log(newChatMessage);
-        const newChatMessageItem = newChatMessage.msg;
-        const newArrayItem: any = (prevArray: MessagePageType[]) => {
-          console.log({ prevArray });
-          return [newChatMessageItem];
-        };
-        if (me === newChatMessage.to && me !== newChatMessage.from) {
-          setMsgArray([]);
-          console.log({ newArrayItem });
-        }
-        // setMsgArray(newArrayItem);
+  const handleImageChange =
+    (_name: string) => (event: { target: { files: {}[] } } | File | any) => {
+      upload = event.target.files[0] as FileType;
+      const size = upload?.size as number;
+      setFileSizeErr(false);
+      // console.log(upload);
+      if (size > 102400) {
+        upload = null;
+        setMsg("File size cannot exceed 10MB");
+        setFileSizeErr(true);
+        setTimeout(() => {
+          setFileSizeErr(false);
+        }, 8000);
       }
-    }, [newChatMessage]);
+    };
+
+  const onSubmit = async () => {
+    // console.log(upload);
+    const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
+    let form;
+    let file;
+
+    const course: string = courseId;
+    const message = body === "" ? null : body;
+    const student = me;
+    const username = user?.username;
+    // const file = form
+    // console.log(file?.name);
+    // console.log("message: ", form);
+    // console.log('student: ', student)
+    // // console.log(name);
+
+    try {
+      if (upload !== null) {
+        form = new FormData();
+        form.append("files", upload as any, upload?.name);
+        const res = await fetch(`${baseUrl}/upload`, {
+          method: "post",
+          body: file as any,
+        });
+        file = await res.json();
+      } else file = null;
+
+      // const r = await res.json();
+      // console.log(file);
+      socket.emit(
+        "new course message",
+        { student, username, message, slug, course, file },
+        (error: any) => {
+          if (error) {
+            console.log(" Something went wrong please try again later. error");
+          }
+        }
+      );
+      if (message !== '') setBody('')
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div
@@ -282,17 +177,28 @@ const Chat = (props: Props) => {
       </div>
       <div className={styles.ChatBody}>
         <div ref={messagesRef} className={styles.messages}>
-          {[...messages, ...msgArray].map((message, index) => {
+          {[...messages].map((message, index) => {
             return <Message message={message} key={index} />;
           })}
         </div>
+        {fileSizeErr && <ErrorMsg>{msg}</ErrorMsg>}
         <form className={styles.ChatInput}>
-          <input type="file" id="fileUpload" />
+          <input
+            type="file"
+            id="fileUpload"
+            name="upload"
+            onChange={handleImageChange("upload")}
+          />
           <label htmlFor="fileUpload">
             <FiFilePlus size={25} />
           </label>
-          <input type="text" placeholder="Type a message..." />
-          <button type="submit">
+          <input
+            type="text"
+            placeholder="Type a message..."
+            value={body as string}
+            onChange={(e) => setBody(e.target.value)}
+          />
+          <button type="button" onClick={() => onSubmit()}>
             <FiSend size={25} />
           </button>
         </form>

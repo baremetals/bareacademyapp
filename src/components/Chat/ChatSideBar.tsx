@@ -122,10 +122,6 @@ const ChatSideBar = ({children}: any) => {
   }, [me]);
 
 
-
-  
-
-
   useEffect(() => {
     setFilteredMessages(messages);
   }, [messages]);
