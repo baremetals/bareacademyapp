@@ -38,30 +38,37 @@ function HomePage(props: {
 }
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy);
-    const { jwt, id } = cookies;
-    const token = `Bearer ${jwt}`;
-    const apolloClient = initializeApollo(null, token);
-    const { data } = await apolloClient.query<GetCoursesByUserIdQueryResult>({
-      query: GetCoursesByUserIdDocument,
-      variables: {
-        filters: {
-          students: {
-            id: {
-              eq: id,
+    try {
+      const cookies = JSON.parse(ctx.req.cookies.bareacademy);
+      const { jwt, id } = cookies;
+      const token = `Bearer ${jwt}`;
+      const apolloClient = initializeApollo(null, token);
+      const { data } = await apolloClient.query<GetCoursesByUserIdQueryResult>({
+        query: GetCoursesByUserIdDocument,
+        variables: {
+          filters: {
+            students: {
+              id: {
+                eq: id,
+              },
             },
           },
+          sort: "updatedAt:desc",
+          pagination: {
+            start: 0,
+            limit: 6,
+          },
         },
-        sort: "updatedAt:desc",
-        pagination: {
-          start: 0,
-          limit: 6,
-        },
-      },
-    });
-    return {
-      props: { data },
-    };
+      });
+      return {
+        props: { data },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        props: { data: { courses: { data: [] } } },
+      };
+    }
   }
 );
 
