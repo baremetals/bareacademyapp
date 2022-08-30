@@ -541,6 +541,7 @@ export type Course = {
   isFree: Scalars['Boolean'];
   lecture?: Maybe<Array<Maybe<ComponentLecturesLectures>>>;
   level?: Maybe<Enum_Course_Level>;
+  messages?: Maybe<CourseMessageRelationResponseCollection>;
   notes?: Maybe<Scalars['String']>;
   orders?: Maybe<OrderRelationResponseCollection>;
   price: Scalars['Float'];
@@ -569,6 +570,14 @@ export type CourseCategoriesArgs = {
 export type CourseLectureArgs = {
   filters?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type CourseMessagesArgs = {
+  filters?: InputMaybe<CourseMessageFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -679,6 +688,7 @@ export type CourseFiltersInput = {
   isFree?: InputMaybe<BooleanFilterInput>;
   lecture?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
   level?: InputMaybe<StringFilterInput>;
+  messages?: InputMaybe<CourseMessageFiltersInput>;
   not?: InputMaybe<CourseFiltersInput>;
   notes?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<CourseFiltersInput>>>;
@@ -709,6 +719,7 @@ export type CourseInput = {
   isFree?: InputMaybe<Scalars['Boolean']>;
   lecture?: InputMaybe<Array<InputMaybe<ComponentLecturesLecturesInput>>>;
   level?: InputMaybe<Enum_Course_Level>;
+  messages?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   notes?: InputMaybe<Scalars['String']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   price?: InputMaybe<Scalars['Float']>;
@@ -722,6 +733,69 @@ export type CourseInput = {
   title?: InputMaybe<Scalars['String']>;
   totalLessons?: InputMaybe<Scalars['Int']>;
   totalStudents?: InputMaybe<Scalars['Int']>;
+};
+
+export type CourseMessage = {
+  __typename?: 'CourseMessage';
+  allRead?: Maybe<Scalars['Boolean']>;
+  course?: Maybe<CourseEntityResponse>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  file?: Maybe<UploadFileEntityResponse>;
+  hasRead?: Maybe<Scalars['JSON']>;
+  message?: Maybe<Scalars['String']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  student?: Maybe<UsersPermissionsUserEntityResponse>;
+  type?: Maybe<Enum_Coursemessage_Type>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CourseMessageEntity = {
+  __typename?: 'CourseMessageEntity';
+  attributes?: Maybe<CourseMessage>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type CourseMessageEntityResponse = {
+  __typename?: 'CourseMessageEntityResponse';
+  data?: Maybe<CourseMessageEntity>;
+};
+
+export type CourseMessageEntityResponseCollection = {
+  __typename?: 'CourseMessageEntityResponseCollection';
+  data: Array<CourseMessageEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CourseMessageFiltersInput = {
+  allRead?: InputMaybe<BooleanFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<CourseMessageFiltersInput>>>;
+  course?: InputMaybe<CourseFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  hasRead?: InputMaybe<JsonFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  message?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CourseMessageFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CourseMessageFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  student?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  type?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CourseMessageInput = {
+  allRead?: InputMaybe<Scalars['Boolean']>;
+  course?: InputMaybe<Scalars['ID']>;
+  file?: InputMaybe<Scalars['ID']>;
+  hasRead?: InputMaybe<Scalars['JSON']>;
+  message?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  student?: InputMaybe<Scalars['ID']>;
+  type?: InputMaybe<Enum_Coursemessage_Type>;
+};
+
+export type CourseMessageRelationResponseCollection = {
+  __typename?: 'CourseMessageRelationResponseCollection';
+  data: Array<CourseMessageEntity>;
 };
 
 export type CourseRelationResponseCollection = {
@@ -861,6 +935,11 @@ export type DateTimeFilterInput = {
   startsWith?: InputMaybe<Scalars['DateTime']>;
 };
 
+export enum Enum_Coursemessage_Type {
+  File = 'file',
+  Text = 'text'
+}
+
 export enum Enum_Course_Coursetype {
   Group = 'group',
   Single = 'single'
@@ -908,7 +987,62 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseComment | CourseVideo | CoursesPage | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseComment | CourseMessage | CourseVideo | CoursesPage | GroupChat | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+
+export type GroupChat = {
+  __typename?: 'GroupChat';
+  course?: Maybe<CourseEntityResponse>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  messages?: Maybe<CourseMessageRelationResponseCollection>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  slug?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type GroupChatMessagesArgs = {
+  filters?: InputMaybe<CourseMessageFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type GroupChatEntity = {
+  __typename?: 'GroupChatEntity';
+  attributes?: Maybe<GroupChat>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type GroupChatEntityResponse = {
+  __typename?: 'GroupChatEntityResponse';
+  data?: Maybe<GroupChatEntity>;
+};
+
+export type GroupChatEntityResponseCollection = {
+  __typename?: 'GroupChatEntityResponseCollection';
+  data: Array<GroupChatEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type GroupChatFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<GroupChatFiltersInput>>>;
+  course?: InputMaybe<CourseFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  messages?: InputMaybe<CourseMessageFiltersInput>;
+  not?: InputMaybe<GroupChatFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<GroupChatFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  slug?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type GroupChatInput = {
+  course?: InputMaybe<Scalars['ID']>;
+  messages?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  slug?: InputMaybe<Scalars['String']>;
+};
 
 export type Home = {
   __typename?: 'Home';
@@ -1058,7 +1192,9 @@ export type Mutation = {
   createComment?: Maybe<CommentEntityResponse>;
   createCourse?: Maybe<CourseEntityResponse>;
   createCourseComment?: Maybe<CourseCommentEntityResponse>;
+  createCourseMessage?: Maybe<CourseMessageEntityResponse>;
   createCourseVideo?: Maybe<CourseVideoEntityResponse>;
+  createGroupChat?: Maybe<GroupChatEntityResponse>;
   createNotification?: Maybe<NotificationEntityResponse>;
   createOrder?: Maybe<OrderEntityResponse>;
   createPost?: Maybe<PostEntityResponse>;
@@ -1082,8 +1218,10 @@ export type Mutation = {
   deleteComment?: Maybe<CommentEntityResponse>;
   deleteCourse?: Maybe<CourseEntityResponse>;
   deleteCourseComment?: Maybe<CourseCommentEntityResponse>;
+  deleteCourseMessage?: Maybe<CourseMessageEntityResponse>;
   deleteCourseVideo?: Maybe<CourseVideoEntityResponse>;
   deleteCoursesPage?: Maybe<CoursesPageEntityResponse>;
+  deleteGroupChat?: Maybe<GroupChatEntityResponse>;
   deleteHome?: Maybe<HomeEntityResponse>;
   deleteNotification?: Maybe<NotificationEntityResponse>;
   deleteOrder?: Maybe<OrderEntityResponse>;
@@ -1122,9 +1260,11 @@ export type Mutation = {
   updateComment?: Maybe<CommentEntityResponse>;
   updateCourse?: Maybe<CourseEntityResponse>;
   updateCourseComment?: Maybe<CourseCommentEntityResponse>;
+  updateCourseMessage?: Maybe<CourseMessageEntityResponse>;
   updateCourseVideo?: Maybe<CourseVideoEntityResponse>;
   updateCoursesPage?: Maybe<CoursesPageEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
+  updateGroupChat?: Maybe<GroupChatEntityResponse>;
   updateHome?: Maybe<HomeEntityResponse>;
   updateNotification?: Maybe<NotificationEntityResponse>;
   updateOrder?: Maybe<OrderEntityResponse>;
@@ -1192,8 +1332,18 @@ export type MutationCreateCourseCommentArgs = {
 };
 
 
+export type MutationCreateCourseMessageArgs = {
+  data: CourseMessageInput;
+};
+
+
 export type MutationCreateCourseVideoArgs = {
   data: CourseVideoInput;
+};
+
+
+export type MutationCreateGroupChatArgs = {
+  data: GroupChatInput;
 };
 
 
@@ -1302,7 +1452,17 @@ export type MutationDeleteCourseCommentArgs = {
 };
 
 
+export type MutationDeleteCourseMessageArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationDeleteCourseVideoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteGroupChatArgs = {
   id: Scalars['ID'];
 };
 
@@ -1461,6 +1621,12 @@ export type MutationUpdateCourseCommentArgs = {
 };
 
 
+export type MutationUpdateCourseMessageArgs = {
+  data: CourseMessageInput;
+  id: Scalars['ID'];
+};
+
+
 export type MutationUpdateCourseVideoArgs = {
   data: CourseVideoInput;
   id: Scalars['ID'];
@@ -1475,6 +1641,12 @@ export type MutationUpdateCoursesPageArgs = {
 export type MutationUpdateFileInfoArgs = {
   id: Scalars['ID'];
   info?: InputMaybe<FileInfoInput>;
+};
+
+
+export type MutationUpdateGroupChatArgs = {
+  data: GroupChatInput;
+  id: Scalars['ID'];
 };
 
 
@@ -1921,10 +2093,14 @@ export type Query = {
   course?: Maybe<CourseEntityResponse>;
   courseComment?: Maybe<CourseCommentEntityResponse>;
   courseComments?: Maybe<CourseCommentEntityResponseCollection>;
+  courseMessage?: Maybe<CourseMessageEntityResponse>;
+  courseMessages?: Maybe<CourseMessageEntityResponseCollection>;
   courseVideo?: Maybe<CourseVideoEntityResponse>;
   courseVideos?: Maybe<CourseVideoEntityResponseCollection>;
   courses?: Maybe<CourseEntityResponseCollection>;
   coursesPage?: Maybe<CoursesPageEntityResponse>;
+  groupChat?: Maybe<GroupChatEntityResponse>;
+  groupChats?: Maybe<GroupChatEntityResponseCollection>;
   home?: Maybe<HomeEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
@@ -2068,6 +2244,19 @@ export type QueryCourseCommentsArgs = {
 };
 
 
+export type QueryCourseMessageArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryCourseMessagesArgs = {
+  filters?: InputMaybe<CourseMessageFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
 export type QueryCourseVideoArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -2091,6 +2280,19 @@ export type QueryCoursesArgs = {
 
 export type QueryCoursesPageArgs = {
   publicationState?: InputMaybe<PublicationState>;
+};
+
+
+export type QueryGroupChatArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryGroupChatsArgs = {
+  filters?: InputMaybe<GroupChatFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
@@ -3241,7 +3443,7 @@ export type GetCoursesByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCoursesByUserIdQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, level?: Enum_Course_Level | null | undefined, isFree: boolean, duration: string, image?: string | null | undefined } | null | undefined }> } | null | undefined };
+export type GetCoursesByUserIdQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, level?: Enum_Course_Level | null | undefined, isFree: boolean, duration: string, image?: string | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type LecturesQueryVariables = Exact<{
   filters?: InputMaybe<CourseFiltersInput>;
@@ -4536,6 +4738,14 @@ export const GetCoursesByUserIdDocument = gql`
         isFree
         duration
         image
+        reviews {
+          data {
+            id
+            attributes {
+              rating
+            }
+          }
+        }
       }
     }
   }

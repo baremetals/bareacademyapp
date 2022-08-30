@@ -13,6 +13,14 @@ query GetCoursesByUserId(
         isFree
         duration
         image
+        reviews {
+          data {
+            id
+            attributes {
+              rating
+            }
+          }
+        }
       }
     }
   }

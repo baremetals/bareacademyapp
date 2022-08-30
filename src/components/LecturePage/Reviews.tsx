@@ -54,7 +54,7 @@ const Reviews = (props: IdType) => {
     },
   });
   const data = result.data?.reviews?.data || [];
-  console.log(data);
+  // console.log(data);
   const { user: user } = useAppSelector(isUser);
   const [showInput, setShowInput] = React.useState(false);
   const [message, setMessage] = React.useState<string>("");
@@ -68,7 +68,7 @@ const Reviews = (props: IdType) => {
     data.reduce((acc: number, cur: { attributes: { rating: number; }; }) => {
       // console.log(acc)
       return acc + cur?.attributes?.rating;
-    }, 0) / data.length;
+    }, 0) / data.length ;
 
   const reviewsByNumber = [1, 2, 3, 4, 5].map((number) => {
     return data
