@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { QueryLazyOptions, useLazyQuery } from "@apollo/client";
 // import { MeDocument } from "generated/graphql";
 import { useDispatch } from "react-redux";

@@ -38,7 +38,7 @@ const SeachResultsPage = (props: propTypes) => {
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
     const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy);
+    const cookies = JSON.parse(ctx.req.cookies.bareacademy as string);
     const { jwt } = cookies;
     const token = `Bearer ${jwt}`;
     const { term } = ctx.query;

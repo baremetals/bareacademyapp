@@ -24,7 +24,7 @@ export default async function (
 ) {
   //   const { id, file, flag } = req.body.data;
   const { profileImage, image, flag } = req.body.data;
-  const cookies = JSON.parse(req.cookies.bareacademy);
+  const cookies = JSON.parse(req.cookies.bareacademy as string);
   const { id, jwt, slug, img, backgroundImg, username } = cookies;
   const token = `Bearer ${jwt}`;
   const apolloClient = initializeApollo(null, token);

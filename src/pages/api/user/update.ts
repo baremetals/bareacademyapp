@@ -20,7 +20,7 @@ type user = {
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     const { email, username, fullName, description, location, password, flag } = req.body.data;
-    const cookies = JSON.parse(req.cookies.bareacademy);
+    const cookies = JSON.parse(req.cookies.bareacademy as string);
     const { id, jwt, img, backgroundImg } = cookies;
     const token = `Bearer ${jwt}`;
     const apolloClient = initializeApollo(null, token);

@@ -38,7 +38,7 @@ function Books(props: queryProps) {
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy).jwt;
+    const cookies = JSON.parse(ctx.req.cookies.bareacademy as string).jwt;
     const token =
       `Bearer ${cookies}`; 
     const apolloClient = initializeApollo(null, token);

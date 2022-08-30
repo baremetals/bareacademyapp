@@ -15,9 +15,12 @@ import {
 
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-const EditEditor = dynamic(() => import("./EditEditor"), {
-  ssr: false,
-});
+const EditEditor: any = dynamic(
+  () => import("./EditEditor"),
+  {
+    ssr: false,
+  }
+);
 
 import Modal from "components/ShareForm/Modal";
 

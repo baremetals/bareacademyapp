@@ -3,19 +3,21 @@ import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import LectureDetails from "components/Courses/CourseDetails/LectureDetails";
 import { useIsAuth } from "lib/isAuth";
-import { client } from "lib/initApollo";
+// import { client } from "lib/initApollo";
 import { initializeApollo } from "lib/apolloClient";
 import {
+  CourseEntity,
   LecturesDocument,
   LecturesQueryResult,
-  CourseEntityResponseCollection,
+  // CourseEntityResponseCollection,
 } from "generated/graphql";
 
-function LecturePage({ data }) {
+function LecturePage(props: { data: { courses: { data: CourseEntity[] } } }) {
+  const { data } = props;
   useIsAuth();
   // console.log(data?.courses?.data[0]);
   const lect = data?.courses?.data[0];
-  // console.log(lect);
+  // console.log(props);
 
   return (
     <>
@@ -30,7 +32,7 @@ function LecturePage({ data }) {
         <meta property="og:image:width" content="100%" />
         <meta property="og:image:height" content="auto" />
       </Head>
-      <LectureDetails props={lect}/>
+      <LectureDetails props={lect} />
     </>
   );
 }
@@ -41,7 +43,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   // let id = lectureId as string
   // id = id?.split('-')[1] as string
   // const vidId = id
-  const cookies = JSON.parse(ctx.req.cookies.bareacademy);
+  const cookies = JSON.parse(ctx.req.cookies.bareacademy as string);
   const { jwt } = cookies;
   const token = `Bearer ${jwt}`;
   const apolloClient = initializeApollo(null, token);

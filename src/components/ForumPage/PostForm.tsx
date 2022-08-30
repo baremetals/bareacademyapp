@@ -18,7 +18,7 @@ import { QueryResult } from "@apollo/client";
 
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-const ModalEditor = dynamic(() => import("./ModalEditor"), {
+const ModalEditor: any = dynamic(() => import("./ModalEditor"), {
   ssr: false,
 });
 

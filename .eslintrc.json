@@ -6,7 +6,8 @@
     "extends": [
         "plugin:react/recommended",
         "google",
-        "prettier"
+        "prettier",
+        "plugin:@next/next/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

@@ -6,7 +6,7 @@ const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { total, quantity, course, imageUrl, orderType, isFree } =
     req.body.data;
-  const token = JSON.parse(req.cookies.bareacademy).jwt;
+  const token = JSON.parse(req.cookies.bareacademy as string).jwt;
 
   // console.log("we got here");
 

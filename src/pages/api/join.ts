@@ -9,7 +9,7 @@ export default async function (
 ) {
   const { joined, slug, course, user, publishedAt } =
     req.body.data;
-  const token = JSON.parse(req.cookies.bareacademy).jwt;
+  const token = JSON.parse(req.cookies.bareacademy as string).jwt;
 
   // console.log("we got here");
 

@@ -56,7 +56,7 @@ import Footer from 'components/Footer';
 import SocialShare from 'components/SocialShare';
 import NavDropDown from 'components/NavDropDown';
 
-const RecentCourses = dynamic(() => import("../RecentCourses"));
+const RecentCourses: any = dynamic(() => import("../RecentCourses"));
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK as string);
 
@@ -80,9 +80,9 @@ function CourseDetails(props: {
   const course = data?.courses?.data[0];
   // const videos = course?.attributes?.videos?.data;
   const students = course?.attributes?.students?.data;
-  const teacher = course?.attributes?.teacher?.data?.attributes?.tutor?.data;
+  const teacher = course?.attributes?.teacher?.data;
   const imageUrl = course?.attributes?.image;
-  // console.log(course?.attributes);
+  console.log(teacher);
 
   const [isloading, setIsLoading] = useState(false);
   const [socialDropdown, setSocialDropdown] = useState(false);
@@ -122,9 +122,9 @@ function CourseDetails(props: {
   }, [me?.id]);
 
   const handleBuy = async (orderType: string) => {
-    console.log('in this biatch');
+    console.log("in this biatch");
     const stripe = await stripePromise;
-    setIsLoading(true)
+    setIsLoading(true);
     await axios
       .post("/api/buy", {
         data: {
@@ -313,7 +313,11 @@ function CourseDetails(props: {
 
                     {me?.id && isStudent && (
                       <ApplyButton
-                        onClick={() => router.push(`/courses/${course?.attributes?.slug}/lectures`)}
+                        onClick={() =>
+                          router.push(
+                            `/courses/${course?.attributes?.slug}/lectures`
+                          )
+                        }
                         type="button"
                         style={{ backgroundColor: "red" }}
                       >

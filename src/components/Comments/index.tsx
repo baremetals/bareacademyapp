@@ -20,7 +20,7 @@ import {
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 
-const PostEditor = dynamic(() => import("../Editor"), {
+const PostEditor: any = dynamic(() => import("../Editor"), {
   ssr: false,
 });
 

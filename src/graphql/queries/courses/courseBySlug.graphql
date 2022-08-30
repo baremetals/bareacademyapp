@@ -38,6 +38,16 @@ query Course($filters: CourseFiltersInput) {
           locale
           type
         }
+        teacher {
+          data {
+            id
+            attributes {
+              fullName
+              image
+              title
+            }
+          }
+        }
       }
     }
   }

@@ -46,7 +46,7 @@ function CoursesTaken(props: { course: Array<CourseEntity> }) {
               <Link href={`/courses/${c?.attributes?.slug}`}>
                 <CourseImg
                   alt="Course Image"
-                  src={c?.attributes?.image?.data?.attributes?.url}
+                  src={c?.attributes?.image as string}
                 />
               </Link>
 

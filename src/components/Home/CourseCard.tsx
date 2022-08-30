@@ -29,6 +29,7 @@ const CourseCard = (props: { course: CourseEntity }) => {
   const reviews = course?.attributes?.reviews?.data as ReviewEntity[];
   // console.log(props);
 
+  console.log(typeof 'text');
   const avgReviews =
     reviews.reduce((acc, cur) => {
       const rating = cur?.attributes?.rating as number;
@@ -60,7 +61,9 @@ const CourseCard = (props: { course: CourseEntity }) => {
         </div>
         <div className={styles.CourseCardDuration}>
           <FiClock size={16} color="white" />
-          <span>{durationToString(parseInt(course?.attributes?.duration as string))}</span>
+          <span>
+            {durationToString(course?.attributes?.duration as number)}
+          </span>
         </div>
       </div>
     </div>

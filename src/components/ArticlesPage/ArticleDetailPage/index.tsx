@@ -24,7 +24,7 @@ import { ArticleEntityResponseCollection } from "generated/graphql";
 import { ErrorMsg } from "components/Input";
 import SocialShare from "components/SocialShare";
 
-const RecentArticles = dynamic(() => import("../RecentArticles"));
+const RecentArticles = dynamic(() => import("../RecentArticles")) as any;
 import Markdown from "markdown-to-jsx";
 import NavDropDown from 'components/NavDropDown';
 

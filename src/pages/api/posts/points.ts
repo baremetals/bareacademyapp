@@ -6,7 +6,7 @@ export default async function (
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const token = JSON.parse(req.cookies.bareacademy).jwt;
+  const token = JSON.parse(req.cookies.bareacademy as string).jwt;
   if (req.body.data && req.body.data.isDecrement !== undefined) {
     const { isDecrement, post, user, publishedAt } = req.body.data;
     // console.log("me deya");

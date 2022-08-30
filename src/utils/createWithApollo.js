@@ -1,3 +1,4 @@
+/* eslint-disable valid-jsdoc */
 import React from "react";
 import App from "next/app";
 import Head from "next/head";
@@ -85,6 +86,7 @@ const initApolloClient = (apolloClient, initialState, ctx) => {
 export const createWithApollo = (ac) => {
   return ({ ssr = false } = {}) =>
     (PageComponent) => {
+      // eslint-disable-next-line react/prop-types
       const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
         let client;
         if (apolloClient) {

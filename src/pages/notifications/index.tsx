@@ -39,7 +39,7 @@ function Notifications(props: { data: any; loading: boolean; error: any; }) {
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy);
+    const cookies = JSON.parse(ctx.req.cookies.bareacademy as string);
     const { jwt, slug } = cookies;
     const token = `Bearer ${jwt}`;
     const apolloClient = initializeApollo(null, token);

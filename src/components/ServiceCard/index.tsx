@@ -44,7 +44,7 @@ const ServiceCard = ({ linkIid, ...props }: any) => {
                 <ServicesCard>
                   <Link href={`/courses/${c?.attributes?.slug}`}>
                     <ServiceIcon
-                      src={c?.attributes?.image?.data?.attributes?.url}
+                      src={c?.attributes?.image as string}
                     />
                   </Link>
 

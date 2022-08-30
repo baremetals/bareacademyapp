@@ -45,7 +45,7 @@ const EditProfilePage = (props: { data: any; loading: any; }) => {
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
     const { slug } = ctx.query;
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy);
+    const cookies = JSON.parse(ctx.req.cookies.bareacademy as string);
     const { jwt, id, slug: loggedInUser } = cookies;
     const token = `Bearer ${jwt}`;
     const apolloClient = initializeApollo(null, token);

@@ -6,7 +6,7 @@ export default async function (
 ) {
   const bareacademyCookie = req.cookies.bareacademy;
   if (bareacademyCookie !== undefined) {
-    const cookies = JSON.parse(req.cookies.bareacademy);
+    const cookies = JSON.parse(req.cookies.bareacademy as string);
     try {
       const { id, username, slug, img: img, backgroundImg, online } = cookies;
       const user = {

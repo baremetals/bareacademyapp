@@ -16,7 +16,7 @@ export default async function handler(
 ){
 
     const { title, body, category, creator, slug } = req.body.data;
-    const cookies = JSON.parse(req.cookies.bareacademy).jwt;
+    const cookies = JSON.parse(req.cookies.bareacademy as string).jwt;
     const token = `Bearer ${cookies}`;
     const apolloClient = initializeApollo(null, token);
     // console.log(req.body);

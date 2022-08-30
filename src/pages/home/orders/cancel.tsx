@@ -73,7 +73,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   // eslint-disable-next-line camelcase
   const { session_id } = ctx.query;
   const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
-  const cookies = JSON.parse(ctx?.req?.cookies?.bareacademy) || {};
+  const cookies = JSON.parse(ctx?.req?.cookies?.bareacademy as string) || {};
   // console.log(cookies);
   const { jwt } = cookies;
   // const token = `Bearer ${jwt}`;

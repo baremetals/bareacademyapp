@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
-const ModalEditor = dynamic(() => import("./ModalEditor"), {
+const ModalEditor: any = dynamic(() => import("./ModalEditor"), {
   ssr: false,
 });
 
