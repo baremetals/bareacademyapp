@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: http://localhost:3500
+
+# Sitemaps
+Sitemap: http://localhost:3500/sitemap.xml
+Sitemap: http://localhost:3500/courses-sitemap.xml
+Sitemap: http://localhost:3500/articles-sitemap.xml

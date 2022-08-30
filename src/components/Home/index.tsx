@@ -1,11 +1,6 @@
-import React from "react";
-import {
-  BlogCardBody,
-  BlogCardImage,
-  BlogCardTitle,
-  PageWrapper,
-} from "styles/common.styles";
-import Dashboard from "../Dashboard";
+import React, { useEffect } from 'react'
+import { BlogCardBody, BlogCardImage, BlogCardTitle, PageWrapper } from 'styles/common.styles'
+import Dashboard from '../Dashboard'
 
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
@@ -30,6 +25,7 @@ import {
   ProfileWrapGroup,
   // PageWrapper,
 } from "../../styles/common.styles";
+
 import Link from "next/link";
 import Footer from "components/Footer";
 import styles from "../../styles/Home/index.module.css";
@@ -73,13 +69,31 @@ const articles = [
   },
 ];
 
+import { useSockets } from 'context/socket.context';
+
+
 const Home = (props: {
   props: { data: { courses: CourseEntityResponseCollection } };
 }) => {
+  const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
+  
   const { data } = props.props;
 
   const courses = data.courses.data;
+  const me = user?.id
+
+  useEffect(()=>{
+    socket.emit("joinroom" , {me} , (error: any, d: any) => {
+      if (error) {
+        console.log(" Something went wrong please try again later.", error);
+      }
+    })
+  },[])
+
+
+
+
   // console.log(courses);
   return (
     <>
@@ -118,7 +132,7 @@ const Home = (props: {
                     <Link href={`/courses/${course?.attributes?.slug}`}>
                       <BlogCardImage
                         alt="course image"
-                        src={course?.attributes?.image?.data?.attributes?.url}
+                        src={course?.attributes?.image as string}
                       />
                     </Link>
                     <BlogCardBody>

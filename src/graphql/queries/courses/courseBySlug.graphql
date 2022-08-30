@@ -8,19 +8,11 @@ query Course($filters: CourseFiltersInput) {
         duration
         description
         notes
-        githubLink
         level
         price
         soloPrice
         isFree
-        image {
-          data {
-            id
-            attributes {
-              url
-            }
-          }
-        }
+        image
         startDate
         endDate
         totalStudents

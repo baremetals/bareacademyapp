@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSockets } from "context/socket.context";
+import { useRouter } from "next/router";
 import { FiFilePlus, FiMaximize, FiMinimize, FiSend } from "react-icons/fi";
 import classNames from "classnames";
 import styles from "../../../styles/LecturePage/Chat.module.css";
 import Message from "./Message";
+
+import { useAppSelector } from "app/hooks";
+import { isUser } from "features/auth/selectors";
+import User from 'models/User';
 
 type Props = {
   courseId: string;
@@ -151,24 +157,43 @@ const data = {
   ],
 };
 
+type MessagePageType = {
+  message: string;
+  updatedAt: Date;
+  type: string;
+  id: string;
+  createdAt: Date;
+  allRead: boolean;
+  hasRead: JSON;
+  student: User;
+  course: {
+    id: string;
+  };
+  file?: string;
+};
+
+type socketMessage = {
+  msg: MessagePageType;
+  to: string;
+  from: string;
+};
 const Chat = (props: Props) => {
-  // const { courseId } = props;
+  const { courseId } = props;
+  const router = useRouter();
+  const { slug } = router.query;
+  const { socket } = useSockets();
+  const { user: user } = useAppSelector(isUser);
   const [isMaximized, setIsMaximized] = useState(false);
   // const [messages, setMessages] = useState(data.messages || []);
-  const messages = useState(data.messages || [])[0];
+  // const messages = useState(data.messages || [])[0];
   const messagesRef = useRef<HTMLDivElement>(null);
-  // const [message, setMessage] = useState({
-  //   user: {
-  //     userId: "sdsdsd",
-  //     name: "John Doe",
-  //     img: "https://via.placeholder.com/150",
-  //     url: "#",
-  //   },
-  //   type: "",
-  //   message: "",
-  //   file: null,
-  //   time: "",
-  // });
+  const me: string | undefined | any = user?.id;
+  // const scrollUpdate: any = useRef(null || undefined);
+
+  const [newChatMessage, setNewChatMessage] = useState<socketMessage>();
+  const [messages, setMessages] = useState([]);
+  const [msgArray, setMsgArray] = useState([]);
+  // const [selectedEditMessage, setSelectedEditMessage] = useState({});
 
   const handleMaximize = () => setIsMaximized((x) => !x);
 
@@ -178,7 +203,70 @@ const Chat = (props: Props) => {
         messagesRef.current.scrollHeight - messagesRef.current.clientHeight;
       messagesRef.current.scrollTo(0, scroll);
     }
-  }, [messages]);
+  }, [messages, msgArray]);
+
+  useEffect(() => {
+    if (socket == null) return;
+    console.log({ me }, "=====>me");
+    if (me != "undefined") {
+      socket.emit(
+        "load all course messages",
+        { slug, me, courseId },
+        (error: any, d: any) => {
+          if (error) {
+            console.log(" Something went wrong please try again later.", error);
+          }
+        }
+      );
+    }
+
+    socket.off("message");
+  }, [socket, slug]);
+
+  useEffect(() => {
+    // if (socket == null) return;
+    socket.on("course messages loaded", (msgs) => {
+      // console.log({ msgs }, "=====>dt");
+      setMessages(msgs);
+    });
+
+    // socket.off("messages loaded");
+  }, [socket]);
+
+  socket.on("new message", (dta) => {
+    console.log(dta.to, dta.from);
+    // if (me === dta.to) {
+    //   setNewChatMessage(dta.msg);
+    // }
+    setNewChatMessage(dta);
+  });
+
+  console.log(messages);
+
+  // useEffect(() => {
+  //   if (messages && messages.length > 0) {
+  //     scrollUpdate.current?.scrollIntoView({
+  //       behavior: "instant",
+  //       block: "end",
+  //     });
+  //   }
+  // }, [messages, msgArray]);
+    useEffect(() => {
+      console.log("Iam am here");
+      if (newChatMessage) {
+        console.log(newChatMessage);
+        const newChatMessageItem = newChatMessage.msg;
+        const newArrayItem: any = (prevArray: MessagePageType[]) => {
+          console.log({ prevArray });
+          return [newChatMessageItem];
+        };
+        if (me === newChatMessage.to && me !== newChatMessage.from) {
+          setMsgArray([]);
+          console.log({ newArrayItem });
+        }
+        // setMsgArray(newArrayItem);
+      }
+    }, [newChatMessage]);
 
   return (
     <div
@@ -194,7 +282,7 @@ const Chat = (props: Props) => {
       </div>
       <div className={styles.ChatBody}>
         <div ref={messagesRef} className={styles.messages}>
-          {messages.map((message, index) => {
+          {[...messages, ...msgArray].map((message, index) => {
             return <Message message={message} key={index} />;
           })}
         </div>

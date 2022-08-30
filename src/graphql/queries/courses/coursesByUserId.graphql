@@ -12,14 +12,7 @@ query GetCoursesByUserId(
         level
         isFree
         duration
-        image {
-          data {
-            id
-            attributes {
-              url
-            }
-          }
-        }
+        image
       }
     }
   }

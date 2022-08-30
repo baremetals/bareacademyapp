@@ -41,14 +41,7 @@ query GetUser(
                   attributes {
                     slug
                     title
-                    image {
-                      data {
-                        id
-                        attributes {
-                          url
-                        }
-                      }
-                    }
+                    image
                   }
                 }
               }

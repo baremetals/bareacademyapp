@@ -3,36 +3,77 @@ import { FiStar } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Reviews.module.css";
 import classNames from "classnames";
 import Link from "next/link";
+import { useQuery } from '@apollo/client';
+import axios from "axios";
+// import { useRouter } from "next/router";
+import { ReviewsDocument } from "generated/graphql";
+import TextareaAutosize from "react-textarea-autosize";
 
-type Props = {
-  data: Array<{
-    user: {
-      name: string;
-      img: string;
-      url: string;
-    };
-    message: string;
-    rating: number;
-    time: string;
-  }>;
+
+import { useAppSelector } from "app/hooks";
+import { isUser } from "features/auth";
+
+import {
+  FiSend,
+} from "react-icons/fi";
+
+// type Props = {
+//   data: Array<{
+//     user: {
+//       name: string;
+//       img: string;
+//       url: string;
+//     };
+//     message: string;
+//     rating: number;
+//     time: string;
+//   }>;
+// };
+
+type IdType = {
+  id: string;
 };
 
-const Reviews = (props: Props) => {
-  const { data } = props;
+const Reviews = (props: IdType) => {
+  const { id } = props;
 
-  data.sort((a, b) => {
+  const { refetch, ...result } = useQuery(ReviewsDocument, {
+    variables: {
+      filters: {
+        course: {
+          id: {
+            eq: id,
+          },
+        },
+      },
+      pagination: {
+        start: 0,
+        limit: 6,
+      },
+      sort: "updatedAt:desc",
+    },
+  });
+  const data = result.data?.reviews?.data || [];
+  console.log(data);
+  const { user: user } = useAppSelector(isUser);
+  const [showInput, setShowInput] = React.useState(false);
+  const [message, setMessage] = React.useState<string>("");
+  const [rating, setRating] = React.useState<number>(0);
+
+  data.sort((a: { time: string | number | Date; }, b: { time: string | number | Date; }) => {
     return new Date(b.time).getTime() - new Date(a.time).getTime();
   });
 
   const avgReviews =
-    data.reduce((acc, cur) => {
-      return acc + cur.rating;
+    data.reduce((acc: number, cur: { attributes: { rating: number; }; }) => {
+      // console.log(acc)
+      return acc + cur?.attributes?.rating;
     }, 0) / data.length;
 
   const reviewsByNumber = [1, 2, 3, 4, 5].map((number) => {
     return data
-      .filter((review) => review.rating === number)
-      .reduce((acc, cur) => {
+      .filter((review: { attributes: { rating: number; }; }) => review?.attributes?.rating === number)
+      .reduce((acc: number, cur: any) => {
         return acc + 1;
       }, 0);
   });
@@ -63,54 +104,118 @@ const Reviews = (props: Props) => {
     }
   };
 
+  const onSubmit = async () => {
+    console.log(message, "-", rating);
+    await axios
+      .post("/api/course/reviews", {
+        data: {
+          rating,
+          message,
+          user: user?.id as string,
+          course: id,
+          publishedAt: new Date(),
+        },
+      })
+      .then(() => {
+        refetch();
+        setShowInput(!showInput);
+        setMessage("");
+        setRating(0);
+      })
+      .catch((err) => {
+        console.log(err)
+        // setMsg("Sorry something went wrong please try again later.");
+        // setError(true);
+        // setTimeout(() => {
+        //   setError(false);
+        // }, 10000);
+      });
+  };
+
   return (
     <div className={styles.reviewsTab}>
-      <div className={styles.avgContainer}>
-        <div className={styles.avg}>
-          <FiStar size={60} />
-          <div className={styles.avgRating}>{avgReviews.toFixed(1)}</div>
-        </div>
-        <div className={styles.avgByNumber}>
-          {reviewsByNumber.map((number, index) => {
-            return (
-              <div key={index} className={styles.avgByNumberItem}>
-                <div className={styles.avgByNumberItemNumber}>{index + 1}</div>
-                <div className={styles.avgByNumberItemProgress}>
-                  <div
-                    className={styles.avgByNumberItemProgressBar}
-                    style={{ width: `${(number / data.length) * 100}%` }}
-                  />
+      {data.length > 0 && (
+        <div className={styles.avgContainer}>
+          <div className={styles.avg}>
+            <FiStar size={60} />
+            <div className={styles.avgRating}>{avgReviews.toFixed(1)}</div>
+          </div>
+          <div className={styles.avgByNumber}>
+            {reviewsByNumber.map((number, index) => {
+              return (
+                <div key={index} className={styles.avgByNumberItem}>
+                  <div className={styles.avgByNumberItemNumber}>
+                    {index + 1}
+                  </div>
+                  <div className={styles.avgByNumberItemProgress}>
+                    <div
+                      className={styles.avgByNumberItemProgressBar}
+                      style={{ width: `${(number / data.length) * 100}%` }}
+                    />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
+      <button onClick={() => setShowInput(!showInput)}>Leave a review</button>
+      <br />
+      <br />
+      {showInput && (
+        <form className={styles.qnaCommentInput}>
+          <TextareaAutosize
+            // type="text"
+            value={rating}
+            onChange={(e) => setRating(parseInt(e.target.value))}
+          />
+          <TextareaAutosize
+            className={styles.qnaCommentTextarea}
+            rows={1}
+            placeholder="Write a comment..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => onSubmit()}
+            disabled={!showInput}
+            className={styles.qnaCommentSubmit}
+          >
+            <FiSend size={20} />
+          </button>
+        </form>
+      )}
       <div className={styles.reviews}>
-        {data.map((review, index) => {
+        {data.map((review: { attributes: { user: { data: { attributes: { slug: any; img: any; username: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }; }; updatedAt: string; rating: number; message: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }, index: React.Key | null | undefined) => {
           return (
             <div key={index} className={styles.review}>
               <div className={styles.reviewHeader}>
                 <div className={styles.reviewUserRating}>
                   <div className={styles.reviewUserTimestamp}>
-                    <Link href={review.user.url}>
+                    <Link
+                      href={`/user-profile/${review?.attributes?.user?.data?.attributes?.slug}`}
+                    >
                       <a>
                         <div className={styles.reviewUser}>
                           <div
                             className={styles.reviewUserPic}
                             style={{
-                              backgroundImage: `url('${review.user.img}')`,
+                              backgroundImage: `url('${review?.attributes?.user?.data?.attributes?.img}')`,
                             }}
                           ></div>
                           <div className={styles.reviewUserName}>
-                            {review.user.name}
+                            {
+                              review?.attributes?.user?.data?.attributes
+                                ?.username
+                            }
                           </div>
                         </div>
                       </a>
                     </Link>
                     <div className={styles.reviewTimestamp}>
                       <div className={styles.dot}></div>
-                      <span>{renderTime(review.time)}</span>
+                      <span>{renderTime(review?.attributes?.updatedAt)}</span>
                     </div>
                   </div>
                 </div>
@@ -121,7 +226,7 @@ const Reviews = (props: Props) => {
                         key={index}
                         className={classNames(styles.reviewRatingStar, {
                           [styles.reviewRatingStarActive]:
-                            number <= review.rating,
+                            number <= review?.attributes?.rating,
                         })}
                       >
                         <FiStar size={20} />
@@ -130,7 +235,9 @@ const Reviews = (props: Props) => {
                   })}
                 </div>
               </div>
-              <div className={styles.reviewMessage}>{review.message}</div>
+              <div className={styles.reviewMessage}>
+                {review?.attributes?.message}
+              </div>
             </div>
           );
         })}

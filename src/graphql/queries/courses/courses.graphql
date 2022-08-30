@@ -13,14 +13,7 @@ query Courses($pagination: PaginationArg, $sort: [String]) {
         price
         soloPrice
         isFree
-        image {
-          data {
-            id
-            attributes {
-              url
-            }
-          }
-        }
+        image
       }
     }
   }

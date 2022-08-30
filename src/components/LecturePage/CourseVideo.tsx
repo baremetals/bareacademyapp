@@ -191,7 +191,7 @@ const PLayPause = (props: PLayPauseProps) => {
 
 const CourseVideo = (props: CourseVideoProps) => {
   const { video } = props;
-  const { url } = video;
+  // const { url } = video;
   const [videoState, setVideoState] = useState<videoStateType>({
     isPlaying: false,
     currentTime: 0,
@@ -352,20 +352,24 @@ const CourseVideo = (props: CourseVideoProps) => {
         />
       </div>
       <div className={styles.videoContainer} onClick={handleClickAndDbClick}>
-        <ReactPlayer
-          ref={reactPlayerRef}
-          playing={videoState.isPlaying}
-          url={url}
-          width="100%"
-          height="100%"
-          onBuffer={handleBuffer}
-          onReady={handleReady}
-          volume={videoState.volume}
-          muted={videoState.isMuted}
-          onDuration={handleDuration}
-          onProgress={handleProgress}
-          className={styles.zbi}
-        />
+        {video?.split("\n").map((line, id) => {
+
+          return <ReactPlayer
+            ref={reactPlayerRef}
+            playing={videoState.isPlaying}
+            url={line}
+            width="100%"
+            height="100%"
+            onBuffer={handleBuffer}
+            onReady={handleReady}
+            volume={videoState.volume}
+            muted={videoState.isMuted}
+            onDuration={handleDuration}
+            onProgress={handleProgress}
+            className={styles.zbi}
+            key={id}
+          />;
+        })}
       </div>
     </div>
   );
@@ -376,9 +380,7 @@ const CourseVideo = (props: CourseVideoProps) => {
  */
 
 type CourseVideoProps = {
-  video: {
-    url: string;
-  };
+  video: string;
 };
 
 type PLayPauseProps = {

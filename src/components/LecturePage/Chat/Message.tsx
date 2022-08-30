@@ -1,15 +1,20 @@
 import Link from "next/link";
 import React from "react";
 import classNames from "classnames";
+import Markdown from "markdown-to-jsx";
+
+import { useAppSelector } from "app/hooks";
+import { isUser } from "features/auth/selectors";
+
 import styles from "../../../styles/LecturePage/Chat.module.css";
 
 type Props = {
   message: {
-    user: {
-      userId: string;
-      name: string;
+    student: {
+      id: string;
+      username: string;
       img: string;
-      url: string;
+      slug: string;
     };
     type: string;
     message?: string;
@@ -18,11 +23,10 @@ type Props = {
       size: string;
       url: string;
     };
-    time: string;
+    updatedAt: string;
   };
 };
 
-const myUserId = "sdsdsd";
 const renderTime = (time: string) => {
   const date = new Date(time);
   const today = new Date();
@@ -54,8 +58,8 @@ const renderMessage = (message: Props["message"]) => {
   if (type === "text") {
     return (
       <div className={styles.message}>
-        {msg}
-        <div className={styles.messageTime}>{renderTime(message.time)}</div>
+        <Markdown>{msg as string}</Markdown>
+        <div className={styles.messageTime}>{renderTime(message.updatedAt)}</div>
       </div>
     );
   } else if (type === "file" && file) {
@@ -63,7 +67,9 @@ const renderMessage = (message: Props["message"]) => {
     return (
       <Link href={file.url}>
         <a className={styles.message}>
-          <div className={styles.messageTime}>{renderTime(message.time)}</div>
+          <div className={styles.messageTime}>
+            {renderTime(message.updatedAt)}
+          </div>
           <div className={styles.messageFile}>
             <div
               className={classNames(
@@ -86,7 +92,10 @@ const renderMessage = (message: Props["message"]) => {
 
 const Message = (props: Props) => {
   const { message } = props;
-  const isMessageFromMe = message.user.userId === myUserId;
+  const { user: user } = useAppSelector(isUser);
+
+  const myUserId = user?.id;
+  const isMessageFromMe = message.student.id === myUserId;
   return (
     <div
       className={classNames(styles.messageContainer, {
@@ -94,11 +103,11 @@ const Message = (props: Props) => {
       })}
     >
       {!isMessageFromMe && (
-        <Link href={`${message.user.url}`}>
+        <Link href={`/user-profile/${message?.student.slug}`}>
           <a
             className={styles.userPic}
             style={{
-              backgroundImage: `url(${message.user.img})`,
+              backgroundImage: `url(${message.student.img})`,
             }}
           ></a>
         </Link>

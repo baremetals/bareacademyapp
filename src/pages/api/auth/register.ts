@@ -9,11 +9,12 @@ type Data = {
 };
 
 
-export default async function handler(
+export default async function register(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
   const data = req.body;
+  console.log(baseUrl);
   try {
     // console.log("register me!");
     const resp = await axios({

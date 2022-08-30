@@ -3,13 +3,25 @@ import { FiCheck, FiClock } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Lectures.module.css";
 import classNames from "classnames";
 
+import Link from 'next/link';
+import { useRouter } from "next/router";
+import durationToString from "helpers/durationToString";
+import { ComponentLecturesLectures, Maybe } from 'generated/graphql';
+
 type Props = {
-  data: Array<{
-    title: string;
-    duration: number;
-    progress: number;
-  }>;
+  data: Maybe<ComponentLecturesLectures>[];
+  // Array<{
+  //   id: string;
+  //   title: string;
+  //   notes: string;
+  //   video: string;
+  //   duration: number;
+  //   progress: number;
+  // }>;
+  setOpenLecture: (index: number) => void;
+  openLecture: number;
 };
+
 
 const ProgressIcon = (props: { progress: number; size: number }) => {
   const { progress, size } = props;
@@ -57,16 +69,16 @@ ProgressIcon.defaultProps = {
 };
 
 const Lectures = (props: Props) => {
-  const { data } = props;
-  const totalDuration = data.reduce((acc, cur) => acc + cur.duration, 0);
-
-  const durationToString = (duration: number) => {
-    const minutes = Math.floor(duration / 60);
-    const seconds = Math.floor(duration % 60);
-    const minutesString = minutes > 0 ? `${minutes} min, ` : "";
-    const secondsString = seconds > 0 ? `${seconds} sec` : "";
-    return `${minutesString}${secondsString}`;
-  };
+  const { data, setOpenLecture, openLecture } = props;
+  const totalDuration = data.reduce(
+    (acc, cur) => {
+    const dur = cur?.duration as number
+    return acc + dur},
+    0
+  );
+  const router = useRouter();
+  const { slug } = router.query;
+  // console.log(data);
 
   return (
     <div className={styles.Lectures}>
@@ -85,33 +97,39 @@ const Lectures = (props: Props) => {
       </div>
       <div className={styles.lecturesContainer}>
         {data.map((lecture, index) => (
-          <div
-            className={classNames(styles.lecture, {
-              [styles.lectureActive]:
-                lecture.progress < 1 && lecture.progress > 0,
-              [styles.lectureCompleted]: lecture.progress === 1,
-              [styles.lectureNotStarted]: lecture.progress === 0,
-            })}
-            key={index}
-          >
-            <div className={styles.lectureNumberTitleDuration}>
-              <div className={styles.lectureNumber}>{index + 1}</div>
-              <div className={styles.lectureTitleDuration}>
-                <div className={styles.lectureTitle}>{lecture.title}</div>
-                <div className={styles.lectureDuration}>
-                  <div className={styles.lectureDurationIcon}>
-                    <FiClock size={12} />
-                  </div>
-                  <div className={styles.lectureDurationText}>
-                    {durationToString(lecture.duration)}
+                    
+          <Link href={`/courses/${slug}/lectures?id=${index}`} key={index}>
+            <div
+              onClick={() => setOpenLecture(index)}
+              className={classNames(styles.lecture, {
+                
+                [styles.lectureActive]:
+                lecture?.progress || 0 < 1 && lecture!.progress || 1 > 0,
+                [styles.lectureCompleted]: lecture?.progress === 1,
+                [styles.lectureNotStarted]: lecture?.progress === 0,
+                [styles.openLecture]: index === openLecture,
+              })}
+              key={index}
+            >
+              <div className={styles.lectureNumberTitleDuration}>
+                <div className={styles.lectureNumber}>{index + 1}</div>
+                <div className={styles.lectureTitleDuration}>
+                  <div className={styles.lectureTitle}>{lecture?.title}</div>
+                  <div className={styles.lectureDuration}>
+                    <div className={styles.lectureDurationIcon}>
+                      <FiClock size={12} />
+                    </div>
+                    <div className={styles.lectureDurationText}>
+                      {durationToString(lecture?.duration as number)}
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className={styles.lectureProgress}>
+                <ProgressIcon progress={lecture?.progress as number} />
+              </div>
             </div>
-            <div className={styles.lectureProgress}>
-              <ProgressIcon progress={lecture.progress} />
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
