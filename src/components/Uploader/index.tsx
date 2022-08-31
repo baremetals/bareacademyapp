@@ -21,9 +21,9 @@ const Uploader = ({ onChange, imageURL }: any) => {
       accept: "image/*",
       multiple: false,
       onDrop: useCallback(
-        (acceptedFiles) => {
+        (acceptedFiles: File[]) => {
           setFiles(
-            acceptedFiles.map((file: Blob | MediaSource) =>
+            acceptedFiles.map((file: Blob | MediaSource | any) =>
               Object.assign(file, {
                 preview: URL.createObjectURL(file),
               })

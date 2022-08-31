@@ -84,7 +84,7 @@ function ProfileRightCard({ city, userId, joined }: courseCard) {
   if (!data || loading) {
     return <div>loading...</div>;
   }
-  if (error) return <ErrorMsg>{error}</ErrorMsg>;
+  if (error) return <ErrorMsg>{error as any}</ErrorMsg>;
 
   const courses = data?.courses?.data;
   // console.log(data?.courses?.data);

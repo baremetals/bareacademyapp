@@ -135,10 +135,10 @@ const Topbar = () => {
       </TopCenterWrap>
       <TopRightWrap>
         <Icons>
-          {console.log("meid",me?.id)
-          }
-          <ChatIcon id={me?.id as string} />
-          <AlarmBell id={me?.id as string} />
+          <>
+            <ChatIcon id={me?.id as string} />
+            <AlarmBell id={me?.id as string} />
+          </>
         </Icons>
         <ProfileSetting>
           <ProfileImg

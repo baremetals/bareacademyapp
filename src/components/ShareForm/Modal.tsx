@@ -24,7 +24,7 @@ export const Modal = ({ closeM, showModal, setShowModal, children, ...props }: a
   };
 
   const keyPress = useCallback(
-    (e) => {
+    (e: { key: string; }) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
         console.log("I pressed");
