@@ -50,30 +50,33 @@ const Reviews = (props: IdType) => {
         start: 0,
         limit: 6,
       },
-      sort: "updatedAt:desc",
+      sort: "createdAt:desc",
     },
   });
   const data = result.data?.reviews?.data || [];
-  // console.log(data);
+  // const data = [];
+  // console.log(result?.data?.reviews?.data);
   const { user: user } = useAppSelector(isUser);
   const [showInput, setShowInput] = React.useState(false);
   const [message, setMessage] = React.useState<string>("");
   const [rating, setRating] = React.useState<number>(0);
 
-  data.sort((a: { time: string | number | Date; }, b: { time: string | number | Date; }) => {
+  const dta = [...data!]
+
+  dta.sort((a: { time: string | number | Date; }, b: { time: string | number | Date; }) => {
     return new Date(b.time).getTime() - new Date(a.time).getTime();
   });
 
   const avgReviews =
-    data.reduce((acc: number, cur: { attributes: { rating: number; }; }) => {
+    data?.reduce((acc: number, cur: { attributes: { rating: number; }; }) => {
       // console.log(acc)
       return acc + cur?.attributes?.rating;
-    }, 0) / data.length ;
+    }, 0) / data?.length ;
 
   const reviewsByNumber = [1, 2, 3, 4, 5].map((number) => {
     return data
-      .filter((review: { attributes: { rating: number; }; }) => review?.attributes?.rating === number)
-      .reduce((acc: number, cur: any) => {
+      ?.filter((review: { attributes: { rating: number; }; }) => review?.attributes?.rating === number)
+      ?.reduce((acc: number, cur: any) => {
         return acc + 1;
       }, 0);
   });
@@ -134,7 +137,7 @@ const Reviews = (props: IdType) => {
 
   return (
     <div className={styles.reviewsTab}>
-      {data.length > 0 && (
+      {data?.length > 0 && (
         <div className={styles.avgContainer}>
           <div className={styles.avg}>
             <FiStar size={60} />
@@ -187,7 +190,7 @@ const Reviews = (props: IdType) => {
         </form>
       )}
       <div className={styles.reviews}>
-        {data.map((review: { attributes: { user: { data: { attributes: { slug: any; img: any; username: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }; }; updatedAt: string; rating: number; message: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }, index: React.Key | null | undefined) => {
+        {dta?.map((review: { attributes: { user: { data: { attributes: { slug: string; img: string; username: string }; }; }; updatedAt: string; rating: number; message: string }; }, index: number) => {
           return (
             <div key={index} className={styles.review}>
               <div className={styles.reviewHeader}>

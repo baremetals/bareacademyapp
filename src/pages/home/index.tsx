@@ -6,14 +6,22 @@ import Home from "components/Home";
 import { useIsAuth } from "lib/isAuth";
 import { initializeApollo } from "lib/apolloClient";
 import {
-  CourseEntityResponseCollection,
-  GetCoursesByUserIdDocument,
-  GetCoursesByUserIdQueryResult,
+  UserGroupsDocument,
+  UserGroupsQueryResult,
+ GroupRelationResponseCollection,
 } from "generated/graphql";
 
-function HomePage(props: {
-  data: { courses: CourseEntityResponseCollection };
-}) {
+type Props = {
+  data: {
+    usersPermissionsUser: {
+      data: { attributes: { groups: GroupRelationResponseCollection } };
+    };
+  };
+};
+
+function HomePage(props: Props) {
+  const groups = props?.data?.usersPermissionsUser?.data?.attributes;
+  // console.log(props);
   useIsAuth();
   return (
     <>
@@ -32,7 +40,7 @@ function HomePage(props: {
         <meta property="og:url" content="https://baremetals.io/home" />
         <link rel="canonical" href="https://baremetals.io/home" />
       </Head>
-      <Home props={props} />
+      <Home groups={groups} />
     </>
   );
 }
@@ -43,16 +51,10 @@ export const getServerSideProps: GetServerSideProps = requireAuthentication(
       const { jwt, id } = cookies;
       const token = `Bearer ${jwt}`;
       const apolloClient = initializeApollo(null, token);
-      const { data } = await apolloClient.query<GetCoursesByUserIdQueryResult>({
-        query: GetCoursesByUserIdDocument,
+      const { data } = await apolloClient.query<UserGroupsQueryResult>({
+        query: UserGroupsDocument,
         variables: {
-          filters: {
-            students: {
-              id: {
-                eq: id,
-              },
-            },
-          },
+          usersPermissionsUserId: id,
           sort: "updatedAt:desc",
           pagination: {
             start: 0,

@@ -1,0 +1,26 @@
+query GetMyGroups(
+  $filters: GroupFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  groups(filters: $filters, pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        slug
+        name
+        active
+        course {
+          data {
+            id
+            attributes {
+              slug
+              title
+              image
+            }
+          }
+        }
+      }
+    }
+  }
+}

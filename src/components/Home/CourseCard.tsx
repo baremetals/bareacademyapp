@@ -5,7 +5,7 @@ import { FiClock,
   // FiMoreVertical, 
   FiStar } from "react-icons/fi";
 import styles from "../../styles/Home/CourseCard.module.css";
-import { CourseEntity, ReviewEntity } from 'generated/graphql';
+import { GroupEntity, ReviewEntity } from "generated/graphql";
 
 // interface Props {
 //   course: {
@@ -24,12 +24,16 @@ import { CourseEntity, ReviewEntity } from 'generated/graphql';
 //   };
 // }
 
-const CourseCard = (props: { course: CourseEntity }) => {
-  const { course } = props;
-  const reviews = course?.attributes?.reviews?.data as ReviewEntity[];
-  // console.log(props);
+const CourseCard = (props: { group: GroupEntity }) => {
+  const { group } = props;
+  const reviews = group?.attributes?.course?.data?.attributes?.reviews
+    ?.data as ReviewEntity[];
+  
+  const slug = group?.attributes?.slug as string;
 
-  console.log(typeof 'text');
+  const course = group?.attributes?.course;
+
+  // console.log(course);
   const avgReviews =
     reviews.reduce((acc, cur) => {
       const rating = cur?.attributes?.rating as number;
@@ -44,14 +48,14 @@ const CourseCard = (props: { course: CourseEntity }) => {
       <div
         className={styles.img}
         style={{
-          backgroundImage: `url(${course?.attributes?.image})`,
+          backgroundImage: `url(${course?.data?.attributes?.image})`,
         }}
       >
         <div className={styles.imgOverlay}></div>
       </div>
-      <Link href={`/courses/${course?.attributes?.slug}/lectures`}>
+      <Link href={`/courses/${slug}/lectures`}>
         <div className={styles.CourseCardTitle} style={{ cursor: "pointer" }}>
-          {course?.attributes?.title}
+          {course?.data?.attributes?.title}
         </div>
       </Link>
       <div className={styles.CourseCardDetails}>
@@ -62,7 +66,7 @@ const CourseCard = (props: { course: CourseEntity }) => {
         <div className={styles.CourseCardDuration}>
           <FiClock size={16} color="white" />
           <span>
-            {durationToString(course?.attributes?.duration as number)}
+            {durationToString(course?.data?.attributes?.duration as number)}
           </span>
         </div>
       </div>

@@ -4,7 +4,7 @@ import axios from "axios";
 const baseUrl: string | undefined = process.env.NEXT_PUBLIC_API_URL;
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  const { body, course, user, publishedAt } = req.body.data;
+  const { body, group, user, publishedAt } = req.body.data;
   const token = JSON.parse(req.cookies.bareacademy as string).jwt;
 
 //   console.log("we got here");
@@ -13,7 +13,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     console.log("testing 187")
     const response = await axios({
       method: "POST",
-      url: `${baseUrl}/course-comments`,
+      url: `${baseUrl}/group-comments`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -21,7 +21,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       data: {
         data: {
           body,
-          course,
+          group,
           user,
           publishedAt,
         },

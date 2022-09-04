@@ -1,4 +1,4 @@
-query Course($filters: CourseFiltersInput) {
+query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
   courses(filters: $filters) {
     data {
       id
@@ -13,22 +13,11 @@ query Course($filters: CourseFiltersInput) {
         soloPrice
         isFree
         image
-        startDate
-        endDate
         totalStudents
         totalLessons
         createdAt
         updatedAt
         publishedAt
-        students {
-          data {
-            id
-            attributes {
-              username
-              fullName
-            }
-          }
-        }
         SEO {
           id
           title
@@ -46,6 +35,11 @@ query Course($filters: CourseFiltersInput) {
               image
               title
             }
+          }
+        }
+        groups(filters: $groupsFilters2) {
+          data {
+            id
           }
         }
       }

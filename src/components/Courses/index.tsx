@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 import { theCourses } from "features/courses/selectors";
+import durationToString from "helpers/durationToString";
 import Dashboard from 'components/Dashboard';
 import {
   BlogCard,
@@ -72,7 +73,8 @@ function CoursesPage({ desc }: des) {
             <div>
               <p>{desc as string}</p>
             </div>
-            <div></div><br />
+            <div></div>
+            <br />
             <div></div>
             <PageWrapper className={!user?.id ? "" : "blog-wrapper"}>
               {!courses ? (
@@ -114,7 +116,7 @@ function CoursesPage({ desc }: des) {
                           <CardStartDate>
                             {/* {dayjs(course?.attributes?.startDate).fromNow()} */}
                             {/* {course?.attributes?.level} */}
-                            {course?.attributes?.duration}
+                            {durationToString(course?.attributes?.duration)}
                           </CardStartDate>
                           <Link href={`/courses/${course?.attributes?.slug}`}>
                             <ApplyButton>Buy course</ApplyButton>

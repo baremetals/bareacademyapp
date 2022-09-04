@@ -6,33 +6,33 @@ import { useIsAuth } from "lib/isAuth";
 // import { client } from "lib/initApollo";
 import { initializeApollo } from "lib/apolloClient";
 import {
-  CourseEntity,
-  LecturesDocument,
-  LecturesQueryResult,
+  GroupEntity,
+  GroupDocument,
+  GroupQueryResult,
   // CourseEntityResponseCollection,
 } from "generated/graphql";
 
-function LecturePage(props: { data: { courses: { data: CourseEntity[] } } }) {
+function LecturePage(props: { data: { groups: { data: GroupEntity[] } } }) {
   const { data } = props;
   useIsAuth();
   // console.log(data?.courses?.data[0]);
-  const lect = data?.courses?.data[0];
-  // console.log(props);
+  const group = data?.groups?.data[0];
+  // console.log(group);
 
   return (
     <>
       <Head>
-        <title>Bare Metals Aacademy | {lect?.attributes?.slug} </title>
+        <title>Bare Metals Aacademy | {group?.attributes?.name as string} </title>
         <meta
           property="og:title"
-          content={lect?.attributes?.slug as string}
+          content={group?.attributes?.name as string}
           key="title"
         />
         <meta name="description" content="lecture video" />
         <meta property="og:image:width" content="100%" />
         <meta property="og:image:height" content="auto" />
       </Head>
-      <LectureDetails props={lect} />
+      <LectureDetails props={group} />
     </>
   );
 }
@@ -47,14 +47,15 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { jwt } = cookies;
   const token = `Bearer ${jwt}`;
   const apolloClient = initializeApollo(null, token);
-  const { data } = await apolloClient.query<LecturesQueryResult>({
-    query: LecturesDocument,
+  const { data } = await apolloClient.query<GroupQueryResult>({
+    query: GroupDocument,
     variables: {
       filters: {
         slug: {
           eq: slug,
         },
       },
+
     },
   });
 

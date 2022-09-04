@@ -61,7 +61,7 @@ const Orders = (props: {
                 orders.map((order, _id) => (
                   <BlogCard key={order?.id}>
                     <Link
-                      href={`/courses/${order?.attributes?.course?.data?.attributes?.slug}`}
+                      href={`/courses/${order?.attributes?.course?.data?.attributes?.slug}/lectures`}
                     >
                       <BlogCardImage
                         alt="order image"

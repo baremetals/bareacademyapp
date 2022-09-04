@@ -12,7 +12,7 @@ dayjs.extend(relativeTime);
 import styles from "styles/LecturePage/index.module.css";
 import classNames from "classnames";
 
-import { CourseEntity, Teacher } from "generated/graphql";
+import { GroupEntity, Teacher } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 import {
@@ -34,21 +34,22 @@ import {
 import Dashboard from "components/Dashboard";
 
 
-function LectureDetails(props: { props: CourseEntity }) {
+function LectureDetails(props: { props: GroupEntity }) {
   const router = useRouter();
   const { socket } = useSockets();
   const { id, slug } = router.query;
-  const lect = props?.props;
+  const lect = props?.props?.attributes?.lectures;
+  const course = props?.props?.attributes?.course?.data
   const { user: user } = useAppSelector(isUser);
-  const teacher = lect?.attributes?.teacher?.data;
-  const lecture = lect?.attributes?.lecture || [];
-  const activeLecture =  parseInt(id as string)
+  const teacher = course?.attributes?.teacher?.data;
+  const lecture = lect || [];
+  const activeLecture = parseInt(id as string);
   const [activeLectures, setActiveLectures] = useState(0);
   // console.log(activeLecture);
-  // console.log(teacher);
+  // console.log(props?.props);
 
   useEffect(() => {
-    socket.emit("joincourseroom", {slug}, (error: any, d: any) => {
+    socket.emit("joingroup", { slug }, (error: any, d: any) => {
       if (error) {
         console.log(" Something went wrong please try again later.", error);
       }
@@ -67,8 +68,8 @@ function LectureDetails(props: { props: CourseEntity }) {
               <div className={classNames(styles.col, styles.col1)}>
                 <Tutor tutor={teacher?.attributes as Teacher} />
                 <TitleDescription
-                  title={lect?.attributes?.title as string}
-                  description={lect?.attributes?.introduction as string}
+                  title={course?.attributes?.title as string}
+                  description={course?.attributes?.introduction as string}
                 />
                 {/* <Achievements data={[]} /> */}
                 <div>
@@ -90,13 +91,13 @@ function LectureDetails(props: { props: CourseEntity }) {
                     />
                   </LectureTab>
                   <LectureTab title="Reviews">
-                    <Reviews id={lect?.id as string} />
+                    <Reviews id={course?.id as string} />
                   </LectureTab>
                   <LectureTab title="Group chat">
-                    <Chat courseId={lect?.id as string} />
+                    <Chat groupId={props?.props?.id as string} />
                   </LectureTab>
                   <LectureTab title="Q&A">
-                    <QNA id={lect?.id as string} />
+                    <QNA id={props?.props?.id as string} />
                   </LectureTab>
                 </LectureTabsContainer>
               </div>

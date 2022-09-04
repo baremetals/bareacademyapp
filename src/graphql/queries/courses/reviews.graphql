@@ -20,7 +20,7 @@ query Reviews(
             }
           }
         }
-        updatedAt
+        createdAt
       }
     }
   }

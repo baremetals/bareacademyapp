@@ -19,7 +19,7 @@ import { isUser } from "features/auth/selectors";
 import { ErrorMsg } from 'components/Input';
 
 type Props = {
-  courseId: string;
+  groupId: string;
 };
 
 // type MessagePageType = {
@@ -47,7 +47,7 @@ type FileType = {
 };
 
 const Chat = (props: Props) => {
-  const { courseId } = props;
+  const { groupId } = props;
   const router = useRouter();
   const { slug } = router.query;
   const { socket } = useSockets();
@@ -81,8 +81,8 @@ const Chat = (props: Props) => {
     if (socket == null) return;
     if (me != "undefined") {
       socket.emit(
-        "load all course messages",
-        { slug, me, courseId },
+        "load all group messages",
+        { slug, me, groupId },
         (error: any, d: any) => {
           if (error) {
             console.log(" Something went wrong please try again later.", error);
@@ -95,9 +95,9 @@ const Chat = (props: Props) => {
 
   // listen for loaded messages
   useEffect(() => {
-    socket.on("course messages loaded", (msgs) => {
-      // console.log('to: ',msgs);
-      if (msgs.to === courseId) setMessages(msgs.messages);
+    socket.on("group messages loaded", (msgs) => {
+      // console.log('to: ',msgs.to);
+      if (msgs?.to === groupId) setMessages(msgs?.messages);
     });
   }, [socket]);
 
@@ -109,9 +109,9 @@ const Chat = (props: Props) => {
       const size = upload?.size as number;
       setFileSizeErr(false);
       // console.log(upload);
-      if (size > 102400) {
+      if (size > 209715200) {
         upload = null;
-        setMsg("File size cannot exceed 10MB");
+        setMsg("File size cannot exceed 256MB");
         setFileSizeErr(true);
         setTimeout(() => {
           setFileSizeErr(false);
@@ -125,7 +125,7 @@ const Chat = (props: Props) => {
     let form;
     let file;
 
-    const course: string = courseId;
+    const group: string = groupId;
     const message = body === "" ? null : body;
     const student = me;
     const username = user?.username;
@@ -133,24 +133,25 @@ const Chat = (props: Props) => {
     // console.log(file?.name);
     // console.log("message: ", form);
     // console.log('student: ', student)
-    // // console.log(name);
+    // console.log(name);
 
     try {
       if (upload !== null) {
+        // console.log(upload);
         form = new FormData();
         form.append("files", upload as any, upload?.name);
         const res = await fetch(`${baseUrl}/upload`, {
           method: "post",
-          body: file as any,
+          body: form as any,
         });
         file = await res.json();
       } else file = null;
 
       // const r = await res.json();
-      // console.log(file);
+      console.log(file);
       socket.emit(
-        "new course message",
-        { student, username, message, slug, course, file },
+        "new group message",
+        { student, username, message, slug, group, file },
         (error: any) => {
           if (error) {
             console.log(" Something went wrong please try again later. error");
@@ -160,6 +161,11 @@ const Chat = (props: Props) => {
       if (message !== '') setBody('')
     } catch (err) {
       console.log(err);
+      setMsg("Something went wrong please try again later");
+      setFileSizeErr(true);
+      setTimeout(() => {
+        setFileSizeErr(false);
+      }, 8000);
     }
   };
 

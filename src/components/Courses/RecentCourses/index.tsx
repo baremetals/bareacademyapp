@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { RecentCoursesDocument } from "generated/graphql";
+import durationToString from "helpers/durationToString";
 
 import {
   RightBarInfo,
@@ -63,16 +64,28 @@ const RecentCourses = () => {
         <RightBarTitle style={{ marginBottom: "1.5rem" }}>
           Recent Courses
         </RightBarTitle>
-        {courses?.map((item: { attributes: { title: string; image: string; duration: string | undefined; slug: any; }; }, id: string) => (
-          <SideBarCard
-            key={id}
-            title={item?.attributes?.title}
-            image={item?.attributes?.image}
-            category={item?.attributes?.duration}
-            style={{ cursor: "pointer" }}
-            onClick={() => router.push(`/courses/${item?.attributes?.slug}`)}
-          />
-        ))}
+        {courses?.map(
+          (
+            item: {
+              attributes: {
+                title: string;
+                image: string;
+                duration: number;
+                slug: string;
+              };
+            },
+            id: string
+          ) => (
+            <SideBarCard
+              key={id}
+              title={item?.attributes?.title}
+              image={item?.attributes?.image}
+              duration={durationToString(item?.attributes?.duration as number)}
+              style={{ cursor: "pointer" }}
+              onClick={() => router.push(`/courses/${item?.attributes?.slug}`)}
+            />
+          )
+        )}
       </RightBarInfo>
     </>
   );

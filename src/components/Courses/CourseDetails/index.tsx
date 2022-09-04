@@ -10,6 +10,7 @@ import Spinner from "components/Spinner";
 import { CourseEntityResponseCollection } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
+import durationToString from "helpers/durationToString";
 
 
 import dayjs from "dayjs";
@@ -78,11 +79,11 @@ function CourseDetails(props: {
   if (error) return <ErrorMsg>{error}</ErrorMsg>;
 
   const course = data?.courses?.data[0];
-  // const videos = course?.attributes?.videos?.data;
-  const students = course?.attributes?.students?.data;
+  const groups = course?.attributes?.groups?.data;
+  // const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data;
   const imageUrl = course?.attributes?.image;
-  console.log(teacher);
+  // console.log(groups);
 
   const [isloading, setIsLoading] = useState(false);
   const [socialDropdown, setSocialDropdown] = useState(false);
@@ -105,15 +106,27 @@ function CourseDetails(props: {
   // console.log('printing me',me)
 
   useEffect(() => {
-    if (me?.id && students?.length !== 0) {
-      students?.forEach((student) => {
-        const usrId = student?.id;
-        if (usrId == me?.id) {
-          setIsStudent(true);
-        }
-      });
+    if (me?.id && groups!.length > 0) {
+      setIsStudent(true);
+      // groups?.forEach((student) => {
+      //   const usrId = student?.id;
+      //   if (usrId == me?.id) {
+      //     setIsStudent(true);
+      //   }
+      // });
     }
-  }, [students, me?.id]);
+  }, [groups, me?.id]);
+
+  // useEffect(() => {
+  //   if (me?.id && students?.length !== 0) {
+  //     students?.forEach((student) => {
+  //       const usrId = student?.id;
+  //       if (usrId == me?.id) {
+  //         setIsStudent(true);
+  //       }
+  //     });
+  //   }
+  // }, [students, me?.id]);
 
   useEffect(() => {
     if (me?.id && teacher?.id === me?.id) {
@@ -266,7 +279,7 @@ function CourseDetails(props: {
                       )}{" "}
                       to {dayjs(course?.attributes?.endDate).format("DD.MM.YY")}{" "}
                       -  */}
-                      {course?.attributes?.duration}
+                      {durationToString(course?.attributes?.duration as number)}
                       {/* dayjs(course?.attributes?.startDate).fromNow() */}
                     </StartDate>
                   </StartDateTitle>

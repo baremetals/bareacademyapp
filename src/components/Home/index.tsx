@@ -6,7 +6,10 @@ import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 import RightSideBar from "components/Dashboard/RightSideBar";
 import AdCardThree from "components/AdCards/AdCardThree";
-import { CourseEntity, CourseEntityResponseCollection } from "generated/graphql";
+import {
+  GroupEntity,
+  // GroupRelationResponseCollection,
+} from "generated/graphql";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
@@ -26,25 +29,28 @@ import TakeQuizDialog from "./TakeQuizDialog";
 
 import { useSockets } from 'context/socket.context';
 
+type Props = {
+  groups: {
+    data: Array<GroupEntity>;
+  };
+};
 
-const Home = (props: {
-  props: { data: { courses: CourseEntityResponseCollection } };
-}) => {
+const Home = (props: { groups: Props; }) => {
   const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
-  
-  const { data } = props.props;
 
-  const courses = data.courses.data;
-  const me = user?.id
+  const { data } = props?.groups?.groups;
+  // const groups = data[0];
+  // console.log(data);
+  const me = user?.id;
 
-  useEffect(()=>{
-    socket.emit("joinroom" , {me} , (error: any, d: any) => {
+  useEffect(() => {
+    socket.emit("joinroom", { me }, (error: any, d: any) => {
       if (error) {
         console.log(" Something went wrong please try again later.", error);
       }
-    })
-  },[])
+    });
+  }, []);
 
   // console.log(courses);
   return (
@@ -57,9 +63,9 @@ const Home = (props: {
         >
           <div className={styles.container}>
             <div className={styles.courses}>
-              {courses &&
-                courses.map((course, index) => (
-                  <CourseCard key={index} course={course as CourseEntity} />
+              {data &&
+                data.map((gr: GroupEntity, index: number) => (
+                  <CourseCard key={index} group={gr} />
                 ))}
             </div>
             <div className={styles.articles}>

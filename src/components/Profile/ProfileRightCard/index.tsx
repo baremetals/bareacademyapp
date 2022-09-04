@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import {
-  CourseEntity,
-  useGetCoursesByUserIdQuery,
-} from "generated/graphql";
+import { GroupEntity, useGetMyGroupsQuery } from "generated/graphql";
 
 import CoursesTaken from "../CoursesTaken";
 import { ErrorMsg } from 'components/Input';
@@ -65,7 +62,7 @@ type courseCard = {
 };
 
 function ProfileRightCard({ city, userId, joined }: courseCard) {
-  const { data, loading, error } = useGetCoursesByUserIdQuery({
+  const { data, loading, error } = useGetMyGroupsQuery({
     variables: {
       filters: {
         students: {
@@ -86,8 +83,8 @@ function ProfileRightCard({ city, userId, joined }: courseCard) {
   }
   if (error) return <ErrorMsg>{error as any}</ErrorMsg>;
 
-  const courses = data?.courses?.data;
-  // console.log(data?.courses?.data);
+  const groups = data?.groups?.data;
+  // console.log(data?.groups?.data);
   return (
     <>
       <MainContainer>
@@ -100,7 +97,7 @@ function ProfileRightCard({ city, userId, joined }: courseCard) {
             </RightBarInfoItem>
             <RightBarInfoItem>
               <RightBarInfoKey>Courses Taken</RightBarInfoKey>
-              <RightBarInfoValue>{courses?.length}</RightBarInfoValue>
+              <RightBarInfoValue>{groups?.length}</RightBarInfoValue>
             </RightBarInfoItem>
             {/* <RightBarInfoItem>
               <RightBarInfoKey>Complete</RightBarInfoKey>
@@ -111,10 +108,10 @@ function ProfileRightCard({ city, userId, joined }: courseCard) {
               <RightBarInfoValue>{dayjs(joined).fromNow()}</RightBarInfoValue>
             </RightBarInfoItem>
           </RightBarInfo>
-          {courses !== undefined &&
-            courses.length > 0 && (
+          {groups &&
+            groups.length > 0 && (
               <CoursesTakenGroup>
-                <CoursesTaken course={courses as CourseEntity[]} />
+                <CoursesTaken group={groups as GroupEntity[]} />
               </CoursesTakenGroup>
             )}
         </MainWrapper>

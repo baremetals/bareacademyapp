@@ -118,7 +118,7 @@ const QNA = (props: IdType) => {
   const { refetch, ...result } = useQuery(QuestionAndAnswersDocument, {
     variables: {
       filters: {
-        course: {
+        group: {
           slug: {
             eq: slug,
           },
@@ -128,7 +128,7 @@ const QNA = (props: IdType) => {
         start: 0,
         limit: 6,
       },
-      sort: "updatedAt:desc",
+      sort: "createdAt:desc",
     },
   });
   const data: any = result.data?.questionAndAnswers?.data || [];
@@ -160,7 +160,7 @@ const QNA = (props: IdType) => {
   // }, [showInput]);
 
   const onSubmit = async (info: FormInput) => {
-    console.log(info);
+    // console.log(info);
     // console.log(slugify(info.title))
     // setShowModal(false);
 
@@ -170,7 +170,7 @@ const QNA = (props: IdType) => {
           title: info.title,
           question: info.body,
           user: user?.id as string,
-          course: id,
+          group: id,
           publishedAt: new Date(),
         },
       })
@@ -191,13 +191,13 @@ const QNA = (props: IdType) => {
   };
 
   const onSubmitComment = async () => {
-    console.log(body);
+    // console.log(body);
     await axios
       .post("/api/course/comments", {
         data: {
           body,
           user: user?.id as string,
-          course: id,          
+          group: id,          
           publishedAt: new Date(),
         },
       })
@@ -290,7 +290,7 @@ const QNA = (props: IdType) => {
                   </div>
                 </div>
               </div>
-              {showInput && (
+              {showInput && id && (
                 <form className={styles.qnaCommentInput}>
                   <TextareaAutosize
                     className={styles.qnaCommentTextarea}

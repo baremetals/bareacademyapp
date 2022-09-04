@@ -72,7 +72,6 @@ const Login = () => {
           }, 3000);
         } else {
           const errMsgData = res.data.error;
-          console.log(errMsgData);
           if (errMsgData.name === "ValidationError") {
             err = "Incorrect details provided";
             initialValues.error = err;
