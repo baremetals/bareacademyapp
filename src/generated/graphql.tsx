@@ -1,6 +1,3 @@
-/* eslint-disable valid-jsdoc */
-/* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -397,7 +394,6 @@ export type ChatRelationResponseCollection = {
 export type Comment = {
   __typename?: 'Comment';
   body: Scalars['String'];
-  course?: Maybe<CourseEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
   isDisabled?: Maybe<Scalars['Boolean']>;
   post?: Maybe<PostEntityResponse>;
@@ -426,7 +422,6 @@ export type CommentEntityResponseCollection = {
 export type CommentFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CommentFiltersInput>>>;
   body?: InputMaybe<StringFilterInput>;
-  course?: InputMaybe<CourseFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isDisabled?: InputMaybe<BooleanFilterInput>;
@@ -440,7 +435,6 @@ export type CommentFiltersInput = {
 
 export type CommentInput = {
   body?: InputMaybe<Scalars['String']>;
-  course?: InputMaybe<Scalars['ID']>;
   isDisabled?: InputMaybe<Scalars['Boolean']>;
   post?: InputMaybe<Scalars['ID']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
@@ -584,6 +578,47 @@ export type CourseReviewsArgs = {
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type CourseComment = {
+  __typename?: 'CourseComment';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  test?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CourseCommentEntity = {
+  __typename?: 'CourseCommentEntity';
+  attributes?: Maybe<CourseComment>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type CourseCommentEntityResponse = {
+  __typename?: 'CourseCommentEntityResponse';
+  data?: Maybe<CourseCommentEntity>;
+};
+
+export type CourseCommentEntityResponseCollection = {
+  __typename?: 'CourseCommentEntityResponseCollection';
+  data: Array<CourseCommentEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CourseCommentFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CourseCommentFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<CourseCommentFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CourseCommentFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  test?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CourseCommentInput = {
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  test?: InputMaybe<Scalars['String']>;
 };
 
 export type CourseEntity = {
@@ -846,7 +881,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseVideo | CoursesPage | Group | GroupChat | GroupComment | GroupMessage | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseComment | CourseVideo | CoursesPage | Group | GroupChat | GroupComment | GroupMessage | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type Group = {
   __typename?: 'Group';
@@ -1263,6 +1298,7 @@ export type Mutation = {
   createChatMsg?: Maybe<ChatMsgEntityResponse>;
   createComment?: Maybe<CommentEntityResponse>;
   createCourse?: Maybe<CourseEntityResponse>;
+  createCourseComment?: Maybe<CourseCommentEntityResponse>;
   createCourseVideo?: Maybe<CourseVideoEntityResponse>;
   createGroup?: Maybe<GroupEntityResponse>;
   createGroupChat?: Maybe<GroupChatEntityResponse>;
@@ -1290,6 +1326,7 @@ export type Mutation = {
   deleteChatMsg?: Maybe<ChatMsgEntityResponse>;
   deleteComment?: Maybe<CommentEntityResponse>;
   deleteCourse?: Maybe<CourseEntityResponse>;
+  deleteCourseComment?: Maybe<CourseCommentEntityResponse>;
   deleteCourseVideo?: Maybe<CourseVideoEntityResponse>;
   deleteCoursesPage?: Maybe<CoursesPageEntityResponse>;
   deleteGroup?: Maybe<GroupEntityResponse>;
@@ -1333,6 +1370,7 @@ export type Mutation = {
   updateChatMsg?: Maybe<ChatMsgEntityResponse>;
   updateComment?: Maybe<CommentEntityResponse>;
   updateCourse?: Maybe<CourseEntityResponse>;
+  updateCourseComment?: Maybe<CourseCommentEntityResponse>;
   updateCourseVideo?: Maybe<CourseVideoEntityResponse>;
   updateCoursesPage?: Maybe<CoursesPageEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
@@ -1399,6 +1437,11 @@ export type MutationCreateCommentArgs = {
 
 export type MutationCreateCourseArgs = {
   data: CourseInput;
+};
+
+
+export type MutationCreateCourseCommentArgs = {
+  data: CourseCommentInput;
 };
 
 
@@ -1523,6 +1566,11 @@ export type MutationDeleteCommentArgs = {
 
 
 export type MutationDeleteCourseArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteCourseCommentArgs = {
   id: Scalars['ID'];
 };
 
@@ -1696,6 +1744,12 @@ export type MutationUpdateCommentArgs = {
 
 export type MutationUpdateCourseArgs = {
   data: CourseInput;
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateCourseCommentArgs = {
+  data: CourseCommentInput;
   id: Scalars['ID'];
 };
 
@@ -2182,6 +2236,8 @@ export type Query = {
   comment?: Maybe<CommentEntityResponse>;
   comments?: Maybe<CommentEntityResponseCollection>;
   course?: Maybe<CourseEntityResponse>;
+  courseComment?: Maybe<CourseCommentEntityResponse>;
+  courseComments?: Maybe<CourseCommentEntityResponseCollection>;
   courseVideo?: Maybe<CourseVideoEntityResponse>;
   courseVideos?: Maybe<CourseVideoEntityResponseCollection>;
   courses?: Maybe<CourseEntityResponseCollection>;
@@ -2321,6 +2377,19 @@ export type QueryCommentsArgs = {
 
 export type QueryCourseArgs = {
   id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryCourseCommentArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryCourseCommentsArgs = {
+  filters?: InputMaybe<CourseCommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
@@ -3499,7 +3568,7 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', articles?: { __typename?: 'ArticleEntityResponseCollection', data: Array<{ __typename?: 'ArticleEntity', id?: string | null | undefined, attributes?: { __typename?: 'Article', title?: string | null | undefined, body: string, slug?: string | null | undefined, updatedAt?: any | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, heroImage?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, type?: string | null | undefined, locale?: string | null | undefined } | null | undefined, author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', id?: string | null | undefined, attributes?: { __typename?: 'Author', jobTitle?: string | null | undefined, bio?: string | null | undefined, fullName?: string | null | undefined, updatedAt?: any | null | undefined, slug?: string | null | undefined, firstName?: string | null | undefined, lastName: string, avatar?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type ArticleQuery = { __typename?: 'Query', articles?: { __typename?: 'ArticleEntityResponseCollection', data: Array<{ __typename?: 'ArticleEntity', id?: string | null | undefined, attributes?: { __typename?: 'Article', title?: string | null | undefined, body: string, createdAt?: any | null | undefined, slug?: string | null | undefined, updatedAt?: any | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, heroImage?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, type?: string | null | undefined, locale?: string | null | undefined } | null | undefined, author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', id?: string | null | undefined, attributes?: { __typename?: 'Author', jobTitle?: string | null | undefined, bio?: string | null | undefined, fullName?: string | null | undefined, updatedAt?: any | null | undefined, slug?: string | null | undefined, firstName?: string | null | undefined, lastName: string, avatar?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type ArticlesQueryVariables = Exact<{
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
@@ -3572,7 +3641,7 @@ export type CourseQueryVariables = Exact<{
 }>;
 
 
-export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
+export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type CoursesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
@@ -4219,6 +4288,7 @@ export const ArticleDocument = gql`
       attributes {
         title
         body
+        createdAt
         category {
           data {
             id
@@ -4795,6 +4865,9 @@ export const CourseDocument = gql`
         groups(filters: $groupsFilters2) {
           data {
             id
+            attributes {
+              slug
+            }
           }
         }
       }

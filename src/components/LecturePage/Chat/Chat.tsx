@@ -148,7 +148,7 @@ const Chat = (props: Props) => {
       } else file = null;
 
       // const r = await res.json();
-      console.log(file);
+      // console.log(file);
       socket.emit(
         "new group message",
         { student, username, message, slug, group, file },

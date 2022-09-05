@@ -40,6 +40,9 @@ query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
         groups(filters: $groupsFilters2) {
           data {
             id
+            attributes {
+              slug
+            }
           }
         }
       }

@@ -83,7 +83,7 @@ function CourseDetails(props: {
   // const students = course?.attributes?.students?.data;
   const teacher = course?.attributes?.teacher?.data;
   const imageUrl = course?.attributes?.image;
-  // console.log(groups);
+  // console.log(groups![0].attributes?.slug);
 
   const [isloading, setIsLoading] = useState(false);
   const [socialDropdown, setSocialDropdown] = useState(false);
@@ -328,7 +328,7 @@ function CourseDetails(props: {
                       <ApplyButton
                         onClick={() =>
                           router.push(
-                            `/courses/${course?.attributes?.slug}/lectures`
+                            `/courses/${groups![0].attributes?.slug}/lectures`
                           )
                         }
                         type="button"
