@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 // import { BlogCardBody, BlogCardImage, BlogCardTitle, PageWrapper } from 'styles/common.styles'
-import Dashboard from '../Dashboard'
+import Dashboard from "../Dashboard";
 
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 import RightSideBar from "components/Dashboard/RightSideBar";
 import AdCardThree from "components/AdCards/AdCardThree";
-import { CourseEntity, CourseEntityResponseCollection } from "generated/graphql";
+import {
+  CourseEntity,
+  CourseEntityResponseCollection,
+} from "generated/graphql";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import {
-  PageHeading,
-  ProfileWrapGroup,
-} from "../../styles/common.styles";
-
+import { PageHeading, ProfileWrapGroup } from "../../styles/common.styles";
 
 import Footer from "components/Footer";
 import styles from "../../styles/Home/index.module.css";
@@ -23,28 +22,26 @@ import CourseCard from "./CourseCard";
 import ArticleEntry from "./ArticleEntry";
 import TakeQuizDialog from "./TakeQuizDialog";
 
-
-import { useSockets } from 'context/socket.context';
-
+import { useSockets } from "context/socket.context";
 
 const Home = (props: {
   props: { data: { courses: CourseEntityResponseCollection } };
 }) => {
   const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
-  
+
   const { data } = props.props;
 
   const courses = data.courses.data;
-  const me = user?.id
+  const me = user?.id;
 
-  useEffect(()=>{
-    socket.emit("joinroom" , {me} , (error: any, d: any) => {
+  useEffect(() => {
+    socket.emit("joinroom", { me }, (error: any, d: any) => {
       if (error) {
         console.log(" Something went wrong please try again later.", error);
       }
-    })
-  },[])
+    });
+  }, []);
 
   // console.log(courses);
   return (
@@ -57,6 +54,22 @@ const Home = (props: {
         >
           <div className={styles.container}>
             <div className={styles.courses}>
+              {courses &&
+                courses.map((course, index) => (
+                  <CourseCard key={index} course={course as CourseEntity} />
+                ))}
+              {courses &&
+                courses.map((course, index) => (
+                  <CourseCard key={index} course={course as CourseEntity} />
+                ))}
+              {courses &&
+                courses.map((course, index) => (
+                  <CourseCard key={index} course={course as CourseEntity} />
+                ))}
+              {courses &&
+                courses.map((course, index) => (
+                  <CourseCard key={index} course={course as CourseEntity} />
+                ))}
               {courses &&
                 courses.map((course, index) => (
                   <CourseCard key={index} course={course as CourseEntity} />

@@ -1,51 +1,66 @@
-import { useCoursesQuery } from 'generated/graphql';
-import Link from 'next/link';
-import React from 'react'
-import styled from 'styled-components';
+import { useCoursesQuery } from "generated/graphql";
+import Link from "next/link";
+import React from "react";
+import styled from "styled-components";
+import styles from "../../styles/Home/index.module.css";
+import classNames from "classnames";
+import TitlePopOver from "components/Home/TitlePopOver";
 
 const AdCardThree = () => {
   const { data, loading, error } = useCoursesQuery();
-    
 
-    const courses = data?.courses?.data;
-    // console.log(courses);
+  const courses = data?.courses?.data;
+  // console.log(courses);
 
-    if (!data || loading || error) {
-      return <div>loading...</div>;
-    }
-    return (
-      <AdCardWrapper>
-        <Title>Latest Courses </Title>
-        <br />
-        <br />
-        {courses &&
-          courses.map((c, id) => (
-            <Container key={id}>
-              <ImageWrap>
-                <Link href={`/courses/${c?.attributes?.slug}`}>
-                  <Img
-                    alt="Course Image"
-                    src={c?.attributes?.image as string}
-                  />
-                </Link>
-                <Status />
-              </ImageWrap>
+  if (!data || loading || error) {
+    return <div>loading...</div>;
+  }
+  return (
+    <AdCardWrapper>
+      <Title>Latest Courses </Title>
+      {courses &&
+        courses.map((c, id) => (
+          <Container
+            key={id}
+            className={classNames({
+              [styles.courseEntryPrimer]: c?.attributes?.level === "Primer",
+              [styles.courseEntryBeginner]: c?.attributes?.level === "Beginner",
+              [styles.courseEntryIntermediate]:
+                c?.attributes?.level === "Intermediate",
+              [styles.courseEntryAdvance]: c?.attributes?.level === "Advance",
+            })}
+          >
+            <div className={styles.courseEntryLevel}>
+              {c?.attributes?.level}
+            </div>
+            <ImageWrap>
               <Link href={`/courses/${c?.attributes?.slug}`}>
-                <Title>{c?.attributes?.title}</Title>
+                <Img
+                  alt="Course Image"
+                  src={
+                    (c?.attributes?.image as string) ||
+                    "/assets/images/course-placeholder.png"
+                  }
+                />
               </Link>
-            </Container>
-          ))}
-      </AdCardWrapper>
-    );
-}
+              {/* <Status /> */}
+            </ImageWrap>
+            <Link href={`/courses/${c?.attributes?.slug}`}>
+              <TitlePopOver size={22}>{c?.attributes?.title}</TitlePopOver>
+            </Link>
+          </Container>
+        ))}
+    </AdCardWrapper>
+  );
+};
 
-export default AdCardThree
+export default AdCardThree;
 
 const AdCardWrapper = styled.div`
   margin-bottom: 1.875rem;
-  padding: 1.875rem;
-  background-color: #ffffff;
-  box-shadow: 0px 2px 80px rgba(66, 66, 66, 0.08);
+  // padding: 1.875rem;
+  // background-color: #ffffff;
+  // box-shadow: 0px 2px 80px rgba(66, 66, 66, 0.08);
   border-radius: 1rem;
 `;
 const Container = styled.li`
@@ -55,9 +70,16 @@ const Container = styled.li`
   &:last-child {
     margin-bottom: 0;
   }
+  background: white;
+  height: 100px;
+  border-radius: 20px;
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 `;
 const ImageWrap = styled.div`
-  margin-right: 1.25rem;
+  margin-right: 0.8rem;
   position: relative;
 `;
 const Img = styled.img`
@@ -80,8 +102,14 @@ const Status = styled.span`
   border: 1px solid white;
 `;
 
-const Title = styled.span`
-  font-weight: 500;
-  opacity: 0.6;
-  cursor: pointer;
+const Title = styled.div`
+  // font-weight: 500;
+  // opacity: 0.6;
+  // cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
