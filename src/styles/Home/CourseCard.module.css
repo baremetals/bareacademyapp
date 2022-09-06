@@ -64,18 +64,27 @@
   width: 100%;
   position: absolute;
   bottom: 0;
+  background: linear-gradient(to top, var(--white), rgba(0, 0, 0, 0));
 }
 
-.CourseCard:nth-child(3n + 1) .imgOverlay {
-  background: linear-gradient(to top, #70367c, rgba(0, 0, 0, 0));
+.CourseCardPrimer .imgOverlay {
+  background: linear-gradient(to top, var(--course-primer), rgba(0, 0, 0, 0));
 }
 
-.CourseCard:nth-child(3n + 2) .imgOverlay {
-  background: linear-gradient(to top, #95cfd5, rgba(0, 0, 0, 0));
+.CourseCardBeginner .imgOverlay {
+  background: linear-gradient(to top, var(--course-beginner), rgba(0, 0, 0, 0));
 }
 
-.CourseCard:nth-child(3n + 0) .imgOverlay {
-  background: linear-gradient(to top, #f7b733, rgba(0, 0, 0, 0));
+.CourseCardIntermediate .imgOverlay {
+  background: linear-gradient(
+    to top,
+    var(--course-intermediate),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.CourseCardAdvance .imgOverlay {
+  background: linear-gradient(to top, var(--course-advance), rgba(0, 0, 0, 0));
 }
 
 .CourseCardTitle {
