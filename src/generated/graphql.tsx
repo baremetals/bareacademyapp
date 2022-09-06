@@ -16,13 +16,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
-  /** The `Upload` scalar type represents a file upload. */
+  Time: any;
   Upload: any;
 };
 
@@ -400,7 +397,6 @@ export type ChatRelationResponseCollection = {
 export type Comment = {
   __typename?: 'Comment';
   body: Scalars['String'];
-  course?: Maybe<CourseEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
   isDisabled?: Maybe<Scalars['Boolean']>;
   post?: Maybe<PostEntityResponse>;
@@ -429,7 +425,6 @@ export type CommentEntityResponseCollection = {
 export type CommentFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CommentFiltersInput>>>;
   body?: InputMaybe<StringFilterInput>;
-  course?: InputMaybe<CourseFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   isDisabled?: InputMaybe<BooleanFilterInput>;
@@ -443,7 +438,6 @@ export type CommentFiltersInput = {
 
 export type CommentInput = {
   body?: InputMaybe<Scalars['String']>;
-  course?: InputMaybe<Scalars['ID']>;
   isDisabled?: InputMaybe<Scalars['Boolean']>;
   post?: InputMaybe<Scalars['ID']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
@@ -538,13 +532,11 @@ export type Course = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   duration?: Maybe<Scalars['Int']>;
-  endDate?: Maybe<Scalars['DateTime']>;
+  groups?: Maybe<GroupRelationResponseCollection>;
   image?: Maybe<Scalars['String']>;
   introduction?: Maybe<Scalars['String']>;
   isFree: Scalars['Boolean'];
-  lecture?: Maybe<Array<Maybe<ComponentLecturesLectures>>>;
   level?: Maybe<Enum_Course_Level>;
-  messages?: Maybe<CourseMessageRelationResponseCollection>;
   notes?: Maybe<Scalars['String']>;
   orders?: Maybe<OrderRelationResponseCollection>;
   price: Scalars['Float'];
@@ -552,8 +544,6 @@ export type Course = {
   reviews?: Maybe<ReviewRelationResponseCollection>;
   slug: Scalars['String'];
   soloPrice?: Maybe<Scalars['Float']>;
-  startDate?: Maybe<Scalars['DateTime']>;
-  students?: Maybe<UsersPermissionsUserRelationResponseCollection>;
   teacher?: Maybe<TeacherEntityResponse>;
   title: Scalars['String'];
   totalLessons: Scalars['Int'];
@@ -570,15 +560,8 @@ export type CourseCategoriesArgs = {
 };
 
 
-export type CourseLectureArgs = {
-  filters?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-
-export type CourseMessagesArgs = {
-  filters?: InputMaybe<CourseMessageFiltersInput>;
+export type CourseGroupsArgs = {
+  filters?: InputMaybe<GroupFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -600,21 +583,12 @@ export type CourseReviewsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
-export type CourseStudentsArgs = {
-  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
 export type CourseComment = {
   __typename?: 'CourseComment';
-  body?: Maybe<Scalars['String']>;
-  course?: Maybe<CourseEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
   publishedAt?: Maybe<Scalars['DateTime']>;
+  test?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  user?: Maybe<UsersPermissionsUserEntityResponse>;
 };
 
 export type CourseCommentEntity = {
@@ -636,27 +610,18 @@ export type CourseCommentEntityResponseCollection = {
 
 export type CourseCommentFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CourseCommentFiltersInput>>>;
-  body?: InputMaybe<StringFilterInput>;
-  course?: InputMaybe<CourseFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<CourseCommentFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CourseCommentFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  test?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CourseCommentInput = {
-  body?: InputMaybe<Scalars['String']>;
-  course?: InputMaybe<Scalars['ID']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
-  user?: InputMaybe<Scalars['ID']>;
-};
-
-export type CourseCommentRelationResponseCollection = {
-  __typename?: 'CourseCommentRelationResponseCollection';
-  data: Array<CourseCommentEntity>;
+  test?: InputMaybe<Scalars['String']>;
 };
 
 export type CourseEntity = {
@@ -684,14 +649,12 @@ export type CourseFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   duration?: InputMaybe<IntFilterInput>;
-  endDate?: InputMaybe<DateTimeFilterInput>;
+  groups?: InputMaybe<GroupFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   image?: InputMaybe<StringFilterInput>;
   introduction?: InputMaybe<StringFilterInput>;
   isFree?: InputMaybe<BooleanFilterInput>;
-  lecture?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
   level?: InputMaybe<StringFilterInput>;
-  messages?: InputMaybe<CourseMessageFiltersInput>;
   not?: InputMaybe<CourseFiltersInput>;
   notes?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<CourseFiltersInput>>>;
@@ -701,8 +664,6 @@ export type CourseFiltersInput = {
   reviews?: InputMaybe<ReviewFiltersInput>;
   slug?: InputMaybe<StringFilterInput>;
   soloPrice?: InputMaybe<FloatFilterInput>;
-  startDate?: InputMaybe<DateTimeFilterInput>;
-  students?: InputMaybe<UsersPermissionsUserFiltersInput>;
   teacher?: InputMaybe<TeacherFiltersInput>;
   title?: InputMaybe<StringFilterInput>;
   totalLessons?: InputMaybe<IntFilterInput>;
@@ -716,13 +677,11 @@ export type CourseInput = {
   courseType?: InputMaybe<Enum_Course_Coursetype>;
   description?: InputMaybe<Scalars['String']>;
   duration?: InputMaybe<Scalars['Int']>;
-  endDate?: InputMaybe<Scalars['DateTime']>;
+  groups?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   image?: InputMaybe<Scalars['String']>;
   introduction?: InputMaybe<Scalars['String']>;
   isFree?: InputMaybe<Scalars['Boolean']>;
-  lecture?: InputMaybe<Array<InputMaybe<ComponentLecturesLecturesInput>>>;
   level?: InputMaybe<Enum_Course_Level>;
-  messages?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   notes?: InputMaybe<Scalars['String']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   price?: InputMaybe<Scalars['Float']>;
@@ -730,75 +689,10 @@ export type CourseInput = {
   reviews?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   slug?: InputMaybe<Scalars['String']>;
   soloPrice?: InputMaybe<Scalars['Float']>;
-  startDate?: InputMaybe<Scalars['DateTime']>;
-  students?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   teacher?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   totalLessons?: InputMaybe<Scalars['Int']>;
   totalStudents?: InputMaybe<Scalars['Int']>;
-};
-
-export type CourseMessage = {
-  __typename?: 'CourseMessage';
-  allRead?: Maybe<Scalars['Boolean']>;
-  course?: Maybe<CourseEntityResponse>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  file?: Maybe<UploadFileEntityResponse>;
-  hasRead?: Maybe<Scalars['JSON']>;
-  message?: Maybe<Scalars['String']>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  student?: Maybe<UsersPermissionsUserEntityResponse>;
-  type?: Maybe<Enum_Coursemessage_Type>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type CourseMessageEntity = {
-  __typename?: 'CourseMessageEntity';
-  attributes?: Maybe<CourseMessage>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type CourseMessageEntityResponse = {
-  __typename?: 'CourseMessageEntityResponse';
-  data?: Maybe<CourseMessageEntity>;
-};
-
-export type CourseMessageEntityResponseCollection = {
-  __typename?: 'CourseMessageEntityResponseCollection';
-  data: Array<CourseMessageEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type CourseMessageFiltersInput = {
-  allRead?: InputMaybe<BooleanFilterInput>;
-  and?: InputMaybe<Array<InputMaybe<CourseMessageFiltersInput>>>;
-  course?: InputMaybe<CourseFiltersInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  hasRead?: InputMaybe<JsonFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  message?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<CourseMessageFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<CourseMessageFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  student?: InputMaybe<UsersPermissionsUserFiltersInput>;
-  type?: InputMaybe<StringFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type CourseMessageInput = {
-  allRead?: InputMaybe<Scalars['Boolean']>;
-  course?: InputMaybe<Scalars['ID']>;
-  file?: InputMaybe<Scalars['ID']>;
-  hasRead?: InputMaybe<Scalars['JSON']>;
-  message?: InputMaybe<Scalars['String']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
-  student?: InputMaybe<Scalars['ID']>;
-  type?: InputMaybe<Enum_Coursemessage_Type>;
-};
-
-export type CourseMessageRelationResponseCollection = {
-  __typename?: 'CourseMessageRelationResponseCollection';
-  data: Array<CourseMessageEntity>;
 };
 
 export type CourseRelationResponseCollection = {
@@ -938,11 +832,6 @@ export type DateTimeFilterInput = {
   startsWith?: InputMaybe<Scalars['DateTime']>;
 };
 
-export enum Enum_Coursemessage_Type {
-  File = 'file',
-  Text = 'text'
-}
-
 export enum Enum_Course_Coursetype {
   Group = 'group',
   Single = 'single'
@@ -953,6 +842,11 @@ export enum Enum_Course_Level {
   Beginner = 'Beginner',
   Intermediate = 'Intermediate',
   Primer = 'Primer'
+}
+
+export enum Enum_Groupmessage_Type {
+  File = 'file',
+  Text = 'text'
 }
 
 export enum Enum_Order_Status {
@@ -990,24 +884,64 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseComment | CourseMessage | CourseVideo | CoursesPage | GroupChat | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseComment | CourseVideo | CoursesPage | Group | GroupChat | GroupComment | GroupMessage | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+
+export type Group = {
+  __typename?: 'Group';
+  active?: Maybe<Scalars['Boolean']>;
+  course?: Maybe<CourseEntityResponse>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  endDate?: Maybe<Scalars['Date']>;
+  endTime?: Maybe<Scalars['Time']>;
+  lectures?: Maybe<Array<Maybe<ComponentLecturesLectures>>>;
+  messages?: Maybe<GroupMessageRelationResponseCollection>;
+  name?: Maybe<Scalars['String']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  qna?: Maybe<QuestionAndAnswerRelationResponseCollection>;
+  slug?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
+  startTime?: Maybe<Scalars['Time']>;
+  students?: Maybe<UsersPermissionsUserRelationResponseCollection>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type GroupLecturesArgs = {
+  filters?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type GroupMessagesArgs = {
+  filters?: InputMaybe<GroupMessageFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type GroupQnaArgs = {
+  filters?: InputMaybe<QuestionAndAnswerFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type GroupStudentsArgs = {
+  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
 
 export type GroupChat = {
   __typename?: 'GroupChat';
   course?: Maybe<CourseEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  messages?: Maybe<CourseMessageRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']>;
   slug?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-
-export type GroupChatMessagesArgs = {
-  filters?: InputMaybe<CourseMessageFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type GroupChatEntity = {
@@ -1032,7 +966,6 @@ export type GroupChatFiltersInput = {
   course?: InputMaybe<CourseFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
-  messages?: InputMaybe<CourseMessageFiltersInput>;
   not?: InputMaybe<GroupChatFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<GroupChatFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
@@ -1042,9 +975,183 @@ export type GroupChatFiltersInput = {
 
 export type GroupChatInput = {
   course?: InputMaybe<Scalars['ID']>;
-  messages?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   slug?: InputMaybe<Scalars['String']>;
+};
+
+export type GroupComment = {
+  __typename?: 'GroupComment';
+  body?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  group?: Maybe<GroupEntityResponse>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user?: Maybe<UsersPermissionsUserEntityResponse>;
+};
+
+export type GroupCommentEntity = {
+  __typename?: 'GroupCommentEntity';
+  attributes?: Maybe<GroupComment>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type GroupCommentEntityResponse = {
+  __typename?: 'GroupCommentEntityResponse';
+  data?: Maybe<GroupCommentEntity>;
+};
+
+export type GroupCommentEntityResponseCollection = {
+  __typename?: 'GroupCommentEntityResponseCollection';
+  data: Array<GroupCommentEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type GroupCommentFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<GroupCommentFiltersInput>>>;
+  body?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  group?: InputMaybe<GroupFiltersInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<GroupCommentFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<GroupCommentFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type GroupCommentInput = {
+  body?: InputMaybe<Scalars['String']>;
+  group?: InputMaybe<Scalars['ID']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  user?: InputMaybe<Scalars['ID']>;
+};
+
+export type GroupCommentRelationResponseCollection = {
+  __typename?: 'GroupCommentRelationResponseCollection';
+  data: Array<GroupCommentEntity>;
+};
+
+export type GroupEntity = {
+  __typename?: 'GroupEntity';
+  attributes?: Maybe<Group>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type GroupEntityResponse = {
+  __typename?: 'GroupEntityResponse';
+  data?: Maybe<GroupEntity>;
+};
+
+export type GroupEntityResponseCollection = {
+  __typename?: 'GroupEntityResponseCollection';
+  data: Array<GroupEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type GroupFiltersInput = {
+  active?: InputMaybe<BooleanFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<GroupFiltersInput>>>;
+  course?: InputMaybe<CourseFiltersInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  endDate?: InputMaybe<DateFilterInput>;
+  endTime?: InputMaybe<TimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  lectures?: InputMaybe<ComponentLecturesLecturesFiltersInput>;
+  messages?: InputMaybe<GroupMessageFiltersInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<GroupFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<GroupFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  qna?: InputMaybe<QuestionAndAnswerFiltersInput>;
+  slug?: InputMaybe<StringFilterInput>;
+  startDate?: InputMaybe<DateFilterInput>;
+  startTime?: InputMaybe<TimeFilterInput>;
+  students?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type GroupInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  course?: InputMaybe<Scalars['ID']>;
+  endDate?: InputMaybe<Scalars['Date']>;
+  endTime?: InputMaybe<Scalars['Time']>;
+  lectures?: InputMaybe<Array<InputMaybe<ComponentLecturesLecturesInput>>>;
+  messages?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  name?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  qna?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  slug?: InputMaybe<Scalars['String']>;
+  startDate?: InputMaybe<Scalars['Date']>;
+  startTime?: InputMaybe<Scalars['Time']>;
+  students?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+export type GroupMessage = {
+  __typename?: 'GroupMessage';
+  allRead?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  file?: Maybe<UploadFileEntityResponse>;
+  group?: Maybe<GroupEntityResponse>;
+  hasRead?: Maybe<Scalars['JSON']>;
+  message?: Maybe<Scalars['String']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  student?: Maybe<UsersPermissionsUserEntityResponse>;
+  type?: Maybe<Enum_Groupmessage_Type>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type GroupMessageEntity = {
+  __typename?: 'GroupMessageEntity';
+  attributes?: Maybe<GroupMessage>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type GroupMessageEntityResponse = {
+  __typename?: 'GroupMessageEntityResponse';
+  data?: Maybe<GroupMessageEntity>;
+};
+
+export type GroupMessageEntityResponseCollection = {
+  __typename?: 'GroupMessageEntityResponseCollection';
+  data: Array<GroupMessageEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type GroupMessageFiltersInput = {
+  allRead?: InputMaybe<BooleanFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<GroupMessageFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  group?: InputMaybe<GroupFiltersInput>;
+  hasRead?: InputMaybe<JsonFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  message?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<GroupMessageFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<GroupMessageFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  student?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  type?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type GroupMessageInput = {
+  allRead?: InputMaybe<Scalars['Boolean']>;
+  file?: InputMaybe<Scalars['ID']>;
+  group?: InputMaybe<Scalars['ID']>;
+  hasRead?: InputMaybe<Scalars['JSON']>;
+  message?: InputMaybe<Scalars['String']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  student?: InputMaybe<Scalars['ID']>;
+  type?: InputMaybe<Enum_Groupmessage_Type>;
+};
+
+export type GroupMessageRelationResponseCollection = {
+  __typename?: 'GroupMessageRelationResponseCollection';
+  data: Array<GroupMessageEntity>;
+};
+
+export type GroupRelationResponseCollection = {
+  __typename?: 'GroupRelationResponseCollection';
+  data: Array<GroupEntity>;
 };
 
 export type Home = {
@@ -1195,9 +1302,11 @@ export type Mutation = {
   createComment?: Maybe<CommentEntityResponse>;
   createCourse?: Maybe<CourseEntityResponse>;
   createCourseComment?: Maybe<CourseCommentEntityResponse>;
-  createCourseMessage?: Maybe<CourseMessageEntityResponse>;
   createCourseVideo?: Maybe<CourseVideoEntityResponse>;
+  createGroup?: Maybe<GroupEntityResponse>;
   createGroupChat?: Maybe<GroupChatEntityResponse>;
+  createGroupComment?: Maybe<GroupCommentEntityResponse>;
+  createGroupMessage?: Maybe<GroupMessageEntityResponse>;
   createNotification?: Maybe<NotificationEntityResponse>;
   createOrder?: Maybe<OrderEntityResponse>;
   createPost?: Maybe<PostEntityResponse>;
@@ -1221,10 +1330,12 @@ export type Mutation = {
   deleteComment?: Maybe<CommentEntityResponse>;
   deleteCourse?: Maybe<CourseEntityResponse>;
   deleteCourseComment?: Maybe<CourseCommentEntityResponse>;
-  deleteCourseMessage?: Maybe<CourseMessageEntityResponse>;
   deleteCourseVideo?: Maybe<CourseVideoEntityResponse>;
   deleteCoursesPage?: Maybe<CoursesPageEntityResponse>;
+  deleteGroup?: Maybe<GroupEntityResponse>;
   deleteGroupChat?: Maybe<GroupChatEntityResponse>;
+  deleteGroupComment?: Maybe<GroupCommentEntityResponse>;
+  deleteGroupMessage?: Maybe<GroupMessageEntityResponse>;
   deleteHome?: Maybe<HomeEntityResponse>;
   deleteNotification?: Maybe<NotificationEntityResponse>;
   deleteOrder?: Maybe<OrderEntityResponse>;
@@ -1263,11 +1374,13 @@ export type Mutation = {
   updateComment?: Maybe<CommentEntityResponse>;
   updateCourse?: Maybe<CourseEntityResponse>;
   updateCourseComment?: Maybe<CourseCommentEntityResponse>;
-  updateCourseMessage?: Maybe<CourseMessageEntityResponse>;
   updateCourseVideo?: Maybe<CourseVideoEntityResponse>;
   updateCoursesPage?: Maybe<CoursesPageEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
+  updateGroup?: Maybe<GroupEntityResponse>;
   updateGroupChat?: Maybe<GroupChatEntityResponse>;
+  updateGroupComment?: Maybe<GroupCommentEntityResponse>;
+  updateGroupMessage?: Maybe<GroupMessageEntityResponse>;
   updateHome?: Maybe<HomeEntityResponse>;
   updateNotification?: Maybe<NotificationEntityResponse>;
   updateOrder?: Maybe<OrderEntityResponse>;
@@ -1335,18 +1448,28 @@ export type MutationCreateCourseCommentArgs = {
 };
 
 
-export type MutationCreateCourseMessageArgs = {
-  data: CourseMessageInput;
-};
-
-
 export type MutationCreateCourseVideoArgs = {
   data: CourseVideoInput;
 };
 
 
+export type MutationCreateGroupArgs = {
+  data: GroupInput;
+};
+
+
 export type MutationCreateGroupChatArgs = {
   data: GroupChatInput;
+};
+
+
+export type MutationCreateGroupCommentArgs = {
+  data: GroupCommentInput;
+};
+
+
+export type MutationCreateGroupMessageArgs = {
+  data: GroupMessageInput;
 };
 
 
@@ -1455,17 +1578,27 @@ export type MutationDeleteCourseCommentArgs = {
 };
 
 
-export type MutationDeleteCourseMessageArgs = {
-  id: Scalars['ID'];
-};
-
-
 export type MutationDeleteCourseVideoArgs = {
   id: Scalars['ID'];
 };
 
 
+export type MutationDeleteGroupArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationDeleteGroupChatArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteGroupCommentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteGroupMessageArgs = {
   id: Scalars['ID'];
 };
 
@@ -1624,12 +1757,6 @@ export type MutationUpdateCourseCommentArgs = {
 };
 
 
-export type MutationUpdateCourseMessageArgs = {
-  data: CourseMessageInput;
-  id: Scalars['ID'];
-};
-
-
 export type MutationUpdateCourseVideoArgs = {
   data: CourseVideoInput;
   id: Scalars['ID'];
@@ -1647,8 +1774,26 @@ export type MutationUpdateFileInfoArgs = {
 };
 
 
+export type MutationUpdateGroupArgs = {
+  data: GroupInput;
+  id: Scalars['ID'];
+};
+
+
 export type MutationUpdateGroupChatArgs = {
   data: GroupChatInput;
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateGroupCommentArgs = {
+  data: GroupCommentInput;
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateGroupMessageArgs = {
+  data: GroupMessageInput;
   id: Scalars['ID'];
 };
 
@@ -2096,14 +2241,18 @@ export type Query = {
   course?: Maybe<CourseEntityResponse>;
   courseComment?: Maybe<CourseCommentEntityResponse>;
   courseComments?: Maybe<CourseCommentEntityResponseCollection>;
-  courseMessage?: Maybe<CourseMessageEntityResponse>;
-  courseMessages?: Maybe<CourseMessageEntityResponseCollection>;
   courseVideo?: Maybe<CourseVideoEntityResponse>;
   courseVideos?: Maybe<CourseVideoEntityResponseCollection>;
   courses?: Maybe<CourseEntityResponseCollection>;
   coursesPage?: Maybe<CoursesPageEntityResponse>;
+  group?: Maybe<GroupEntityResponse>;
   groupChat?: Maybe<GroupChatEntityResponse>;
   groupChats?: Maybe<GroupChatEntityResponseCollection>;
+  groupComment?: Maybe<GroupCommentEntityResponse>;
+  groupComments?: Maybe<GroupCommentEntityResponseCollection>;
+  groupMessage?: Maybe<GroupMessageEntityResponse>;
+  groupMessages?: Maybe<GroupMessageEntityResponseCollection>;
+  groups?: Maybe<GroupEntityResponseCollection>;
   home?: Maybe<HomeEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
@@ -2247,19 +2396,6 @@ export type QueryCourseCommentsArgs = {
 };
 
 
-export type QueryCourseMessageArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryCourseMessagesArgs = {
-  filters?: InputMaybe<CourseMessageFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-
 export type QueryCourseVideoArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -2286,6 +2422,11 @@ export type QueryCoursesPageArgs = {
 };
 
 
+export type QueryGroupArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
 export type QueryGroupChatArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -2293,6 +2434,40 @@ export type QueryGroupChatArgs = {
 
 export type QueryGroupChatsArgs = {
   filters?: InputMaybe<GroupChatFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type QueryGroupCommentArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryGroupCommentsArgs = {
+  filters?: InputMaybe<GroupCommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type QueryGroupMessageArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryGroupMessagesArgs = {
+  filters?: InputMaybe<GroupMessageFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type QueryGroupsArgs = {
+  filters?: InputMaybe<GroupFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2485,9 +2660,9 @@ export type QueryUsersPermissionsUsersArgs = {
 
 export type QuestionAndAnswer = {
   __typename?: 'QuestionAndAnswer';
-  comments?: Maybe<CourseCommentRelationResponseCollection>;
-  course?: Maybe<CourseEntityResponse>;
+  comments?: Maybe<GroupCommentRelationResponseCollection>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  group?: Maybe<GroupEntityResponse>;
   publishedAt?: Maybe<Scalars['DateTime']>;
   question?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -2497,7 +2672,7 @@ export type QuestionAndAnswer = {
 
 
 export type QuestionAndAnswerCommentsArgs = {
-  filters?: InputMaybe<CourseCommentFiltersInput>;
+  filters?: InputMaybe<GroupCommentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2522,9 +2697,9 @@ export type QuestionAndAnswerEntityResponseCollection = {
 
 export type QuestionAndAnswerFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<QuestionAndAnswerFiltersInput>>>;
-  comments?: InputMaybe<CourseCommentFiltersInput>;
-  course?: InputMaybe<CourseFiltersInput>;
+  comments?: InputMaybe<GroupCommentFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  group?: InputMaybe<GroupFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<QuestionAndAnswerFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<QuestionAndAnswerFiltersInput>>>;
@@ -2537,11 +2712,16 @@ export type QuestionAndAnswerFiltersInput = {
 
 export type QuestionAndAnswerInput = {
   comments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  course?: InputMaybe<Scalars['ID']>;
+  group?: InputMaybe<Scalars['ID']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   question?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<Scalars['ID']>;
+};
+
+export type QuestionAndAnswerRelationResponseCollection = {
+  __typename?: 'QuestionAndAnswerRelationResponseCollection';
+  data: Array<QuestionAndAnswerEntity>;
 };
 
 export type ResponseCollectionMeta = {
@@ -2869,6 +3049,29 @@ export type TermInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type TimeFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  between?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  contains?: InputMaybe<Scalars['Time']>;
+  containsi?: InputMaybe<Scalars['Time']>;
+  endsWith?: InputMaybe<Scalars['Time']>;
+  eq?: InputMaybe<Scalars['Time']>;
+  gt?: InputMaybe<Scalars['Time']>;
+  gte?: InputMaybe<Scalars['Time']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  lt?: InputMaybe<Scalars['Time']>;
+  lte?: InputMaybe<Scalars['Time']>;
+  ne?: InputMaybe<Scalars['Time']>;
+  not?: InputMaybe<TimeFilterInput>;
+  notContains?: InputMaybe<Scalars['Time']>;
+  notContainsi?: InputMaybe<Scalars['Time']>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  notNull?: InputMaybe<Scalars['Boolean']>;
+  null?: InputMaybe<Scalars['Boolean']>;
+  or?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  startsWith?: InputMaybe<Scalars['Time']>;
+};
+
 export type UploadFile = {
   __typename?: 'UploadFile';
   alternativeText?: Maybe<Scalars['String']>;
@@ -3107,6 +3310,7 @@ export type UsersPermissionsUser = {
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   fullName?: Maybe<Scalars['String']>;
+  groups?: Maybe<GroupRelationResponseCollection>;
   img?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
   notifications?: Maybe<NotificationRelationResponseCollection>;
@@ -3127,6 +3331,14 @@ export type UsersPermissionsUser = {
 
 export type UsersPermissionsUserCommentsArgs = {
   filters?: InputMaybe<CommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type UsersPermissionsUserGroupsArgs = {
+  filters?: InputMaybe<GroupFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -3200,6 +3412,7 @@ export type UsersPermissionsUserFiltersInput = {
   description?: InputMaybe<StringFilterInput>;
   email?: InputMaybe<StringFilterInput>;
   fullName?: InputMaybe<StringFilterInput>;
+  groups?: InputMaybe<GroupFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   img?: InputMaybe<StringFilterInput>;
   location?: InputMaybe<StringFilterInput>;
@@ -3231,6 +3444,7 @@ export type UsersPermissionsUserInput = {
   description?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   fullName?: InputMaybe<Scalars['String']>;
+  groups?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   img?: InputMaybe<Scalars['String']>;
   location?: InputMaybe<Scalars['String']>;
   notifications?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
@@ -3357,7 +3571,7 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', articles?: { __typename?: 'ArticleEntityResponseCollection', data: Array<{ __typename?: 'ArticleEntity', id?: string | null | undefined, attributes?: { __typename?: 'Article', title?: string | null | undefined, body: string, slug?: string | null | undefined, updatedAt?: any | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, heroImage?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, type?: string | null | undefined, locale?: string | null | undefined } | null | undefined, author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', id?: string | null | undefined, attributes?: { __typename?: 'Author', jobTitle?: string | null | undefined, bio?: string | null | undefined, fullName?: string | null | undefined, updatedAt?: any | null | undefined, slug?: string | null | undefined, firstName?: string | null | undefined, lastName: string, avatar?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type ArticleQuery = { __typename?: 'Query', articles?: { __typename?: 'ArticleEntityResponseCollection', data: Array<{ __typename?: 'ArticleEntity', id?: string | null | undefined, attributes?: { __typename?: 'Article', title?: string | null | undefined, body: string, createdAt?: any | null | undefined, slug?: string | null | undefined, updatedAt?: any | null | undefined, category?: { __typename?: 'CategoryEntityResponse', data?: { __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, heroImage?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, type?: string | null | undefined, locale?: string | null | undefined } | null | undefined, author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', id?: string | null | undefined, attributes?: { __typename?: 'Author', jobTitle?: string | null | undefined, bio?: string | null | undefined, fullName?: string | null | undefined, updatedAt?: any | null | undefined, slug?: string | null | undefined, firstName?: string | null | undefined, lastName: string, avatar?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', id?: string | null | undefined, attributes?: { __typename?: 'UploadFile', url: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type ArticlesQueryVariables = Exact<{
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
@@ -3426,10 +3640,11 @@ export type CommentsQuery = { __typename?: 'Query', comments?: { __typename?: 'C
 
 export type CourseQueryVariables = Exact<{
   filters?: InputMaybe<CourseFiltersInput>;
+  groupsFilters2?: InputMaybe<GroupFiltersInput>;
 }>;
 
 
-export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, startDate?: any | null | undefined, endDate?: any | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, students?: { __typename?: 'UsersPermissionsUserRelationResponseCollection', data: Array<{ __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined } | null | undefined }> } | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type CoursesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
@@ -3437,25 +3652,14 @@ export type CoursesQueryVariables = Exact<{
 }>;
 
 
-export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, startDate?: any | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined } | null | undefined }> } | null | undefined };
+export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined } | null | undefined }> } | null | undefined };
 
-export type GetCoursesByUserIdQueryVariables = Exact<{
-  filters?: InputMaybe<CourseFiltersInput>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  pagination?: InputMaybe<PaginationArg>;
+export type GroupQueryVariables = Exact<{
+  filters?: InputMaybe<GroupFiltersInput>;
 }>;
 
 
-export type GetCoursesByUserIdQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, level?: Enum_Course_Level | null | undefined, isFree: boolean, duration?: number | null | undefined, image?: string | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
-
-export type LecturesQueryVariables = Exact<{
-  filters?: InputMaybe<CourseFiltersInput>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  pagination?: InputMaybe<PaginationArg>;
-}>;
-
-
-export type LecturesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', title: string, slug: string, introduction?: string | null | undefined, description?: string | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined, url?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, lecture?: Array<{ __typename?: 'ComponentLecturesLectures', id: string, title?: string | null | undefined, date?: any | null | undefined, video?: string | null | undefined, notes?: string | null | undefined, duration?: number | null | undefined, progress?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined };
+export type GroupQuery = { __typename?: 'Query', groups?: { __typename?: 'GroupEntityResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', name?: string | null | undefined, slug?: string | null | undefined, course?: { __typename?: 'CourseEntityResponse', data?: { __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, introduction?: string | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', url?: string | null | undefined, fullName?: string | null | undefined, title?: string | null | undefined, image?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined, lectures?: Array<{ __typename?: 'ComponentLecturesLectures', id: string, title?: string | null | undefined, date?: any | null | undefined, video?: string | null | undefined, notes?: string | null | undefined, progress?: number | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined };
 
 export type QuestionAndAnswersQueryVariables = Exact<{
   filters?: InputMaybe<QuestionAndAnswerFiltersInput>;
@@ -3464,7 +3668,7 @@ export type QuestionAndAnswersQueryVariables = Exact<{
 }>;
 
 
-export type QuestionAndAnswersQuery = { __typename?: 'Query', questionAndAnswers?: { __typename?: 'QuestionAndAnswerEntityResponseCollection', data: Array<{ __typename?: 'QuestionAndAnswerEntity', id?: string | null | undefined, attributes?: { __typename?: 'QuestionAndAnswer', title?: string | null | undefined, question?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, comments?: { __typename?: 'CourseCommentRelationResponseCollection', data: Array<{ __typename?: 'CourseCommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'CourseComment', body?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
+export type QuestionAndAnswersQuery = { __typename?: 'Query', questionAndAnswers?: { __typename?: 'QuestionAndAnswerEntityResponseCollection', data: Array<{ __typename?: 'QuestionAndAnswerEntity', id?: string | null | undefined, attributes?: { __typename?: 'QuestionAndAnswer', title?: string | null | undefined, question?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, comments?: { __typename?: 'GroupCommentRelationResponseCollection', data: Array<{ __typename?: 'GroupCommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'GroupComment', body?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type RecentCoursesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
@@ -3481,7 +3685,14 @@ export type ReviewsQueryVariables = Exact<{
 }>;
 
 
-export type ReviewsQuery = { __typename?: 'Query', reviews?: { __typename?: 'ReviewEntityResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', message?: string | null | undefined, rating?: number | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type ReviewsQuery = { __typename?: 'Query', reviews?: { __typename?: 'ReviewEntityResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', message?: string | null | undefined, rating?: number | null | undefined, createdAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+
+export type UserGroupsQueryVariables = Exact<{
+  usersPermissionsUserId?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type UserGroupsQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined, course?: { __typename?: 'CourseEntityResponse', data?: { __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', title: string, level?: Enum_Course_Level | null | undefined, image?: string | null | undefined, duration?: number | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type NotificationsQueryVariables = Exact<{
   filters?: InputMaybe<NotificationFiltersInput>;
@@ -3544,6 +3755,15 @@ export type MeQueryVariables = Exact<{
 
 
 export type MeQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, email: string, location?: string | null | undefined, slug: string, fullName?: string | null | undefined, img?: string | null | undefined, backgroundImg?: string | null | undefined, createdAt?: any | null | undefined, description?: string | null | undefined, posts?: { __typename?: 'PostRelationResponseCollection', data: Array<{ __typename?: 'PostEntity', id?: string | null | undefined, attributes?: { __typename?: 'Post', title?: string | null | undefined, slug?: string | null | undefined, points?: number | null | undefined, body?: string | null | undefined, total_comments?: number | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+
+export type GetMyGroupsQueryVariables = Exact<{
+  filters?: InputMaybe<GroupFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+}>;
+
+
+export type GetMyGroupsQuery = { __typename?: 'Query', groups?: { __typename?: 'GroupEntityResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined, name?: string | null | undefined, active?: boolean | null | undefined, course?: { __typename?: 'CourseEntityResponse', data?: { __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, image?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type UserQueryVariables = Exact<{
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -4071,6 +4291,7 @@ export const ArticleDocument = gql`
       attributes {
         title
         body
+        createdAt
         category {
           data {
             id
@@ -4605,7 +4826,7 @@ export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
 export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
 export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
 export const CourseDocument = gql`
-    query Course($filters: CourseFiltersInput) {
+    query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
   courses(filters: $filters) {
     data {
       id
@@ -4620,22 +4841,11 @@ export const CourseDocument = gql`
         soloPrice
         isFree
         image
-        startDate
-        endDate
         totalStudents
         totalLessons
         createdAt
         updatedAt
         publishedAt
-        students {
-          data {
-            id
-            attributes {
-              username
-              fullName
-            }
-          }
-        }
         SEO {
           id
           title
@@ -4652,6 +4862,14 @@ export const CourseDocument = gql`
               fullName
               image
               title
+            }
+          }
+        }
+        groups(filters: $groupsFilters2) {
+          data {
+            id
+            attributes {
+              slug
             }
           }
         }
@@ -4674,6 +4892,7 @@ export const CourseDocument = gql`
  * const { data, loading, error } = useCourseQuery({
  *   variables: {
  *      filters: // value for 'filters'
+ *      groupsFilters2: // value for 'groupsFilters2'
  *   },
  * });
  */
@@ -4699,7 +4918,6 @@ export const CoursesDocument = gql`
         duration
         introduction
         description
-        startDate
         level
         price
         soloPrice
@@ -4739,90 +4957,43 @@ export function useCoursesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Co
 export type CoursesQueryHookResult = ReturnType<typeof useCoursesQuery>;
 export type CoursesLazyQueryHookResult = ReturnType<typeof useCoursesLazyQuery>;
 export type CoursesQueryResult = Apollo.QueryResult<CoursesQuery, CoursesQueryVariables>;
-export const GetCoursesByUserIdDocument = gql`
-    query GetCoursesByUserId($filters: CourseFiltersInput, $sort: [String], $pagination: PaginationArg) {
-  courses(filters: $filters, sort: $sort, pagination: $pagination) {
+export const GroupDocument = gql`
+    query Group($filters: GroupFiltersInput) {
+  groups(filters: $filters) {
     data {
       id
       attributes {
+        name
         slug
-        title
-        level
-        isFree
-        duration
-        image
-        reviews {
+        course {
           data {
             id
             attributes {
-              rating
-            }
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetCoursesByUserIdQuery__
- *
- * To run a query within a React component, call `useGetCoursesByUserIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCoursesByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCoursesByUserIdQuery({
- *   variables: {
- *      filters: // value for 'filters'
- *      sort: // value for 'sort'
- *      pagination: // value for 'pagination'
- *   },
- * });
- */
-export function useGetCoursesByUserIdQuery(baseOptions?: Apollo.QueryHookOptions<GetCoursesByUserIdQuery, GetCoursesByUserIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCoursesByUserIdQuery, GetCoursesByUserIdQueryVariables>(GetCoursesByUserIdDocument, options);
-      }
-export function useGetCoursesByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCoursesByUserIdQuery, GetCoursesByUserIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCoursesByUserIdQuery, GetCoursesByUserIdQueryVariables>(GetCoursesByUserIdDocument, options);
-        }
-export type GetCoursesByUserIdQueryHookResult = ReturnType<typeof useGetCoursesByUserIdQuery>;
-export type GetCoursesByUserIdLazyQueryHookResult = ReturnType<typeof useGetCoursesByUserIdLazyQuery>;
-export type GetCoursesByUserIdQueryResult = Apollo.QueryResult<GetCoursesByUserIdQuery, GetCoursesByUserIdQueryVariables>;
-export const LecturesDocument = gql`
-    query Lectures($filters: CourseFiltersInput, $sort: [String], $pagination: PaginationArg) {
-  courses(filters: $filters) {
-    data {
-      id
-      attributes {
-        title
-        slug
-        introduction
-        description
-        teacher {
-          data {
-            id
-            attributes {
-              fullName
-              image
+              slug
               title
-              url
+              introduction
+              teacher {
+                data {
+                  id
+                  attributes {
+                    url
+                    fullName
+                    title
+                    image
+                  }
+                }
+              }
             }
           }
         }
-        lecture(sort: $sort, pagination: $pagination) {
+        lectures {
           id
           title
           date
           video
           notes
-          duration
           progress
+          duration
         }
       }
     }
@@ -4831,34 +5002,32 @@ export const LecturesDocument = gql`
     `;
 
 /**
- * __useLecturesQuery__
+ * __useGroupQuery__
  *
- * To run a query within a React component, call `useLecturesQuery` and pass it any options that fit your needs.
- * When your component renders, `useLecturesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useLecturesQuery({
+ * const { data, loading, error } = useGroupQuery({
  *   variables: {
  *      filters: // value for 'filters'
- *      sort: // value for 'sort'
- *      pagination: // value for 'pagination'
  *   },
  * });
  */
-export function useLecturesQuery(baseOptions?: Apollo.QueryHookOptions<LecturesQuery, LecturesQueryVariables>) {
+export function useGroupQuery(baseOptions?: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LecturesQuery, LecturesQueryVariables>(LecturesDocument, options);
+        return Apollo.useQuery<GroupQuery, GroupQueryVariables>(GroupDocument, options);
       }
-export function useLecturesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LecturesQuery, LecturesQueryVariables>) {
+export function useGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LecturesQuery, LecturesQueryVariables>(LecturesDocument, options);
+          return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(GroupDocument, options);
         }
-export type LecturesQueryHookResult = ReturnType<typeof useLecturesQuery>;
-export type LecturesLazyQueryHookResult = ReturnType<typeof useLecturesLazyQuery>;
-export type LecturesQueryResult = Apollo.QueryResult<LecturesQuery, LecturesQueryVariables>;
+export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
+export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
+export type GroupQueryResult = Apollo.QueryResult<GroupQuery, GroupQueryVariables>;
 export const QuestionAndAnswersDocument = gql`
     query QuestionAndAnswers($filters: QuestionAndAnswerFiltersInput, $pagination: PaginationArg, $sort: [String]) {
   questionAndAnswers(filters: $filters, pagination: $pagination, sort: $sort) {
@@ -4998,7 +5167,7 @@ export const ReviewsDocument = gql`
             }
           }
         }
-        updatedAt
+        createdAt
       }
     }
   }
@@ -5034,6 +5203,71 @@ export function useReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Re
 export type ReviewsQueryHookResult = ReturnType<typeof useReviewsQuery>;
 export type ReviewsLazyQueryHookResult = ReturnType<typeof useReviewsLazyQuery>;
 export type ReviewsQueryResult = Apollo.QueryResult<ReviewsQuery, ReviewsQueryVariables>;
+export const UserGroupsDocument = gql`
+    query UserGroups($usersPermissionsUserId: ID) {
+  usersPermissionsUser(id: $usersPermissionsUserId) {
+    data {
+      attributes {
+        groups {
+          data {
+            id
+            attributes {
+              slug
+              course {
+                data {
+                  id
+                  attributes {
+                    title
+                    level
+                    image
+                    duration
+                    reviews {
+                      data {
+                        id
+                        attributes {
+                          rating
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserGroupsQuery__
+ *
+ * To run a query within a React component, call `useUserGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserGroupsQuery({
+ *   variables: {
+ *      usersPermissionsUserId: // value for 'usersPermissionsUserId'
+ *   },
+ * });
+ */
+export function useUserGroupsQuery(baseOptions?: Apollo.QueryHookOptions<UserGroupsQuery, UserGroupsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserGroupsQuery, UserGroupsQueryVariables>(UserGroupsDocument, options);
+      }
+export function useUserGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserGroupsQuery, UserGroupsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserGroupsQuery, UserGroupsQueryVariables>(UserGroupsDocument, options);
+        }
+export type UserGroupsQueryHookResult = ReturnType<typeof useUserGroupsQuery>;
+export type UserGroupsLazyQueryHookResult = ReturnType<typeof useUserGroupsLazyQuery>;
+export type UserGroupsQueryResult = Apollo.QueryResult<UserGroupsQuery, UserGroupsQueryVariables>;
 export const NotificationsDocument = gql`
     query Notifications($filters: NotificationFiltersInput, $pagination: PaginationArg, $sort: [String]) {
   notifications(filters: $filters, pagination: $pagination, sort: $sort) {
@@ -5484,6 +5718,60 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const GetMyGroupsDocument = gql`
+    query GetMyGroups($filters: GroupFiltersInput, $pagination: PaginationArg, $sort: [String]) {
+  groups(filters: $filters, pagination: $pagination, sort: $sort) {
+    data {
+      id
+      attributes {
+        slug
+        name
+        active
+        course {
+          data {
+            id
+            attributes {
+              slug
+              title
+              image
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMyGroupsQuery__
+ *
+ * To run a query within a React component, call `useGetMyGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyGroupsQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetMyGroupsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyGroupsQuery, GetMyGroupsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyGroupsQuery, GetMyGroupsQueryVariables>(GetMyGroupsDocument, options);
+      }
+export function useGetMyGroupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyGroupsQuery, GetMyGroupsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyGroupsQuery, GetMyGroupsQueryVariables>(GetMyGroupsDocument, options);
+        }
+export type GetMyGroupsQueryHookResult = ReturnType<typeof useGetMyGroupsQuery>;
+export type GetMyGroupsLazyQueryHookResult = ReturnType<typeof useGetMyGroupsLazyQuery>;
+export type GetMyGroupsQueryResult = Apollo.QueryResult<GetMyGroupsQuery, GetMyGroupsQueryVariables>;
 export const UserDocument = gql`
     query User($filters: UsersPermissionsUserFiltersInput, $sort: [String], $pagination: PaginationArg, $postsFilters2: PostFiltersInput) {
   usersPermissionsUsers(filters: $filters) {

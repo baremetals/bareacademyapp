@@ -1,0 +1,35 @@
+query UserGroups($usersPermissionsUserId: ID) {
+  usersPermissionsUser(id: $usersPermissionsUserId) {
+    data {
+      attributes {
+        groups {
+          data {
+            id
+            attributes {
+              slug
+              course {
+                data {
+                  id
+                  attributes {
+                    title
+                    level
+                    image
+                    duration
+                    reviews {
+                      data {
+                        id
+                        attributes {
+                          rating
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

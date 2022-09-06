@@ -1,0 +1,41 @@
+query Group($filters: GroupFiltersInput) {
+  groups(filters: $filters) {
+    data {
+      id
+      attributes {
+        name
+        slug
+        course {
+          data {
+            id
+            attributes {
+              slug
+              title
+              introduction
+              teacher {
+                data {
+                  id
+                  attributes {
+                    url
+                    fullName
+                    title
+                    image
+                  }
+                }
+              }
+            }
+          }
+        }
+        lectures {
+          id
+          title
+          date
+          video
+          notes
+          progress
+          duration
+        }
+      }
+    }
+  }
+}

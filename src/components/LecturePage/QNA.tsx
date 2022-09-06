@@ -8,6 +8,9 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 import {
   // FiArrowUpCircle,
   FiMessageSquare,
@@ -73,31 +76,31 @@ import { QuestionAndAnswersDocument } from 'generated/graphql';
 //   }>;
 // };
 
-const renderTime = (time: string) => {
-  const date = new Date(time);
-  const today = new Date();
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+// const renderTime = (time: string) => {
+//   const date = new Date(time);
+//   const today = new Date();
+//   const day = date.getDate();
+//   const month = date.getMonth() + 1;
+//   const year = date.getFullYear();
+//   const hours = date.getHours();
+//   const minutes = date.getMinutes();
 
-  if (
-    today.getFullYear() === year &&
-    today.getMonth() === month - 1 &&
-    today.getDate() === day
-  ) {
-    return `Today ${hours}:${minutes}`;
-  } else if (
-    today.getFullYear() === year &&
-    today.getMonth() === month - 1 &&
-    today.getDate() - 1 === day
-  ) {
-    return `Yesterday ${hours}:${minutes}`;
-  } else {
-    return `${day}-${month}-${year}`;
-  }
-};
+//   if (
+//     today.getFullYear() === year &&
+//     today.getMonth() === month - 1 &&
+//     today.getDate() === day
+//   ) {
+//     return `Today ${hours}:${minutes}`;
+//   } else if (
+//     today.getFullYear() === year &&
+//     today.getMonth() === month - 1 &&
+//     today.getDate() - 1 === day
+//   ) {
+//     return `Yesterday ${hours}:${minutes}`;
+//   } else {
+//     return `${day}-${month}-${year}`;
+//   }
+// };
 
 export type FormInput = {
   title: string;
@@ -118,7 +121,7 @@ const QNA = (props: IdType) => {
   const { refetch, ...result } = useQuery(QuestionAndAnswersDocument, {
     variables: {
       filters: {
-        course: {
+        group: {
           slug: {
             eq: slug,
           },
@@ -128,7 +131,7 @@ const QNA = (props: IdType) => {
         start: 0,
         limit: 6,
       },
-      sort: "updatedAt:desc",
+      sort: "createdAt:desc",
     },
   });
   const data: any = result.data?.questionAndAnswers?.data || [];
@@ -160,7 +163,7 @@ const QNA = (props: IdType) => {
   // }, [showInput]);
 
   const onSubmit = async (info: FormInput) => {
-    console.log(info);
+    // console.log(info);
     // console.log(slugify(info.title))
     // setShowModal(false);
 
@@ -170,7 +173,7 @@ const QNA = (props: IdType) => {
           title: info.title,
           question: info.body,
           user: user?.id as string,
-          course: id,
+          group: id,
           publishedAt: new Date(),
         },
       })
@@ -191,13 +194,13 @@ const QNA = (props: IdType) => {
   };
 
   const onSubmitComment = async () => {
-    console.log(body);
+    // console.log(body);
     await axios
       .post("/api/course/comments", {
         data: {
           body,
           user: user?.id as string,
-          course: id,          
+          group: id,          
           publishedAt: new Date(),
         },
       })
@@ -261,7 +264,7 @@ const QNA = (props: IdType) => {
                       </Link>
                       <div className={styles.dot}></div>
                       <div className={styles.qnaTimestamp}>
-                        {renderTime(qna?.attributes?.updatedAt)}
+                        {dayjs(qna?.attributes?.updatedAt).fromNow()}
                       </div>
                     </div>
                     <div className={styles.qnaMessage}>
@@ -290,7 +293,7 @@ const QNA = (props: IdType) => {
                   </div>
                 </div>
               </div>
-              {showInput && (
+              {showInput && id && (
                 <form className={styles.qnaCommentInput}>
                   <TextareaAutosize
                     className={styles.qnaCommentTextarea}

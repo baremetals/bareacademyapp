@@ -23,7 +23,7 @@ export const homeObjTwo = {
   topLine: "Recommended Books",
   headline: "An array of recommended books.",
   description:
-    'Each course will have a recommended book along with other reading materials and online videos to help you laong the way.',
+    'Each course will have a recommended book along with other reading materials and online videos to help you along the way.',
   buttonLabel: "Get Started",
   imgStart: true,
   img: "/assets/images/knowledge.svg",

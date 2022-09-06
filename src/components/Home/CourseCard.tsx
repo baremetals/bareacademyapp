@@ -8,9 +8,9 @@ import {
   FiStar,
 } from "react-icons/fi";
 import styles from "../../styles/Home/CourseCard.module.css";
-import { CourseEntity, ReviewEntity } from "generated/graphql";
 import classNames from "classnames";
 import TitlePopOver from "./TitlePopOver";
+import { GroupEntity, ReviewEntity } from "generated/graphql";
 
 // interface Props {
 //   course: {
@@ -29,12 +29,19 @@ import TitlePopOver from "./TitlePopOver";
 //   };
 // }
 
-const CourseCard = (props: { course: CourseEntity; withGradient: boolean }) => {
-  const { course, withGradient } = props;
-  const reviews = course?.attributes?.reviews?.data as ReviewEntity[];
-  const level = course.attributes?.level;
+const CourseCard = (props: { group: GroupEntity; withGradient: boolean }) => {
+  const { withGradient } = props;
   // console.log(course);
+  const { group } = props;
+  const reviews = group?.attributes?.course?.data?.attributes?.reviews
+    ?.data as ReviewEntity[];
 
+  const slug = group?.attributes?.slug as string;
+
+  const course = group?.attributes?.course;
+
+  const level = course?.data?.attributes?.level;
+  // console.log(course);
   const avgReviews =
     reviews.reduce((acc, cur) => {
       const rating = cur?.attributes?.rating as number;
@@ -58,15 +65,18 @@ const CourseCard = (props: { course: CourseEntity; withGradient: boolean }) => {
         className={styles.img}
         style={{
           backgroundImage: `url(${
-            course?.attributes?.image || "/assets/images/course-placeholder.png"
+            course?.data?.attributes?.image ||
+            "/assets/images/course-placeholder.png"
           })`,
         }}
       >
         {withGradient && <div className={styles.imgOverlay}></div>}
       </div>
-      <Link href={`/courses/${course?.attributes?.slug}/lectures`}>
+      <Link href={`/courses/${slug}/lectures`}>
         <div className={styles.CourseCardTitle} style={{ cursor: "pointer" }}>
-          <TitlePopOver size={22}>{course?.attributes?.title}</TitlePopOver>
+          <TitlePopOver size={22}>
+            {course?.data?.attributes?.title}
+          </TitlePopOver>
         </div>
       </Link>
       <div className={styles.CourseCardDetails}>
@@ -77,7 +87,7 @@ const CourseCard = (props: { course: CourseEntity; withGradient: boolean }) => {
         <div className={styles.CourseCardDuration}>
           <FiClock size={16} />
           <span>
-            {durationToString(course?.attributes?.duration as number)}
+            {durationToString(course?.data?.attributes?.duration as number)}
           </span>
         </div>
       </div>

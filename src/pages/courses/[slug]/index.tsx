@@ -38,6 +38,9 @@ function CourseDetailsPage(props: { data: { courses: CourseEntityResponseCollect
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { slug } = ctx.query;
   // console.log(slug);
+  const cookies = JSON.parse(ctx.req.cookies.bareacademy as string);
+  const { id } = cookies;
+  // console.log(id);
   const { data } = await client.query<CourseQueryResult>({
     query: CourseDocument,
     variables: {
@@ -46,9 +49,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
           eq: slug,
         },
       },
+      groupsFilters2: {
+        students: {
+          id: {
+            eq: id ? id : null,
+          },
+        },
+      },
     },
   });
-  console.log(data);
+  // console.log(data);
   return {
     props: { data }, // will be passed to the page component as props
   };

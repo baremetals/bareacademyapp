@@ -5,6 +5,10 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useQuery } from '@apollo/client';
 import axios from "axios";
+
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 // import { useRouter } from "next/router";
 import { ReviewsDocument } from "generated/graphql";
 import TextareaAutosize from "react-textarea-autosize";
@@ -50,59 +54,56 @@ const Reviews = (props: IdType) => {
         start: 0,
         limit: 6,
       },
-      sort: "updatedAt:desc",
+      sort: "createdAt:desc",
     },
   });
   const data = result.data?.reviews?.data || [];
+  // const data = [];
   // console.log(data);
   const { user: user } = useAppSelector(isUser);
   const [showInput, setShowInput] = React.useState(false);
   const [message, setMessage] = React.useState<string>("");
   const [rating, setRating] = React.useState<number>(0);
 
-  data.sort((a: { time: string | number | Date; }, b: { time: string | number | Date; }) => {
-    return new Date(b.time).getTime() - new Date(a.time).getTime();
-  });
-
   const avgReviews =
-    data.reduce((acc: number, cur: { attributes: { rating: number; }; }) => {
+    data?.reduce((acc: number, cur: { attributes: { rating: number; }; }) => {
       // console.log(acc)
       return acc + cur?.attributes?.rating;
-    }, 0) / data.length ;
+    }, 0) / data?.length ;
 
   const reviewsByNumber = [1, 2, 3, 4, 5].map((number) => {
     return data
-      .filter((review: { attributes: { rating: number; }; }) => review?.attributes?.rating === number)
-      .reduce((acc: number, cur: any) => {
+      ?.filter((review: { attributes: { rating: number; }; }) => review?.attributes?.rating === number)
+      ?.reduce((acc: number, cur: any) => {
         return acc + 1;
       }, 0);
   });
 
-  const renderTime = (time: string) => {
-    const date = new Date(time);
-    const today = new Date();
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+  // const renderTime = (time: string) => {
+  //   const date = new Date(time);
+  //   const today = new Date();
+  //   const day = date.getDate();
+  //   const month = date.getMonth() + 1;
+  //   const year = date.getFullYear();
+  //   const hours = date.getHours();
+  //   const minutes = date.getMinutes();
 
-    if (
-      today.getFullYear() === year &&
-      today.getMonth() === month - 1 &&
-      today.getDate() === day
-    ) {
-      return `Today ${hours}:${minutes}`;
-    } else if (
-      today.getFullYear() === year &&
-      today.getMonth() === month - 1 &&
-      today.getDate() - 1 === day
-    ) {
-      return `Yesterday ${hours}:${minutes}`;
-    } else {
-      return `${day}-${month}-${year}`;
-    }
-  };
+  //   if (
+  //     today.getFullYear() === year &&
+  //     today.getMonth() === month - 1 &&
+  //     today.getDate() === day
+  //   ) {
+  //     return `Today ${hours}:${minutes}`;
+  //   } else if (
+  //     today.getFullYear() === year &&
+  //     today.getMonth() === month - 1 &&
+  //     today.getDate() - 1 === day
+  //   ) {
+  //     return `Yesterday ${hours}:${minutes}`;
+  //   } else {
+  //     return `${day}-${month}-${year}`;
+  //   }
+  // };
 
   const onSubmit = async () => {
     console.log(message, "-", rating);
@@ -134,7 +135,7 @@ const Reviews = (props: IdType) => {
 
   return (
     <div className={styles.reviewsTab}>
-      {data.length > 0 && (
+      {data?.length > 0 && (
         <div className={styles.avgContainer}>
           <div className={styles.avg}>
             <FiStar size={60} />
@@ -187,7 +188,7 @@ const Reviews = (props: IdType) => {
         </form>
       )}
       <div className={styles.reviews}>
-        {data.map((review: { attributes: { user: { data: { attributes: { slug: any; img: any; username: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }; }; updatedAt: string; rating: number; message: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }; }, index: React.Key | null | undefined) => {
+        {data && data?.map((review: { attributes: { user: { data: { attributes: { slug: string; img: string; username: string }; }; }; createdAt: string; rating: number; message: string }; }, index: number) => {
           return (
             <div key={index} className={styles.review}>
               <div className={styles.reviewHeader}>
@@ -215,7 +216,7 @@ const Reviews = (props: IdType) => {
                     </Link>
                     <div className={styles.reviewTimestamp}>
                       <div className={styles.dot}></div>
-                      <span>{renderTime(review?.attributes?.updatedAt)}</span>
+                      <span>{dayjs(review?.attributes?.createdAt).fromNow()}</span>
                     </div>
                   </div>
                 </div>

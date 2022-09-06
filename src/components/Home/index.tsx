@@ -7,8 +7,8 @@ import { isUser } from "features/auth/selectors";
 import RightSideBar from "components/Dashboard/RightSideBar";
 import AdCardThree from "components/AdCards/AdCardThree";
 import {
-  CourseEntity,
-  CourseEntityResponseCollection,
+  GroupEntity,
+  // GroupRelationResponseCollection,
 } from "generated/graphql";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -24,15 +24,19 @@ import TakeQuizDialog from "./TakeQuizDialog";
 
 import { useSockets } from "context/socket.context";
 
-const Home = (props: {
-  props: { data: { courses: CourseEntityResponseCollection } };
-}) => {
+type Props = {
+  groups: {
+    data: Array<GroupEntity>;
+  };
+};
+
+const Home = (props: { groups: Props }) => {
   const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
 
-  const { data } = props.props;
-
-  const courses = data.courses.data;
+  const { data } = props?.groups?.groups;
+  // const groups = data[0];
+  // console.log(data);
   const me = user?.id;
 
   useEffect(() => {
@@ -54,25 +58,9 @@ const Home = (props: {
         >
           <div className={styles.container}>
             <div className={styles.courses}>
-              {courses &&
-                courses.map((course, index) => (
-                  <CourseCard key={index} course={course as CourseEntity} />
-                ))}
-              {courses &&
-                courses.map((course, index) => (
-                  <CourseCard key={index} course={course as CourseEntity} />
-                ))}
-              {courses &&
-                courses.map((course, index) => (
-                  <CourseCard key={index} course={course as CourseEntity} />
-                ))}
-              {courses &&
-                courses.map((course, index) => (
-                  <CourseCard key={index} course={course as CourseEntity} />
-                ))}
-              {courses &&
-                courses.map((course, index) => (
-                  <CourseCard key={index} course={course as CourseEntity} />
+              {data &&
+                data.map((gr: GroupEntity, index: number) => (
+                  <CourseCard key={index} group={gr} />
                 ))}
             </div>
             <div className={styles.articles}>

@@ -38,7 +38,7 @@ function SocketsProvider(props: any) {
     window.onfocus = function () {
       // document.title = "Chat app";
       socket.onAny((event, ...args) => {
-        console.log(event, args);
+        // console.log(event, args);
       });
     };
   }, []);

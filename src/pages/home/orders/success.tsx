@@ -60,7 +60,7 @@ const Success = (props: pagePros) => {
   }
 
   setTimeout(() => {
-    router.push("/home/orders");
+    router.push("/home");
   }, 9000);
 
   return (

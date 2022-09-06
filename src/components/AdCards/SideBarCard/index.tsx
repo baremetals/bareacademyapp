@@ -12,7 +12,7 @@ type cardProps = {
 };
 
 
-const SideBarCard = ({title, image, category, duration, ...props }: cardProps) => {
+const SideBarCard = ({title, image, duration, ...props }: cardProps) => {
   return (
     <BlogCard className="horizontal" {...props}>
       
@@ -22,7 +22,7 @@ const SideBarCard = ({title, image, category, duration, ...props }: cardProps) =
           src={image ? image : "/assets/images/blog-post.jpg"}
         />
       <BlogCardBody className="horizontal-body">
-        <BlogCardCategory>{category || duration}</BlogCardCategory>
+        <BlogCardCategory>{duration}</BlogCardCategory>
           <BlogCardTitle style={{ fontSize: "1rem" }}>{title}</BlogCardTitle>
       </BlogCardBody>
     </BlogCard>

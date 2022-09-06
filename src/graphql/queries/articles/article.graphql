@@ -5,6 +5,7 @@ query Article($filters: ArticleFiltersInput) {
       attributes {
         title
         body
+        createdAt
         category {
           data {
             id

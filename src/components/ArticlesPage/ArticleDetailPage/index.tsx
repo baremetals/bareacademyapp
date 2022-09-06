@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { useAppSelector } from "app/hooks";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 // import { analytics, logEvent } from "lib/admin";
 import { isUser } from "features/auth/selectors";
 import Dashboard from "components/Dashboard";
@@ -57,6 +60,7 @@ function ArticleDetailPage(props: {
 
   // const allPosts = data.data;
   const article = data?.articles?.data[0];
+  console.log(article)
 
   const imageurl = article?.attributes?.heroImage?.data?.attributes?.url;
   const author = article?.attributes?.author?.data?.attributes;
@@ -111,6 +115,7 @@ function ArticleDetailPage(props: {
                 <CoursesArticleName>
                   {author?.fullName}
                   <span>{author?.jobTitle}</span>
+                  <span>{dayjs(article?.attributes?.createdAt).fromNow()}</span>
                 </CoursesArticleName>
               </CoursesArticleNameAndImageWrap>
             </CoursesArticleWrap>
