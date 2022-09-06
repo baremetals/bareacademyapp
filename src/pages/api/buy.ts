@@ -31,12 +31,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    console.log("If I am here then I succeeded", response.data);
+    // console.log("If I am here then I succeeded", response.data);
     // res.send(response);
     res.status(200).json({ data: response.data });
   } catch (err: any) {
     // console.log("fuck me finally", err?.response.data.error.message);
-    console.log("we going to make it", err?.response.data.error.details);
+    // console.log("we going to make it", err?.response.data.error.details);
     res.status(400).json({ error: err?.response.data.error.message });
     // res.send(err);
   }

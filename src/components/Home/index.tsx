@@ -60,7 +60,7 @@ const Home = (props: { groups: Props }) => {
             <div className={styles.courses}>
               {data &&
                 data.map((gr: GroupEntity, index: number) => (
-                  <CourseCard withGradient={false} key={index} group={gr} />
+                  <CourseCard withGradient={true} key={index} group={gr} />
                 ))}
             </div>
             <div className={styles.articles}>

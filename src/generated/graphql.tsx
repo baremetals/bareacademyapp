@@ -1,6 +1,3 @@
-/* eslint-disable valid-jsdoc */
-/* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -449,15 +446,6 @@ export type CommentRelationResponseCollection = {
   data: Array<CommentEntity>;
 };
 
-export type ComponentCourseVideoVideos = {
-  __typename?: 'ComponentCourseVideoVideos';
-  course?: Maybe<CourseEntityResponse>;
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-};
-
 export type ComponentLecturesLectures = {
   __typename?: 'ComponentLecturesLectures';
   date?: Maybe<Scalars['Date']>;
@@ -540,6 +528,7 @@ export type Course = {
   notes?: Maybe<Scalars['String']>;
   orders?: Maybe<OrderRelationResponseCollection>;
   price: Scalars['Float'];
+  private?: Maybe<Scalars['Boolean']>;
   publishedAt?: Maybe<Scalars['DateTime']>;
   reviews?: Maybe<ReviewRelationResponseCollection>;
   slug: Scalars['String'];
@@ -583,47 +572,6 @@ export type CourseReviewsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type CourseComment = {
-  __typename?: 'CourseComment';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  test?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type CourseCommentEntity = {
-  __typename?: 'CourseCommentEntity';
-  attributes?: Maybe<CourseComment>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type CourseCommentEntityResponse = {
-  __typename?: 'CourseCommentEntityResponse';
-  data?: Maybe<CourseCommentEntity>;
-};
-
-export type CourseCommentEntityResponseCollection = {
-  __typename?: 'CourseCommentEntityResponseCollection';
-  data: Array<CourseCommentEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type CourseCommentFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<CourseCommentFiltersInput>>>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<CourseCommentFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<CourseCommentFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  test?: InputMaybe<StringFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type CourseCommentInput = {
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
-  test?: InputMaybe<Scalars['String']>;
-};
-
 export type CourseEntity = {
   __typename?: 'CourseEntity';
   attributes?: Maybe<Course>;
@@ -660,6 +608,7 @@ export type CourseFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<CourseFiltersInput>>>;
   orders?: InputMaybe<OrderFiltersInput>;
   price?: InputMaybe<FloatFilterInput>;
+  private?: InputMaybe<BooleanFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   reviews?: InputMaybe<ReviewFiltersInput>;
   slug?: InputMaybe<StringFilterInput>;
@@ -685,6 +634,7 @@ export type CourseInput = {
   notes?: InputMaybe<Scalars['String']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   price?: InputMaybe<Scalars['Float']>;
+  private?: InputMaybe<Scalars['Boolean']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   reviews?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   slug?: InputMaybe<Scalars['String']>;
@@ -698,62 +648,6 @@ export type CourseInput = {
 export type CourseRelationResponseCollection = {
   __typename?: 'CourseRelationResponseCollection';
   data: Array<CourseEntity>;
-};
-
-export type CourseVideo = {
-  __typename?: 'CourseVideo';
-  course?: Maybe<CourseEntityResponse>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description: Scalars['String'];
-  isDisabled?: Maybe<Scalars['Boolean']>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  slug: Scalars['String'];
-  title: Scalars['String'];
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  url: Scalars['String'];
-};
-
-export type CourseVideoEntity = {
-  __typename?: 'CourseVideoEntity';
-  attributes?: Maybe<CourseVideo>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type CourseVideoEntityResponse = {
-  __typename?: 'CourseVideoEntityResponse';
-  data?: Maybe<CourseVideoEntity>;
-};
-
-export type CourseVideoEntityResponseCollection = {
-  __typename?: 'CourseVideoEntityResponseCollection';
-  data: Array<CourseVideoEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type CourseVideoFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<CourseVideoFiltersInput>>>;
-  course?: InputMaybe<CourseFiltersInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  isDisabled?: InputMaybe<BooleanFilterInput>;
-  not?: InputMaybe<CourseVideoFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<CourseVideoFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  slug?: InputMaybe<StringFilterInput>;
-  title?: InputMaybe<StringFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-  url?: InputMaybe<StringFilterInput>;
-};
-
-export type CourseVideoInput = {
-  course?: InputMaybe<Scalars['ID']>;
-  description?: InputMaybe<Scalars['String']>;
-  isDisabled?: InputMaybe<Scalars['Boolean']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
-  slug?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  url?: InputMaybe<Scalars['String']>;
 };
 
 export type CoursesPage = {
@@ -884,7 +778,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentCourseVideoVideos | ComponentLecturesLectures | ComponentSeoSeo | Course | CourseComment | CourseVideo | CoursesPage | Group | GroupChat | GroupComment | GroupMessage | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Article | Author | Book | Category | Chat | ChatMsg | Comment | ComponentLecturesLectures | ComponentSeoSeo | Course | CoursesPage | Group | GroupComment | GroupMessage | Home | I18NLocale | Notification | Order | Post | PostPoint | Privacy | QuestionAndAnswer | Review | Search | Student | SupportMessage | Teacher | Term | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type Group = {
   __typename?: 'Group';
@@ -935,56 +829,12 @@ export type GroupStudentsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type GroupChat = {
-  __typename?: 'GroupChat';
-  course?: Maybe<CourseEntityResponse>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  slug?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type GroupChatEntity = {
-  __typename?: 'GroupChatEntity';
-  attributes?: Maybe<GroupChat>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type GroupChatEntityResponse = {
-  __typename?: 'GroupChatEntityResponse';
-  data?: Maybe<GroupChatEntity>;
-};
-
-export type GroupChatEntityResponseCollection = {
-  __typename?: 'GroupChatEntityResponseCollection';
-  data: Array<GroupChatEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type GroupChatFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<GroupChatFiltersInput>>>;
-  course?: InputMaybe<CourseFiltersInput>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<GroupChatFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<GroupChatFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  slug?: InputMaybe<StringFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type GroupChatInput = {
-  course?: InputMaybe<Scalars['ID']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
-  slug?: InputMaybe<Scalars['String']>;
-};
-
 export type GroupComment = {
   __typename?: 'GroupComment';
   body?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  group?: Maybe<GroupEntityResponse>;
   publishedAt?: Maybe<Scalars['DateTime']>;
+  qna?: Maybe<QuestionAndAnswerEntityResponse>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   user?: Maybe<UsersPermissionsUserEntityResponse>;
 };
@@ -1010,19 +860,19 @@ export type GroupCommentFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<GroupCommentFiltersInput>>>;
   body?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  group?: InputMaybe<GroupFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<GroupCommentFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<GroupCommentFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  qna?: InputMaybe<QuestionAndAnswerFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type GroupCommentInput = {
   body?: InputMaybe<Scalars['String']>;
-  group?: InputMaybe<Scalars['ID']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
+  qna?: InputMaybe<Scalars['ID']>;
   user?: InputMaybe<Scalars['ID']>;
 };
 
@@ -1301,10 +1151,7 @@ export type Mutation = {
   createChatMsg?: Maybe<ChatMsgEntityResponse>;
   createComment?: Maybe<CommentEntityResponse>;
   createCourse?: Maybe<CourseEntityResponse>;
-  createCourseComment?: Maybe<CourseCommentEntityResponse>;
-  createCourseVideo?: Maybe<CourseVideoEntityResponse>;
   createGroup?: Maybe<GroupEntityResponse>;
-  createGroupChat?: Maybe<GroupChatEntityResponse>;
   createGroupComment?: Maybe<GroupCommentEntityResponse>;
   createGroupMessage?: Maybe<GroupMessageEntityResponse>;
   createNotification?: Maybe<NotificationEntityResponse>;
@@ -1329,11 +1176,8 @@ export type Mutation = {
   deleteChatMsg?: Maybe<ChatMsgEntityResponse>;
   deleteComment?: Maybe<CommentEntityResponse>;
   deleteCourse?: Maybe<CourseEntityResponse>;
-  deleteCourseComment?: Maybe<CourseCommentEntityResponse>;
-  deleteCourseVideo?: Maybe<CourseVideoEntityResponse>;
   deleteCoursesPage?: Maybe<CoursesPageEntityResponse>;
   deleteGroup?: Maybe<GroupEntityResponse>;
-  deleteGroupChat?: Maybe<GroupChatEntityResponse>;
   deleteGroupComment?: Maybe<GroupCommentEntityResponse>;
   deleteGroupMessage?: Maybe<GroupMessageEntityResponse>;
   deleteHome?: Maybe<HomeEntityResponse>;
@@ -1373,12 +1217,9 @@ export type Mutation = {
   updateChatMsg?: Maybe<ChatMsgEntityResponse>;
   updateComment?: Maybe<CommentEntityResponse>;
   updateCourse?: Maybe<CourseEntityResponse>;
-  updateCourseComment?: Maybe<CourseCommentEntityResponse>;
-  updateCourseVideo?: Maybe<CourseVideoEntityResponse>;
   updateCoursesPage?: Maybe<CoursesPageEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
   updateGroup?: Maybe<GroupEntityResponse>;
-  updateGroupChat?: Maybe<GroupChatEntityResponse>;
   updateGroupComment?: Maybe<GroupCommentEntityResponse>;
   updateGroupMessage?: Maybe<GroupMessageEntityResponse>;
   updateHome?: Maybe<HomeEntityResponse>;
@@ -1443,23 +1284,8 @@ export type MutationCreateCourseArgs = {
 };
 
 
-export type MutationCreateCourseCommentArgs = {
-  data: CourseCommentInput;
-};
-
-
-export type MutationCreateCourseVideoArgs = {
-  data: CourseVideoInput;
-};
-
-
 export type MutationCreateGroupArgs = {
   data: GroupInput;
-};
-
-
-export type MutationCreateGroupChatArgs = {
-  data: GroupChatInput;
 };
 
 
@@ -1573,22 +1399,7 @@ export type MutationDeleteCourseArgs = {
 };
 
 
-export type MutationDeleteCourseCommentArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteCourseVideoArgs = {
-  id: Scalars['ID'];
-};
-
-
 export type MutationDeleteGroupArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteGroupChatArgs = {
   id: Scalars['ID'];
 };
 
@@ -1751,18 +1562,6 @@ export type MutationUpdateCourseArgs = {
 };
 
 
-export type MutationUpdateCourseCommentArgs = {
-  data: CourseCommentInput;
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateCourseVideoArgs = {
-  data: CourseVideoInput;
-  id: Scalars['ID'];
-};
-
-
 export type MutationUpdateCoursesPageArgs = {
   data: CoursesPageInput;
 };
@@ -1776,12 +1575,6 @@ export type MutationUpdateFileInfoArgs = {
 
 export type MutationUpdateGroupArgs = {
   data: GroupInput;
-  id: Scalars['ID'];
-};
-
-
-export type MutationUpdateGroupChatArgs = {
-  data: GroupChatInput;
   id: Scalars['ID'];
 };
 
@@ -1966,14 +1759,13 @@ export type Order = {
   __typename?: 'Order';
   checkout_session?: Maybe<Scalars['String']>;
   course?: Maybe<CourseEntityResponse>;
-  courseId?: Maybe<Scalars['Int']>;
+  courseId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   imageUrl: Scalars['String'];
   orderType: Scalars['String'];
   publishedAt?: Maybe<Scalars['DateTime']>;
   quantity: Scalars['Int'];
   status: Enum_Order_Status;
-  student?: Maybe<StudentEntityResponse>;
   total: Scalars['Float'];
   updatedAt?: Maybe<Scalars['DateTime']>;
   user?: Maybe<UsersPermissionsUserEntityResponse>;
@@ -2000,7 +1792,7 @@ export type OrderFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<OrderFiltersInput>>>;
   checkout_session?: InputMaybe<StringFilterInput>;
   course?: InputMaybe<CourseFiltersInput>;
-  courseId?: InputMaybe<IntFilterInput>;
+  courseId?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   imageUrl?: InputMaybe<StringFilterInput>;
@@ -2010,7 +1802,6 @@ export type OrderFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   quantity?: InputMaybe<IntFilterInput>;
   status?: InputMaybe<StringFilterInput>;
-  student?: InputMaybe<StudentFiltersInput>;
   total?: InputMaybe<FloatFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -2019,13 +1810,12 @@ export type OrderFiltersInput = {
 export type OrderInput = {
   checkout_session?: InputMaybe<Scalars['String']>;
   course?: InputMaybe<Scalars['ID']>;
-  courseId?: InputMaybe<Scalars['Int']>;
+  courseId?: InputMaybe<Scalars['String']>;
   imageUrl?: InputMaybe<Scalars['String']>;
   orderType?: InputMaybe<Scalars['String']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   quantity?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<Enum_Order_Status>;
-  student?: InputMaybe<Scalars['ID']>;
   total?: InputMaybe<Scalars['Float']>;
   user?: InputMaybe<Scalars['ID']>;
 };
@@ -2239,15 +2029,9 @@ export type Query = {
   comment?: Maybe<CommentEntityResponse>;
   comments?: Maybe<CommentEntityResponseCollection>;
   course?: Maybe<CourseEntityResponse>;
-  courseComment?: Maybe<CourseCommentEntityResponse>;
-  courseComments?: Maybe<CourseCommentEntityResponseCollection>;
-  courseVideo?: Maybe<CourseVideoEntityResponse>;
-  courseVideos?: Maybe<CourseVideoEntityResponseCollection>;
   courses?: Maybe<CourseEntityResponseCollection>;
   coursesPage?: Maybe<CoursesPageEntityResponse>;
   group?: Maybe<GroupEntityResponse>;
-  groupChat?: Maybe<GroupChatEntityResponse>;
-  groupChats?: Maybe<GroupChatEntityResponseCollection>;
   groupComment?: Maybe<GroupCommentEntityResponse>;
   groupComments?: Maybe<GroupCommentEntityResponseCollection>;
   groupMessage?: Maybe<GroupMessageEntityResponse>;
@@ -2383,32 +2167,6 @@ export type QueryCourseArgs = {
 };
 
 
-export type QueryCourseCommentArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryCourseCommentsArgs = {
-  filters?: InputMaybe<CourseCommentFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-
-export type QueryCourseVideoArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryCourseVideosArgs = {
-  filters?: InputMaybe<CourseVideoFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-
 export type QueryCoursesArgs = {
   filters?: InputMaybe<CourseFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -2424,19 +2182,6 @@ export type QueryCoursesPageArgs = {
 
 export type QueryGroupArgs = {
   id?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryGroupChatArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryGroupChatsArgs = {
-  filters?: InputMaybe<GroupChatFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
@@ -2660,9 +2405,9 @@ export type QueryUsersPermissionsUsersArgs = {
 
 export type QuestionAndAnswer = {
   __typename?: 'QuestionAndAnswer';
-  comments?: Maybe<GroupCommentRelationResponseCollection>;
   createdAt?: Maybe<Scalars['DateTime']>;
   group?: Maybe<GroupEntityResponse>;
+  groupComments?: Maybe<GroupCommentRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']>;
   question?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -2671,7 +2416,7 @@ export type QuestionAndAnswer = {
 };
 
 
-export type QuestionAndAnswerCommentsArgs = {
+export type QuestionAndAnswerGroupCommentsArgs = {
   filters?: InputMaybe<GroupCommentFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
@@ -2697,9 +2442,9 @@ export type QuestionAndAnswerEntityResponseCollection = {
 
 export type QuestionAndAnswerFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<QuestionAndAnswerFiltersInput>>>;
-  comments?: InputMaybe<GroupCommentFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   group?: InputMaybe<GroupFiltersInput>;
+  groupComments?: InputMaybe<GroupCommentFiltersInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<QuestionAndAnswerFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<QuestionAndAnswerFiltersInput>>>;
@@ -2711,8 +2456,8 @@ export type QuestionAndAnswerFiltersInput = {
 };
 
 export type QuestionAndAnswerInput = {
-  comments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   group?: InputMaybe<Scalars['ID']>;
+  groupComments?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   question?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -2837,7 +2582,6 @@ export type Student = {
   courses?: Maybe<CourseRelationResponseCollection>;
   createdAt?: Maybe<Scalars['DateTime']>;
   joined?: Maybe<Scalars['Boolean']>;
-  orders?: Maybe<OrderRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']>;
   slug?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -2847,14 +2591,6 @@ export type Student = {
 
 export type StudentCoursesArgs = {
   filters?: InputMaybe<CourseFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-
-export type StudentOrdersArgs = {
-  filters?: InputMaybe<OrderFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2886,7 +2622,6 @@ export type StudentFiltersInput = {
   joined?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<StudentFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<StudentFiltersInput>>>;
-  orders?: InputMaybe<OrderFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   slug?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -2897,7 +2632,6 @@ export type StudentInput = {
   courseCount?: InputMaybe<Scalars['Int']>;
   courses?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   joined?: InputMaybe<Scalars['Boolean']>;
-  orders?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   slug?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<Scalars['ID']>;
@@ -3647,6 +3381,7 @@ export type CourseQueryVariables = Exact<{
 export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type CoursesQueryVariables = Exact<{
+  filters?: InputMaybe<CourseFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
 }>;
@@ -3668,7 +3403,7 @@ export type QuestionAndAnswersQueryVariables = Exact<{
 }>;
 
 
-export type QuestionAndAnswersQuery = { __typename?: 'Query', questionAndAnswers?: { __typename?: 'QuestionAndAnswerEntityResponseCollection', data: Array<{ __typename?: 'QuestionAndAnswerEntity', id?: string | null | undefined, attributes?: { __typename?: 'QuestionAndAnswer', title?: string | null | undefined, question?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, comments?: { __typename?: 'GroupCommentRelationResponseCollection', data: Array<{ __typename?: 'GroupCommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'GroupComment', body?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
+export type QuestionAndAnswersQuery = { __typename?: 'Query', questionAndAnswers?: { __typename?: 'QuestionAndAnswerEntityResponseCollection', data: Array<{ __typename?: 'QuestionAndAnswerEntity', id?: string | null | undefined, attributes?: { __typename?: 'QuestionAndAnswer', title?: string | null | undefined, question?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groupComments?: { __typename?: 'GroupCommentRelationResponseCollection', data: Array<{ __typename?: 'GroupCommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'GroupComment', body?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type RecentCoursesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
@@ -4908,8 +4643,8 @@ export type CourseQueryHookResult = ReturnType<typeof useCourseQuery>;
 export type CourseLazyQueryHookResult = ReturnType<typeof useCourseLazyQuery>;
 export type CourseQueryResult = Apollo.QueryResult<CourseQuery, CourseQueryVariables>;
 export const CoursesDocument = gql`
-    query Courses($pagination: PaginationArg, $sort: [String]) {
-  courses(pagination: $pagination, sort: $sort) {
+    query Courses($filters: CourseFiltersInput, $pagination: PaginationArg, $sort: [String]) {
+  courses(filters: $filters, pagination: $pagination, sort: $sort) {
     data {
       id
       attributes {
@@ -4941,6 +4676,7 @@ export const CoursesDocument = gql`
  * @example
  * const { data, loading, error } = useCoursesQuery({
  *   variables: {
+ *      filters: // value for 'filters'
  *      pagination: // value for 'pagination'
  *      sort: // value for 'sort'
  *   },
@@ -5048,7 +4784,7 @@ export const QuestionAndAnswersDocument = gql`
             }
           }
         }
-        comments {
+        groupComments {
           data {
             id
             attributes {

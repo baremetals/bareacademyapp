@@ -44,34 +44,27 @@ function courses(props: any) {
     getMetadata()
   }, [])
 
-  // console.log(metaData?.data?.attributes);
+  console.log(metaData?.data?.attributes.description);
 
   const dispatch = useAppDispatch();
   const courseData = props.data?.courses;
   dispatch(setCourse(courseData));
 
-  
-  
-  
   return (
     <>
       <Head>
-        <title>{metaData?.data?.attributes?.metaTitle}</title>
-        <meta
-          property="og:title"
-          content={metaData?.data?.attributes.metaTitle}
-          key="title"
-        />
+        <title>Bare Academy Courses</title>
+        <meta property="og:title" content="Bare Academy Courses" key="title" />
         <meta
           name="description"
           content="Check out the latest courses on web development, IT, cloud technology and more..."
         />
-        <meta property="og:url" content={metaData?.data?.attributes.metaUrl} />
+        <meta property="og:url" content="https://www.baremetals.io/courses" />
         <meta property="og:type" content="courses" />
-        <link rel="canonical" href={metaData?.data?.attributes.metaUrl}/>
+        <link rel="canonical" href="https://www.baremetals.io/courses" />
       </Head>
-      
-      <CoursesPage desc={metaData?.data?.attributes.description as string}/>
+
+      <CoursesPage desc="Check out the latest courses on web development, IT, cloud technology and more..." />
     </>
   );
 }
@@ -80,6 +73,11 @@ export async function getServerSideProps() {
   const { data } = await client.query<CoursesQueryResult>({
     query: CoursesDocument,
     variables: {
+      filters: {
+        private: {
+          eq: false,
+        },
+      },
       pagination: {
         start: 0,
         limit: 9,
