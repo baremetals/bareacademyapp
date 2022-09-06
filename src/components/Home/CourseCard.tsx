@@ -1,10 +1,15 @@
 import React from "react";
 import Link from "next/link";
 import durationToString from "helpers/durationToString";
-import { FiClock, 
-  // FiMoreVertical, 
-  FiStar } from "react-icons/fi";
+import {
+  FiClock,
+  FiMoreVertical,
+  // FiMoreVertical,
+  FiStar,
+} from "react-icons/fi";
 import styles from "../../styles/Home/CourseCard.module.css";
+import classNames from "classnames";
+import TitlePopOver from "./TitlePopOver";
 import { GroupEntity, ReviewEntity } from "generated/graphql";
 
 // interface Props {
@@ -24,15 +29,18 @@ import { GroupEntity, ReviewEntity } from "generated/graphql";
 //   };
 // }
 
-const CourseCard = (props: { group: GroupEntity }) => {
+const CourseCard = (props: { group: GroupEntity; withGradient: boolean }) => {
+  const { withGradient } = props;
+  // console.log(course);
   const { group } = props;
   const reviews = group?.attributes?.course?.data?.attributes?.reviews
     ?.data as ReviewEntity[];
-  
+
   const slug = group?.attributes?.slug as string;
 
   const course = group?.attributes?.course;
 
+  const level = course?.data?.attributes?.level;
   // console.log(course);
   const avgReviews =
     reviews.reduce((acc, cur) => {
@@ -41,30 +49,43 @@ const CourseCard = (props: { group: GroupEntity }) => {
     }, 0) / reviews.length || 0;
 
   return (
-    <div className={styles.CourseCard}>
+    <div
+      className={classNames(styles.CourseCard, {
+        [styles.CourseCardPrimer]: level === "Primer",
+        [styles.CourseCardBeginner]: level === "Beginner",
+        [styles.CourseCardIntermediate]: level === "Intermediate",
+        [styles.CourseCardAdvance]: level === "Advance",
+      })}
+    >
+      <div className={styles.CourseCardLevel}>{level}</div>
       <div className={styles.CourseCardThreeDots}>
-        {/* <FiMoreVertical size={24} color="white" /> */}
+        <FiMoreVertical size={24} color="white" />
       </div>
       <div
         className={styles.img}
         style={{
-          backgroundImage: `url(${course?.data?.attributes?.image})`,
+          backgroundImage: `url(${
+            course?.data?.attributes?.image ||
+            "/assets/images/course-placeholder.png"
+          })`,
         }}
       >
-        <div className={styles.imgOverlay}></div>
+        {withGradient && <div className={styles.imgOverlay}></div>}
       </div>
       <Link href={`/courses/${slug}/lectures`}>
         <div className={styles.CourseCardTitle} style={{ cursor: "pointer" }}>
-          {course?.data?.attributes?.title}
+          <TitlePopOver size={22}>
+            {course?.data?.attributes?.title}
+          </TitlePopOver>
         </div>
       </Link>
       <div className={styles.CourseCardDetails}>
         <div className={styles.CourseCardRating}>
-          <FiStar size={16} color="white" />
+          <FiStar size={16} />
           <span>{avgReviews.toFixed(1)}</span>
         </div>
         <div className={styles.CourseCardDuration}>
-          <FiClock size={16} color="white" />
+          <FiClock size={16} />
           <span>
             {durationToString(course?.data?.attributes?.duration as number)}
           </span>
@@ -72,6 +93,10 @@ const CourseCard = (props: { group: GroupEntity }) => {
       </div>
     </div>
   );
+};
+
+CourseCard.defaultProps = {
+  withGradient: false,
 };
 
 export default CourseCard;

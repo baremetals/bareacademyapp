@@ -1,8 +1,9 @@
 .ArticleEntry {
   background: white;
-  height: 100px;
+  /* height: 100px; */
   border-radius: 20px;
   padding: 20px;
+  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -32,8 +33,15 @@
 
 .ArticleEntry .ArticleEntryOverview {
   color: #808080;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   text-overflow: ellipsis;
   overflow: hidden;
+  /* white-space: nowrap; */
   height: 20px;
+}
+
+.ArticleEntryFooter {
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: var(--text2);
 }
