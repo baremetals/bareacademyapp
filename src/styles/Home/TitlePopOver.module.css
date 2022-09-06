@@ -1,0 +1,29 @@
+.TitlePopOverWrapper {
+  /* position: relative; */
+  width: 100%;
+  overflow: hidden;
+}
+
+.TitlePopOverTitle {
+  width: 100%;
+  position: relative;
+  font-weight: 700;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.TitlePopOverPopover {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  width: auto;
+  max-width: 300px;
+  height: auto;
+  padding: 5px 10px;
+  border-radius: 10px;
+  z-index: 1;
+  font-weight: 400;
+  font-size: 1rem;
+  text-align: center;
+}

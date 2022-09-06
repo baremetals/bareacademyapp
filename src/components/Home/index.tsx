@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 // import { BlogCardBody, BlogCardImage, BlogCardTitle, PageWrapper } from 'styles/common.styles'
-import Dashboard from '../Dashboard'
+import Dashboard from "../Dashboard";
 
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
@@ -14,11 +14,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import {
-  PageHeading,
-  ProfileWrapGroup,
-} from "../../styles/common.styles";
-
+import { PageHeading, ProfileWrapGroup } from "../../styles/common.styles";
 
 import Footer from "components/Footer";
 import styles from "../../styles/Home/index.module.css";
@@ -26,8 +22,7 @@ import CourseCard from "./CourseCard";
 import ArticleEntry from "./ArticleEntry";
 import TakeQuizDialog from "./TakeQuizDialog";
 
-
-import { useSockets } from 'context/socket.context';
+import { useSockets } from "context/socket.context";
 
 type Props = {
   groups: {
@@ -35,7 +30,7 @@ type Props = {
   };
 };
 
-const Home = (props: { groups: Props; }) => {
+const Home = (props: { groups: Props }) => {
   const { socket } = useSockets();
   const { user: user } = useAppSelector(isUser);
 
@@ -65,7 +60,7 @@ const Home = (props: { groups: Props; }) => {
             <div className={styles.courses}>
               {data &&
                 data.map((gr: GroupEntity, index: number) => (
-                  <CourseCard key={index} group={gr} />
+                  <CourseCard withGradient={false} key={index} group={gr} />
                 ))}
             </div>
             <div className={styles.articles}>

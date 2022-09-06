@@ -12,6 +12,10 @@
   --video: #082136da;
   --highlighted: #fef5f3;
   --white: #fff;
+  --course-primer: #00b894;
+  --course-beginner: #fdcb6e;
+  --course-intermediate: #6c5ce7;
+  --course-advance: #f7542e;
 }
 
 * {
