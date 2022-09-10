@@ -193,14 +193,14 @@ const QNA = (props: IdType) => {
       });
   };
 
-  const onSubmitComment = async () => {
+  const onSubmitComment = async (qna: string) => {
     // console.log(body);
     await axios
       .post("/api/course/comments", {
         data: {
           body,
           user: user?.id as string,
-          group: id,          
+          qna,          
           publishedAt: new Date(),
         },
       })
@@ -227,7 +227,9 @@ const QNA = (props: IdType) => {
       <br />
       <br />
       <div className={styles.qnas}>
-        {data.map((qna: { attributes: { user: { data: { attributes: { slug: string; img: string; username: string }; }; }; title: string; updatedAt: string; question: string; comments: { data: string | any[]; }; }; }, id: number) => {
+        {data.map((qna: {
+          id: string; attributes: { user: { data: { attributes: { slug: string; img: string; username: string }; }; }; title: string; updatedAt: string; question: string; comments: { data: string | any[]; }; }; 
+}, id: number) => {
           return (
             <div className={styles.qnaContainer} key={id}>
               <div className={styles.qna}>
@@ -304,7 +306,7 @@ const QNA = (props: IdType) => {
                   />
                   <button
                     type="button"
-                    onClick={() => onSubmitComment()}
+                    onClick={() => onSubmitComment(qna?.id as string)}
                     disabled={!showInput}
                     className={styles.qnaCommentSubmit}
                   >
