@@ -134,7 +134,7 @@ const QNA = (props: IdType) => {
       sort: "createdAt:desc",
     },
   });
-  const data: any = result.data?.questionAndAnswers?.data || [];
+  const data: any = result?.data?.questionAndAnswers?.data || [];
   // console.log(result);
   const { user: user } = useAppSelector(isUser);
 
