@@ -21,8 +21,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import classNames from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
 import styles from "../../styles/LecturePage/QNA.module.css";
-import Modal from "components/ShareForm/Modal"
-
+import Modal from "components/ShareForm/Modal";
 
 const LectureEditor = dynamic(() => import("./LectureEditor"), {
   ssr: false,
@@ -32,7 +31,6 @@ import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth";
 
 import {
-
   TitleInput,
   BodyTextWrapper,
   InputFormGroupRow,
@@ -47,60 +45,8 @@ import {
   CardText,
 } from "../ShareForm/modal.styles";
 import { ErrorMsg, SuccessMsg } from "components/Input";
-import { QuestionAndAnswersDocument } from 'generated/graphql';
-
-
-
-// type Props = {
-//   data: Array<{
-//     user: {
-//       name: string;
-//       img: string;
-//       url: string;
-//     };
-//     title: string;
-//     question: string;
-//     votes: number;
-//     voted: boolean;
-//     time: string;
-//     comments: Array<{
-//       user: {
-//         name: string;
-//         img: string;
-//         url: string;
-//       };
-//       message: string;
-//       time: string;
-//     }>;
-//     url: string;
-//   }>;
-// };
-
-// const renderTime = (time: string) => {
-//   const date = new Date(time);
-//   const today = new Date();
-//   const day = date.getDate();
-//   const month = date.getMonth() + 1;
-//   const year = date.getFullYear();
-//   const hours = date.getHours();
-//   const minutes = date.getMinutes();
-
-//   if (
-//     today.getFullYear() === year &&
-//     today.getMonth() === month - 1 &&
-//     today.getDate() === day
-//   ) {
-//     return `Today ${hours}:${minutes}`;
-//   } else if (
-//     today.getFullYear() === year &&
-//     today.getMonth() === month - 1 &&
-//     today.getDate() - 1 === day
-//   ) {
-//     return `Yesterday ${hours}:${minutes}`;
-//   } else {
-//     return `${day}-${month}-${year}`;
-//   }
-// };
+import { QuestionAndAnswersDocument } from "generated/graphql";
+import renderTimestamp from "helpers/renderTimestamp";
 
 export type FormInput = {
   title: string;
@@ -111,7 +57,7 @@ export type FormInput = {
 
 type IdType = {
   id: string;
-}
+};
 
 const QNA = (props: IdType) => {
   const router = useRouter();
@@ -138,8 +84,6 @@ const QNA = (props: IdType) => {
   // console.log(result);
   const { user: user } = useAppSelector(isUser);
 
-  const [showInput, setShowInput] = React.useState(false);
-  
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -155,8 +99,6 @@ const QNA = (props: IdType) => {
     EditorState.createEmpty()
   );
   const [content, setContent] = useState<string>("");
-  const [body, setBody] = useState<string>("");
-  
 
   // useEffect(() => {
   //   console.log(showInput);
@@ -193,128 +135,42 @@ const QNA = (props: IdType) => {
       });
   };
 
-  const onSubmitComment = async () => {
-    // console.log(body);
-    await axios
-      .post("/api/course/comments", {
-        data: {
-          body,
-          user: user?.id as string,
-          group: id,          
-          publishedAt: new Date(),
-        },
-      })
-      .then(() => {
-        refetch();
-        setShowModal(false);
-        setMsg("Comment created successfully");
-        setSuccess(true);
-        setShowInput(!showInput);
-        setBody("");
-      })
-      .catch((_err) => {
-        setMsg("Sorry something went wrong please try again later.");
-        setError(true);
-        setTimeout(() => {
-          setError(false);
-        }, 10000);
-      });
-  };
-
   return (
     <div className={styles.QNATab}>
-      <button onClick={() => setShowModal(true)}>Ask a question</button>
-      <br />
-      <br />
+      <button className={styles.askButton} onClick={() => setShowModal(true)}>Ask a question</button>
       <div className={styles.qnas}>
-        {data.map((qna: { attributes: { user: { data: { attributes: { slug: string; img: string; username: string }; }; }; title: string; updatedAt: string; question: string; comments: { data: string | any[]; }; }; }, id: number) => {
-          return (
-            <div className={styles.qnaContainer} key={id}>
-              <div className={styles.qna}>
-                <div className={styles.qnaContent}>
-                  <Link
-                    href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
-                  >
-                    <a>
-                      <div
-                        className={styles.qnaUserPic}
-                        style={{
-                          backgroundImage: `url(${qna?.attributes?.user?.data?.attributes?.img})`,
-                        }}
-                      ></div>
-                    </a>
-                  </Link>
-                  <div className={styles.qnaDetails}>
-                    <Link
-                      href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
-                    >
-                      <a className={styles.qnaTitle}>
-                        {qna?.attributes?.title}
-                      </a>
-                    </Link>
-                    <div className={styles.qnaUsernameTimestamp}>
-                      <Link
-                        href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
-                      >
-                        <a>
-                          <div className={styles.qnaUsername}>
-                            {qna?.attributes?.user?.data?.attributes?.username}
-                          </div>
-                        </a>
-                      </Link>
-                      <div className={styles.dot}></div>
-                      <div className={styles.qnaTimestamp}>
-                        {dayjs(qna?.attributes?.updatedAt).fromNow()}
-                      </div>
-                    </div>
-                    <div className={styles.qnaMessage}>
-                      <Markdown>{qna?.attributes?.question}</Markdown>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.qnaInteractions}>
-                  {/* <div
-                    className={classNames(styles.interaction, styles.qnaVotes, {
-                      [styles.interactionActive]: qna.voted,
-                    })}
-                  >
-                    <FiArrowUpCircle size={20} />
-                    <span>{qna.votes}</span>
-                  </div> */}
-                  <div
-                    className={classNames(
-                      styles.interaction,
-                      styles.qnaComments
-                    )}
-                    onClick={() => setShowInput(!showInput)}
-                  >
-                    <FiMessageSquare size={20} />
-                    <span>{qna?.attributes?.comments?.data.length}</span>
-                  </div>
-                </div>
-              </div>
-              {showInput && id && (
-                <form className={styles.qnaCommentInput}>
-                  <TextareaAutosize
-                    className={styles.qnaCommentTextarea}
-                    rows={1}
-                    placeholder="Write a comment..."
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => onSubmitComment()}
-                    disabled={!showInput}
-                    className={styles.qnaCommentSubmit}
-                  >
-                    <FiSend size={20} />
-                  </button>
-                </form>
-              )}
-            </div>
-          );
-        })}
+        {data.map(
+          (
+            qna: {
+              attributes: {
+                user: {
+                  data: {
+                    attributes: { slug: string; img: string; username: string };
+                  };
+                };
+                title: string;
+                updatedAt: string;
+                question: string;
+                comments: { data: string | any[] };
+              };
+            },
+            id: number
+          ) => {
+            return (
+              <QNAElement
+                qna={qna}
+                id={id}
+                key={id}
+                user={user}
+                refetch={refetch}
+                setShowModal={setShowModal}
+                setMsg={setMsg}
+                setSuccess={setSuccess}
+                setError={setError}
+              />
+            );
+          }
+        )}
       </div>
       <Modal
         showModal={showModal}
@@ -370,6 +226,190 @@ const QNA = (props: IdType) => {
           </MainContainer>
         </FormWrap>
       </Modal>
+    </div>
+  );
+};
+
+const QNAElement = ({
+  qna,
+  id,
+  user,
+  refetch,
+  setShowModal,
+  setMsg,
+  setSuccess,
+  setError,
+}: any) => {
+  const [showInput, setShowInput] = React.useState(false);
+  const [body, setBody] = useState<string>("");
+
+  const onSubmitComment = async () => {
+    // console.log(body);
+    await axios
+      .post("/api/course/comments", {
+        data: {
+          body,
+          user: user?.id as string,
+          qna: qna?.id,
+          publishedAt: new Date(),
+        },
+      })
+      .then(() => {
+        refetch();
+        setShowModal(false);
+        setMsg("Comment created successfully");
+        setSuccess(true);
+        setShowInput(!showInput);
+        setBody("");
+      })
+      .catch((_err) => {
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 10000);
+      });
+  };
+
+  return (
+    <div className={styles.qnaContainer}>
+      <div className={styles.qna}>
+        <div className={styles.qnaContent}>
+          <Link
+            href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
+          >
+            <a>
+              <div
+                className={styles.qnaUserPic}
+                style={{
+                  backgroundImage: `url(${qna?.attributes?.user?.data?.attributes?.img})`,
+                }}
+              ></div>
+            </a>
+          </Link>
+          <div className={styles.qnaDetails}>
+            <Link
+              href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
+            >
+              <a className={styles.qnaTitle}>{qna?.attributes?.title}</a>
+            </Link>
+            <div className={styles.qnaUsernameTimestamp}>
+              <Link
+                href={`/user-profile/${qna?.attributes?.user?.data?.attributes?.slug}`}
+              >
+                <a>
+                  <div className={styles.qnaUsername}>
+                    {qna?.attributes?.user?.data?.attributes?.username}
+                  </div>
+                </a>
+              </Link>
+              <div className={styles.dot}></div>
+              <div className={styles.qnaTimestamp}>
+                {dayjs(qna?.attributes?.updatedAt).fromNow()}
+              </div>
+            </div>
+            <div className={styles.qnaMessage}>
+              <Markdown>{qna?.attributes?.question}</Markdown>
+            </div>
+          </div>
+        </div>
+        <div className={styles.qnaInteractions}>
+          {/* <div
+                    className={classNames(styles.interaction, styles.qnaVotes, {
+                      [styles.interactionActive]: qna.voted,
+                    })}
+                  >
+                    <FiArrowUpCircle size={20} />
+                    <span>{qna.votes}</span>
+                  </div> */}
+          <div
+            className={classNames(styles.interaction, styles.qnaComments)}
+            onClick={() => {
+              console.log(qna);
+              setShowInput(!showInput);
+            }}
+          >
+            <FiMessageSquare size={20} />
+            <span>{qna?.attributes?.comments?.data.length}</span>
+          </div>
+        </div>
+      </div>
+      {showInput && id !== null && (
+        <>
+          <div className={styles.commentsWrapper}>
+            {qna?.attributes?.groupComments?.data?.map(
+              (
+                comment: {
+                  id: string;
+                  attributes: {
+                    body: string;
+                    updatedAt: string;
+                    user: {
+                      data: {
+                        attributes: {
+                          slug: string;
+                          img: string;
+                          username: string;
+                        };
+                      };
+                    };
+                  };
+                },
+                id: string
+              ) => (
+                <div className={styles.commentWrapper} key={id}>
+                  <div
+                    className={styles.commentUserImg}
+                    style={{
+                      backgroundImage: `url(${comment?.attributes?.user?.data?.attributes?.img})`,
+                    }}
+                  ></div>
+                  <div className={styles.comment}>
+                    <div className={styles.commentUser}>
+                      <Link
+                        href={`/user-profile/${comment?.attributes?.user?.data?.attributes?.slug}`}
+                      >
+                        <a>
+                          <div className={styles.commentUsername}>
+                            {
+                              comment?.attributes?.user?.data?.attributes
+                                ?.username
+                            }
+                          </div>
+                        </a>
+                      </Link>
+                      <div className={styles.dot}></div>
+                      <div className={styles.commentTimestamp}>
+                        {renderTimestamp(comment?.attributes?.updatedAt)}
+                      </div>
+                    </div>
+                    <div className={styles.commentBody}>
+                      <Markdown>{comment?.attributes?.body}</Markdown>
+                    </div>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+          <form className={styles.qnaCommentInput}>
+            <TextareaAutosize
+              className={styles.qnaCommentTextarea}
+              rows={1}
+              placeholder="Write a comment..."
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => onSubmitComment()}
+              disabled={!showInput}
+              className={styles.qnaCommentSubmit}
+            >
+              <FiSend size={20} />
+            </button>
+          </form>
+        </>
+      )}
     </div>
   );
 };

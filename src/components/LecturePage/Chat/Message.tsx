@@ -22,11 +22,12 @@ type Props = {
     type: string;
     message?: string;
     file?: {
-      name: string;
-      size: string;
       url: string;
+      name: string;
+      type: string;
+      size: number;
     };
-    updatedAt: string;
+    updatedAt: Date;
   };
 };
 
@@ -61,34 +62,53 @@ const renderMessage = (message: Props["message"]) => {
   if (type === "text") {
     return (
       <div className={styles.message}>
-        <Markdown>{msg as string}</Markdown>
-        <div className={styles.messageTime}>{dayjs(message.updatedAt).fromNow()}</div>
+        <div className={styles.messageText}>
+          <Markdown>{msg as string}</Markdown>
+        </div>
+        <div className={styles.messageTime}>
+          {dayjs(message.updatedAt).fromNow()}
+        </div>
       </div>
     );
   } else if (type === "file" && file) {
     const ext = file.name.split(".").pop();
     return (
-      <Link href={file.url}>
-        <a className={styles.message}>
-          <div className={styles.messageTime}>
-            {dayjs(message.updatedAt).fromNow()}
+      <div className={styles.message}>
+        <div className={styles.messageTime}>
+          {dayjs(message.updatedAt).fromNow()}
+        </div>
+        <Link href={file.url} passHref>
+          <a className={styles.messageFile} target="_blank">
+            {file.type.includes("image") ? (
+              <img
+                src={file.url}
+                alt={file.name}
+                className={styles.messageImage}
+              />
+            ) : (
+              <>
+                <div
+                  className={classNames(
+                    styles.messageFileIcon,
+                    styles[`messageFileIcon${ext?.toUpperCase()}`]
+                  )}
+                >
+                  {ext}
+                </div>
+                <div className={styles.messageNameSize}>
+                  <div className={styles.messageFileName}>{file.name}</div>
+                  <div className={styles.messageFileSize}>{file.size}</div>
+                </div>
+              </>
+            )}
+          </a>
+        </Link>
+        {msg && (
+          <div className={styles.messageText}>
+            <Markdown>{msg as string}</Markdown>
           </div>
-          <div className={styles.messageFile}>
-            <div
-              className={classNames(
-                styles.messageFileIcon,
-                styles[`messageFileIcon${ext?.toUpperCase()}`]
-              )}
-            >
-              {ext}
-            </div>
-            <div className={styles.messageNameSize}>
-              <div className={styles.messageFileName}>{file.name}</div>
-              <div className={styles.messageFileSize}>{file.size}</div>
-            </div>
-          </div>
-        </a>
-      </Link>
+        )}
+      </div>
     );
   }
 };
@@ -110,7 +130,7 @@ const Message = (props: Props) => {
           <a
             className={styles.userPic}
             style={{
-              backgroundImage: `url(${message.student.img})`,
+              backgroundImage: `url('${message.student.img}')`,
             }}
           ></a>
         </Link>

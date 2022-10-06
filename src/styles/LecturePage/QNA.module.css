@@ -98,7 +98,7 @@
 }
 
 .qnaMessage {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 400;
   color: var(--text2);
   line-height: 200%;
@@ -111,7 +111,7 @@
 }
 
 .qnaCommentInput {
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
 }
 
@@ -147,6 +147,68 @@
 
 .qnaCommentSubmit[disabled] {
   opacity: 0.5;
+}
+
+.commentsWrapper {
+  margin-top: 20px;
+}
+
+.commentWrapper {
+  margin-top: 10px;
+  padding-left: 50px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.commentUser {
+  display: flex;
+  align-items: center;
+}
+
+.commentTimestamp {
+  color: var(--text2);
+  font-size: 0.7rem;
+}
+
+.commentUsername {
+  color: var(--text1);
+  font-size: 0.7rem;
+}
+
+.commentBody {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text2);
+  line-height: 200%;
+  margin-top: 8px;
+}
+
+.commentUserImg {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 10px;
+}
+
+.askButton {
+  background: var(--primary);
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  color: var(--white);
+  font-weight: 700;
+  display: block;
+  margin: auto;
+  margin-bottom: 40px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.askButton:hover {
+  background: var(--primary-dark);
 }
 
 @media screen and (max-width: 470px) {

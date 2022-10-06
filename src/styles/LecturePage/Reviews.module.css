@@ -144,6 +144,30 @@
   font-size: 0.8rem;
 }
 
+.leaveReviewButton {
+  background: var(--primary);
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  color: var(--white);
+  font-weight: 700;
+  display: block;
+  margin: auto;
+  margin-bottom: 40px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.leaveReviewButton:hover {
+  background: var(--primary-dark);
+}
+
+.ratingInput {
+  margin: auto;
+  display: block;
+  margin: 20px auto;
+}
+
 @media screen and (max-width: 470px) {
   .avgRating {
     font-size: 2rem;
