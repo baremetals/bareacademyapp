@@ -45,7 +45,10 @@ import {
   CardText,
 } from "../ShareForm/modal.styles";
 import { ErrorMsg, SuccessMsg } from "components/Input";
-import { QuestionAndAnswersDocument } from "generated/graphql";
+import {
+  QuestionAndAnswersDocument,
+  GroupCommentsDocument,
+} from "generated/graphql";
 import renderTimestamp from "helpers/renderTimestamp";
 
 export type FormInput = {
@@ -80,6 +83,7 @@ const QNA = (props: IdType) => {
       sort: "createdAt:desc",
     },
   });
+  
   const data: any = result.data?.questionAndAnswers?.data || [];
   // console.log(result);
   const { user: user } = useAppSelector(isUser);
@@ -243,6 +247,26 @@ const QNAElement = ({
   const [showInput, setShowInput] = React.useState(false);
   const [body, setBody] = useState<string>("");
 
+
+  const { refetch: ref, ...result } = useQuery(GroupCommentsDocument, {
+    variables: {
+      filters: {
+        qna: {
+          id: {
+            eq: qna?.id,
+          },
+        },
+      },
+      pagination: {
+        start: 0,
+        limit: 6,
+      },
+      sort: "createdAt:desc",
+    },
+  });
+
+  const data: any = result.data?.groupComments?.data || [];
+
   const onSubmitComment = async () => {
     // console.log(body);
     await axios
@@ -255,7 +279,7 @@ const QNAElement = ({
         },
       })
       .then(() => {
-        refetch();
+        ref();
         setShowModal(false);
         setMsg("Comment created successfully");
         setSuccess(true);
@@ -324,20 +348,20 @@ const QNAElement = ({
                   </div> */}
           <div
             className={classNames(styles.interaction, styles.qnaComments)}
-            onClick={() => {
-              console.log(qna);
+            onClick={async () => {
               setShowInput(!showInput);
             }}
           >
             <FiMessageSquare size={20} />
-            <span>{qna?.attributes?.comments?.data.length}</span>
+            {/* <span>{qna?.attributes?.comments?.data.length}</span> */}
+            <span>{data?.length}</span>
           </div>
         </div>
       </div>
       {showInput && id !== null && (
         <>
           <div className={styles.commentsWrapper}>
-            {qna?.attributes?.groupComments?.data?.map(
+            {data && data?.map(
               (
                 comment: {
                   id: string;

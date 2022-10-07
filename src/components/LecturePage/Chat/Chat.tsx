@@ -45,6 +45,15 @@ type MessagePageType = {
     name: string;
     type: string;
     size: number;
+    ext: string;
+    width: number;
+    height: number;
+    formats: {
+      thumbnail: {
+        width: number;
+        height: number;
+      };
+    };
   };
 };
 
@@ -231,7 +240,7 @@ const Chat = (props: Props) => {
       console.log(fileUrl);
       socket.emit(
         "new group message",
-        { student, username, message, slug, group, file },
+        { student, username, message, slug, group, fileUrl },
         (error: any) => {
           if (error) {
             console.log(" Something went wrong please try again later. error");

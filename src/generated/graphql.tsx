@@ -1,6 +1,3 @@
-/* eslint-disable valid-jsdoc */
-/* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -3375,6 +3372,14 @@ export type CommentsQueryVariables = Exact<{
 
 export type CommentsQuery = { __typename?: 'Query', comments?: { __typename?: 'CommentEntityResponseCollection', data: Array<{ __typename?: 'CommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'Comment', body: string, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', slug: string, username: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
+export type GroupCommentsQueryVariables = Exact<{
+  filters?: InputMaybe<GroupCommentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+}>;
+
+
+export type GroupCommentsQuery = { __typename?: 'Query', groupComments?: { __typename?: 'GroupCommentEntityResponseCollection', data: Array<{ __typename?: 'GroupCommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'GroupComment', body?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+
 export type CourseQueryVariables = Exact<{
   filters?: InputMaybe<CourseFiltersInput>;
   groupsFilters2?: InputMaybe<GroupFiltersInput>;
@@ -3406,7 +3411,7 @@ export type QuestionAndAnswersQueryVariables = Exact<{
 }>;
 
 
-export type QuestionAndAnswersQuery = { __typename?: 'Query', questionAndAnswers?: { __typename?: 'QuestionAndAnswerEntityResponseCollection', data: Array<{ __typename?: 'QuestionAndAnswerEntity', id?: string | null | undefined, attributes?: { __typename?: 'QuestionAndAnswer', title?: string | null | undefined, question?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groupComments?: { __typename?: 'GroupCommentRelationResponseCollection', data: Array<{ __typename?: 'GroupCommentEntity', id?: string | null | undefined, attributes?: { __typename?: 'GroupComment', body?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
+export type QuestionAndAnswersQuery = { __typename?: 'Query', questionAndAnswers?: { __typename?: 'QuestionAndAnswerEntityResponseCollection', data: Array<{ __typename?: 'QuestionAndAnswerEntity', id?: string | null | undefined, attributes?: { __typename?: 'QuestionAndAnswer', title?: string | null | undefined, question?: string | null | undefined, updatedAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type RecentCoursesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationArg>;
@@ -4563,6 +4568,59 @@ export function useCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<C
 export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
 export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
 export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
+export const GroupCommentsDocument = gql`
+    query GroupComments($filters: GroupCommentFiltersInput, $pagination: PaginationArg) {
+  groupComments(filters: $filters, pagination: $pagination) {
+    data {
+      id
+      attributes {
+        body
+        updatedAt
+        user {
+          data {
+            id
+            attributes {
+              username
+              fullName
+              slug
+              img
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGroupCommentsQuery__
+ *
+ * To run a query within a React component, call `useGroupCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupCommentsQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useGroupCommentsQuery(baseOptions?: Apollo.QueryHookOptions<GroupCommentsQuery, GroupCommentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GroupCommentsQuery, GroupCommentsQueryVariables>(GroupCommentsDocument, options);
+      }
+export function useGroupCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GroupCommentsQuery, GroupCommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GroupCommentsQuery, GroupCommentsQueryVariables>(GroupCommentsDocument, options);
+        }
+export type GroupCommentsQueryHookResult = ReturnType<typeof useGroupCommentsQuery>;
+export type GroupCommentsLazyQueryHookResult = ReturnType<typeof useGroupCommentsLazyQuery>;
+export type GroupCommentsQueryResult = Apollo.QueryResult<GroupCommentsQuery, GroupCommentsQueryVariables>;
 export const CourseDocument = gql`
     query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
   courses(filters: $filters) {
@@ -4784,26 +4842,6 @@ export const QuestionAndAnswersDocument = gql`
               fullName
               slug
               img
-            }
-          }
-        }
-        groupComments {
-          data {
-            id
-            attributes {
-              body
-              updatedAt
-              user {
-                data {
-                  id
-                  attributes {
-                    username
-                    fullName
-                    slug
-                    img
-                  }
-                }
-              }
             }
           }
         }

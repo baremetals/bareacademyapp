@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiStar } from "react-icons/fi";
 import styles from "../../styles/LecturePage/Reviews.module.css";
 import classNames from "classnames";
 import Link from "next/link";
+import Markdown from "markdown-to-jsx";
 import { useQuery } from "@apollo/client";
 import axios from "axios";
 
@@ -11,12 +12,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 // import { useRouter } from "next/router";
 import { ReviewsDocument } from "generated/graphql";
-import TextareaAutosize from "react-textarea-autosize";
 
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth";
 
-import { FiSend } from "react-icons/fi";
 import Modal from "components/ShareForm/Modal";
 import {
   BodyTextWrapper,
@@ -26,14 +25,12 @@ import {
   CloseButtonWrap,
   FormWrap,
   InputContainer,
-  InputFormGroup,
   InputFormGroupRow,
   MainContainer,
   SubmitButton,
-  TitleInput,
 } from "components/ShareForm/modal.styles";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { ErrorMsg, SuccessMsg } from "components/Input";
+import { ErrorMsg } from "components/Input";
 import { Rating } from "react-simple-star-rating";
 import { useForm } from "react-hook-form";
 import { convertToRaw, EditorState } from "draft-js";
@@ -55,7 +52,7 @@ export type FormInput = {
 
 const Reviews = (props: IdType) => {
   const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false);
   const [msg, setMsg] = useState("");
   const { id } = props;
 
@@ -80,14 +77,14 @@ const Reviews = (props: IdType) => {
   // console.log(data);
   const { user: user } = useAppSelector(isUser);
   const [showInput, setShowInput] = React.useState(false);
-  const [message, setMessage] = React.useState<string>("");
+  const [showButton, setShowButton] = React.useState(true);
   const [rating, setRating] = React.useState<number>(0);
 
   const {
-    register,
+    // register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<FormInput>();
 
   const [editorState, setEditorState] = useState<EditorState>(
@@ -112,33 +109,47 @@ const Reviews = (props: IdType) => {
       }, 0);
   });
 
+
+  function showReviewButton() {
+    data.find((element: { attributes: { user: { data: { id: string | undefined; }; }; }; }) => {
+      console.log(element?.attributes?.user?.data?.id);
+      element?.attributes?.user?.data?.id === user?.id.toString();
+      setShowButton(false);
+    });
+    console.log(data)
+    // console.log(found);
+    // if (found) setShowButton(true)
+  }
+
+  useEffect(() => {
+    showReviewButton()
+  },[data])
+
   const onSubmit = async (data: FormInput) => {
-    console.log(data);
-    // console.log(message, "-", rating);
-    // await axios
-    //   .post("/api/course/reviews", {
-    //     data: {
-    //       rating,
-    //       message,
-    //       user: user?.id as string,
-    //       course: id,
-    //       publishedAt: new Date(),
-    //     },
-    //   })
-    //   .then(() => {
-    //     refetch();
-    //     setShowInput(!showInput);
-    //     setMessage("");
-    //     setRating(0);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // setMsg("Sorry something went wrong please try again later.");
-    //     // setError(true);
-    //     // setTimeout(() => {
-    //     //   setError(false);
-    //     // }, 10000);
-    //   });
+
+    await axios
+      .post("/api/course/reviews", {
+        data: {
+          rating: data.rating,
+          message: data.comment,
+          user: user?.id as string,
+          course: id,
+          publishedAt: new Date(),
+        },
+      })
+      .then(() => {
+        refetch();
+        setShowInput(!showInput);
+        // setRating(0);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMsg("Sorry something went wrong please try again later.");
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 10000);
+      });
   };
 
   return (
@@ -168,12 +179,15 @@ const Reviews = (props: IdType) => {
           </div>
         </div>
       )}
-      <button
-        className={styles.leaveReviewButton}
-        onClick={() => setShowInput(!showInput)}
-      >
-        Leave a review
-      </button>
+      {showButton && (
+        <button
+          className={styles.leaveReviewButton}
+          onClick={() => setShowInput(!showInput)}
+        >
+          Leave a review
+        </button>
+      )}
+
       <div className={styles.reviews}>
         {data &&
           data?.map(
@@ -246,7 +260,7 @@ const Reviews = (props: IdType) => {
                     </div>
                   </div>
                   <div className={styles.reviewMessage}>
-                    {review?.attributes?.message}
+                    <Markdown>{review?.attributes?.message}</Markdown>
                   </div>
                 </div>
               );
@@ -265,7 +279,7 @@ const Reviews = (props: IdType) => {
             </CloseButtonWrap>
             <CardText>Leave a review</CardText>
             {error && <ErrorMsg>{msg}</ErrorMsg>}
-            {success && <SuccessMsg>{msg}</SuccessMsg>}
+            {/* {success && <SuccessMsg>{msg}</SuccessMsg>} */}
             <InputContainer>
               <InputFormGroupRow>
                 <div className={styles.ratingInput}>
@@ -312,3 +326,4 @@ const Reviews = (props: IdType) => {
 };
 
 export default Reviews;
+
