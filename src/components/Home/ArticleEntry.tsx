@@ -32,7 +32,7 @@ const ArticleEntry = () => {
             },
             index: number
           ) => {
-            console.log(article);
+            // console.log(article);
             return (
               <div className={styles.ArticleEntry} key={index}>
                 <Link href={`/articles/${article?.attributes?.slug}`}>

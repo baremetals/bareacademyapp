@@ -20,7 +20,7 @@ import Footer from "components/Footer";
 import styles from "../../styles/Home/index.module.css";
 import CourseCard from "./CourseCard";
 import ArticleEntry from "./ArticleEntry";
-import TakeQuizDialog from "./TakeQuizDialog";
+// import TakeQuizDialog from "./TakeQuizDialog";
 
 import { useSockets } from "context/socket.context";
 
@@ -70,7 +70,7 @@ const Home = (props: { groups: Props }) => {
           </div>
           <RightSideBar>
             <AdCardThree />
-            <TakeQuizDialog />
+            {/* <TakeQuizDialog /> */}
           </RightSideBar>
         </ProfileWrapGroup>
       </Dashboard>

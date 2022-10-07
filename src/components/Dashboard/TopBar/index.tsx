@@ -170,9 +170,11 @@ const Topbar = () => {
             <ProfileItem>
               <Link href="/terms">Terms</Link>
             </ProfileItem>
-            <ProfileItem>
-              <a onClick={handleLogOut}>Logout</a>
-            </ProfileItem>
+            <div onClick={handleLogOut}>
+              <ProfileItem>
+                <a onClick={handleLogOut}>Logout</a>
+              </ProfileItem>
+            </div>
           </ProfileDropdown>
         </ProfileSetting>
       </TopRightWrap>

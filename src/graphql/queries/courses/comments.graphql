@@ -1,14 +1,12 @@
-query QuestionAndAnswers(
-  $filters: QuestionAndAnswerFiltersInput
+query GroupComments(
+  $filters: GroupCommentFiltersInput
   $pagination: PaginationArg
-  $sort: [String]
 ) {
-  questionAndAnswers(filters: $filters, pagination: $pagination, sort: $sort) {
+  groupComments(filters: $filters, pagination: $pagination) {
     data {
       id
       attributes {
-        title
-        question
+        body
         updatedAt
         user {
           data {
