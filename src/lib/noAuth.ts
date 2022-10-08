@@ -11,7 +11,9 @@ export const useNoAuth = () => {
       .post("/api/user")
       .then((res) => {
         if (res?.data?.id) {
-          router.back();
+          // console.log(router)
+          router.push('/home')
+          // router.back();
         }
       })
       .catch((_err) => {
