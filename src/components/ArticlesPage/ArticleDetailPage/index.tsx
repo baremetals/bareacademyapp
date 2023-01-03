@@ -21,15 +21,13 @@ import RightSideBar from "components/Dashboard/RightSideBar";
 import { CardTitle } from "../../ArticlesPage/ArticleDetailPage/details.styles";
 
 import { useRouter } from "next/router";
-import NavBar from "components/NavBar/NavBar";
-import Footer from "components/Footer";
+
 import { ArticleEntityResponseCollection } from "generated/graphql";
-import { ErrorMsg } from "components/Input";
 import SocialShare from "components/SocialShare";
 
 const RecentArticles = dynamic(() => import("../RecentArticles")) as any;
 import Markdown from "markdown-to-jsx";
-import NavDropDown from 'components/NavDropDown';
+
 
 function ArticleDetailPage(props: {
   props: {
@@ -44,48 +42,30 @@ function ArticleDetailPage(props: {
   const toggle: any = () => {
     setSocialDropdown(!socialDropdown);
   };
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu: any = () => {
-    setIsOpen(!isOpen);
-  };
+  // const toggleMenu: any = () => {
+  //   setIsOpen(!isOpen);
+  // };
 
-  const { data, loading, error } = props.props;
-
-  if (!data || loading) {
-    return <div>loading...</div>;
-  }
-
-  if (error) return <ErrorMsg>{error}</ErrorMsg>;
+  const { data } = props.props;
 
   // const allPosts = data.data;
   const article = data?.articles?.data[0];
-  console.log(article)
+  // console.log(article);
 
   const imageurl = article?.attributes?.heroImage?.data?.attributes?.url;
   const author = article?.attributes?.author?.data?.attributes;
   const avatar = author?.avatar?.data?.attributes?.url;
 
-  // useEffect(() => {
-  //   if (typeof window != undefined) {
-  //     logEvent(analytics, `${article?.attributes?.title}_visited`);
-  //   }
-  // });
-
-  // if (typeof window != undefined) {
-  //   useEffect(() => {
-  //     logEvent(analytics, `${article?.attributes?.title}_visited`);
-  //   });
-  // }
-
   return (
     <>
-      {!user?.id && (
+      {/* {!user?.id && (
         <>
           <NavBar style={{ backgroundColor: "#fff" }} toggle={toggleMenu} />
           <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
         </>
-      )}
+      )} */}
 
       <Dashboard style={{}}>
         <ProfileWrapGroup
@@ -138,7 +118,7 @@ function ArticleDetailPage(props: {
           </RightSideBar>
         </ProfileWrapGroup>
       </Dashboard>
-      {!user?.id && <Footer />}
+      {/* {!user?.id && <Footer />} */}
     </>
   );
 }

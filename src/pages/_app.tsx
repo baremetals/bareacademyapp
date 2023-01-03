@@ -56,8 +56,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
 
     return () => {
-      Router.events.on("routeChangeStart", startLoading);
-      Router.events.on("routeChangeComplete", stopLoading);
+      Router.events.off("routeChangeStart", startLoading);
+      Router.events.off("routeChangeComplete", stopLoading);
       Router.events.off("routeChangeComplete", log);
     };
   }, []);

@@ -1,5 +1,5 @@
-import React from 'react'
-import Head from "next/head";
+import React, { useEffect } from 'react'
+// import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import { client } from "lib/initApollo";
 import {
@@ -9,6 +9,10 @@ import {
 } from "generated/graphql";
 import ArticleDetail from "components/ArticlesPage/ArticleDetailPage";
 import { useNoAuthPages } from "lib/noAuth";
+import Layout from 'components/Layout';
+import ErrorPage from 'components/ErrorPage';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from 'lib/admin';
 
 
 
@@ -16,24 +20,48 @@ const ArticlesDetailsPage = (props: { data: { articles: ArticleEntityResponseCol
   useNoAuthPages();
   const article = props?.data?.articles?.data[0];
   const meta = article?.attributes?.SEO;
+  const error = props?.error;
+  // console.log(article?.attributes?.slug);
   // console.log(meta?.title);
+  useEffect(() => {
+    logEvent(analytics, `${article?.attributes?.title} Page_visited`);
+  });
+
+  if (props?.loading) {
+    return <div></div>;
+  }
+  if (error) {
+    return <ErrorPage statusCode={error.statusCode || 500} />;
+  }
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: meta?.title,
+    description: meta?.description,
+    author: [
+      {
+        "@type": "Person",
+        name: meta?.author
+      },
+    ],
+    image: meta?.image,
+    datePublished: article?.attributes?.updatedAt,
+  };
   return (
     <>
-      <Head>
-        <title>Bare Metals Aacademy | {meta?.title} </title>
-        <meta property="og:title" content={meta?.title as string} key="title" />
-        <meta name="description" content={meta?.description as string} />
-        <meta property="og:type" content={meta?.type as string} />
-        <meta property="og:url" content={meta?.url as string} />
-        <meta property="og:image" content={meta?.image as string} />
-        <meta property="og:image:width" content="100%" />
-        <meta property="og:image:height" content="auto" />
-        <link
-          rel="canonical"
-          href={`https://baremetals.io/articles/${meta?.title}`}
-        />
-      </Head>
-      <ArticleDetail props={props} />
+      <Layout
+        title={`Bare Metals Aacademy | ${meta?.title as string}`}
+        metaDescription={meta?.description as string}
+        canonicalUrl={meta?.url as string}
+        pageUrl={meta?.url as string}
+        image={meta?.image as string}
+        data={JSON.stringify(structuredData)}
+        imageHeight={"auto"}
+        imageWidth={"100%"}
+        type={meta?.type as string}
+      >
+        <ArticleDetail props={props} />
+      </Layout>
     </>
   );
 }

@@ -32,6 +32,8 @@ query Article($filters: ArticleFiltersInput) {
           image
           type
           locale
+          author
+          keywords
         }
         author {
           data {

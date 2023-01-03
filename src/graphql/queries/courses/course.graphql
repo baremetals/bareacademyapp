@@ -26,6 +26,8 @@ query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
           image
           locale
           type
+          author
+          keywords
         }
         teacher {
           data {

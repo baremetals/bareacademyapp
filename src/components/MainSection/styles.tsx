@@ -74,7 +74,7 @@ export const TopLine = styled.div`
   font-weight: 600;
 `;
 
-export const Heading = styled.h1`
+export const Heading = styled.h2`
   font-size: 2.75rem;
   line-height: 1.2;
   margin-top: 1rem;

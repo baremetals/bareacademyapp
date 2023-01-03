@@ -1,71 +1,53 @@
-import React, { useEffect, useState } from "react";
-// import axios from "axios";
-import Head from "next/head";
+import React, { useEffect } from "react";
 import {
   CoursesDocument,
   CoursesQueryResult,
+  CourseEntityResponseCollection,
 } from "generated/graphql";
 
 import CoursesPage from "components/Courses";
-
-import { useAppDispatch } from "app/hooks";
-import { setCourse } from "features/courses/reducers";
 import { client } from "lib/initApollo";
 import { useIsAuth } from "lib/isAuth";
+import { logEvent } from 'firebase/analytics';
+import { analytics } from 'lib/admin';
+import Layout from 'components/Layout';
+import ErrorPage from 'components/ErrorPage';
 
-type meta = {
-  data: {
-    id: string,
-    attributes: {
-      description: string;
-      metaTitle: string;
-      metaDescription: string;
-      metaUrl: string;
-    }
-  }
-}
-
-type u = meta | null;
-
-
-
-function courses(props: any) {
+function courses(props: { data: { courses: CourseEntityResponseCollection }, error: any; loading: boolean }) {
   useIsAuth();
-  const [metaData, setMetaData] = useState<u>(null);
-
-  const getMetadata = async () => {
-    const res = await(
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses-page`)
-    ).json();
-    return setMetaData(res);
-  }
 
   useEffect(() => {
-    getMetadata()
-  }, [])
+    logEvent(analytics, `coursesPage_visited`);
+  });
+  
+  const courses = props.data?.courses?.data;
+  const error = props?.error;
 
-  console.log(metaData?.data?.attributes.description);
+  if (props?.loading) {
+    return <div></div>;
+  }
+  if (error) {
+    return <ErrorPage statusCode={error.statusCode || 500} />;
+  }
 
-  const dispatch = useAppDispatch();
-  const courseData = props.data?.courses;
-  dispatch(setCourse(courseData));
+  // console.log(courses);
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Courses",
+  };
+  const description = "Check out the latest courses on web development, IT, cloud technology and more..."
 
   return (
-    <>
-      <Head>
-        <title>Bare Academy Courses</title>
-        <meta property="og:title" content="Bare Academy Courses" key="title" />
-        <meta
-          name="description"
-          content="Check out the latest courses on web development, IT, cloud technology and more..."
-        />
-        <meta property="og:url" content="https://www.baremetals.io/courses" />
-        <meta property="og:type" content="courses" />
-        <link rel="canonical" href="https://www.baremetals.io/courses" />
-      </Head>
-
-      <CoursesPage desc="Check out the latest courses on web development, IT, cloud technology and more..." />
-    </>
+    <Layout
+      title={`Bare Metals Aacademy | Online Courses`}
+      metaDescription={description}
+      canonicalUrl="https://www.baremetals.io/courses"
+      pageUrl="https://www.baremetals.io/courses"
+      data={JSON.stringify(structuredData)}
+    >
+      <CoursesPage desc={description} courses={courses} />
+    </Layout>
   );
 }
 

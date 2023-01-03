@@ -26,7 +26,7 @@ function ChatForm(props: any) {
   // const username = messageslug?.split("-")[1];
   const [message, setMessage] = useState("");
   const { user: user } = useAppSelector(isUser);
-  console.log(router.query, "query");
+  // console.log(router.query, "query");
 
   const {
     // setValue,

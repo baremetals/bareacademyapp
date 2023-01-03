@@ -16,7 +16,7 @@ dayjs.extend(relativeTime);
 
 import { PageHeading, ProfileWrapGroup } from "../../styles/common.styles";
 
-import Footer from "components/Footer";
+import Footer from "components/Layout/Footer";
 import styles from "../../styles/Home/index.module.css";
 import CourseCard from "./CourseCard";
 import ArticleEntry from "./ArticleEntry";

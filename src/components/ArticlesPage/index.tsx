@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import Link from "next/link";
 import { useAppSelector } from "app/hooks";
 // import { analytics, logEve } from "lib/admin";
@@ -18,33 +18,15 @@ import {
   ProfileWrapGroup,
   PageWrapGroup,
 } from "../../styles/common.styles";
-import NavBar from "components/NavBar/NavBar";
-import Footer from "components/Footer";
-import { ArticleEntity, Query } from 'generated/graphql';
-import { ErrorMsg } from 'components/Input';
-import NavDropDown from 'components/NavDropDown';
-
+import { ArticleEntity, Query } from "generated/graphql";
 
 
 function ArticlesPage(props: {
   props: { data: Query; loading: boolean; error: any };
 }) {
-
   const { user: user } = useAppSelector(isUser);
 
-  const { data, loading, error } = props.props;
-  
-  if (!data || loading) {
-    return <div>loading...</div>;
-  }
-
-   if (error) return <ErrorMsg>{error}</ErrorMsg>;
-
-   const [isOpen, setIsOpen] = useState(false);
-
-   const toggleMenu: any = () => {
-     setIsOpen(!isOpen);
-   };
+  const { data } = props.props;
 
   const articleData = data?.articles;
   const articles = articleData?.data as Array<ArticleEntity>;
@@ -60,14 +42,6 @@ function ArticlesPage(props: {
   // }
 
   return (
-    <>
-      {!user?.id && (
-        <>
-          <NavBar style={{ backgroundColor: "#fff" }} toggle={toggleMenu} />
-          <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
-        </>
-      )}
-
       <Dashboard style={{}}>
         <ProfileWrapGroup
           className={user?.id ? "" : "container-loggedin"}
@@ -108,8 +82,6 @@ function ArticlesPage(props: {
           </PageWrapGroup>
         </ProfileWrapGroup>
       </Dashboard>
-      {!user?.id && <Footer />}
-    </>
   );
 }
 

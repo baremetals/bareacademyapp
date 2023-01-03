@@ -6,8 +6,8 @@ import BooksPage from 'components/Books'
 
 import { GetBooksQueryResult, GetBooksDocument } from "generated/graphql";
 import { queryProps } from 'models/Shared';
-import { initializeApollo } from 'lib/apolloClient';
 import { useIsAuth } from 'lib/isAuth';
+import { client } from 'lib/initApollo';
 
 
 
@@ -38,11 +38,8 @@ function Books(props: queryProps) {
 
 export const getServerSideProps: GetServerSideProps = requireAuthentication(
   async (ctx) => {
-    const cookies = JSON.parse(ctx.req.cookies.bareacademy as string).jwt;
-    const token =
-      `Bearer ${cookies}`; 
-    const apolloClient = initializeApollo(null, token);
-    const { data } = await apolloClient.query<GetBooksQueryResult>({
+
+    const { data } = await client.query<GetBooksQueryResult>({
       query: GetBooksDocument,
       variables: {
         sort: "updatedAt:desc",

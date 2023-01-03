@@ -68,7 +68,7 @@ export const ServiceIcon = styled.img`
   margin-top: -7rem;
 `;
 
-export const ServiceH1 = styled.h1`
+export const ServiceH1 = styled.h2`
   font-size: 2.75rem;
   margin-bottom: 3rem;
   text-align: center;

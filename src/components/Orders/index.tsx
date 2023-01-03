@@ -31,7 +31,7 @@ import {
   // PageWrapper,
 } from "../../styles/common.styles";
 import Link from "next/link";
-import Footer from "components/Footer";
+import Footer from "components/Layout/Footer";
 
 const Orders = (props: {
   props: { data: { orders: OrderEntityResponseCollection } };
@@ -65,9 +65,7 @@ const Orders = (props: {
                     >
                       <BlogCardImage
                         alt="order image"
-                        src={
-                          order?.attributes?.imageUrl
-                        }
+                        src={order?.attributes?.imageUrl}
                       />
                     </Link>
                     <BlogCardBody>

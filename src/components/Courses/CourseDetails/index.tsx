@@ -1,63 +1,20 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
-import Markdown from "markdown-to-jsx";
-import Spinner from "components/Spinner";
+
 
 import { CourseEntityResponseCollection } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
-import durationToString from "helpers/durationToString";
 
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import {
-  CardTitle,
-  DetailsCardWrapper,
-  CardTop,
-  CardLeftWrap,
-  StartDate,
-  CardCenterWrap,
-  // CardText,
-  StartDateTitle,
-  // MediaContainer,
-  CoursesH2,
-  CoursesTeacherWrap,
-  // CoursesTeacherNameAndImageWrap,
-  // CoursesTeacherName,
-  // CoursesTeacherImage,
-  // MediaRow,
-  Level,
-} from "./details.styles";
-
-import {
-  ProfileWrapGroup,
-  PageWrapGroup,
-  PageHeading,
-  CardBottom,
-  ApplyButton,
-} from "../../../styles/common.styles";
-
-import RightSideBar from "components/Dashboard/RightSideBar";
-// import { CardTitle } from "../../ArticlesPage/ArticleDetailPage/details.styles";
-
-
-import { ErrorMsg } from 'components/Input';
-import Dashboard from 'components/Dashboard';
-
-// import VideoCard from './VideoCard';
-import NavBar from 'components/NavBar/NavBar';
-import Footer from 'components/Footer';
-import SocialShare from 'components/SocialShare';
-import NavDropDown from 'components/NavDropDown';
-
-const RecentCourses: any = dynamic(() => import("../RecentCourses"));
+import { CourseDetailsTemplate } from './Template';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK as string);
 
@@ -71,34 +28,20 @@ function CourseDetails(props: {
   const router = useRouter();
   // const { slug } = router.query;
 
-  const { data, loading, error } = props.props;
-
-  if (!data || loading) {
-    return <div>loading...</div>;
-  }
-  if (error) return <ErrorMsg>{error}</ErrorMsg>;
-
-  const course = data?.courses?.data[0];
-  const groups = course?.attributes?.groups?.data;
+  const { data } = props.props;
+  const course = data?.courses?.data[0]!.attributes;
+  const courseId = data?.courses?.data[0]!.id;
+  const groups = course?.groups?.data;
   // const students = course?.attributes?.students?.data;
-  const teacher = course?.attributes?.teacher?.data;
-  const imageUrl = course?.attributes?.image;
+  const teacher = course?.teacher?.data;
+  const imageUrl = course?.image;
   // console.log(groups![0].attributes?.slug);
 
   const [isloading, setIsLoading] = useState(false);
-  const [socialDropdown, setSocialDropdown] = useState(false);
-  const toggle: any = () => {
-    setSocialDropdown(!socialDropdown);
-  };
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu: any = () => {
-    setIsOpen(!isOpen);
-  };
 
   const [errorMsg, setErrorMsg] = useState(false);
-  const [message, setMessage] = useState<string | undefined>("");
+  const [message, setMessage] = useState<string>("");
   const [isStudent, setIsStudent] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
   const { user: user } = useAppSelector(isUser);
@@ -141,11 +84,11 @@ function CourseDetails(props: {
     await axios
       .post("/api/buy", {
         data: {
-          total: course?.attributes?.price,
+          total: course?.price,
           quantity: 1,
-          course: course.id,
+          course: courseId,
           imageUrl,
-          isFree: course?.attributes?.isFree,
+          isFree: course?.isFree,
           orderType,
         },
       })
@@ -215,170 +158,25 @@ function CourseDetails(props: {
   // };
 
   return (
-    <>
-      {!user?.id && (
-        <>
-          <NavBar style={{ backgroundColor: "#fff" }} toggle={toggleMenu} />
-          <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
-        </>
-      )}
-
-      <Dashboard>
-        <ProfileWrapGroup
-          className={user?.id ? "" : "container-loggedin"}
-          // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
-        >
-          <PageWrapGroup
-            style={{
-              backgroundColor: "transparent",
-              boxShadow: "none",
-              borderRadius: "0",
-            }}
-          >
-            <PageHeading>
-              <SocialShare
-                pathname={router.asPath}
-                toggle={toggle}
-                socialDropdown={socialDropdown}
-              />
-              {course?.attributes?.title}
-            </PageHeading>
-            <br />
-            <div>{errorMsg && <ErrorMsg>{message}</ErrorMsg>}</div>
-            <CoursesTeacherWrap>
-              {!me?.id && !course?.attributes?.isFree && (
-                <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
-              )}
-              {!me?.id && course?.attributes?.isFree && (
-                <CardTitle>Free</CardTitle>
-              )}
-              {me?.id && !isStudent && !course?.attributes?.isFree && (
-                <CardTitle>{`£${course?.attributes?.price}`}</CardTitle>
-              )}
-              {me?.id && course?.attributes?.isFree && (
-                <CardTitle>Free</CardTitle>
-              )}
-              {/* <CoursesTeacherNameAndImageWrap>
-                <CoursesTeacherImage src={teacher?.attributes?.img as string} />
-                <CoursesTeacherName>
-                  {teacher?.attributes?.fullName}
-                </CoursesTeacherName>
-              </CoursesTeacherNameAndImageWrap> */}
-            </CoursesTeacherWrap>
-            <br />
-            <DetailsCardWrapper>
-              <CardTop>
-                <CardLeftWrap>
-                  <StartDateTitle>
-                    {/* Price{" "} */}
-                    <StartDate>
-                      {" "}
-                      {/* -{" "}
-                      {dayjs(course?.attributes?.startDate).format(
-                        "DD.MM.YY"
-                      )}{" "}
-                      to {dayjs(course?.attributes?.endDate).format("DD.MM.YY")}{" "}
-                      -  */}
-                      {durationToString(course?.attributes?.duration as number)}
-                      {/* dayjs(course?.attributes?.startDate).fromNow() */}
-                    </StartDate>
-                  </StartDateTitle>
-                  <StartDateTitle>
-                    <Level>{course?.attributes?.level}</Level>
-                  </StartDateTitle>
-                  <CardTitle>Course Description</CardTitle>
-                </CardLeftWrap>
-              </CardTop>
-              <CardCenterWrap>
-                <div>
-                  <Markdown>
-                    {course?.attributes?.description as string}
-                  </Markdown>
-                </div>
-                {/* <div
-                  dangerouslySetInnerHTML={{
-                    __html: course?.attributes?.description as string,
-                  }}
-                ></div> */}
-              </CardCenterWrap>
-              <CardBottom>
-                {!isTeacher && (
-                  <>
-                    {!me?.id && (
-                      <ApplyButton
-                        onClick={() => router.push("/auth/signin")}
-                        type="button"
-                      >
-                        Buy course
-                        {isloading && <Spinner />}
-                      </ApplyButton>
-                    )}
-
-                    {me?.id && !isStudent && (
-                      <ApplyButton
-                        onClick={() => handleBuy("group")}
-                        type="button"
-                      >
-                        Buy Now
-                        {isloading && <Spinner />}
-                      </ApplyButton>
-                    )}
-
-                    {me?.id && isStudent && (
-                      <ApplyButton
-                        onClick={() =>
-                          router.push(
-                            `/courses/${groups![0].attributes?.slug}/lectures`
-                          )
-                        }
-                        type="button"
-                        style={{ backgroundColor: "red" }}
-                      >
-                        My course
-                        {isloading && <Spinner />}
-                      </ApplyButton>
-                    )}
-                    {/* {errorMsg && <ErrorMsg>{message}</ErrorMsg>} */}
-
-                    {/* <ApplyButton
-                      onClick={() => handleBuy("group")}
-                      type="button"
-                    >
-                      Buy Now
-                    </ApplyButton> */}
-                  </>
-                )}
-              </CardBottom>
-              <br />
-              <CoursesH2>Additional Notes</CoursesH2>
-              <div>
-                <Markdown>{course?.attributes?.notes as string}</Markdown>
-              </div>
-              {/* <div
-                dangerouslySetInnerHTML={{
-                  __html: course?.attributes?.notes as string,
-                }}
-              ></div> */}
-              <br />
-              {/* {me?.id && isStudent && (
-                <VideoCard
-                  courseId={course?.id as string}
-                  slug={course?.attributes?.slug as string}
-                />
-              )} */}
-            </DetailsCardWrapper>
-          </PageWrapGroup>
-          <RightSideBar>
-            <RecentCourses />
-          </RightSideBar>
-        </ProfileWrapGroup>
-      </Dashboard>
-      {!user?.id && <Footer />}
-    </>
+    <CourseDetailsTemplate
+      id={me?.id as string}
+      me={me?.id as string}
+      title={course?.title as string}
+      isFree={course?.isFree as boolean}
+      isStudent={isStudent}
+      price={course?.price as number}
+      errorMsg={errorMsg}
+      message={message}
+      duration={course?.duration as number}
+      level={course?.level as string}
+      description={course?.description as string}
+      isTeacher={isTeacher}
+      notes={course?.notes as string}
+      isloading={isloading}
+      groupSlug={groups![0].attributes?.slug as string}
+      handleBuy={handleBuy}
+    />
   );
 }
 
-export default CourseDetails
-
-
-
+export default CourseDetails;

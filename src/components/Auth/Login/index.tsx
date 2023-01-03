@@ -1,22 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { Formik } from "formik";
 import { getLoginValidationSchema } from "utils/formValidation";
 import axios from "axios";
 import NextImage from "next/image";
-
-
 
 // Redux imports
 import { useAppDispatch } from "app/hooks";
 import { setSuccess, setError } from "features/ui/reducers";
 import { setUser } from "features/auth";
 
-
 // Design imports
 import { Input, Error, ErrorMsg } from "../../Input";
-import Button from '../Button';
+import Button from "../Button";
 import {
   MainContainer,
   WelcomeText,
@@ -33,11 +30,9 @@ import {
 } from "../auth-styles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FooterLinkContainer } from "components/Footer/styles";
+import { FooterLinkContainer } from "components/Layout/Footer/styles";
 // import Spinner from "components/Spinner"
 // import { useSockets } from "context/socket.context";
-
-
 
 const initialValues = {
   usernameOrEmail: "",
@@ -51,10 +46,8 @@ const Login = () => {
   const [errorMsg, setErrorMsg] = useState(false);
   // const { socket } = useSockets();
   let err: any;
-  
 
   const handleSubmit = async ({ ...values }: any) => {
-    
     await axios
       .post("/api/auth/login", {
         ...values,
@@ -104,7 +97,6 @@ const Login = () => {
               </Link>
               <FormWrap>
                 <MainContainer>
-                  
                   <WelcomeText>Login</WelcomeText>
                   {errorMsg && (
                     <>
@@ -170,5 +162,5 @@ const Login = () => {
       <ToastContainer />
     </>
   );
-}
-export default Login
+};
+export default Login;

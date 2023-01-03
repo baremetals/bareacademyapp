@@ -7,7 +7,7 @@ const siteUrl: string | undefined = process.env.NEXT_PUBLIC_SITE_URL;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const response = await axios({
     method: "GET",
-    url: `${baseUrl}/courses`,
+    url: `${baseUrl}/articles`,
     headers: {
       Accept: "application/json",
     },
