@@ -12,10 +12,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       Accept: "application/json",
     },
   });
-  const fields: ISitemapField[] = response.data.map(
-    (item: { slug: string; updatedAt: string }) => ({
-      loc: `${siteUrl}/articles/${item.slug}`,
-      lastmodified: item.updatedAt,
+  const articles = response.data.data;
+  const fields: ISitemapField[] = articles.map(
+    (item: {
+      attributes: {
+        slug: string;
+        updatedAt: string;
+      };
+    }) => ({
+      loc: `${siteUrl}/articles/${item?.attributes?.slug}`,
+      lastmodified: item?.attributes?.updatedAt,
     })
   );
 
