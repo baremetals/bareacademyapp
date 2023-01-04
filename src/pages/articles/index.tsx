@@ -12,7 +12,7 @@ const Articles = (props: { data: Query; loading: boolean; error: any; }) => {
   useNoAuthPages();
   useEffect(() => {
     logEvent(analytics, `articlesPage_visited`);
-  });
+  }, []);
   if (props?.loading) {
     return <div></div>;
   }

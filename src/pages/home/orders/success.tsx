@@ -47,7 +47,7 @@ const Success = (props: pagePros) => {
       message:
         "Sorry something went wrong, please check your email for confirmation",
       route: "/home",
-      note: "Thanks for your purchase",
+      note: "Purchase unconfirmed",
     };
   } 
 

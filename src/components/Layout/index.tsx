@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 import { useAppSelector } from 'app/hooks';
 import { isUser } from 'features/auth';
 import NavDropDown from 'components/NavDropDown';
-const DynamicFooter = dynamic(() => import("./Footer"), {
+const DynamicFooter: any = dynamic(() => import("./Footer"), {
   ssr: false,
 });
 
@@ -46,7 +46,7 @@ const Layout = ({
   const { user: user } = useAppSelector(isUser);
 
   return (
-    <div>
+    <>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -86,15 +86,20 @@ const Layout = ({
           dangerouslySetInnerHTML={{ __html: data as string }}
         />
       </Head>
-      {!user?.id && (
+      {
         <>
-          <NavBar toggle={toggleMenu} />
-          <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
+          {!user?.id && (
+            <>
+              <NavBar toggle={toggleMenu} />
+              <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
+            </>
+          )}
+
           {children}
-          <DynamicFooter />
+          {!user?.id && <DynamicFooter />}
         </>
-      )}
-    </div>
+      }
+    </>
   );
 };
 

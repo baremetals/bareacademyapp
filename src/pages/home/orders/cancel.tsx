@@ -39,7 +39,7 @@ const Cancel = (props: pagePros) => {
   let data: { message: string; route: string; note: string } = {
     message: "Your order has been cancelled",
     route: "/home",
-    note: "Thanks for your purchase",
+    note: "Order cancelled",
   };
 
   if (props?.data?.status === 400 || 403 || 500) {
@@ -47,7 +47,7 @@ const Cancel = (props: pagePros) => {
       message:
         "Sorry something went wrong, please check your email for confirmation",
       route: "/home",
-      note: "Order cancelled",
+      note: "Order unconfirmed",
     };
   }
 

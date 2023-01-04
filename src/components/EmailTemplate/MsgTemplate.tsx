@@ -25,6 +25,7 @@ type pageProps = {
 };
 
 const MessageTemplate = ({ data: { message, route, note} }: pageProps) => {
+  console.log(note)
   return (
     <PageContainer style={{ minHeight: "100vh", backgroundColor: "#5634bf" }}>
       <InnerContainer>

@@ -42,7 +42,7 @@ type TCourseDetailsTemplate = {
   notes: string;
   isloading: boolean;
   groupSlug: string;
-  handleBuy: (orderType: string) => void;
+  handleBuy: (_orderType: string) => void;
 };
 export const CourseDetailsTemplate = ({
   id,
@@ -147,7 +147,7 @@ export const CourseDetailsTemplate = ({
                       type="button"
                     >
                       Buy course
-                      {isloading && <Spinner />}
+                      {/* {isloading && <Spinner />} */}
                     </ApplyButton>
                   )}
 
@@ -157,7 +157,7 @@ export const CourseDetailsTemplate = ({
                       type="button"
                     >
                       Buy Now
-                      {isloading && <Spinner />}
+                      {/* {isloading && <Spinner />} */}
                     </ApplyButton>
                   )}
 
@@ -169,6 +169,7 @@ export const CourseDetailsTemplate = ({
                       type="button"
                       style={{ backgroundColor: "red" }}
                     >
+                      
                       My course
                       {isloading && <Spinner />}
                     </ApplyButton>
