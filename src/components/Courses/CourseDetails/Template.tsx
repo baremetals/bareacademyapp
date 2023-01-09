@@ -6,7 +6,7 @@ import Image from "next/image"
 import { ErrorMsg } from 'components/Input';
 import durationToString from 'helpers/durationToString';
 import Markdown from 'markdown-to-jsx';
-import Spinner from 'components/Spinner';
+// import Spinner from 'components/Spinner';
 import { useRouter } from 'next/router';
 const RecentCourses: any = dynamic(() => import("../RecentCourses"));
 
@@ -16,7 +16,7 @@ import Link from 'next/link';
 import RelatedCourses from '../RelatedCourses';
 
 import { CourseReviews } from './CourseReviews';
-import { loading } from 'features/courses/selectors';
+// import { loading } from 'features/courses/selectors';
 
 
 type TCourseDetailsTemplate = {

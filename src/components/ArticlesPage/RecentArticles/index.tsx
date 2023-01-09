@@ -21,7 +21,7 @@ const RecentArticles = () => {
     },
   });
   const articles = data?.articles?.data
-  // console.log(articles);
+  console.log(articles[0].attributes.updatedAt);
 
   return (
     <>
@@ -34,6 +34,7 @@ const RecentArticles = () => {
                 attributes: {
                   title: string;
                   slug: string;
+                  updatedAt: string;
                   heroImage: { data: { attributes: { url: string } } };
                   category: {
                     data: { attributes: { name: string | undefined } };
@@ -49,7 +50,7 @@ const RecentArticles = () => {
                   router.push(`/articles/${art?.attributes?.slug}`)
                 }
                 image={art?.attributes?.heroImage?.data?.attributes?.url}
-                createdAt={art?.attributes?.updatedAt as string}
+                createdAt={art?.attributes!.updatedAt as string}
                 page={`/articles/${art?.attributes?.slug}`}
               />
             )
