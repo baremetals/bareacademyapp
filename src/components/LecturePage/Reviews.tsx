@@ -36,7 +36,7 @@ import { useForm } from "react-hook-form";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import dynamic from "next/dynamic";
-const LectureEditor = dynamic(() => import("./LectureEditor"), {
+const LectureEditor: any = dynamic(() => import("./LectureEditor"), {
   ssr: false,
 });
 
@@ -104,7 +104,7 @@ const Reviews = (props: IdType) => {
         (review: { attributes: { rating: number } }) =>
           review?.attributes?.rating === number
       )
-      ?.reduce((acc: number, cur: any) => {
+      ?.reduce((acc: number, _cur: any) => {
         return acc + 1;
       }, 0);
   });
@@ -116,7 +116,7 @@ const Reviews = (props: IdType) => {
       element?.attributes?.user?.data?.id === user?.id.toString();
       setShowButton(false);
     });
-    console.log(data)
+    // console.log(data)
     // console.log(found);
     // if (found) setShowButton(true)
   }

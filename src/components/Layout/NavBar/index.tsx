@@ -2,76 +2,73 @@ import Link from 'next/link';
 import React from 'react'
 import { FaBars } from "react-icons/fa";
 import { LogoShape } from "../../../../public/assets/icons/LogoShape";
+import styles from "styles/LandingPage/Landing.module.css";
 
 import {
-  NavLogo,
-  MobileIcon,
+  MenuItem,
   NavMenu,
-  NavBtn,
-  NavBtnLink,
-} from "../../NavBar/NavBar.styles";
-import { Nav, NavBarContainer, NavLink, NavItem } from "./nav.styles";
+  MenuMobIcon,
+  NavLogo,
+} from "./nav.styles";
+// import MobileNavBar from './MobileNav';
 
 const NavigationBar = ({ toggle }: any) => {
   return (
-    <Nav>
-      <NavBarContainer>
-        <Link href="/">
-          <NavLogo>
-            <LogoShape color="#5634bf" width="50" height="50" />
-          </NavLogo>
-        </Link>
-        <MobileIcon onClick={toggle}>
-          <FaBars style={{ color: "black" }} />
-        </MobileIcon>
-        <NavMenu>
-          <>
-            <NavItem>
-              <Link href="/courses">
-                <NavLink>Courses</NavLink>
+    <header>
+      <div className={styles.container}>
+        <div className={styles.row}>
+          {/* <!-- logo --> */}
+          <Link href="/">
+            <NavLogo className={styles.col}>
+              <LogoShape color="#5634bf" width="40" height="40" />
+            </NavLogo>
+          </Link>
+
+          {/* <!-- Nav --> */}
+          <div className={`${styles.col} ${styles.mobileHide}`}>
+            <nav className={styles.navDesktop}>
+              <NavMenu>
+                <MenuItem>
+                  <Link href="/courses">Courses</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/articles">Articles</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/books">Books</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link href="/forum">Forum</Link>
+                </MenuItem>
+              </NavMenu>
+            </nav>
+          </div>
+          {/* <!-- Action link --> */}
+          <div className={`${styles.col} ${styles.mobileHide}`}>
+            <div className={styles.actionLink}>
+              <Link href="/auth/signin">
+                <button className={`${styles.btn} ${styles.btnLogin}`}>
+                  Login
+                </button>
               </Link>
-            </NavItem>
-            <NavItem>
-              <Link href="/articles">
-                <NavLink>Articles</NavLink>
-              </Link>
-            </NavItem>
-            {/* <NavItem>
-                <NavLink
-                  {...props}
-                  to="featured"
-                  smooth={true}
-                  duration={500}
-                  spy={true}
-                  offset={-80}
-                  exact="true"
+
+              <Link href="/auth/signup">
+                <button
+                  className={`${styles.btn} ${styles.btnPrimery} ${styles.register}`}
                 >
-                  Featured
-                </NavLink>
-              </NavItem> */}
-            <NavItem>
-              <Link href="/books">
-                <NavLink>Books</NavLink>
+                  Register
+                </button>
               </Link>
-            </NavItem>
-            <NavItem>
-              <Link href="/forum">
-                <NavLink>Forum</NavLink>
-              </Link>
-            </NavItem>
-            {/* <NavItem></NavItem> */}
-          </>
-        </NavMenu>
-        <NavBtn>
-          <Link href="/auth/signin">
-            <NavLink>Login</NavLink>
-          </Link>
-          <Link href="/auth/signup">
-            <NavBtnLink>Register</NavBtnLink>
-          </Link>
-        </NavBtn>
-      </NavBarContainer>
-    </Nav>
+            </div>
+          </div>
+          <MenuMobIcon onClick={toggle}>
+            <FaBars style={{ color: "black" }} />
+          </MenuMobIcon>
+        </div>
+      </div>
+      {/* <!--  mobile nav --> */}
+      {/* <MobileNavBar /> */}
+    </header>
   );
 };
 

@@ -24,6 +24,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse){
         },
       },
     });
+    
     res.setHeader(
       "Set-Cookie",
       cookie.serialize(process.env.COOKIE_NAME as string, "", {

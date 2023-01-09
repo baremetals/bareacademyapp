@@ -17,6 +17,20 @@ query Courses(
         soloPrice
         isFree
         image
+        totalStudents
+        reviews {
+          data {
+            id
+            attributes {
+              rating
+            }
+          }
+        }
+      }
+    }
+    meta {
+      pagination {
+        total
       }
     }
   }

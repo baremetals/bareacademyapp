@@ -14,7 +14,7 @@ const Dashboard = ({ children }: any) => {
     <>
       <PageContainer>
         {user?.id && <LeftSideBar />}
-        <InnerContainer>
+        <InnerContainer className={!user?.id ? "" : "container-loggedin"}>
           {user?.id && <TopBar />}
           {children}
           {user?.id && <SmallFooter />}

@@ -5,6 +5,7 @@ query RecentCourses($pagination: PaginationArg, $sort: [String]) {
       attributes {
         slug
         title
+        price
         duration
         image
         updatedAt

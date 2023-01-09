@@ -21,6 +21,15 @@ query Reviews(
           }
         }
         createdAt
+        course {
+          data {
+            id
+            attributes {
+              title
+              slug
+            }
+          }
+        }
       }
     }
   }

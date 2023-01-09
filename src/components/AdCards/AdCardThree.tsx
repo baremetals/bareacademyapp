@@ -49,7 +49,9 @@ const AdCardThree = () => {
                 {/* <Status /> */}
               </ImageWrap>
               <Link href={`/courses/${c?.attributes?.slug}`}>
-                <TitlePopOver size={22}>{c?.attributes?.title}</TitlePopOver>
+                <div>
+                  <TitlePopOver size={22}>{c?.attributes?.title}</TitlePopOver>
+                </div>
               </Link>
             </div>
             {c?.attributes?.duration && (

@@ -6,6 +6,7 @@ query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
         slug
         title
         duration
+        introduction
         description
         notes
         level
@@ -43,6 +44,16 @@ query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
           data {
             id
             attributes {
+              slug
+            }
+          }
+        }
+        categories {
+          data {
+            id
+            attributes {
+              description
+              name
               slug
             }
           }

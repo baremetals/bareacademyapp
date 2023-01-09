@@ -137,11 +137,11 @@ export const ButtonContainer = styled.div`
   margin-bottom: 1.25rem;
   display: flex;
   button {
-    background-color: #7755e2;
-    color: #fff;
+    /* background-color: #7755e2; */
+    /* color: #fff; */
     font-size: 1rem;
     padding: 1rem 2.5rem;
-    border-radius: 10rem;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     line-height: 1;
@@ -194,8 +194,11 @@ export const Terms = styled.h5`
 `;
 
 export const BackToLogin = styled.h4`
+  position: absolute;
   cursor: pointer;
   color: inherit;
   align-self: center;
-  margin-left: 1rem;
+  margin-left: 113px;
+  display: flex;
+  text-decoration-line: underline;
 `;

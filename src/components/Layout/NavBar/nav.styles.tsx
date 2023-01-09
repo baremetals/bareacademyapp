@@ -44,3 +44,58 @@ export const NavLink = styled.div`
 export const NavItem = styled.li`
   height: 80px;
 `;
+
+export const Header = styled.header`
+  min-height: 90px;
+`;
+
+export const HeaderContainer = styled.div`
+  max-width: 1260px;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+`;
+
+export const HeaderRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 90px;
+`;
+
+export const ImageCol = styled.div`
+  /* min-height: 90px; */
+`;
+
+
+export const NavMenu = styled.ul``;
+export const MenuItem = styled.li`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+export const MenuItemWrap = styled.nav``;
+
+export const MenuMobIcon = styled.div`
+  display: none;
+  color: #fff;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+`;
+
+export const NavLogo = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-self: flex-start;
+  margin-left: 0;
+`;

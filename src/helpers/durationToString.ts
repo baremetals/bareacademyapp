@@ -6,8 +6,8 @@ const durationToString = (duration: number) => {
   if (seconds > 0)
     minutes++;
 
-    const hoursString = hours > 0 ? `${hours}h ` : '';
-    const minutesString = minutes > 0 ? `${minutes}min ` : "";
+    const hoursString = hours > 0 ? `${hours} h ` : '';
+    const minutesString = minutes > 0 ? `${minutes} min ` : "";
     // const secondsString = seconds > 0 ? `${seconds}sec` : "";
     return `${hoursString}${minutesString}`;
   };

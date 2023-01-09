@@ -1,32 +1,12 @@
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
+import React from "react";
 import { useAppSelector } from "app/hooks";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-// import { analytics, logEvent } from "lib/admin";
 import { isUser } from "features/auth/selectors";
-import Dashboard from "components/Dashboard";
-import {
-  PageHeading,
-  BlogCardImage,
-  ProfileWrapGroup,
-  PageWrapGroup,
-  CoursesArticleWrap,
-  CoursesArticleNameAndImageWrap,
-  CoursesArticleImage,
-  CoursesArticleName,
-} from "../../../styles/common.styles";
-import RightSideBar from "components/Dashboard/RightSideBar";
-import { CardTitle } from "../../ArticlesPage/ArticleDetailPage/details.styles";
-
-import { useRouter } from "next/router";
 
 import { ArticleEntityResponseCollection } from "generated/graphql";
-import SocialShare from "components/SocialShare";
-
-const RecentArticles = dynamic(() => import("../RecentArticles")) as any;
-import Markdown from "markdown-to-jsx";
+import ArticleSingleTemplate from './ArticleSingleTemplate';
 
 
 function ArticleDetailPage(props: {
@@ -37,20 +17,7 @@ function ArticleDetailPage(props: {
   };
 }) {
   const { user: user } = useAppSelector(isUser);
-  const router = useRouter();
-  const [socialDropdown, setSocialDropdown] = useState(false);
-  const toggle: any = () => {
-    setSocialDropdown(!socialDropdown);
-  };
-  // const [isOpen, setIsOpen] = useState(false);
-
-  // const toggleMenu: any = () => {
-  //   setIsOpen(!isOpen);
-  // };
-
   const { data } = props.props;
-
-  // const allPosts = data.data;
   const article = data?.articles?.data[0];
   // console.log(article);
 
@@ -59,67 +26,17 @@ function ArticleDetailPage(props: {
   const avatar = author?.avatar?.data?.attributes?.url;
 
   return (
-    <>
-      {/* {!user?.id && (
-        <>
-          <NavBar style={{ backgroundColor: "#fff" }} toggle={toggleMenu} />
-          <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
-        </>
-      )} */}
-
-      <Dashboard style={{}}>
-        <ProfileWrapGroup
-          className={user?.id ? "" : "container-loggedin"}
-          // style={{ maxWidth: "1232px", margin: "auto", paddingTop: "6rem" }}
-        >
-          <PageWrapGroup
-            style={{
-              backgroundColor: "transparent",
-              boxShadow: "none",
-              borderRadius: "0",
-            }}
-          >
-            <PageHeading>
-              <SocialShare
-                pathname={router.asPath}
-                toggle={toggle}
-                socialDropdown={socialDropdown}
-              />
-              {article?.attributes?.title}
-            </PageHeading>
-
-            <CoursesArticleWrap style={{ marginBottom: "2rem" }}>
-              <CardTitle>Author</CardTitle>
-              <CoursesArticleNameAndImageWrap style={{ paddingTop: "0" }}>
-                <CoursesArticleImage src={avatar} alt="author avatar" />
-                <CoursesArticleName>
-                  {author?.fullName}
-                  <span>{author?.jobTitle}</span>
-                  <span>{dayjs(article?.attributes?.createdAt).fromNow()}</span>
-                </CoursesArticleName>
-              </CoursesArticleNameAndImageWrap>
-            </CoursesArticleWrap>
-
-            <BlogCardImage
-              style={{ borderRadius: "1rem" }}
-              alt="article image"
-              src={imageurl}
-            />
-
-            <CardTitle style={{ margin: "1rem 0" }}>
-              {article?.attributes?.title}
-            </CardTitle>
-            <div style={{ marginBottom: "1.5rem" }}>
-              <Markdown>{article?.attributes?.body as string}</Markdown>
-            </div>
-          </PageWrapGroup>
-          <RightSideBar>
-            <RecentArticles />
-          </RightSideBar>
-        </ProfileWrapGroup>
-      </Dashboard>
-      {/* {!user?.id && <Footer />} */}
-    </>
+      <ArticleSingleTemplate
+        id={user?.id as string}
+        title={article?.attributes?.title as string}
+        image={imageurl as string}
+        body={article?.attributes?.body as string}
+        categories={[]}
+        authorName={author?.fullName as string}
+        authorJobTitle={author?.jobTitle as string}
+        authorAvatar={avatar as string}
+        createdAt={dayjs(article?.attributes?.createdAt).fromNow()}
+      />
   );
 }
 

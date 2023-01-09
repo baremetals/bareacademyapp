@@ -1,0 +1,35 @@
+query RelatedCourses(
+  $filters: CourseFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
+) {
+  courses(filters: $filters, pagination: $pagination, sort: $sort) {
+    meta {
+      pagination {
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        slug
+        title
+        duration
+        level
+        price
+        soloPrice
+        isFree
+        image
+        totalStudents
+        reviews {
+          data {
+            id
+            attributes {
+              rating
+            }
+          }
+        }
+      }
+    }
+  }
+}

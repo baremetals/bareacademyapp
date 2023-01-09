@@ -1,13 +1,8 @@
 import React from 'react'
 import { useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
 import { RecentCoursesDocument } from "generated/graphql";
 import durationToString from "helpers/durationToString";
-
-import {
-  RightBarInfo,
-  RightBarTitle,
-} from "components/AdCards/rightside.styles";
+import styles from "styles/LandingPage/Landing.module.css";
 import SideBarCard from "components/AdCards/SideBarCard";
 
 // const fakeArticles = [
@@ -38,7 +33,6 @@ import SideBarCard from "components/AdCards/SideBarCard";
 // ];
 
 const RecentCourses = () => {
-  const router = useRouter();
   const { data } = useQuery(RecentCoursesDocument, {
     variables: {
       pagination: {
@@ -52,42 +46,37 @@ const RecentCourses = () => {
   // console.log(courses);
 
   return (
-    <>
-      <RightBarInfo
-        style={{
-          backgroundColor: "transparent",
-          boxShadow: "none",
-          borderRadius: "0",
-          padding: "0 0 0 1rem",
-        }}
-      >
-        <RightBarTitle style={{ marginBottom: "1.5rem" }}>
-          Recent Courses
-        </RightBarTitle>
-        {courses?.map(
-          (
-            item: {
-              attributes: {
-                title: string;
-                image: string;
-                duration: number;
-                slug: string;
-              };
-            },
-            id: string
-          ) => (
-            <SideBarCard
-              key={id}
-              title={item?.attributes?.title}
-              image={item?.attributes?.image}
-              duration={durationToString(item?.attributes?.duration as number)}
-              style={{ cursor: "pointer" }}
-              onClick={() => router.push(`/courses/${item?.attributes?.slug}`)}
-            />
-          )
-        )}
-      </RightBarInfo>
-    </>
+      <div className={styles.recentCourses}>
+        <h2>Recent Courses</h2>
+        <ul className={styles.recentCoursesList}>
+          {courses?.map(
+            (
+              item: {
+                attributes: {
+                  title: string;
+                  image: string;
+                  duration: number;
+                  slug: string;
+                  price: number;
+                };
+              },
+              id: string
+            ) => (
+              <SideBarCard
+                key={id}
+                title={item?.attributes?.title}
+                image={item?.attributes?.image}
+                price={item?.attributes?.price}
+                duration={durationToString(
+                  item?.attributes?.duration as number
+                )}
+                style={{ cursor: "pointer" }}
+                page={`/courses/${item?.attributes?.slug}`}
+              />
+            )
+          )}
+        </ul>
+      </div>
   );
 }
 

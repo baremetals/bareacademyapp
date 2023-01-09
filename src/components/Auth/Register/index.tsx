@@ -35,7 +35,6 @@ import {
   HorizontalRule,
   FormWrapRow,
   FormWrapThumb,
-  BackToHome,
 } from "../auth-styles";
 import axios from 'axios';
 
@@ -78,9 +77,6 @@ const Register = () => {
         >
           {({ isSubmitting, errors, touched }) => (
             <FormWrapRow>
-              <Link href="/">
-                <BackToHome>Home</BackToHome>
-              </Link>
               <FormWrap>
                 <MainContainer>
                   {successMsg && (
@@ -137,8 +133,36 @@ const Register = () => {
                       disabled={isSubmitting}
                       loading={isSubmitting}
                     />
+                    <LoginWith >Or</LoginWith>
                     <Link href="/auth/signin">
-                      <LoginWith>Or Login </LoginWith>
+                      <div
+                        style={{
+                          width: "121px",
+                          height: "48px",
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                          // padding: "12px 39px",
+                          // border: "1px solid #A6A6A6",
+                          filter: `dropShadow("0px 2px 5px", rgba("66, 66, 66, 0.08"))`,
+                          borderRadius: "8px",
+                          flex: "none",
+                          order: "2",
+                          flexGrow: 0,
+                          marginLeft: "10px",
+                          color: "white"
+                          
+                        }}
+                      >
+                        <button
+                        // content="Sign Up"
+                        // type="submit"
+                        // disabled={isSubmitting}
+                        // loading={isSubmitting}
+                        >
+                          Login
+                        </button>
+                      </div>
                     </Link>
                   </ButtonContainer>
 

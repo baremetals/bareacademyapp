@@ -13,10 +13,10 @@ export const PageContainer = styled.div`
   }
 `;
 
-export const ProfileWrapGroup = styled.div`
-  display: flex;
+export const ProfileWrapGroup = styled.main`
+  /* display: flex; */
   &.container-loggedin {
-      max-width: 1232px;
+      /* max-width: 1232px; */
       width: 100%;
       margin: 0 auto;
       padding-top: 5rem;
@@ -145,9 +145,12 @@ export const CategoryOption = styled.option``;
 
 export const InnerContainer = styled.div`
   flex: 1 0 0%;
-  padding: 2.5rem;
+  
   display: flex;
   flex-direction: column;
+  &.container-loggedin {
+     padding: 1rem;
+  }
   @media (max-width: 991px) {
     padding: 1.5rem;
     min-height: calc(100vh - 4.625rem);
@@ -176,7 +179,7 @@ export const PageSubHeading = styled.h2`
 `;
 
 export const PageWrapper = styled.div`
-  display: flex;
+  /* display: flex; */
   flex-wrap: wrap;
   margin: -0.75rem;
   > div {
@@ -441,7 +444,7 @@ export const SocialDropDownList = styled.ul`
   display: none;
   position: absolute;
   top: 100%;
-  width: 12rem;
+  width: 14rem;
   right: 0;
   background-color: #fff;
   padding: 0.5rem 0;

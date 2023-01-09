@@ -1,6 +1,3 @@
-/* eslint-disable valid-jsdoc */
-/* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -3395,7 +3392,7 @@ export type CourseQueryVariables = Exact<{
 }>;
 
 
-export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined, author?: string | null | undefined, keywords?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
+export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined, author?: string | null | undefined, keywords?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined } | null | undefined }> } | null | undefined, categories?: { __typename?: 'CategoryRelationResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', description?: string | null | undefined, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type CoursesQueryVariables = Exact<{
   filters?: InputMaybe<CourseFiltersInput>;
@@ -3404,7 +3401,7 @@ export type CoursesQueryVariables = Exact<{
 }>;
 
 
-export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined } | null | undefined }> } | null | undefined };
+export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }>, meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', total: number } } } | null | undefined };
 
 export type GroupQueryVariables = Exact<{
   filters?: InputMaybe<GroupFiltersInput>;
@@ -3428,7 +3425,16 @@ export type RecentCoursesQueryVariables = Exact<{
 }>;
 
 
-export type RecentCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, image?: string | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined };
+export type RecentCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, price: number, duration?: number | null | undefined, image?: string | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined };
+
+export type RelatedCoursesQueryVariables = Exact<{
+  filters?: InputMaybe<CourseFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+}>;
+
+
+export type RelatedCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', total: number } }, data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type ReviewsQueryVariables = Exact<{
   filters?: InputMaybe<ReviewFiltersInput>;
@@ -3437,7 +3443,7 @@ export type ReviewsQueryVariables = Exact<{
 }>;
 
 
-export type ReviewsQuery = { __typename?: 'Query', reviews?: { __typename?: 'ReviewEntityResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', message?: string | null | undefined, rating?: number | null | undefined, createdAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
+export type ReviewsQuery = { __typename?: 'Query', reviews?: { __typename?: 'ReviewEntityResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', message?: string | null | undefined, rating?: number | null | undefined, createdAt?: any | null | undefined, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null | undefined, attributes?: { __typename?: 'UsersPermissionsUser', username: string, fullName?: string | null | undefined, slug: string, img?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, course?: { __typename?: 'CourseEntityResponse', data?: { __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', title: string, slug: string } | null | undefined } | null | undefined } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type UserGroupsQueryVariables = Exact<{
   usersPermissionsUserId?: InputMaybe<Scalars['ID']>;
@@ -4641,6 +4647,7 @@ export const CourseDocument = gql`
         slug
         title
         duration
+        introduction
         description
         notes
         level
@@ -4678,6 +4685,16 @@ export const CourseDocument = gql`
           data {
             id
             attributes {
+              slug
+            }
+          }
+        }
+        categories {
+          data {
+            id
+            attributes {
+              description
+              name
               slug
             }
           }
@@ -4732,6 +4749,20 @@ export const CoursesDocument = gql`
         soloPrice
         isFree
         image
+        totalStudents
+        reviews {
+          data {
+            id
+            attributes {
+              rating
+            }
+          }
+        }
+      }
+    }
+    meta {
+      pagination {
+        total
       }
     }
   }
@@ -4901,6 +4932,7 @@ export const RecentCoursesDocument = gql`
       attributes {
         slug
         title
+        price
         duration
         image
         updatedAt
@@ -4938,6 +4970,69 @@ export function useRecentCoursesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type RecentCoursesQueryHookResult = ReturnType<typeof useRecentCoursesQuery>;
 export type RecentCoursesLazyQueryHookResult = ReturnType<typeof useRecentCoursesLazyQuery>;
 export type RecentCoursesQueryResult = Apollo.QueryResult<RecentCoursesQuery, RecentCoursesQueryVariables>;
+export const RelatedCoursesDocument = gql`
+    query RelatedCourses($filters: CourseFiltersInput, $pagination: PaginationArg, $sort: [String]) {
+  courses(filters: $filters, pagination: $pagination, sort: $sort) {
+    meta {
+      pagination {
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        slug
+        title
+        duration
+        level
+        price
+        soloPrice
+        isFree
+        image
+        totalStudents
+        reviews {
+          data {
+            id
+            attributes {
+              rating
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useRelatedCoursesQuery__
+ *
+ * To run a query within a React component, call `useRelatedCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRelatedCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRelatedCoursesQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useRelatedCoursesQuery(baseOptions?: Apollo.QueryHookOptions<RelatedCoursesQuery, RelatedCoursesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RelatedCoursesQuery, RelatedCoursesQueryVariables>(RelatedCoursesDocument, options);
+      }
+export function useRelatedCoursesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RelatedCoursesQuery, RelatedCoursesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RelatedCoursesQuery, RelatedCoursesQueryVariables>(RelatedCoursesDocument, options);
+        }
+export type RelatedCoursesQueryHookResult = ReturnType<typeof useRelatedCoursesQuery>;
+export type RelatedCoursesLazyQueryHookResult = ReturnType<typeof useRelatedCoursesLazyQuery>;
+export type RelatedCoursesQueryResult = Apollo.QueryResult<RelatedCoursesQuery, RelatedCoursesQueryVariables>;
 export const ReviewsDocument = gql`
     query Reviews($filters: ReviewFiltersInput, $pagination: PaginationArg, $sort: [String]) {
   reviews(filters: $filters, pagination: $pagination, sort: $sort) {
@@ -4958,6 +5053,15 @@ export const ReviewsDocument = gql`
           }
         }
         createdAt
+        course {
+          data {
+            id
+            attributes {
+              title
+              slug
+            }
+          }
+        }
       }
     }
   }

@@ -26,7 +26,6 @@ import {
   HorizontalRule,
   FormWrapRow,
   FormWrapThumb,
-  BackToHome,
 } from "../auth-styles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -92,9 +91,6 @@ const Login = () => {
         >
           {({ isSubmitting, errors, touched }) => (
             <FormWrapRow>
-              <Link href="/">
-                <BackToHome>Home</BackToHome>
-              </Link>
               <FormWrap>
                 <MainContainer>
                   <WelcomeText>Login</WelcomeText>
@@ -134,13 +130,53 @@ const Login = () => {
                       loading={isSubmitting}
                     />
                     <Link href="/auth/signup">
-                      <LoginWith>Register </LoginWith>
+                      <LoginWith> </LoginWith>
+                    </Link>
+                    <Link href="/auth/signup">
+                      <div
+                        style={{
+                          width: "121px",
+                          height: "48px",
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                          filter: `dropShadow("0px 2px 5px", rgba("66, 66, 66, 0.08"))`,
+                          borderRadius: "8px",
+                          flex: "none",
+                          order: "2",
+                          flexGrow: 0,
+                          marginLeft: "10px",
+                          color: "white",
+                        }}
+                      >
+                        <button>Register</button>
+                      </div>
                     </Link>
                   </ButtonContainer>
                   <HorizontalRule />
                   <FooterLinkContainer className="d-flex">
                     <Link href="/auth/forgot-password">
-                      <ForgotPassword>Forgot Password?</ForgotPassword>
+                      <ForgotPassword
+                        style={{
+                          // width: "121px",
+                          height: "48px",
+                          display: "flex",
+                          flexDirection: "row",
+                          padding: "12px 39px",
+                          border: "1px solid #A6A6A6",
+                          alignItems: "flex-start",
+                          filter: `dropShadow("0px 2px 5px", rgba("66, 66, 66, 0.08"))`,
+                          borderRadius: "8px",
+                          flex: "none",
+                          order: "2",
+                          flexGrow: 0,
+                          fontWeight: 500,
+                          // marginLeft: "10px",
+                          backgroundColor: "#f3f3f3",
+                        }}
+                      >
+                        Forgot Password?
+                      </ForgotPassword>
                     </Link>
                   </FooterLinkContainer>
                 </MainContainer>

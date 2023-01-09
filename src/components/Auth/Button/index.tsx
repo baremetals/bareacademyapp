@@ -15,7 +15,8 @@ const StyledButton = styled.button`
   background-color: #7755e2;
   color: #fff;
   font-size: 1rem;
-  border-radius: 10rem;
+  border-radius: 8px;
+  width: 100%;
   padding: 1.125rem 3.5rem;
   border: none;
   cursor: pointer;
@@ -34,7 +35,7 @@ const StyledButton = styled.button`
     padding: 0.875rem 2rem;
   }
   &:hover {
-    background-color: #fff;
+    background-color: #f28c1c;
     color: #7755e2;
   }
 `;

@@ -49,7 +49,7 @@ function LectureDetails(props: { props: GroupEntity }) {
   // console.log(props?.props);
 
   useEffect(() => {
-    socket.emit("joingroup", { slug }, (error: any, d: any) => {
+    socket.emit("joingroup", { slug }, (error: any, _d: any) => {
       if (error) {
         console.log(" Something went wrong please try again later.", error);
       }

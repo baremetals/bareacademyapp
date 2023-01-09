@@ -69,7 +69,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/assets/images/favicon.png" />
         <meta property="og:locale" content="en_GB" />
         <meta
           name="google-site-verification"
@@ -80,7 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={darkTheme}>
             <SocketsProvider>
-            <Component {...pageProps} />
+              <Component {...pageProps} />
             </SocketsProvider>
           </ThemeProvider>
         </ApolloProvider>

@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 
 
-import { CourseEntityResponseCollection } from "generated/graphql";
+import { CourseEntityResponseCollection, Teacher } from "generated/graphql";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 
@@ -35,17 +35,21 @@ function CourseDetails(props: {
   // const students = course?.attributes?.students?.data;
   // const groupSlug = groups?.length < 0 ? "" : groups![0].attributes?.slug;
   const teacher = course?.teacher?.data;
+
+  const categories = course?.categories?.data;
   const imageUrl = course?.image;
-  // console.log(data);
+
+  const catEntities: string[] = [];
+  // console.log('before the map', cats);
 
   const [isloading, setIsLoading] = useState(false);
-
 
   const [errorMsg, setErrorMsg] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [groupSlug, setGroupSlug] = useState<string>("");
   const [isStudent, setIsStudent] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
+  const [cats, setCats] = useState<string[]>([]);
   const { user: user } = useAppSelector(isUser);
   const me = user;
   // console.log('printing me',me)
@@ -54,7 +58,19 @@ function CourseDetails(props: {
     if (groups.length > 0) {
       setGroupSlug(groups![0].attributes?.slug as string);
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    // console.log('fever')
+    if (categories!.length > 0) {
+      categories?.forEach((c) => {
+        catEntities.push(c?.id as string);
+        setCats(catEntities);
+      });
+    }
+  }, []);
+
+  // console.log("after the map", cats);
 
   useEffect(() => {
     if (me?.id && groups!.length > 0) {
@@ -85,6 +101,8 @@ function CourseDetails(props: {
     }
   }, [me?.id]);
 
+  // console.log(me);
+
   const handleBuy = async (orderType: string) => {
     const stripe = await stripePromise;
     setIsLoading(true);
@@ -102,14 +120,13 @@ function CourseDetails(props: {
       if (response?.data?.data?.id === "free-purchase") {
         setIsLoading(false);
         router.push("/home/orders/success?session_id=free-purchase");
+      } else {
+        setIsLoading(false);
+        const session = response?.data?.data?.id;
+        stripe?.redirectToCheckout({
+          sessionId: session,
+        });
       }
-     else {
-      setIsLoading(false);
-      const session = response?.data?.data?.id;
-      stripe?.redirectToCheckout({
-        sessionId: session,
-      });
-     }
     } catch (err: any) {
       setIsLoading(false);
       console.log("I am the Error: ", err?.response?.data?.error);
@@ -131,12 +148,15 @@ function CourseDetails(props: {
     }
   };
 
+  // console.log("printing me", categories);
 
   return (
     <CourseDetailsTemplate
       id={me?.id as string}
       me={me?.id as string}
+      courseId={courseId as string}
       title={course?.title as string}
+      image={course?.image as string}
       isFree={course?.isFree as boolean}
       isStudent={isStudent}
       price={course?.price as number}
@@ -148,9 +168,12 @@ function CourseDetails(props: {
       isTeacher={isTeacher}
       notes={course?.notes as string}
       isloading={isloading}
-      // groupSlug={''}
+      totalStudents={course?.totalStudents as number}
       groupSlug={groupSlug as string}
+      categories={cats}
+      teacher={teacher?.attributes as Teacher}
       handleBuy={handleBuy}
+      introduction={course?.introduction as string}
     />
   );
 }

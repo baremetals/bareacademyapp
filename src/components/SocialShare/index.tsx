@@ -1,6 +1,4 @@
 import React from 'react'
-
-import { SocialDropDownIcon } from "../../../public/assets/icons/SocialDropDownIcon";
 import { FaceBook } from "../../../public/assets/icons/FaceBook";
 import { Twitter } from "../../../public/assets/icons/Twitter";
 import { LinkedIn } from "../../../public/assets/icons/LinkedIn";
@@ -26,10 +24,11 @@ const SocialShare = ({ pathname, toggle, socialDropdown }: shareProps) => {
   const url: string | undefined = process.env.NEXT_PUBLIC_SITE_URL;
   const shareUrl: string = `${url}${pathname}`;
   return (
-    <SocialDropDown>
+    <SocialDropDown onClick={toggle}>
       <span onClick={toggle}>
-        <SocialDropDownIcon />
-        Share
+        {/* <SocialDropDownIcon /> */}
+        {/* <Image width="26" height="26" src="/assets/images/share.svg" /> */}
+        {/* Share */}
       </span>
       <SocialDropDownList
         className={`${socialDropdown ? "opened" : ""}`}

@@ -4,7 +4,7 @@ import ArticlesPage from "components/ArticlesPage";
 import { GetServerSidePropsContext } from "next";
 import { client } from 'lib/initApollo';
 import { analytics, logEvent } from "lib/admin";
-import { ArticlesDocument, ArticlesQueryResult, Query } from "generated/graphql";
+import { ArticleEntity, ArticlesDocument, ArticlesQueryResult, Query } from "generated/graphql";
 import ErrorPage from 'components/ErrorPage';
 import Layout from 'components/Layout';
 
@@ -13,6 +13,8 @@ const Articles = (props: { data: Query; loading: boolean; error: any; }) => {
   useEffect(() => {
     logEvent(analytics, `articlesPage_visited`);
   }, []);
+  const articles = props.data?.articles?.data;
+  // console.log(articles);
   if (props?.loading) {
     return <div></div>;
   }
@@ -23,17 +25,19 @@ const Articles = (props: { data: Query; loading: boolean; error: any; }) => {
     "@context": "https://schema.org",
     "@type": "BlogPostings",
   };
+  const description =
+    "Check out the latest articles about software development, IT, DevOps and more...";
   return (
-      <Layout
-        title={`Bare Metals Aacademy | Articles}`}
-        metaDescription="Check out the latest articles about software development, IT, DevOps and more..."
-        canonicalUrl="https://www.baremetals.io/articles"
-        pageUrl="https://www.baremetals.io/articles"
-        data={JSON.stringify(structuredData)}
-        type="articles"
-      >
-        <ArticlesPage props={props} />
-      </Layout>
+    <Layout
+      title={`Bare Metals Aacademy | Articles}`}
+      metaDescription={description}
+      canonicalUrl="https://www.baremetals.io/articles"
+      pageUrl="https://www.baremetals.io/articles"
+      data={JSON.stringify(structuredData)}
+      type="articles"
+    >
+      <ArticlesPage desc={description} articles={articles as ArticleEntity[]} />
+    </Layout>
   );
 };
 
@@ -44,7 +48,7 @@ export async function getServerSideProps(_ctx: GetServerSidePropsContext) {
     variables: {
       pagination: {
         start: 0,
-        limit: 6,
+        limit: 9,
       },
       sort: "updatedAt:desc",
     },

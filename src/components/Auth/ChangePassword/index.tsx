@@ -17,7 +17,6 @@ import {
   HorizontalRule,
   FormWrapRow,
   FormWrapThumb,
-  BackToHome,
 } from "../auth-styles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -77,12 +76,9 @@ const ChangePassword = () => {
           >
             {({ isSubmitting, errors, touched }) => (
               <FormWrapRow>
-                <Link href="/">
-                  <BackToHome>Home</BackToHome>
-                </Link>
                 <FormWrap>
                   <MainContainer>
-                    <WelcomeText>Forgot Password</WelcomeText>
+                    <WelcomeText>Forgot Password?</WelcomeText>
 
                     <InputContainer>
                       <div className="form-group">
@@ -100,14 +96,14 @@ const ChangePassword = () => {
                     <ButtonContainer>
                       <Button
                         type="submit"
-                        content="send"
+                        content="Continue"
                         disabled={isSubmitting}
                         loading={isSubmitting}
                       />
-                      <Link href="/auth/signin">
-                        <BackToLogin>back to login?</BackToLogin>
-                      </Link>
                     </ButtonContainer>
+                    <Link href="/auth/signin">
+                      <BackToLogin>back to login?</BackToLogin>
+                    </Link>
                     {errorMsg && <ErrorMsg>{initialValues.error}</ErrorMsg>}
                     {successMsg && (
                       <SuccessMsg>{initialValues.success}</SuccessMsg>
@@ -117,10 +113,10 @@ const ChangePassword = () => {
                 </FormWrap>
                 <FormWrapThumb>
                   <NextImage
-                    src="/assets/images/forgotpassword.svg"
+                    src="/assets/images/forgotp.svg"
                     alt="forgot password image"
-                    width={450}
-                    height={300}
+                    width={300}
+                    height={292}
                     layout="responsive"
                     priority
                   />

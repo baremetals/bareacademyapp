@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SmallFooterContainer = styled.footer`
+export const SmallFooterContainer = styled.div`
   margin-top: auto;
   margin-left: -2.5rem;
   margin-right: -2.5rem;

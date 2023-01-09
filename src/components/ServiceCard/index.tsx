@@ -1,20 +1,20 @@
 import React from "react";
-import { useCoursesQuery } from "generated/graphql";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
+// import { useCoursesQuery } from "generated/graphql";
+// import dayjs from "dayjs";
+// import relativeTime from "dayjs/plugin/relativeTime";
+// dayjs.extend(relativeTime);
 import {
   ServiceSection,
-  ServiceContainer,
-  ServiceH1,
-  ServiceWrapper,
-  ServicesColumn,
-  ServicesCard,
-  ServiceIcon,
-  ServiceH2,
-  ServiceP,
+  // ServiceContainer,
+  // ServiceH1,
+  // ServiceWrapper,
+  // ServicesColumn,
+  // ServicesCard,
+  // ServiceIcon,
+  // ServiceH2,
+  // ServiceP,
 } from "./styles";
-import Link from 'next/link';
+// import Link from 'next/link';
 // type courseProps = {
 //   id: string;
 //   attributes: {
@@ -24,18 +24,21 @@ import Link from 'next/link';
 //   };
 // };
 
-const ServiceCard = ({ linkIid, ...props }: any) => {
-  const { data, loading, error } = useCoursesQuery();
-  // console.log(data);
+const ServiceCard = () => {
+  // const { data, loading, error } = useCoursesQuery();
+  // // console.log(data);
 
-  if (!data || loading || error) {
-    return <div>loading...</div>;
-  }
+  // if (!data || loading || error) {
+  //   return <div>loading...</div>;
+  // }
 
-  const courses = data?.courses?.data;
+  // const courses = data?.courses?.data;
   return (
-    <ServiceSection id={linkIid} {...props}>
-      <ServiceContainer>
+    <ServiceSection 
+    // id={linkIid} 
+    // {...props}
+    >
+      {/* <ServiceContainer>
         <ServiceH1>Explore featured Courses</ServiceH1>
         <ServiceWrapper>
           {courses &&
@@ -88,7 +91,7 @@ const ServiceCard = ({ linkIid, ...props }: any) => {
               </>
             ))}
         </ServiceWrapper>
-      </ServiceContainer>
+      </ServiceContainer> */}
     </ServiceSection>
   );
 };

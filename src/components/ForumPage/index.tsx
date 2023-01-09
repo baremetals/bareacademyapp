@@ -86,7 +86,7 @@ const ForumPage = (props: {
     search: "",
   });
 
-  // console.log(categories);
+  // console.log(cats);
   
 
   useEffect(() => {

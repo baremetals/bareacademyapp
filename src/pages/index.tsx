@@ -10,6 +10,7 @@ import { withApollo } from "utils/withApollo";
 import { useNoAuth } from "lib/noAuth";
 
 import Layout from 'components/Layout';
+import { LandingPage } from 'components/LandingPage';
 
 function Home() {
   useNoAuth();
@@ -51,11 +52,12 @@ function Home() {
         type="home"
       >
         <main>
-          <HeroSection />
-          <MainSection {...homeObjOne} />
+          {/* <HeroSection /> */}
+          <LandingPage />
+          {/* <MainSection {...homeObjOne} />
           <ServicesCard linkIid="featured" />
           <MainSection {...homeObjTwo} />
-          <MainSection {...homeObjThree} />
+          <MainSection {...homeObjThree} /> */}
         </main>
       </Layout>
     </>

@@ -136,6 +136,10 @@
   fill: var(--primary);
 }
 
+.reviewRatingStarActiveCC svg {
+  fill: var(--rating-star);
+}
+
 .reviewMessage {
   margin-top: 10px;
   line-height: 200%;

@@ -107,7 +107,24 @@ export const SocialIcons= styled.div`
     width: 240px;
 `;
 
-export const SocialIconLink= styled.a`
-    color: #fff;
-    font-size: 24px;
+export const SocialIconLink = styled.a`
+  /* color: #fff; */
+  /* font-size: 24px; */
+  text-decoration: none;
+`;
+
+export const FooterLinks = styled.a`
+  text-decoration: none;
+`;
+export const FooterItem = styled.li`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+export const FooterInput = styled.input`
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  padding: 4px 10px;
 `;

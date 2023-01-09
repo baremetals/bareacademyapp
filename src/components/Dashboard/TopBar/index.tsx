@@ -24,15 +24,17 @@ import {
 import { Logo } from "../../../../public/assets/images/Logo";
 import { TopSearchIcon } from "../../../../public/assets/icons/TopSearchIcon";
 
-import { useAppSelector } from "app/hooks";
+import { useAppSelector, useAppDispatch } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 
 import { BackOverlay } from '../LeftSideBar/leftside.styles';
 import AlarmBell from './AlarmBell';
 import ChatIcon from './ChatIcon';
+import { signOutUser } from 'features/auth';
 
 const Topbar = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [dropdown, setDropdown] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [search, setSearch] = useState(false);
@@ -64,6 +66,7 @@ const Topbar = () => {
       const res = await axios.post("/api/auth/logout");
       // console.log(res);
       if (res.status === 200 || res?.data?.message) {
+        dispatch(signOutUser());
         router.push("/auth/signin");
       }
     } catch (error) {
@@ -76,7 +79,7 @@ const Topbar = () => {
     socket.emit(
       "load unread messages",
       { id: me?.id },
-      (error: any, d: any) => {
+      (error: any, _d: any) => {
         if (error) {
           console.log(" Something went wrong please try again later.", error);
         }

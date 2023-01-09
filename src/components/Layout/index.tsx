@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import { useAppSelector } from 'app/hooks';
 import { isUser } from 'features/auth';
 import NavDropDown from 'components/NavDropDown';
+// import MobileNavBar from './NavBar/MobileNav';
 const DynamicFooter: any = dynamic(() => import("./Footer"), {
   ssr: false,
 });
@@ -92,6 +93,7 @@ const Layout = ({
             <>
               <NavBar toggle={toggleMenu} />
               <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
+              {/* <MobileNavBar toggle={toggleMenu} isOpen={isOpen} /> */}
             </>
           )}
 

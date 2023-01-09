@@ -21,7 +21,6 @@ import {
   HorizontalRule,
   FormWrapRow,
   FormWrapThumb,
-  BackToHome,
 } from "../auth-styles";
 
 const initialValues = {
@@ -76,9 +75,6 @@ const ResendEmailConfirmation = () => {
         >
           {({ isSubmitting, errors, touched }) => (
             <FormWrapRow>
-              <Link href="/">
-                <BackToHome>Home</BackToHome>
-              </Link>
               <FormWrap>
                 <MainContainer>
                   <WelcomeText>Resend Email Confirmation</WelcomeText>
@@ -99,13 +95,13 @@ const ResendEmailConfirmation = () => {
                   <ButtonContainer>
                     <Button
                       type="submit"
-                      content="send"
+                      content="Continue"
                       disabled={isSubmitting}
                     />
-                    <Link href="/auth/signin">
-                      <BackToLogin>back to login?</BackToLogin>
-                    </Link>
                   </ButtonContainer>
+                  <Link href="/auth/signin">
+                    <BackToLogin>back to login</BackToLogin>
+                  </Link>
                   {errorMsg && <ErrorMsg>{initialValues.error}</ErrorMsg>}
                   {successMsg && (
                     <SuccessMsg>{initialValues.success}</SuccessMsg>
