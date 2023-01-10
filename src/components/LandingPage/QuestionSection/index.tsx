@@ -32,7 +32,7 @@ export const QuestionSection = () => {
               <Image
                 width={460}
                 height={281}
-                alt="posta Question"
+                alt="poster Question"
                 src="/assets/images/Postaquestion.png"
               />
             </div>

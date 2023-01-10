@@ -10,7 +10,7 @@ import {
   FiVolumeX,
 } from "react-icons/fi";
 import styles from "../../styles/LecturePage/CourseVideo.module.css";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 import classNames from "classnames";
 let timer: ReturnType<typeof setTimeout>;
 let count = 0;
@@ -24,6 +24,10 @@ const timeToString = (time: number) => {
     minutes < 10 ? `0${minutes}` : minutes
   }:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
+
+import { default as _ReactPlayer } from "react-player/lazy";
+import { ReactPlayerProps } from "react-player/types/lib";
+const ReactPlayer = _ReactPlayer as unknown as React.FC<ReactPlayerProps>;
 
 const VideoProgress = (props: VideoProgressProps) => {
   const { currentTime, duration, seekTo, loaded } = props;
@@ -203,7 +207,7 @@ const CourseVideo = (props: CourseVideoProps) => {
     loaded: 0,
   });
   const [isControlsHidden, setIsControlsHidden] = useState(false);
-  const reactPlayerRef = useRef<ReactPlayer>(null);
+  const reactPlayerRef = useRef<ReactPlayerProps>(null);
   const courseVideoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

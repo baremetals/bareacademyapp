@@ -29,6 +29,7 @@ export const Testimonials = () => {
                     width={48}
                     height={56}
                     src="/assets/images/quotes.svg"
+                    alt="quote icon"
                   />
                   <h2 className={styles.sectionHeader}>
                     what they say about BARE

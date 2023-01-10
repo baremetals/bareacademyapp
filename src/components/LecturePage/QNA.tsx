@@ -23,7 +23,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import styles from "../../styles/LecturePage/QNA.module.css";
 import Modal from "components/ShareForm/Modal";
 
-const LectureEditor = dynamic(() => import("./LectureEditor"), {
+const LectureEditor: any = dynamic(() => import("./LectureEditor"), {
   ssr: false,
 });
 

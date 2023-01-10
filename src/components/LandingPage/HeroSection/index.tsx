@@ -8,19 +8,14 @@ import LandingButton from '../LandingButton';
 
 export const HeroSection = () => {
   return (
-    <HeroArticle style={{ backgroundImage: "/assets/images/hero-banner.jpg" }}>
+    <HeroArticle
+    // style={{ backgroundImage: "/assets/images/hero-banner.jpg" }}
+    >
+      {/* <Image src="/assets/images/hero-banner.jpg" layout="fill" alt="Hero Banner"/> */}
       <HeroWrapper>
         <HeroTitleText>Bare Metals Academy</HeroTitleText>
         <HeroText>online training courses</HeroText>
         <LandingButton />
-        {/* <LandingButton type="button">
-          Get started{" "}
-          <Image
-            src="/assets/images/ic_round-keyboard-arrow-right.svg"
-            width={24}
-            height={24}
-          />
-        </LandingButton> */}
       </HeroWrapper>
     </HeroArticle>
   );

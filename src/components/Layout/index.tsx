@@ -47,10 +47,11 @@ const Layout = ({
   const { user: user } = useAppSelector(isUser);
 
   return (
-    <>
+    <html lang="en">
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
+        <meta lang="en" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="robots" content="max-image-preview:large" />
         {metaDescription && (
@@ -101,7 +102,7 @@ const Layout = ({
           {!user?.id && <DynamicFooter />}
         </>
       }
-    </>
+    </html>
   );
 };
 

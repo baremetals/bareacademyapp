@@ -15,6 +15,7 @@ export const HeroWrapper = styled.div`
 
 export const HeroArticle = styled.article`
   background-image: url(/assets/images/hero-banner.jpg);
+  alt: "Hero Banner";
   min-height: 600px;
   background-size: cover;
   background-repeat: no-repeat;

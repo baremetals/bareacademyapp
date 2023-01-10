@@ -48,7 +48,7 @@ export const DropDownMenu = styled.ul`
     }
 `;
 
-export const DropDownLinks = styled(Link)`
+export const DropDownLinks = styled.li`
   display: flex;
   align-items: center;
   justify-content: center;

@@ -284,12 +284,13 @@ const Reviews = (props: IdType) => {
               <InputFormGroupRow>
                 <div className={styles.ratingInput}>
                   <Rating
-                    allowHalfIcon
+                    allowFraction={true}
                     onClick={(rate: number) => {
                       setRating(rate), setValue("rating", (rate / 100) * 5);
                     }}
                     size={50}
-                    ratingValue={rating}
+                    initialValue={rating}
+                    // ratingValue={rating}
                   />
                 </div>
               </InputFormGroupRow>

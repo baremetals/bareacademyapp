@@ -148,6 +148,7 @@ const ArticleSingleTemplate = ({
                           width="26"
                           height="26"
                           src="/assets/images/share.svg"
+                          alt="Sharing icon"
                         />
                       </div>
                     </div>

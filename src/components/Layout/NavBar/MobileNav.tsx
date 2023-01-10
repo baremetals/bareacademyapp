@@ -13,15 +13,15 @@ type TNav = {
   toggle: () => void;
 };
 
-const MobileNavBar = ({ toggle, isOpen, ...props}: TNav | any) => {
+const MobileNavBar = ({ toggle}: TNav) => {
   return (
     <>
       {/* <!--  mobile nav --> */}
       <nav
         className={styles.mobileMenu}
         onClick={toggle}
-        isOpen={isOpen as boolean}
-        {...props}
+        // isOpen={isOpen as boolean}
+        // {...props}
       >
         <NavMenu>
           <MenuItem>

@@ -11,9 +11,14 @@ export const SuccessSection = () => {
       <div className={styles.container}>
         <SuccessImage
           className={styles.row}
-          style={{ backgroundImage: "/assets/images/success-bg.svg" }}
+          // style={{ backgroundImage: "/assets/images/success-bg.svg" }}
         >
-
+          {/* <Image
+            src={"/assets/images/success-bg.svg"}
+            width="1201"
+            height="473"
+          /> */}
+          {/* aria-label="Twitter" */}
           <div className={styles.col}>
             <div className={styles.successInfo}>
               <label>MAXIMISE YOUR POTENTIAL AND POSSIBILITIES</label>

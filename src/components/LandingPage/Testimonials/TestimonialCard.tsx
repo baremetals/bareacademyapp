@@ -90,6 +90,7 @@ export const TestimonialCard = ({reviews = []}: TCard) => {
         </div>
         <div className={styles.owlNav}>
           <button
+            aria-label="previous"
             type="button"
             role="presentation"
             className={styles.owlPrev}
@@ -98,6 +99,7 @@ export const TestimonialCard = ({reviews = []}: TCard) => {
             <LeftArrow />
           </button>
           <button
+            aria-label="next"
             type="button"
             role="presentation"
             className={styles.owlNext}
@@ -110,10 +112,11 @@ export const TestimonialCard = ({reviews = []}: TCard) => {
           {reviews.map((rev, i) => {
             return (
               <button
+                aria-label="card status decoration"
                 role="button"
                 className={`${styles.owlDot} ${
-                      i === current && `${styles.active}`
-                    }`}
+                  i === current && `${styles.active}`
+                }`}
                 key={i}
               >
                 <span></span>

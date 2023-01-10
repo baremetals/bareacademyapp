@@ -13,7 +13,7 @@ export const Recommended = () => {
               <Image
                 width={517}
                 height={349}
-                alt="recommended"
+                alt="recommended books image"
                 src="/assets/images/recommendedbooks.png"
               />
             </div>

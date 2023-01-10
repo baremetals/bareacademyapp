@@ -20,7 +20,7 @@ export const StudentSection = () => {
               <Image
                 width={99}
                 height={55}
-                alt="box"
+                alt="student image"
                 src="/assets/images/PhilippThomas.jpg"
               />
             </div>
@@ -32,6 +32,7 @@ export const StudentSection = () => {
                   width={15}
                   height={15}
                   src="/assets/images/plus-icon.svg"
+                  alt="plus sign image"
                   // style={{ marginLeft: "3px" }}
                 />
               </div>
@@ -42,7 +43,7 @@ export const StudentSection = () => {
               <Image
                 width={119}
                 height={60}
-                alt="box"
+                alt="student image"
                 src="/assets/images/45KStudents.png"
               />
             </div>
@@ -54,6 +55,7 @@ export const StudentSection = () => {
                   width={68}
                   height={11.5}
                   src="/assets/images/yellow-rating.svg"
+                  alt="rating star image"
                 />
               </span>
             </div>
@@ -63,7 +65,7 @@ export const StudentSection = () => {
               <Image
                 width={99}
                 height={55}
-                alt="box"
+                alt="student image"
                 src="/assets/images/JoanEloise.png"
               />
             </div>
@@ -75,6 +77,7 @@ export const StudentSection = () => {
                   width={15}
                   height={15}
                   src="/assets/images/plus-icon.svg"
+                  alt="plus sign image"
                 />
               </div>
             </div>
@@ -84,7 +87,7 @@ export const StudentSection = () => {
               <Image
                 width={99}
                 height={55}
-                alt="box"
+                alt="student image"
                 src="/assets/images/women.png"
               />
             </div>
@@ -96,6 +99,7 @@ export const StudentSection = () => {
                   width={15}
                   height={15}
                   src="/assets/images/plus-icon.svg"
+                  alt='plus sign icon'
                 />
               </div>
             </div>
@@ -105,7 +109,7 @@ export const StudentSection = () => {
               <Image
                 width={99}
                 height={55}
-                alt="box"
+                alt="student image"
                 src="/assets/images/JennaMissy.png"
               />
             </div>
@@ -117,6 +121,7 @@ export const StudentSection = () => {
                   width={15}
                   height={15}
                   src="/assets/images/plus-icon.svg"
+                  alt="plus sign icon"
                 />
               </div>
             </div>
@@ -126,7 +131,7 @@ export const StudentSection = () => {
               <Image
                 width={99}
                 height={55}
-                alt="box"
+                alt="studen image"
                 src="/assets/images/baldric-eli.png"
               />
             </div>
@@ -138,6 +143,7 @@ export const StudentSection = () => {
                   width={15}
                   height={15}
                   src="/assets/images/plus-icon.svg"
+                  alt="plus sign icon"
                 />
               </div>
             </div>

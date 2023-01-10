@@ -21,7 +21,7 @@ const RecentArticles = () => {
     },
   });
   const articles = data?.articles?.data
-  console.log(articles[0].attributes.updatedAt);
+  // console.log(articles[0].attributes.updatedAt);
 
   return (
     <>
