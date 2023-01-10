@@ -38,6 +38,7 @@ type TCourseDetailsTemplate = {
   notes: string;
   isloading: boolean;
   groupSlug: string;
+  courseType: string;
   categories: string[];
   teacher: Teacher;
   totalStudents: number;
@@ -66,16 +67,22 @@ export const CourseDetailsTemplate = ({
   teacher,
   totalStudents,
   categories,
+  courseType,
 }: TCourseDetailsTemplate) => {
   const router = useRouter();
   const [socialDropdown, setSocialDropdown] = useState(false);
-  const toggle: any = () => {
+  const toggle = React.useCallback(() => {
     setSocialDropdown(!socialDropdown);
-  };
+  }, [socialDropdown]);
 
-  function changeTab(event: { currentTarget: { className: string; }; }, id: string) {
+  function changeTab(
+    event: { currentTarget: { className: string } },
+    id: string
+  ) {
     // Declare all variables
-    let i; let tabcontent: any; let tablinks; // find the types of these variables
+    let i;
+    let tabcontent: any;
+    let tablinks; // find the types of these variables
 
     // Get all elements with class="tabcontent" and hide them
     // eslint-disable-next-line prefer-const
@@ -84,7 +91,7 @@ export const CourseDetailsTemplate = ({
       tabcontent[i].style.display = "none";
     }
 
-    console.log(tabcontent);
+    // console.log(tabcontent);
 
     // Get all elements with class="tablinks" and remove the class "active"
     // eslint-disable-next-line prefer-const
@@ -94,7 +101,6 @@ export const CourseDetailsTemplate = ({
         `${styles.tabLinks} ${styles.current}`,
         ""
       );
-
     }
 
     console.log(tablinks);
@@ -102,6 +108,8 @@ export const CourseDetailsTemplate = ({
     document.getElementById(id)!.style.display = "block";
     event.currentTarget.className += ` ${styles.current}`;
   }
+
+  // console.log(me)
   return (
     <Dashboard>
       <main>
@@ -212,6 +220,16 @@ export const CourseDetailsTemplate = ({
                     <div>
                       <Markdown>{introduction}</Markdown>
                     </div>
+                    {/* <div className={styles.shareCourse}>
+                      <button
+                        type="button"
+                        className={`${styles.btn} ${styles.btnPrimery}`}
+                        onClick={() => router.push("/auth/signin")}
+                      >
+                        Buy this course
+                        {isloading && "loading..."}
+                      </button>
+                    </div> */}
 
                     <div className={styles.shareCourse}>
                       {me && isStudent && (
@@ -226,16 +244,30 @@ export const CourseDetailsTemplate = ({
                           {isloading && "loading..."}
                         </button>
                       )}
-                      {me && !isStudent ? (
+                      {me && !isStudent && courseType !== "single" && (
                         <button
                           type="button"
                           className={`${styles.btn} ${styles.btnPrimery}`}
-                          onClick={() => handleBuy("group")}
+                          onClick={() => handleBuy(courseType)}
                         >
-                          Buy this course
+                          Buy Group Course
                           {isloading && "loading..."}
                         </button>
-                      ) : (
+                      )}
+                      {me &&
+                        !isFree &&
+                        !isStudent &&
+                        courseType === "single" && (
+                          <button
+                            type="button"
+                            className={`${styles.btn} ${styles.btnPrimery}`}
+                            onClick={() => handleBuy(courseType)}
+                          >
+                            Buy Private Course
+                            {isloading && "loading..."}
+                          </button>
+                        )}
+                      {!me && (
                         <button
                           type="button"
                           className={`${styles.btn} ${styles.btnPrimery}`}

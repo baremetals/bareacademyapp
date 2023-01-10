@@ -101,52 +101,100 @@ function CourseDetails(props: {
     }
   }, [me?.id]);
 
-  // console.log(me);
+  // console.log(course);
 
-  const handleBuy = async (orderType: string) => {
-    const stripe = await stripePromise;
-    setIsLoading(true);
-    const purchaseData = {
-      total: course?.price as number,
-      quantity: 1,
-      course: courseId as string,
-      imageUrl: imageUrl as string,
-      isFree: course?.isFree as boolean,
-      orderType,
-    };
-    try {
-      const response = await purchase({ ...purchaseData });
-      // console.log("I am the respones: ", response?.data?.data);
-      if (response?.data?.data?.id === "free-purchase") {
+  const handleBuy = React.useCallback(
+    async (orderType: string) => {
+      const stripe = await stripePromise;
+      setIsLoading(true);
+      const purchaseData = {
+        total: course?.price as number,
+        quantity: 1,
+        course: courseId as string,
+        imageUrl: imageUrl as string,
+        isFree: course?.isFree as boolean,
+        orderType,
+      };
+      try {
+        const response = await purchase({ ...purchaseData });
+        // console.log("I am the respones: ", response?.data?.data);
+        if (response?.data?.data?.id === "free-purchase") {
+          setIsLoading(false);
+          router.push("/home/orders/success?session_id=free-purchase");
+        } else {
+          setIsLoading(false);
+          const session = response?.data?.data?.id;
+          stripe?.redirectToCheckout({
+            sessionId: session,
+          });
+        }
+      } catch (err: any) {
         setIsLoading(false);
-        router.push("/home/orders/success?session_id=free-purchase");
-      } else {
-        setIsLoading(false);
-        const session = response?.data?.data?.id;
-        stripe?.redirectToCheckout({
-          sessionId: session,
-        });
+        console.log("I am the Error: ", err?.response?.data?.error);
+        if (
+          err?.response?.data?.error === "You previously purchased this course"
+        ) {
+          setMessage(err?.response?.data?.error);
+          setErrorMsg(true);
+          setTimeout(() => {
+            setErrorMsg(false);
+          }, 10000);
+        } else {
+          setMessage("Sorry something went wrong please try again later.");
+          setErrorMsg(true);
+          setTimeout(() => {
+            setErrorMsg(false);
+          }, 10000);
+        }
       }
-    } catch (err: any) {
-      setIsLoading(false);
-      console.log("I am the Error: ", err?.response?.data?.error);
-      if (
-        err?.response?.data?.error === "You previously purchased this course"
-      ) {
-        setMessage(err?.response?.data?.error);
-        setErrorMsg(true);
-        setTimeout(() => {
-          setErrorMsg(false);
-        }, 10000);
-      } else {
-        setMessage("Sorry something went wrong please try again later.");
-        setErrorMsg(true);
-        setTimeout(() => {
-          setErrorMsg(false);
-        }, 10000);
-      }
-    }
-  };
+    },
+    [me]
+  ); 
+
+  // const handleBuy = async (orderType: string) => {
+  //   const stripe = await stripePromise;
+  //   setIsLoading(true);
+  //   const purchaseData = {
+  //     total: course?.price as number,
+  //     quantity: 1,
+  //     course: courseId as string,
+  //     imageUrl: imageUrl as string,
+  //     isFree: course?.isFree as boolean,
+  //     orderType,
+  //   };
+  //   try {
+  //     const response = await purchase({ ...purchaseData });
+  //     // console.log("I am the respones: ", response?.data?.data);
+  //     if (response?.data?.data?.id === "free-purchase") {
+  //       setIsLoading(false);
+  //       router.push("/home/orders/success?session_id=free-purchase");
+  //     } else {
+  //       setIsLoading(false);
+  //       const session = response?.data?.data?.id;
+  //       stripe?.redirectToCheckout({
+  //         sessionId: session,
+  //       });
+  //     }
+  //   } catch (err: any) {
+  //     setIsLoading(false);
+  //     console.log("I am the Error: ", err?.response?.data?.error);
+  //     if (
+  //       err?.response?.data?.error === "You previously purchased this course"
+  //     ) {
+  //       setMessage(err?.response?.data?.error);
+  //       setErrorMsg(true);
+  //       setTimeout(() => {
+  //         setErrorMsg(false);
+  //       }, 10000);
+  //     } else {
+  //       setMessage("Sorry something went wrong please try again later.");
+  //       setErrorMsg(true);
+  //       setTimeout(() => {
+  //         setErrorMsg(false);
+  //       }, 10000);
+  //     }
+  //   }
+  // };
 
   // console.log("printing me", categories);
 
@@ -174,6 +222,7 @@ function CourseDetails(props: {
       teacher={teacher?.attributes as Teacher}
       handleBuy={handleBuy}
       introduction={course?.introduction as string}
+      courseType={course?.courseType as string}
     />
   );
 }

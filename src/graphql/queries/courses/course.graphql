@@ -16,6 +16,7 @@ query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
         image
         totalStudents
         totalLessons
+        courseType
         createdAt
         updatedAt
         publishedAt

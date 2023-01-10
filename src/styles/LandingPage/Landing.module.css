@@ -1219,8 +1219,8 @@ label.priceTag:before {
     width: 100%;
     content: '';
     position: absolute;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3));
-    z-index: 11;
+    /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)); */
+    /* z-index: 11; */
 }
 
 .singlePageHeroBanner {
@@ -1234,7 +1234,7 @@ label.priceTag:before {
      align-items: center;
      flex-direction: column;
      position: relative;
-     z-index: 11;
+     /* z-index: 11; */
      width: 100%;
 }
 

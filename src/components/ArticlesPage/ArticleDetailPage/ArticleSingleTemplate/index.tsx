@@ -41,9 +41,9 @@ const ArticleSingleTemplate = ({
 }: TCourseDetailsTemplate) => {
   const router = useRouter();
   const [socialDropdown, setSocialDropdown] = useState(false);
-  const toggle: any = () => {
+  const toggle = React.useCallback(() => {
     setSocialDropdown(!socialDropdown);
-  };
+  }, [socialDropdown]); 
 
   
   return (
