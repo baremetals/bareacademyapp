@@ -47,7 +47,7 @@ const Layout = ({
   const { user: user } = useAppSelector(isUser);
 
   return (
-    <html lang="en">
+    <>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -79,7 +79,6 @@ const Layout = ({
         {metaDescription && (
           <meta name="twitter:description" content={metaDescription} />
         )}
-        {}
         {image && <meta name="twitter:image" content={image} />}
 
         <script
@@ -88,21 +87,21 @@ const Layout = ({
           dangerouslySetInnerHTML={{ __html: data as string }}
         />
       </Head>
-      {
-        <>
-          {!user?.id && (
-            <>
-              <NavBar toggle={toggleMenu} />
-              <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
-              {/* <MobileNavBar toggle={toggleMenu} isOpen={isOpen} /> */}
-            </>
-          )}
+        {
+          <>
+            {!user?.id && (
+              <>
+                <NavBar toggle={toggleMenu} />
+                <NavDropDown toggle={toggleMenu} isOpen={isOpen} />
+                {/* <MobileNavBar toggle={toggleMenu} isOpen={isOpen} /> */}
+              </>
+            )}
 
-          {children}
-          {!user?.id && <DynamicFooter />}
-        </>
-      }
-    </html>
+            {children}
+            {!user?.id && <DynamicFooter />}
+          </>
+        }
+    </>
   );
 };
 

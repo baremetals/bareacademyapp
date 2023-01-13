@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "app/hooks";
 import { isUser } from "features/auth/selectors";
 
-import { CourseTemplate } from './Template';
+import { CourseTemplate } from './CourseTemplate';
 import { CourseEntity } from 'generated/graphql';
 
 

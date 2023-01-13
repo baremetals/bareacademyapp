@@ -53,24 +53,29 @@ export const CourseTemplate = ({ id, description, courses }: ITemplate) => {
         <article className={styles.coursesListSection}>
           <div className={styles.container}>
             <div className={styles.coursesListHeader}>
-              <h2>Courses</h2>
+              <h2>Group Courses</h2>
             </div>
             <div className={styles.row}>
               {courses?.map((item) => (
-                <CourseBox
-                  key={item.id}
-                  courseId={item.id as string}
-                  slug={item?.attributes?.slug as string}
-                  title={item?.attributes?.title as string}
-                  introduction={item?.attributes?.introduction as string}
-                  image={item?.attributes?.image as string}
-                  level={item?.attributes?.level as string}
-                  isFree={item?.attributes?.isFree as boolean}
-                  price={item?.attributes?.price as number}
-                  duration={item?.attributes?.duration as number}
-                  totalStudents={item?.attributes?.totalStudents as number}
-                  reviews={item?.attributes?.reviews?.data}
-                />
+
+                    <CourseBox
+                      key={item.id}
+                      courseId={item.id as string}
+                      slug={item?.attributes?.slug as string}
+                      title={item?.attributes?.title as string}
+                      introduction={item?.attributes?.introduction as string}
+                      image={item?.attributes?.image as string}
+                      level={item?.attributes?.level as string}
+                      isFree={item?.attributes?.isFree as boolean}
+                      price={item?.attributes?.price as number}
+                      duration={item?.attributes?.duration as number}
+                      totalStudents={item?.attributes?.totalStudents as number}
+                      reviews={item?.attributes?.reviews?.data}
+                      page={`/courses/${item?.attributes?.slug as string}`}
+                      hasPrivateVersion={
+                        item?.attributes?.hasPrivateVersion as boolean
+                      }
+                    />
               ))}
             </div>
           </div>

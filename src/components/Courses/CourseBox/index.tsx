@@ -7,13 +7,16 @@ import { ReviewEntity } from 'generated/graphql';
 import ReviewSection from './Review';
 
 
+
 type ICourseBox = {
   courseId: string;
-  slug: string;
+  slug?: string;
+  page?: string;
   title: string;
   image: string;
   level: string;
   isFree: boolean;
+  hasPrivateVersion?: boolean;
   price: number;
   duration: number;
   totalStudents: number;
@@ -23,7 +26,7 @@ type ICourseBox = {
 
 export const CourseBox = ({
   courseId,
-  slug,
+  page,
   image,
   level,
   isFree,
@@ -31,31 +34,45 @@ export const CourseBox = ({
   title,
   duration,
   totalStudents,
+  hasPrivateVersion,
   reviews
 }: ICourseBox) => {
 
   return (
     <div className={styles.col} key={courseId}>
       <div className={styles.coursesItems}>
-        <Link href={`/courses/${slug}`}>
+        <Link href={page as string}>
           <div className={styles.coursesImg}>
-            <Image width={430} height={283} alt="courses image" src={image} style={{position: "relative"}}/>
+            <Image
+              width={430}
+              height={283}
+              alt="courses image"
+              src={image}
+              style={{ position: "relative" }}
+            />
             {isFree && (
-              <label className={`${styles.priceTag} ${styles.price}`} >
+              <label className={`${styles.priceTag} ${styles.price}`}>
                 FREE
+              </label>
+            )}
+            {hasPrivateVersion && (
+              <label className={`${styles.priceTag} ${styles.price}`}>
+                PRIVATE
               </label>
             )}
           </div>
         </Link>
         <div className={styles.coursesInfo}>
-          <label>£ {`${price}`}</label>
-          <Link href={`/courses/${slug}`}>
+          <label>
+            £ {`${price}`}
+          </label>
+          <Link href={page as string}>
             <h3 style={{ cursor: "pointer" }}>{title}</h3>
           </Link>
           <div className={`${styles.coursesRating} ${styles.goodRating}`}>
             <span className={styles.totalRating}>{level}</span>
           </div>
-          <ReviewSection reviews={reviews}/>
+          <ReviewSection reviews={reviews} />
           <div className={styles.coursesNumber}>
             <div className={styles.col}>
               <Image

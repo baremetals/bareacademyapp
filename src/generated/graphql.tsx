@@ -527,6 +527,7 @@ export type Course = {
   description?: Maybe<Scalars['String']>;
   duration?: Maybe<Scalars['Int']>;
   groups?: Maybe<GroupRelationResponseCollection>;
+  hasPrivateVersion?: Maybe<Scalars['Boolean']>;
   image?: Maybe<Scalars['String']>;
   introduction?: Maybe<Scalars['String']>;
   isFree: Scalars['Boolean'];
@@ -604,6 +605,7 @@ export type CourseFiltersInput = {
   description?: InputMaybe<StringFilterInput>;
   duration?: InputMaybe<IntFilterInput>;
   groups?: InputMaybe<GroupFiltersInput>;
+  hasPrivateVersion?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   image?: InputMaybe<StringFilterInput>;
   introduction?: InputMaybe<StringFilterInput>;
@@ -633,6 +635,7 @@ export type CourseInput = {
   description?: InputMaybe<Scalars['String']>;
   duration?: InputMaybe<Scalars['Int']>;
   groups?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  hasPrivateVersion?: InputMaybe<Scalars['Boolean']>;
   image?: InputMaybe<Scalars['String']>;
   introduction?: InputMaybe<Scalars['String']>;
   isFree?: InputMaybe<Scalars['Boolean']>;
@@ -3392,7 +3395,7 @@ export type CourseQueryVariables = Exact<{
 }>;
 
 
-export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, courseType: Enum_Course_Coursetype, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined, author?: string | null | undefined, keywords?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined } | null | undefined }> } | null | undefined, categories?: { __typename?: 'CategoryRelationResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', description?: string | null | undefined, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
+export type CourseQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, notes?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, hasPrivateVersion?: boolean | null | undefined, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, totalLessons: number, courseType: Enum_Course_Coursetype, createdAt?: any | null | undefined, updatedAt?: any | null | undefined, publishedAt?: any | null | undefined, SEO?: { __typename?: 'ComponentSeoSeo', id: string, title?: string | null | undefined, description?: string | null | undefined, url?: string | null | undefined, image?: string | null | undefined, locale?: string | null | undefined, type?: string | null | undefined, author?: string | null | undefined, keywords?: string | null | undefined } | null | undefined, teacher?: { __typename?: 'TeacherEntityResponse', data?: { __typename?: 'TeacherEntity', id?: string | null | undefined, attributes?: { __typename?: 'Teacher', fullName?: string | null | undefined, image?: string | null | undefined, title?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined, groups?: { __typename?: 'GroupRelationResponseCollection', data: Array<{ __typename?: 'GroupEntity', id?: string | null | undefined, attributes?: { __typename?: 'Group', slug?: string | null | undefined } | null | undefined }> } | null | undefined, categories?: { __typename?: 'CategoryRelationResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', description?: string | null | undefined, name?: string | null | undefined, slug?: string | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type CoursesQueryVariables = Exact<{
   filters?: InputMaybe<CourseFiltersInput>;
@@ -3401,7 +3404,7 @@ export type CoursesQueryVariables = Exact<{
 }>;
 
 
-export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }>, meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', total: number } } } | null | undefined };
+export type CoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, introduction?: string | null | undefined, description?: string | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, hasPrivateVersion?: boolean | null | undefined, image?: string | null | undefined, totalStudents?: number | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }>, meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', total: number } } } | null | undefined };
 
 export type GroupQueryVariables = Exact<{
   filters?: InputMaybe<GroupFiltersInput>;
@@ -3425,7 +3428,7 @@ export type RecentCoursesQueryVariables = Exact<{
 }>;
 
 
-export type RecentCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, price: number, duration?: number | null | undefined, image?: string | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined };
+export type RecentCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, price: number, duration?: number | null | undefined, image?: string | null | undefined, hasPrivateVersion?: boolean | null | undefined, updatedAt?: any | null | undefined } | null | undefined }> } | null | undefined };
 
 export type RelatedCoursesQueryVariables = Exact<{
   filters?: InputMaybe<CourseFiltersInput>;
@@ -3434,7 +3437,7 @@ export type RelatedCoursesQueryVariables = Exact<{
 }>;
 
 
-export type RelatedCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', total: number } }, data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
+export type RelatedCoursesQuery = { __typename?: 'Query', courses?: { __typename?: 'CourseEntityResponseCollection', meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', total: number } }, data: Array<{ __typename?: 'CourseEntity', id?: string | null | undefined, attributes?: { __typename?: 'Course', slug: string, title: string, duration?: number | null | undefined, level?: Enum_Course_Level | null | undefined, price: number, soloPrice?: number | null | undefined, hasPrivateVersion?: boolean | null | undefined, isFree: boolean, image?: string | null | undefined, totalStudents?: number | null | undefined, reviews?: { __typename?: 'ReviewRelationResponseCollection', data: Array<{ __typename?: 'ReviewEntity', id?: string | null | undefined, attributes?: { __typename?: 'Review', rating?: number | null | undefined } | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined };
 
 export type ReviewsQueryVariables = Exact<{
   filters?: InputMaybe<ReviewFiltersInput>;
@@ -4652,6 +4655,7 @@ export const CourseDocument = gql`
         notes
         level
         price
+        hasPrivateVersion
         soloPrice
         isFree
         image
@@ -4749,6 +4753,7 @@ export const CoursesDocument = gql`
         price
         soloPrice
         isFree
+        hasPrivateVersion
         image
         totalStudents
         reviews {
@@ -4936,6 +4941,7 @@ export const RecentCoursesDocument = gql`
         price
         duration
         image
+        hasPrivateVersion
         updatedAt
       }
     }
@@ -4988,6 +4994,7 @@ export const RelatedCoursesDocument = gql`
         level
         price
         soloPrice
+        hasPrivateVersion
         isFree
         image
         totalStudents

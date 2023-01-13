@@ -65,6 +65,13 @@ const RelatedCourses = ({ categories }: TRelatedCourses) => {
                               FREE
                             </label>
                           )}
+                          {c?.attributes?.hasPrivateVersion && (
+                            <label
+                              className={`${styles.priceTag} ${styles.price}`}
+                            >
+                              PRIVATE
+                            </label>
+                          )}
                         </div>
 
                         <div className={styles.coursesInfo}>

@@ -11,6 +11,7 @@ query Course($filters: CourseFiltersInput, $groupsFilters2: GroupFiltersInput) {
         notes
         level
         price
+        hasPrivateVersion
         soloPrice
         isFree
         image

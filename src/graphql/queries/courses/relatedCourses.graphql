@@ -18,6 +18,7 @@ query RelatedCourses(
         level
         price
         soloPrice
+        hasPrivateVersion
         isFree
         image
         totalStudents

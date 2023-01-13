@@ -16,6 +16,7 @@ query Courses(
         price
         soloPrice
         isFree
+        hasPrivateVersion
         image
         totalStudents
         reviews {

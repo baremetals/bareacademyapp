@@ -11,11 +11,19 @@ type cardProps = {
   category?: string;
   duration?: string;
   page: string;
+  hasPrivateVersion: boolean;
   style: any;
 };
 
 
-const SideBarCard = ({title, image, duration, price, page }: cardProps) => {
+const SideBarCard = ({
+  title,
+  image,
+  duration,
+  price,
+  page,
+  hasPrivateVersion,
+}: cardProps) => {
   return (
     <li className={styles.recentCoursesItem} style={{ cursor: "pointer" }}>
       <Link passHref href={page}>
@@ -48,6 +56,7 @@ const SideBarCard = ({title, image, duration, price, page }: cardProps) => {
               {duration}
             </span>
           </div>
+          {hasPrivateVersion && <span className={styles.hours}>Private</span>}
           <Link href={page}>
             <h3>{title}</h3>
           </Link>
@@ -55,6 +64,6 @@ const SideBarCard = ({title, image, duration, price, page }: cardProps) => {
       </div>
     </li>
   );
-}
+};
 
 export default SideBarCard

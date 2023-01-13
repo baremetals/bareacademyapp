@@ -223,6 +223,7 @@ function CourseDetails(props: {
       handleBuy={handleBuy}
       introduction={course?.introduction as string}
       courseType={course?.courseType as string}
+      hasPrivateVersion={course?.hasPrivateVersion as boolean}
     />
   );
 }

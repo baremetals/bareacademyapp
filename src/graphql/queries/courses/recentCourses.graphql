@@ -8,6 +8,7 @@ query RecentCourses($pagination: PaginationArg, $sort: [String]) {
         price
         duration
         image
+        hasPrivateVersion
         updatedAt
       }
     }

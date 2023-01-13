@@ -46,37 +46,37 @@ const RecentCourses = () => {
   // console.log(courses);
 
   return (
-      <div className={styles.recentCourses}>
-        <h2>Recent Courses</h2>
-        <ul className={styles.recentCoursesList}>
-          {courses?.map(
-            (
-              item: {
-                attributes: {
-                  title: string;
-                  image: string;
-                  duration: number;
-                  slug: string;
-                  price: number;
-                };
-              },
-              id: string
-            ) => (
-              <SideBarCard
-                key={id}
-                title={item?.attributes?.title}
-                image={item?.attributes?.image}
-                price={item?.attributes?.price}
-                duration={durationToString(
-                  item?.attributes?.duration as number
-                )}
-                style={{ cursor: "pointer" }}
-                page={`/courses/${item?.attributes?.slug}`}
-              />
-            )
-          )}
-        </ul>
-      </div>
+    <div className={styles.recentCourses}>
+      <h2>Recent Courses</h2>
+      <ul className={styles.recentCoursesList}>
+        {courses?.map(
+          (
+            item: {
+              attributes: {
+                title: string;
+                image: string;
+                duration: number;
+                slug: string;
+                price: number;
+                hasPrivateVersion: boolean;
+              };
+            },
+            id: string
+          ) => (
+            <SideBarCard
+              key={id}
+              title={item?.attributes?.title}
+              image={item?.attributes?.image}
+              price={item?.attributes?.price}
+              duration={durationToString(item?.attributes?.duration as number)}
+              style={{ cursor: "pointer" }}
+              page={`/courses/${item?.attributes?.slug}`}
+              hasPrivateVersion={item?.attributes?.hasPrivateVersion as boolean}
+            />
+          )
+        )}
+      </ul>
+    </div>
   );
 }
 

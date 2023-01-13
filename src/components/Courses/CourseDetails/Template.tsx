@@ -37,6 +37,7 @@ type TCourseDetailsTemplate = {
   isTeacher?: boolean;
   notes: string;
   isloading: boolean;
+  hasPrivateVersion: boolean;
   groupSlug: string;
   courseType: string;
   categories: string[];
@@ -60,6 +61,7 @@ export const CourseDetailsTemplate = ({
   introduction,
   description,
   // isTeacher,
+  hasPrivateVersion,
   notes,
   groupSlug,
   isloading,
@@ -175,9 +177,16 @@ export const CourseDetailsTemplate = ({
           <div className={styles.container}>
             <div className={styles.row}>
               <div className={styles.col}>
-                <h2 style={{ color: "#7755E2" }}>
-                  {isFree ? "Free" : `${price}`}
-                </h2>
+                {hasPrivateVersion ? (
+                  <h2 style={{ color: "#7755E2" }}>
+                    {`£${price} - Private Lessons`}
+                  </h2>
+                ) : (
+                  <h2 style={{ color: "#7755E2" }}>
+                    {isFree ? "Free" : `£${price}`}
+                  </h2>
+                )}
+
                 <div className={styles.coursesDetail}>
                   {/* <!-- Courses Detail Tabs --> */}
                   <ul className={styles.tabs}>
@@ -244,29 +253,16 @@ export const CourseDetailsTemplate = ({
                           {isloading && "loading..."}
                         </button>
                       )}
-                      {me && !isStudent && courseType !== "single" && (
+                      {me && !isStudent && (
                         <button
                           type="button"
                           className={`${styles.btn} ${styles.btnPrimery}`}
                           onClick={() => handleBuy(courseType)}
                         >
-                          Buy Group Course
+                          Buy Course
                           {isloading && "loading..."}
                         </button>
                       )}
-                      {me &&
-                        !isFree &&
-                        !isStudent &&
-                        courseType === "single" && (
-                          <button
-                            type="button"
-                            className={`${styles.btn} ${styles.btnPrimery}`}
-                            onClick={() => handleBuy(courseType)}
-                          >
-                            Buy Private Course
-                            {isloading && "loading..."}
-                          </button>
-                        )}
                       {!me && (
                         <button
                           type="button"
