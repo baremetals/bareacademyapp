@@ -21,6 +21,9 @@ export const CourseTemplate = ({ id, description, courses }: ITemplate) => {
           <div className={styles.pageHeroBg}>
             <Image
               layout="fill"
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw, 33vw"
+              priority={true}
               alt="courses hero image"
               className={styles.pageHeroBgPic}
               src="/assets/images/courses.png"
@@ -53,7 +56,7 @@ export const CourseTemplate = ({ id, description, courses }: ITemplate) => {
         <article className={styles.coursesListSection}>
           <div className={styles.container}>
             <div className={styles.coursesListHeader}>
-              <h2>Group Courses</h2>
+              <h2>Courses</h2>
             </div>
             <div className={styles.row}>
               {courses?.map((item) => (

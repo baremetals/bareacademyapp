@@ -122,7 +122,11 @@ export const CourseDetailsTemplate = ({
           <div className={styles.pageHeroBg}>
             <Image
               layout="fill"
-              alt="courses"
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+              priority={true}
+              alt="course image"
               className={styles.pageHeroBgPic}
               src={image}
             />
@@ -289,6 +293,7 @@ export const CourseDetailsTemplate = ({
                           width="26"
                           height="26"
                           src="/assets/images/share.svg"
+                          alt="sharing icon"
                         />
                       </div>
                     </div>

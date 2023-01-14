@@ -21,6 +21,9 @@ const ATemplate = ({ id, description, articles }: ATypeTemplate) => {
           <div className={styles.pageHeroBg}>
             <Image
               layout="fill"
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw, 33vw"
+              priority={true}
               alt="articles hero image"
               className={styles.pageHeroBgPic}
               src="/assets/images/courses.png"
