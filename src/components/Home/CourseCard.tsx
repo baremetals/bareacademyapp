@@ -3,7 +3,6 @@ import Link from "next/link";
 import durationToString from "helpers/durationToString";
 import {
   FiClock,
-  FiMoreVertical,
   // FiMoreVertical,
   FiStar,
 } from "react-icons/fi";
@@ -59,7 +58,7 @@ const CourseCard = (props: { group: GroupEntity; withGradient: boolean }) => {
     >
       <div className={styles.CourseCardLevel}>{level}</div>
       <div className={styles.CourseCardThreeDots}>
-        <FiMoreVertical size={24} color="white" />
+        {/* <FiMoreVertical size={24} color="white" /> */}
       </div>
       <div
         className={styles.img}
