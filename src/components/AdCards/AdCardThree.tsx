@@ -73,7 +73,7 @@ const AdCardThree = () => {
                 <FiClock />
                 <span>{durationToString(c?.attributes?.duration)}</span>
                 {c?.attributes?.hasPrivateVersion && (
-                  <span style={{}}>private</span>
+                  <span style={{ color: "#9CD499", fontWeight: "bold" }}>private</span>
                 )}
               </div>
             )}
