@@ -11,22 +11,6 @@ import classNames from "classnames";
 import TitlePopOver from "./TitlePopOver";
 import { GroupEntity, ReviewEntity } from "generated/graphql";
 
-// interface Props {
-//   course: {
-//     attributes: {
-//       title: string;
-//       duration: number;
-//       image: string;
-//       slug: string;
-//       reviews: {
-//         data: [{
-//           id: string;
-//           attributes: { rating: number };
-//         }];
-//       };
-//     };
-//   };
-// }
 
 const CourseCard = (props: { group: GroupEntity; withGradient: boolean }) => {
   const { withGradient } = props;
@@ -74,7 +58,7 @@ const CourseCard = (props: { group: GroupEntity; withGradient: boolean }) => {
       <Link href={`/courses/${slug}/lectures`}>
         <div className={styles.CourseCardTitle} style={{ cursor: "pointer" }}>
           <TitlePopOver size={22}>
-            {course?.data?.attributes?.title}
+            {course?.data?.attributes?.title as string}
           </TitlePopOver>
         </div>
       </Link>

@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/client';
 import {useRouter} from 'next/router';
 import SideBarArticleCard from './SideBarArticleCard';
 import styles from "styles/LandingPage/Landing.module.css";
+import { cutTextToLength } from 'utils';
 
 
 const RecentArticles = () => {
@@ -45,7 +46,7 @@ const RecentArticles = () => {
             ) => (
               <SideBarArticleCard
                 key={id}
-                title={art?.attributes?.title}
+                title={cutTextToLength(art?.attributes?.title, 47)}
                 onClick={() =>
                   router.push(`/articles/${art?.attributes?.slug}`)
                 }

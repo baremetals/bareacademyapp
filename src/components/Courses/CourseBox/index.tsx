@@ -5,6 +5,7 @@ import React from 'react'
 import styles from "styles/LandingPage/Landing.module.css";
 import { ReviewEntity } from 'generated/graphql';
 import ReviewSection from './Review';
+import { cutTextToLength } from 'utils';
 
 
 
@@ -63,11 +64,9 @@ export const CourseBox = ({
           </div>
         </Link>
         <div className={styles.coursesInfo}>
-          <label>
-            £ {`${price}`}
-          </label>
+          <label>£ {`${price}`}</label>
           <Link href={page as string}>
-            <h3 style={{ cursor: "pointer" }}>{title}</h3>
+            <h3 style={{ cursor: "pointer" }}>{cutTextToLength(title, 64)}</h3>
           </Link>
           <div className={`${styles.coursesRating} ${styles.goodRating}`}>
             <span className={styles.totalRating}>{level}</span>

@@ -1,5 +1,9 @@
-query RecentCourses($pagination: PaginationArg, $sort: [String]) {
-  courses(pagination: $pagination, sort: $sort) {
+query RecentCourses(
+  $pagination: PaginationArg
+  $sort: [String]
+  $filters: CourseFiltersInput
+) {
+  courses(pagination: $pagination, sort: $sort, filters: $filters) {
     data {
       id
       attributes {

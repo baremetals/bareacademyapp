@@ -1,14 +1,16 @@
 import React from "react";
 import styles from "../../styles/Home/TitlePopOver.module.css";
+import { cutTextToLength } from "utils";
 
 interface Props {
-  children: string | undefined;
+  children: string;
   size: number;
+  titleLength?: number;
 }
 
 let timer: ReturnType<typeof setTimeout>;
 
-const TitlePopOver = ({ children, size }: Props) => {
+const TitlePopOver = ({ children, size, titleLength }: Props) => {
   const [isPopOverShown, setIsPopOverShown] = React.useState(false);
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
   const titleRef = React.useRef<HTMLDivElement>(null);
@@ -42,7 +44,7 @@ const TitlePopOver = ({ children, size }: Props) => {
           setIsPopOverShown(false);
         }}
       >
-        <span>{children}</span>
+        <span>{cutTextToLength(children, titleLength as number)}</span>
       </div>
       <div
         ref={popOverRef}

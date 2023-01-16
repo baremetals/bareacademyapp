@@ -1,9 +1,10 @@
 import React from 'react'
 import { useQuery } from "@apollo/client";
-import { RecentCoursesDocument } from "generated/graphql";
+import { CourseEntity, RecentCoursesDocument } from "generated/graphql";
 import durationToString from "helpers/durationToString";
 import styles from "styles/LandingPage/Landing.module.css";
 import SideBarCard from "components/AdCards/SideBarCard";
+import { cutTextToLength } from 'utils';
 
 // const fakeArticles = [
 //   {
@@ -42,39 +43,25 @@ const RecentCourses = () => {
       sort: "updatedAt:desc",
     },
   });
-  const courses = data?.courses?.data;
+  const courses: CourseEntity[] = data?.courses?.data;
   // console.log(courses);
 
   return (
     <div className={styles.recentCourses}>
       <h2>Recent Courses</h2>
       <ul className={styles.recentCoursesList}>
-        {courses?.map(
-          (
-            item: {
-              attributes: {
-                title: string;
-                image: string;
-                duration: number;
-                slug: string;
-                price: number;
-                hasPrivateVersion: boolean;
-              };
-            },
-            id: string
-          ) => (
-            <SideBarCard
-              key={id}
-              title={item?.attributes?.title}
-              image={item?.attributes?.image}
-              price={item?.attributes?.price}
-              duration={durationToString(item?.attributes?.duration as number)}
-              style={{ cursor: "pointer" }}
-              page={`/courses/${item?.attributes?.slug}`}
-              hasPrivateVersion={item?.attributes?.hasPrivateVersion as boolean}
-            />
-          )
-        )}
+        {courses?.map((item) => (
+          <SideBarCard
+            key={item?.id}
+            title={cutTextToLength(item?.attributes?.title as string, 20)}
+            image={item?.attributes?.image as string}
+            price={item?.attributes?.price as number}
+            duration={durationToString(item?.attributes?.duration as number)}
+            style={{ cursor: "pointer" }}
+            page={`/courses/${item?.attributes?.slug}`}
+            hasPrivateVersion={item?.attributes?.hasPrivateVersion as boolean}
+          />
+        ))}
       </ul>
     </div>
   );

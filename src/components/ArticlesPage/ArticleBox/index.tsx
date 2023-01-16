@@ -6,6 +6,7 @@ import styles from "styles/LandingPage/Landing.module.css";
 import dayjs from "dayjs";
 
 import { ApplyButton } from '../ArticleDetailPage/details.styles';
+import { cutTextToLength } from 'utils';
 
 
 type TArticleBox = {
@@ -51,7 +52,7 @@ const ArticleBox = ({
             </span>
           </div>
           <Link href={`/articles/${slug}`}>
-            <h3 style={{ cursor: "pointer" }}>{title}</h3>
+            <h3 style={{ cursor: "pointer" }}>{cutTextToLength(title, 64)}</h3>
           </Link>
           <div className={`${styles.coursesRating} ${styles.goodRating}`}>
             <span>{dayjs(createdAt).format("DD/MM/YYYY")}</span>
