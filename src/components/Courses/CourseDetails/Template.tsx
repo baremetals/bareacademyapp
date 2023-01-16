@@ -105,7 +105,7 @@ export const CourseDetailsTemplate = ({
       );
     }
 
-    console.log(tablinks);
+    // console.log(tablinks);
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(id)!.style.display = "block";
     event.currentTarget.className += ` ${styles.current}`;

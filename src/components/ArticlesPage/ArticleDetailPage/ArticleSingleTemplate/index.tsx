@@ -141,7 +141,7 @@ const ArticleSingleTemplate = ({
                         className={`${styles.btn} ${styles.btnPrimery}`}
                         onClick={() => toggle()}
                       >
-                        Share this course
+                        Share article
                         <SocialShare
                           pathname={router.asPath}
                           toggle={toggle}
