@@ -1,11 +1,3 @@
-import HeroSection from "../components/HeroSection";
-import MainSection from "../components/MainSection";
-import ServicesCard from "../components/ServiceCard";
-import {
-  homeObjOne,
-  homeObjTwo,
-  homeObjThree,
-} from "../components/MainSection/Data";
 import { withApollo } from "utils/withApollo";
 import { useNoAuth } from "lib/noAuth";
 
@@ -52,12 +44,7 @@ function Home() {
         type="home"
       >
         <main>
-          {/* <HeroSection /> */}
           <LandingPage />
-          {/* <MainSection {...homeObjOne} />
-          <ServicesCard linkIid="featured" />
-          <MainSection {...homeObjTwo} />
-          <MainSection {...homeObjThree} /> */}
         </main>
       </Layout>
     </>

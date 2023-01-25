@@ -17,7 +17,7 @@ export const FeaturedCourses = () => {
         start: 0,
         limit: 3,
       },
-      sort: "createdAt:desc",
+      sort: "price:asc",
     },
   });
 
