@@ -39,14 +39,14 @@ function LectureDetails(props: { props: GroupEntity }) {
   const { socket } = useSockets();
   const { id, slug } = router.query;
   const lect = props?.props?.attributes?.lectures;
-  const course = props?.props?.attributes?.course?.data
+  const course = props?.props?.attributes?.course?.data;
   const { user: user } = useAppSelector(isUser);
   const teacher = course?.attributes?.teacher?.data;
   const lecture = lect || [];
   const activeLecture = parseInt(id as string);
   const [activeLectures, setActiveLectures] = useState(0);
   // console.log(activeLecture);
-  // console.log(props?.props);
+  // console.log(course?.attributes);
 
   useEffect(() => {
     socket.emit("joingroup", { slug }, (error: any, _d: any) => {
